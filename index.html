@@ -8,57 +8,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <!-- Remix Icon font -->
   <link href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css" rel="stylesheet">
-  <style>
-    /* RESET */
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { height: 100%; }
-    body {
-      font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background: radial-gradient(circle at 30% 30%, #2d73ff 0%, #3479ff 30%, #5d62ff 60%, #a04d9c 85%, #d64080 100%);
-      display: flex; align-items: center; justify-content: center;
-    }
-    #app { width: 90vw; max-width: 1200px; height: 90vh; position: relative; }
-
-    /* ICON GRID */
-    #iconGrid { display: grid; grid-template-columns: repeat(2,1fr); grid-template-rows: repeat(3,1fr); gap:4rem 6rem; width:100%; height:100%; padding:4rem 6rem; transition:opacity .3s ease; }
-    .icon-btn { cursor:pointer; display:flex; align-items:center; justify-content:center; color:#fff; transition:transform .25s; }
-    .icon-btn i { font-size:4rem; transition:transform .25s; }
-    .icon-btn:hover { transform: scale(1.2); }
-    .icon-btn.rocket i { transform: rotate(-45deg); }
-
-    /* PANEL WITH BETTER TRANSITION */
-    .panel {
-      position:absolute; top:50%; left:50%;
-      transform: translate(-50%,-60%) scale(0.8);
-      width:340px; max-width:90%; max-height:80%; background:rgba(255,255,255,0.95); border-radius:16px;
-      box-shadow:0 8px 30px rgba(0,0,0,.25); padding:1.5rem; overflow:auto;
-      opacity:0; pointer-events:none;
-      transition: opacity .35s ease, transform .35s ease;
-    }
-    .panel.open {
-      opacity:1; pointer-events:auto;
-      transform: translate(-50%,-50%) scale(1);
-    }
-    .panel header { display:flex; align-items:center; justify-content:space-between; font-weight:600; margin-bottom:1rem; }
-    .close-btn { border:none; background:none; font-size:1.75rem; line-height:1; cursor:pointer; color:#666; }
-
-    /* PROGRESS BAR */
-    .progress-container {
-      width: 100%; height: 8px;
-      background: transparent;
-      border: 1px solid rgba(0,0,0,0.2);
-      border-radius: 4px;
-      overflow: hidden;
-      margin-bottom: 0.75rem;
-    }
-    .progress-bar {
-      width: 100%; height: 100%;
-      background: rgba(52,121,255,0.6);
-      transition: width 1s linear;
-    }
-
-    .hidden { display:none!important; }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div id="app">
@@ -112,46 +62,6 @@
     </div>
   </div>
 
-  <script>
-    /* INTERACTIVITY */
-    const iconGrid = document.getElementById('iconGrid');
-    const icons = document.querySelectorAll('.icon-btn');
-    const panels = document.querySelectorAll('.panel');
-    function showPanel(id) {
-      iconGrid.classList.add('hidden');
-      panels.forEach(p => p.classList.toggle('open', p.id === id));
-      if (id === 'panel4') startRedirect('https://github.com', 'githubText', 'githubProgress');
-      if (id === 'panel5') startRedirect('https://linkedin.com', 'linkedinText', 'linkedinProgress');
-    }
-    function hidePanels() { panels.forEach(p => p.classList.remove('open')); iconGrid.classList.remove('hidden'); }
-    icons.forEach(icon => icon.addEventListener('click', () => showPanel(icon.dataset.panel)));
-    document.querySelectorAll('.close-btn').forEach(btn => btn.addEventListener('click', hidePanels));
-
-    /* COPY EMAIL */
-    document.getElementById('copyBtn').addEventListener('click', () => {
-      navigator.clipboard.writeText(document.getElementById('emailInput').value);
-    });
-
-    /* REDIRECT COUNTDOWN WITH PROGRESS */
-    function startRedirect(url, textId, progressId) {
-      let count = 3;
-      const textEl = document.getElementById(textId);
-      const progEl = document.getElementById(progressId);
-      progEl.style.width = '100%';
-      textEl.textContent = `Redirecting to ${url.replace(/^https?:\/\//, '')} in ${count}…`;
-      const interval = setInterval(() => {
-        count--;
-        const pct = Math.max(0, (count / 3) * 100);
-        progEl.style.width = `${pct}%`;
-        if (count > 0) {
-          textEl.textContent = `Redirecting to ${url.replace(/^https?:\/\//, '')} in ${count}…`;
-        } else {
-          clearInterval(interval);
-          window.location.href = url;
-        }
-      }, 1000);
-    }
-
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
