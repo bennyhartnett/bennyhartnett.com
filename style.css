@@ -2,8 +2,16 @@
     html, body { height: 100%; }
     body {
       font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background: radial-gradient(circle at 30% 30%, #2d73ff 0%, #3479ff 30%, #5d62ff 60%, #a04d9c 85%, #d64080 100%);
+      background: linear-gradient(-45deg, #2d73ff, #3479ff, #5d62ff, #a04d9c, #d64080);
+      background-size: 400% 400%;
+      animation: gradientMove 15s ease infinite;
       display: flex; align-items: center; justify-content: center;
+    }
+
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
     #app { width: 90vw; max-width: 1200px; height: 90vh; position: relative; }
 
