@@ -79,7 +79,19 @@
       opacity:1; pointer-events:auto;
       transform: translate(-50%,-50%) scale(1);
     }
-    .panel header { display:flex; align-items:center; justify-content:space-between; font-weight:600; margin-bottom:1rem; }
+    .panel header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      position: sticky;
+      top: 0;
+      background: rgba(255,255,255,0.95);
+      z-index: 2;
+      padding-top: 0.25rem;
+      padding-bottom: 0.25rem;
+    }
     .close-btn { border:none; background:none; font-size:1.75rem; line-height:1; cursor:pointer; color:#666; }
 
     /* PROGRESS BAR */
