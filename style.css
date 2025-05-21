@@ -237,7 +237,7 @@
 .panel::-webkit-scrollbar-track {
   background: rgba(0,0,0,0.1);
   border-radius: 10px;
-  margin: 8px; /* provide space from the rounded container edges */
+  margin: 10px 0; /* keep scrollbar 10px from top and bottom */
 }
 .panel::-webkit-scrollbar-thumb { background: rgba(52,121,255,0.6); border-radius: 10px; }
 .panel::-webkit-scrollbar-thumb:hover { background: rgba(52,121,255,0.8); }
