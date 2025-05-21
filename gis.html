@@ -56,7 +56,33 @@
       attribution: ''
     }).addTo(map);
     // Apply dark styling filter
+
     darkLayer.getContainer().style.filter = 'invert(0.85) brightness(0.6)';
+
+    // Apply the dark styling filter once the tiles have loaded so
+    // the layer container is available.
+    darkLayer.on('load', function() {
+      var container = darkLayer.getContainer();
+      if (container) {
+        container.style.filter = 'invert(0.85) brightness(0.6)';
+      }
+    });
+
+    // Attempt to locate the user's position and recenter the map
+    map.locate({ setView: true, maxZoom: 16 });
+    map.on('locationfound', function(e) {
+      L.marker(e.latlng).addTo(map);
+    });
+
+
+    // Hide modal when Find button is clicked
+    document.getElementById('findBtn').addEventListener('click', function() {
+      document.getElementById('searchModal').style.display = 'none';
+
+    map.on('locationerror', function() {
+      map.setView([20, 0], 2); // Fallback view if location fails
+    });
+
   </script>
 </body>
 </html>
