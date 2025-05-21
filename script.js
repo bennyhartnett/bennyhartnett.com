@@ -147,7 +147,14 @@
       iconGrid.classList.remove('hidden');
     }
 
-    icons.forEach(icon => icon.addEventListener('click', () => showPanel(icon.dataset.panel)));
+    icons.forEach(icon => icon.addEventListener('click', () => {
+      const panel = icon.dataset.panel;
+      if (panel === 'gis') {
+        window.location.href = 'gis.html';
+        return;
+      }
+      showPanel(panel);
+    }));
 
     /* REDIRECT COUNTDOWN WITH PROGRESS */
     function startRedirect(url, textId, progressId, name) {
