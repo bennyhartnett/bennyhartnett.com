@@ -27,5 +27,8 @@ This repository hosts Benny's personal site and small experiments. The goal is t
 ## Contributing
 Pull requests are welcome! Fork the repository, create a feature branch, and open a PR describing your change. For larger proposals, open an issue first so we can discuss.
 
+ 
 ## License
-This project is released under the MIT License. See [LICENSE](LICENSE) for details.
+This project is released under the BENNY License. See [LICENSE](LICENSE) for details.
+ 
+ 
