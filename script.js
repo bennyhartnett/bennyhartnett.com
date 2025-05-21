@@ -106,18 +106,16 @@
       if (id === 'gis') {
         const mapEl = panel.querySelector('#map');
         if (window.L) {
-          const map = L.map(mapEl).setView([0, 0], 13);
-          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 19,
-            attribution: '© OpenStreetMap'
+          const map = L.map(mapEl, { attributionControl: false }).setView([20, 0], 2);
+          L.control.attribution({
+            prefix: '<img src="https://upload.wikimedia.org/wikipedia/en/thumb/a/a4/Flag_of_the_United_States.svg/24px-Flag_of_the_United_States.svg.png" alt="USA"> © Lion Federal',
+            position: 'bottomright'
           }).addTo(map);
-          if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(pos => {
-              const { latitude, longitude } = pos.coords;
-              map.setView([latitude, longitude], 13);
-              L.marker([latitude, longitude]).addTo(map);
-            });
-          }
+          const darkLayer = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+            maxZoom: 17,
+            attribution: ''
+          }).addTo(map);
+          darkLayer.getContainer().style.filter = 'invert(0.85) brightness(0.6)';
         } else {
           mapEl.textContent = 'Map failed to load';
         }
