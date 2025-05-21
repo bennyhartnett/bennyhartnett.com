@@ -64,8 +64,32 @@
       transition: width 1s linear;
     }
 
+
+.hidden { display:none!important; }
+
+/* CARD LIST FOR ROCKETSHIP PANEL */
+.card-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.card {
+  background: #f5f5f5;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
     .hidden {
       opacity: 0 !important;
       pointer-events: none !important;
       transform: scale(0.95);
     }
+
