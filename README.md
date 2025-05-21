@@ -1,6 +1,6 @@
 # BennyHartnett.com
 
-This repository contains the source for Benny Hartnett's personal website. The main page presents a grid of icons that open various panels containing widgets such as email copying, a simple chatbot, project links, and search.
+This repository contains the source for Benny Hartnett's personal website. The main page presents a grid of icons that open various panels containing widgets such as email copying, a GIS map, project links, and search.
 
 ## Structure
 - `index.html` – Landing page with icon grid

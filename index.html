@@ -9,6 +9,7 @@
   <!-- Remix Icon font -->
   <link href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" integrity="sha256-sA+e2Zl6ksN1TC96DSNXN0H+9Mk1J98IL5GxLS7lLuM=" crossorigin=""/>
 </head>
 <body>
   <div id="app">
@@ -17,8 +18,8 @@
       <div class="icon-btn" data-panel="email" data-label="Email">
         <i class="ri-mail-open-line"></i><span class="icon-label"></span>
       </div>
-      <div class="icon-btn" data-panel="chatbot" data-label="Chatbot">
-        <i class="ri-earth-line"></i><span class="icon-label"></span>
+      <div class="icon-btn" data-panel="gis" data-label="GIS">
+        <i class="ri-map-pin-line"></i><span class="icon-label"></span>
       </div>
       <div class="icon-btn rocket" data-panel="rocketship" data-label="Rocketship">
         <i class="ri-rocket-line"></i><span class="icon-label"></span>
@@ -42,9 +43,24 @@
         <button class="btn btn-outline-secondary" id="copyBtn" type="button">Copy</button>
       </div>
     </div>
-    <div class="panel" id="chatbot">
-      <header>Chatbot <button class="close-btn" aria-label="Close">&times;</button></header>
-      <p>Interact with an AI assistant here… (placeholder content).</p>
+    <div class="panel" id="gis">
+      <header>GIS Map <button class="close-btn" aria-label="Close">&times;</button></header>
+      <div id="map" class="map"></div>
+      <div class="accordion">
+        <details>
+          <summary><span class="accordion-icon">📍</span> My Location</summary>
+          <p>Shows your current coordinates on the map.</p>
+        </details>
+        <details>
+          <summary><span class="accordion-icon">🗺️</span> Points of Interest</summary>
+          <p>View interesting places around you.</p>
+        </details>
+        <details>
+          <summary><span class="accordion-icon">🌐</span> Alternate Basemaps</summary>
+          <p>Switch between different map styles.</p>
+        </details>
+      </div>
+
     </div>
     <div class="panel" id="rocketship">
       <header>Rocketship <button class="close-btn" aria-label="Close">&times;</button></header>
@@ -84,6 +100,7 @@
   </div>
 
   <script src="searchData.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-pZj0WY7qGmYdP9O+yeC4XSzqD5WULbJx1D+SgPz0iMU=" crossorigin=""></script>
   <script src="script.js"></script>
 </body>
 </html>

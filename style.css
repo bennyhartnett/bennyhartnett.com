@@ -165,6 +165,23 @@
   animation: fadeInUp 0.3s forwards;
 }
 
+#gis {
+  width: 700px;
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+#gis #map {
+  flex: 1 1 300px;
+  height: 300px;
+  border-radius: 8px;
+}
+
+#gis .accordion {
+  flex: 1 1 250px;
+}
+
 @keyframes fadeInUp {
   from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: translateY(0); }
