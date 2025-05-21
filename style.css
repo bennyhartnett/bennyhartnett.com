@@ -79,7 +79,19 @@
       opacity:1; pointer-events:auto;
       transform: translate(-50%,-50%) scale(1);
     }
-    .panel header { display:flex; align-items:center; justify-content:space-between; font-weight:600; margin-bottom:1rem; }
+    .panel header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      position: sticky;
+      top: 0;
+      background: rgba(255,255,255,0.95);
+      z-index: 2;
+      padding-top: 0.25rem;
+      padding-bottom: 0.25rem;
+    }
     .close-btn { border:none; background:none; font-size:1.75rem; line-height:1; cursor:pointer; color:#666; }
 
     /* PROGRESS BAR */
@@ -176,6 +188,7 @@
   animation: fadeInUp 0.3s forwards;
 }
 
+ 
 #gis {
   width: 700px;
   display: flex;
@@ -191,6 +204,27 @@
 
 #gis .accordion {
   flex: 1 1 250px;
+ 
+/* SEARCH PANEL LAYOUT */
+#search {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+#search .input-group {
+  position: sticky;
+  top: 0;
+  background: rgba(255, 255, 255, 0.95);
+  padding-bottom: 0.75rem;
+  z-index: 1;
+}
+
+#search .search-results {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 0.25rem;
+ 
 }
 
 @keyframes fadeInUp {
@@ -200,7 +234,11 @@
 
 /* Rounded scrollbars for panels */
 .panel::-webkit-scrollbar { width: 8px; height: 8px; }
-.panel::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); border-radius: 10px; }
+.panel::-webkit-scrollbar-track {
+  background: rgba(0,0,0,0.1);
+  border-radius: 10px;
+  margin-block: 8px; /* allow space from the rounded container edges */
+}
 .panel::-webkit-scrollbar-thumb { background: rgba(52,121,255,0.6); border-radius: 10px; }
 .panel::-webkit-scrollbar-thumb:hover { background: rgba(52,121,255,0.8); }
 .panel { scrollbar-width: thin; scrollbar-color: rgba(52,121,255,0.6) rgba(0,0,0,0.1); }

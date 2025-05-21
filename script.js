@@ -45,15 +45,15 @@
       if (id === 'search') {
         const input = panel.querySelector('input');
         const resultsEl = panel.querySelector('.search-results');
-        const renderResults = () => {
-          const q = input.value.trim().toLowerCase();
+        let timeouts = [];
+
+        const addSequentially = records => {
+          timeouts.forEach(t => clearTimeout(t));
+          timeouts = [];
           resultsEl.innerHTML = '';
-          if (!q) return; // Show nothing until a search term is entered
-          searchRecords
-            .filter(r => r.title.toLowerCase().includes(q) || r.description.toLowerCase().includes(q))
-            .forEach((rec, idx) => {
+          records.forEach((rec, idx) => {
+            const t = setTimeout(() => {
               const det = document.createElement('details');
-              det.style.animationDelay = `${idx * 60}ms`;
               const sum = document.createElement('summary');
               sum.textContent = rec.title;
               const p = document.createElement('p');
@@ -61,10 +61,49 @@
               det.appendChild(sum);
               det.appendChild(p);
               resultsEl.appendChild(det);
-            });
+              resultsEl.scrollTop = resultsEl.scrollHeight;
+            }, idx * 150);
+            timeouts.push(t);
+          });
         };
+
+        const renderResults = () => {
+          const q = input.value.trim().toLowerCase();
+          if (!q) {
+            timeouts.forEach(t => clearTimeout(t));
+            resultsEl.innerHTML = '';
+            return;
+          }
+          const matches = searchRecords.filter(r =>
+            r.title.toLowerCase().includes(q) ||
+            r.description.toLowerCase().includes(q)
+          );
+          addSequentially(matches);
+        };
+
         input.addEventListener('input', renderResults);
         panel.querySelector('#searchBtn').addEventListener('click', renderResults);
+
+        let hoverInterval;
+        resultsEl.addEventListener('mousemove', e => {
+          const rect = resultsEl.getBoundingClientRect();
+          const speed = 4;
+          if (e.clientY > rect.bottom - 20) {
+            clearInterval(hoverInterval);
+            hoverInterval = setInterval(() => {
+              resultsEl.scrollTop += speed;
+            }, 16);
+          } else if (e.clientY < rect.top + 20) {
+            clearInterval(hoverInterval);
+            hoverInterval = setInterval(() => {
+              resultsEl.scrollTop -= speed;
+            }, 16);
+          } else {
+            clearInterval(hoverInterval);
+          }
+        });
+        resultsEl.addEventListener('mouseleave', () => clearInterval(hoverInterval));
+
         renderResults();
       }
       if (id === 'gis') {
