@@ -1,0 +1,22 @@
+const searchRecords = [
+  { title: 'Alpha Centauri Mission', description: 'Exploration of the nearest star system.' },
+  { title: 'Binary Star Research', description: 'Studying the dynamics of binary stars.' },
+  { title: 'Comet Tracking Program', description: 'Monitor comet trajectories and compositions.' },
+  { title: 'Dark Matter Mapping', description: 'Mapping potential dark matter locations.' },
+  { title: 'Exoplanet Habitability', description: 'Assessing atmospheres of new exoplanets.' },
+  { title: 'Fusion Reactor Prototype', description: 'Testing a small-scale fusion reactor.' },
+  { title: 'Galactic Survey 2024', description: 'Comprehensive survey of nearby galaxies.' },
+  { title: 'Hyperdrive Engineering', description: 'Developing theoretical hyperdrive models.' },
+  { title: 'Ion Propulsion System', description: 'Improving efficiency of ion engines.' },
+  { title: 'Jovian Moons Analysis', description: 'Investigating geology of Jupiter\'s moons.' },
+  { title: 'Kuiper Belt Objects', description: 'Cataloging objects in the Kuiper Belt.' },
+  { title: 'Lunar Base Concept', description: 'Design concepts for a lunar research base.' },
+  { title: 'Mars Rover Upgrades', description: 'Enhanced tools for the next Mars rover.' },
+  { title: 'Nebula Imaging Array', description: 'High-resolution imaging of nebulae.' },
+  { title: 'Orbital Debris Cleanup', description: 'Strategies for reducing space debris.' },
+  { title: 'Pulsar Signal Study', description: 'Analyzing unusual pulsar signals.' },
+  { title: 'Quantum Communications', description: 'Secure quantum messaging methods.' },
+  { title: 'Rocket Fuel Alternatives', description: 'Researching eco-friendly rocket fuels.' },
+  { title: 'Solar Sail Experiment', description: 'Testing propulsion via solar sails.' },
+  { title: 'Terraforming Theories', description: 'Examining possibilities of planet terraforming.' }
+];

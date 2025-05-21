@@ -73,15 +73,17 @@
       <div class="progress-container"><div class="progress-bar" id="linkedinProgress"></div></div>
       <p id="linkedinText">Redirecting to LinkedIn in 3…</p>
     </div>
-    <div class="panel" id="search">
-      <header>Search <button class="close-btn" aria-label="Close">&times;</button></header>
-      <div class="input-group mb-3">
-        <input type="text" class="form-control" placeholder="Search…">
-        <button class="btn btn-outline-secondary" type="button" id="searchBtn">Search</button>
+      <div class="panel" id="search">
+        <header>Search <button class="close-btn" aria-label="Close">&times;</button></header>
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" placeholder="Search…">
+          <button class="btn btn-outline-secondary" type="button" id="searchBtn">Search</button>
+        </div>
+        <div class="accordion search-results"></div>
       </div>
-    </div>
   </div>
 
+  <script src="searchData.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

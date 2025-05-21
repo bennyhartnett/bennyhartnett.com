@@ -43,10 +43,28 @@
         });
       }
       if (id === 'search') {
-        panel.querySelector('#searchBtn').addEventListener('click', () => {
-          const q = panel.querySelector('input').value;
-          window.open(`https://www.google.com/search?q=${encodeURIComponent(q)}`, '_blank');
-        });
+        const input = panel.querySelector('input');
+        const resultsEl = panel.querySelector('.search-results');
+        const renderResults = () => {
+          const q = input.value.trim().toLowerCase();
+          resultsEl.innerHTML = '';
+          searchRecords
+            .filter(r => r.title.toLowerCase().includes(q) || r.description.toLowerCase().includes(q))
+            .forEach((rec, idx) => {
+              const det = document.createElement('details');
+              det.style.animationDelay = `${idx * 60}ms`;
+              const sum = document.createElement('summary');
+              sum.textContent = rec.title;
+              const p = document.createElement('p');
+              p.textContent = rec.description;
+              det.appendChild(sum);
+              det.appendChild(p);
+              resultsEl.appendChild(det);
+            });
+        };
+        input.addEventListener('input', renderResults);
+        panel.querySelector('#searchBtn').addEventListener('click', renderResults);
+        renderResults();
       }
       panel.dataset.init = 'true';
     }
