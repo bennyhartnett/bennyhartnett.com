@@ -1,4 +1,12 @@
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg-gradient: linear-gradient(-45deg, #2d73ff, #3479ff, #5d62ff, #a04d9c, #d64080);
+  --panel-bg: rgba(255, 255, 255, 0.95);
+  --card-bg: #f5f5f5;
+  --card-hover-bg: #e0e0e0;
+  --accent-color: rgba(52,121,255,0.6);
+}
     .sr-only {
       position: absolute;
       width: 1px;
@@ -13,7 +21,7 @@
     html, body { height: 100%; }
     body {
       font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background: linear-gradient(-45deg, #2d73ff, #3479ff, #5d62ff, #a04d9c, #d64080);
+      background: var(--bg-gradient);
       background-size: 400% 400%;
       animation: gradientMove 15s ease infinite;
       display: flex; align-items: center; justify-content: center;
@@ -70,7 +78,7 @@
     .panel {
       position:absolute; top:50%; left:50%;
       transform: translate(-50%,-60%) scale(0.8);
-      width:340px; max-width:90%; max-height:80%; background:rgba(255,255,255,0.95); border-radius:16px;
+      width:340px; max-width:90%; max-height:80%; background:var(--panel-bg); border-radius:16px;
       box-shadow:0 8px 30px rgba(0,0,0,.25); padding:1.5rem; overflow:auto;
       scrollbar-gutter: stable both-edges;
       opacity:0; pointer-events:none;
@@ -106,7 +114,7 @@
     }
     .progress-bar {
       width: 100%; height: 100%;
-      background: rgba(52,121,255,0.6);
+      background: var(--accent-color);
       transition: width 1s linear;
     }
 
@@ -120,7 +128,7 @@
 }
 
 .card {
-  background: #f5f5f5;
+  background: var(--card-bg);
   padding: 1rem;
   border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
@@ -146,7 +154,7 @@
 }
 
 .accordion details {
-  background: #f5f5f5;
+  background: var(--card-bg);
   border: 1px solid #ddd;
   border-radius: 6px;
   padding: 0.5rem 0.75rem;
@@ -168,7 +176,7 @@
 }
 
 .accordion details:hover {
-  background: #e0e0e0;
+  background: var(--card-hover-bg);
   transform: translateX(4px);
 }
 
@@ -219,7 +227,7 @@
 #search .input-group {
   position: sticky;
   top: 0;
-  background: rgba(255, 255, 255, 0.95);
+  background: var(--panel-bg);
   padding-bottom: 0.75rem;
   z-index: 1;
 }
@@ -255,5 +263,45 @@ html::-webkit-scrollbar,
 
 #github .input-group {
   margin-bottom: 0.75rem;
+}
+
+/* Accessibility */
+.icon-btn:focus-visible,
+.close-btn:focus-visible,
+details summary:focus-visible {
+  outline: 2px solid var(--accent-color);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body {
+    animation: none;
+  }
+}
+
+@media (max-width: 600px) {
+  #iconGrid {
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 2rem;
+    padding: 2rem;
+  }
+  .panel {
+    width: calc(100% - 2rem);
+    max-width: none;
+    max-height: 90%;
+  }
+  #gis {
+    flex-direction: column;
+  }
+  #gis #map {
+    flex: none;
+    width: 100%;
+    height: 60vh;
+  }
+  #gis .accordion {
+    flex: none;
+    width: 100%;
+  }
 }
 
