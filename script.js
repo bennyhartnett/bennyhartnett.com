@@ -1,3 +1,28 @@
+    /* GLOBAL HOVER SCROLL */
+    function enableHoverScroll(target, edge = 20, speed = 6) {
+      let interval;
+      const el = target === window ? document.documentElement : target;
+      const move = e => {
+        const rect = target === window ? {top:0,bottom:window.innerHeight} : el.getBoundingClientRect();
+        if (e.clientY > rect.bottom - edge) {
+          clearInterval(interval);
+          interval = setInterval(() => {
+            target === window ? window.scrollBy(0, speed) : (el.scrollTop += speed);
+          }, 16);
+        } else if (e.clientY < rect.top + edge) {
+          clearInterval(interval);
+          interval = setInterval(() => {
+            target === window ? window.scrollBy(0, -speed) : (el.scrollTop -= speed);
+          }, 16);
+        } else {
+          clearInterval(interval);
+        }
+      };
+      el.addEventListener('mousemove', move);
+      el.addEventListener('mouseleave', () => clearInterval(interval));
+    }
+    enableHoverScroll(window);
+
     /* INTERACTIVITY */
     const iconGrid = document.getElementById('iconGrid');
     const icons = document.querySelectorAll('.icon-btn');
@@ -86,34 +111,16 @@
         input.addEventListener('input', renderResults);
         panel.querySelector('#searchBtn').addEventListener('click', renderResults);
 
-        let hoverInterval;
-        resultsEl.addEventListener('mousemove', e => {
-          const rect = resultsEl.getBoundingClientRect();
-          const speed = 4;
-          if (e.clientY > rect.bottom - 20) {
-            clearInterval(hoverInterval);
-            hoverInterval = setInterval(() => {
-              resultsEl.scrollTop += speed;
-            }, 16);
-          } else if (e.clientY < rect.top + 20) {
-            clearInterval(hoverInterval);
-            hoverInterval = setInterval(() => {
-              resultsEl.scrollTop -= speed;
-            }, 16);
-          } else {
-            clearInterval(hoverInterval);
-          }
-        });
-        resultsEl.addEventListener('mouseleave', () => clearInterval(hoverInterval));
+        enableHoverScroll(resultsEl);
 
         renderResults();
       }
       if (id === 'gis') {
         const mapEl = panel.querySelector('#map');
         if (window.L) {
-          const map = L.map(mapEl, { attributionControl: false }).setView([20, 0], 2);
+          const map = L.map(mapEl, { attributionControl: false });
           L.control.attribution({
-            prefix: '<img src="https://upload.wikimedia.org/wikipedia/en/thumb/a/a4/Flag_of_the_United_States.svg/24px-Flag_of_the_United_States.svg.png" alt="USA"> © Lion Federal',
+            prefix: '<img src="https://upload.wikimedia.org/wikipedia/en/thumb/a/a4/Flag_of_the_United_States.svg/24px-Flag_of_the_United_States.svg.png" alt="USA"> © Federal Innovations | GIS for Defense',
             position: 'bottomright'
           }).addTo(map);
           const darkLayer = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
@@ -127,10 +134,14 @@
           map.on('locationfound', function(e) {
             L.marker(e.latlng).addTo(map);
           });
+          map.on('locationerror', function() {
+            map.setView([20, 0], 2); // Fallback view if location fails
+          });
         } else {
           mapEl.textContent = 'Map failed to load';
         }
       }
+      enableHoverScroll(panel);
       panel.dataset.init = 'true';
     }
 
@@ -147,7 +158,14 @@
       iconGrid.classList.remove('hidden');
     }
 
-    icons.forEach(icon => icon.addEventListener('click', () => showPanel(icon.dataset.panel)));
+    icons.forEach(icon => icon.addEventListener('click', () => {
+      const panel = icon.dataset.panel;
+      if (panel === 'gis') {
+        window.location.href = 'gis.html';
+        return;
+      }
+      showPanel(panel);
+    }));
 
     /* REDIRECT COUNTDOWN WITH PROGRESS */
     function startRedirect(url, textId, progressId, name) {

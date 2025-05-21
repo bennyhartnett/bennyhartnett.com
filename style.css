@@ -236,16 +236,16 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Rounded scrollbars for panels */
-.panel::-webkit-scrollbar { width: 8px; height: 8px; }
-.panel::-webkit-scrollbar-track {
-  background: rgba(0,0,0,0.1);
-  border-radius: 10px;
-  margin: 10px 0; /* keep scrollbar 10px from top and bottom */
+/* Hide native scrollbars */
+body, html, .panel {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
-.panel::-webkit-scrollbar-thumb { background: rgba(52,121,255,0.6); border-radius: 10px; }
-.panel::-webkit-scrollbar-thumb:hover { background: rgba(52,121,255,0.8); }
-.panel { scrollbar-width: thin; scrollbar-color: rgba(52,121,255,0.6) rgba(0,0,0,0.1); }
+body::-webkit-scrollbar,
+html::-webkit-scrollbar,
+.panel::-webkit-scrollbar {
+  display: none;
+}
 
 /* GitHub panel extras */
 .manual-link {
