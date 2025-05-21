@@ -21,7 +21,7 @@ Open `index.html` directly or start a local server to test cross‑browser links
 python3 -m http.server
 ```
 
-and visit `http://localhost:8000` in your browser. The site uses Bootstrap and Remix Icon CDN links, so an internet connection is required for full styling. The main page also includes basic SEO metadata for better discoverability.
+and visit `http://localhost:8000` in your browser. The site uses Bootstrap and Remix Icon CDN links, so an internet connection is required for full styling. All pages include canonical links and Open Graph tags, and `robots.txt` plus `sitemap.xml` assist search engines. The landing page also defines Twitter card metadata for rich previews.
 
 The GitHub panel includes a copy button with a prefilled `git clone` command so you can quickly grab the site's source.
 
@@ -33,6 +33,7 @@ This repository hosts Benny's personal site and small experiments. The goal is t
 - Dark-themed GIS map using Leaflet and OpenTopoMap
 - Search demo backed by `searchData.js`
 - Rocketship hardware ideas as an accordion list
+- SEO-friendly metadata with canonical links, a sitemap and Twitter card tags
 
 ## Contributing
 Pull requests are welcome! Fork the repository, create a feature branch, and open a PR describing your change. For larger proposals, open an issue first so we can discuss.
