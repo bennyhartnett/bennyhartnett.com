@@ -18,3 +18,6 @@ Open `index.html` in a modern browser or use a lightweight static server. The si
 - Search panel with dynamic results
 - GitHub and LinkedIn buttons that redirect after a short countdown
 
+
+### License
+This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
