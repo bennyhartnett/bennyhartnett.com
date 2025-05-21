@@ -111,7 +111,7 @@
       if (id === 'gis') {
         const mapEl = panel.querySelector('#map');
         if (window.L) {
-          const map = L.map(mapEl, { attributionControl: false }).setView([20, 0], 2);
+          const map = L.map(mapEl, { attributionControl: false });
           L.control.attribution({
             prefix: '<img src="https://upload.wikimedia.org/wikipedia/en/thumb/a/a4/Flag_of_the_United_States.svg/24px-Flag_of_the_United_States.svg.png" alt="USA"> © Lion Federal',
             position: 'bottomright'
@@ -126,6 +126,9 @@
           map.locate({ setView: true, maxZoom: 16 });
           map.on('locationfound', function(e) {
             L.marker(e.latlng).addTo(map);
+          });
+          map.on('locationerror', function() {
+            map.setView([20, 0], 2); // Fallback view if location fails
           });
         } else {
           mapEl.textContent = 'Map failed to load';

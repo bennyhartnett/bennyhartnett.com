@@ -47,7 +47,7 @@
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script>
     // Initialize map without default attribution control
-    var map = L.map('map', { attributionControl: false }).setView([20, 0], 2);
+    var map = L.map('map', { attributionControl: false });
 
  
     L.control.attribution({ 
@@ -69,6 +69,9 @@
     map.locate({ setView: true, maxZoom: 16 });
     map.on('locationfound', function(e) {
       L.marker(e.latlng).addTo(map);
+    });
+    map.on('locationerror', function() {
+      map.setView([20, 0], 2); // Fallback view if location fails
     });
   </script>
 </body>
