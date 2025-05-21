@@ -1,3 +1,28 @@
+    /* GLOBAL HOVER SCROLL */
+    function enableHoverScroll(target, edge = 20, speed = 6) {
+      let interval;
+      const el = target === window ? document.documentElement : target;
+      const move = e => {
+        const rect = target === window ? {top:0,bottom:window.innerHeight} : el.getBoundingClientRect();
+        if (e.clientY > rect.bottom - edge) {
+          clearInterval(interval);
+          interval = setInterval(() => {
+            target === window ? window.scrollBy(0, speed) : (el.scrollTop += speed);
+          }, 16);
+        } else if (e.clientY < rect.top + edge) {
+          clearInterval(interval);
+          interval = setInterval(() => {
+            target === window ? window.scrollBy(0, -speed) : (el.scrollTop -= speed);
+          }, 16);
+        } else {
+          clearInterval(interval);
+        }
+      };
+      el.addEventListener('mousemove', move);
+      el.addEventListener('mouseleave', () => clearInterval(interval));
+    }
+    enableHoverScroll(window);
+
     /* INTERACTIVITY */
     const iconGrid = document.getElementById('iconGrid');
     const icons = document.querySelectorAll('.icon-btn');
@@ -86,25 +111,7 @@
         input.addEventListener('input', renderResults);
         panel.querySelector('#searchBtn').addEventListener('click', renderResults);
 
-        let hoverInterval;
-        resultsEl.addEventListener('mousemove', e => {
-          const rect = resultsEl.getBoundingClientRect();
-          const speed = 4;
-          if (e.clientY > rect.bottom - 20) {
-            clearInterval(hoverInterval);
-            hoverInterval = setInterval(() => {
-              resultsEl.scrollTop += speed;
-            }, 16);
-          } else if (e.clientY < rect.top + 20) {
-            clearInterval(hoverInterval);
-            hoverInterval = setInterval(() => {
-              resultsEl.scrollTop -= speed;
-            }, 16);
-          } else {
-            clearInterval(hoverInterval);
-          }
-        });
-        resultsEl.addEventListener('mouseleave', () => clearInterval(hoverInterval));
+        enableHoverScroll(resultsEl);
 
         renderResults();
       }
@@ -131,6 +138,7 @@
           mapEl.textContent = 'Map failed to load';
         }
       }
+      enableHoverScroll(panel);
       panel.dataset.init = 'true';
     }
 
