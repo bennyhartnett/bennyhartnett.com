@@ -1,16 +1,53 @@
-<header>GIS Map <button class="close-btn" aria-label="Close">&times;</button></header>
-<div id="map" class="map"></div>
-<div class="accordion">
-  <details>
-    <summary><span class="accordion-icon">📍</span> My Location</summary>
-    <p>Shows your current coordinates on the map.</p>
-  </details>
-  <details>
-    <summary><span class="accordion-icon">🗺️</span> Points of Interest</summary>
-    <p>View interesting places around you.</p>
-  </details>
-  <details>
-    <summary><span class="accordion-icon">🌐</span> Alternate Basemaps</summary>
-    <p>Switch between different map styles.</p>
-  </details>
-</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dark OpenTopoMap</title>
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <style>
+    body, html { margin: 0; padding: 0; height: 100%; }
+    #map { width: 100%; height: 100%; }
+    .leaflet-control-attribution {
+      background: none;
+      color: rgba(0, 0, 0, 0.5);
+      font-size: 11px;
+      font-weight: normal;
+      text-align: right;
+      padding: 0 5px;
+    }
+    .leaflet-control-attribution img {
+      vertical-align: middle;
+      width: 14px;
+      height: 14px;
+      margin-right: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+    // Initialize map without default attribution control
+    var map = L.map('map', { attributionControl: false }).setView([20, 0], 2);
+
+    // Add custom attribution control styled like standard map credits
+    L.control.attribution({
+      prefix: '<img src="https://upload.wikimedia.org/wikipedia/en/thumb/a/a4/Flag_of_the_United_States.svg/24px-Flag_of_the_United_States.svg.png" alt="USA"> &copy; Lion Federal',
+      position: 'bottomright'
+    }).addTo(map);
+
+    // Dark OpenTopoMap base layer without extra attribution
+    var darkLayer = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+      maxZoom: 17,
+      attribution: ''
+    }).addTo(map);
+
+    // Apply dark styling filter
+    darkLayer.getContainer().style.filter = 'invert(0.85) brightness(0.6)';
+  </script>
+</body>
+</html>
