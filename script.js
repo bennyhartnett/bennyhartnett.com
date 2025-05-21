@@ -113,7 +113,7 @@
         if (window.L) {
           const map = L.map(mapEl, { attributionControl: false }).setView([20, 0], 2);
           L.control.attribution({
-            prefix: '<img src="https://upload.wikimedia.org/wikipedia/en/thumb/a/a4/Flag_of_the_United_States.svg/24px-Flag_of_the_United_States.svg.png" alt="USA"> © Lion Federal',
+            prefix: '<img src="https://upload.wikimedia.org/wikipedia/en/thumb/a/a4/Flag_of_the_United_States.svg/24px-Flag_of_the_United_States.svg.png" alt="USA"> © Federal Innovations | GIS for Defense',
             position: 'bottomright'
           }).addTo(map);
           const darkLayer = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
