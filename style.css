@@ -72,6 +72,7 @@
       transform: translate(-50%,-60%) scale(0.8);
       width:340px; max-width:90%; max-height:80%; background:rgba(255,255,255,0.95); border-radius:16px;
       box-shadow:0 8px 30px rgba(0,0,0,.25); padding:1.5rem; overflow:auto;
+      scrollbar-gutter: stable both-edges;
       opacity:0; pointer-events:none;
       transition: opacity .35s ease, transform .35s ease;
     }
@@ -87,7 +88,7 @@
       margin-bottom: 1rem;
       position: sticky;
       top: 0;
-      background: rgba(255,255,255,0.95);
+  background: transparent;
       z-index: 2;
       padding-top: 0.25rem;
       padding-bottom: 0.25rem;
@@ -237,7 +238,7 @@
 .panel::-webkit-scrollbar-track {
   background: rgba(0,0,0,0.1);
   border-radius: 10px;
-  margin-block: 8px; /* allow space from the rounded container edges */
+  margin: 8px; /* provide space from the rounded container edges */
 }
 .panel::-webkit-scrollbar-thumb { background: rgba(52,121,255,0.6); border-radius: 10px; }
 .panel::-webkit-scrollbar-thumb:hover { background: rgba(52,121,255,0.8); }
