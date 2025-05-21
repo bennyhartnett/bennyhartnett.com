@@ -243,3 +243,13 @@
 .panel::-webkit-scrollbar-thumb:hover { background: rgba(52,121,255,0.8); }
 .panel { scrollbar-width: thin; scrollbar-color: rgba(52,121,255,0.6) rgba(0,0,0,0.1); }
 
+/* GitHub panel extras */
+.manual-link {
+  text-align: center;
+  margin-bottom: 0.75rem;
+}
+
+#github .input-group {
+  margin-bottom: 0.75rem;
+}
+

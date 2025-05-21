@@ -21,6 +21,8 @@ python3 -m http.server
 
 and visit `http://localhost:8000` in your browser. The site uses Bootstrap and Remix Icon CDN links, so an internet connection is required for full styling. The main page also includes basic SEO metadata for better discoverability.
 
+The GitHub panel includes a copy button with a prefilled `git clone` command so you can quickly grab the site's source.
+
 ## Purpose
 This repository hosts Benny's personal site and small experiments. The goal is to keep things simple and easily hackable.
 
