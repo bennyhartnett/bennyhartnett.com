@@ -3,12 +3,13 @@
 BennyHartnett.com is the source code for Benny Hartnett's personal website. The site is a lightweight collection of static files that showcase contact information, projects, and a few web widgets.
 
 ## Directory Structure
-All site files live in the repository root:
+HTML files live in the repository root while assets are organized under `assets/`:
 
 - `index.html` – Landing page with icon grid
 - `email.html`, `gis.html`, `github.html`, `linkedin.html`, `rocketship.html`, `search.html` – individual panels
-- `script.js` – Handles interactivity for showing panels, hover effects, and external redirects
-- `style.css` – Styles for layout and animations
+- `assets/js/script.js` – Handles interactivity for showing panels, hover effects, and external redirects
+- `assets/css/style.css` – Styles for layout and animations
+- `assets/data/searchData.js` – Example records used for the search panel
 - `.vscode/` – Editor configuration
 - `LICENSE` – Project license
 
