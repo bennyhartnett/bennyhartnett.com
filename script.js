@@ -24,7 +24,7 @@
               window.open(`https://www.google.com/search?q=${encodeURIComponent(q)}`, '_blank');
             });
           }
-          if (id === 'github') startRedirect('https://github.com', 'githubText', 'githubProgress');
+          if (id === 'github') startRedirect('https://github.com/bennyhartnett', 'githubText', 'githubProgress');
           if (id === 'linkedin') startRedirect('https://linkedin.com', 'linkedinText', 'linkedinProgress');
         });
     }
