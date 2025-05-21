@@ -9,5 +9,5 @@ This repository contains the source for Benny Hartnett's personal website. The m
 - `*.html` – Content for individual panels
 
 ## Development
-Open `index.html` in a modern browser or use a lightweight static server. The site uses Bootstrap and Remix Icon CDN links, so an internet connection is required for full styling.
+Open `index.html` in a modern browser or use a lightweight static server. The site uses Bootstrap and Remix Icon CDN links, so an internet connection is required for full styling. The main page now includes basic SEO metadata for better discoverability.
 

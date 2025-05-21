@@ -3,7 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Icon Switcher Demo</title>
+  <title>Benny Hartnett - Projects and Contact</title>
+  <meta name="description" content="Explore projects by Benny Hartnett and connect via email, GitHub or LinkedIn.">
+  <meta name="keywords" content="Benny Hartnett, software projects, contact, GitHub, LinkedIn">
+  <link rel="canonical" href="https://bennyhartnett.com/">
+  <meta property="og:title" content="Benny Hartnett - Projects and Contact">
+  <meta property="og:description" content="Explore projects by Benny Hartnett and connect via email, GitHub or LinkedIn.">
   <!-- Bootstrap CSS for input groups -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <!-- Remix Icon font -->
@@ -12,26 +17,35 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" integrity="sha256-sA+e2Zl6ksN1TC96DSNXN0H+9Mk1J98IL5GxLS7lLuM=" crossorigin=""/>
 </head>
 <body>
+  <h1 class="sr-only">Benny Hartnett</h1>
   <div id="app">
     <!-- ICON GRID -->
     <div id="iconGrid">
       <div class="icon-btn" data-panel="email" data-label="Email">
-        <i class="ri-mail-open-line"></i><span class="icon-label"></span>
+        <i class="ri-mail-open-line" aria-hidden="true"></i>
+        <span class="sr-only">Email</span><span class="icon-label"></span>
       </div>
+ 
       <div class="icon-btn" data-panel="gis" data-label="GIS">
         <i class="ri-map-pin-line"></i><span class="icon-label"></span>
+ 
+ 
       </div>
       <div class="icon-btn rocket" data-panel="rocketship" data-label="Rocketship">
-        <i class="ri-rocket-line"></i><span class="icon-label"></span>
+        <i class="ri-rocket-line" aria-hidden="true"></i>
+        <span class="sr-only">Rocketship</span><span class="icon-label"></span>
       </div>
       <div class="icon-btn" data-panel="github" data-label="GitHub">
-        <i class="ri-github-line"></i><span class="icon-label"></span>
+        <i class="ri-github-line" aria-hidden="true"></i>
+        <span class="sr-only">GitHub</span><span class="icon-label"></span>
       </div>
       <div class="icon-btn" data-panel="linkedin" data-label="LinkedIn">
-        <i class="ri-linkedin-box-line"></i><span class="icon-label"></span>
+        <i class="ri-linkedin-box-line" aria-hidden="true"></i>
+        <span class="sr-only">LinkedIn</span><span class="icon-label"></span>
       </div>
       <div class="icon-btn" data-panel="search" data-label="Search">
-        <i class="ri-search-2-line"></i><span class="icon-label"></span>
+        <i class="ri-search-2-line" aria-hidden="true"></i>
+        <span class="sr-only">Search</span><span class="icon-label"></span>
       </div>
     </div>
 

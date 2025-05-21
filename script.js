@@ -48,6 +48,7 @@
         const renderResults = () => {
           const q = input.value.trim().toLowerCase();
           resultsEl.innerHTML = '';
+          if (!q) return; // Show nothing until a search term is entered
           searchRecords
             .filter(r => r.title.toLowerCase().includes(q) || r.description.toLowerCase().includes(q))
             .forEach((rec, idx) => {
