@@ -13,19 +13,19 @@
           panel.dataset.loaded = 'true';
           const closeBtn = panel.querySelector('.close-btn');
           if (closeBtn) closeBtn.addEventListener('click', hidePanels);
-          if (id === 'panel1') {
+          if (id === 'email') {
             panel.querySelector('#copyBtn').addEventListener('click', () => {
               navigator.clipboard.writeText(panel.querySelector('#emailInput').value);
             });
           }
-          if (id === 'panel6') {
+          if (id === 'search') {
             panel.querySelector('#searchBtn').addEventListener('click', () => {
               const q = panel.querySelector('input').value;
               window.open(`https://www.google.com/search?q=${encodeURIComponent(q)}`, '_blank');
             });
           }
-          if (id === 'panel4') startRedirect('https://github.com', 'githubText', 'githubProgress');
-          if (id === 'panel5') startRedirect('https://linkedin.com', 'linkedinText', 'linkedinProgress');
+          if (id === 'github') startRedirect('https://github.com', 'githubText', 'githubProgress');
+          if (id === 'linkedin') startRedirect('https://linkedin.com', 'linkedinText', 'linkedinProgress');
         });
     }
 
