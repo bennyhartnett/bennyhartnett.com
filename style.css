@@ -188,6 +188,23 @@
   animation: fadeInUp 0.3s forwards;
 }
 
+ 
+#gis {
+  width: 700px;
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+#gis #map {
+  flex: 1 1 300px;
+  height: 300px;
+  border-radius: 8px;
+}
+
+#gis .accordion {
+  flex: 1 1 250px;
+ 
 /* SEARCH PANEL LAYOUT */
 #search {
   display: flex;
@@ -207,6 +224,7 @@
   flex: 1;
   overflow-y: auto;
   padding-right: 0.25rem;
+ 
 }
 
 @keyframes fadeInUp {
