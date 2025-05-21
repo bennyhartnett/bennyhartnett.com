@@ -257,3 +257,23 @@ html::-webkit-scrollbar,
   margin-bottom: 0.75rem;
 }
 
+
+/* Dark themed panel */
+.dark-panel {
+  background: #222;
+  color: #eee;
+}
+.dark-panel input.form-control {
+  background: #333;
+  border-color: #555;
+  color: #eee;
+}
+.dark-panel .btn-outline-secondary {
+  color: #eee;
+  border-color: #666;
+  background: #444;
+}
+.dark-panel .accordion details {
+  background: #333;
+  border-color: #555;
+}
