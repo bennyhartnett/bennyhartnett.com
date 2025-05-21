@@ -3,6 +3,35 @@
     const icons = document.querySelectorAll('.icon-btn');
     const panels = document.querySelectorAll('.panel');
 
+    /* ICON HOVER TYPE EFFECT */
+    icons.forEach(icon => {
+      const labelEl = icon.querySelector('.icon-label');
+      const text = icon.dataset.label || '';
+      let interval;
+      icon.addEventListener('mouseenter', () => {
+        let idx = 0;
+        labelEl.textContent = '';
+        labelEl.classList.add('visible');
+        labelEl.classList.remove('blink');
+        clearInterval(interval);
+        interval = setInterval(() => {
+          if (idx < text.length) {
+            labelEl.textContent = text.slice(0, idx + 1);
+            idx++;
+          } else {
+            clearInterval(interval);
+            labelEl.textContent = text;
+            labelEl.classList.add('blink');
+          }
+        }, 80);
+      });
+      icon.addEventListener('mouseleave', () => {
+        clearInterval(interval);
+        labelEl.classList.remove('visible', 'blink');
+        labelEl.textContent = '';
+      });
+    });
+
     function loadPanelContent(id) {
       const panel = document.getElementById(id);
       if (panel.dataset.init) return;
