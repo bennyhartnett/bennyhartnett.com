@@ -108,17 +108,21 @@
       }
       if (id === 'gis') {
         const mapEl = panel.querySelector('#map');
-        const map = L.map(mapEl).setView([0, 0], 13);
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          maxZoom: 19,
-          attribution: '© OpenStreetMap'
-        }).addTo(map);
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(pos => {
-            const { latitude, longitude } = pos.coords;
-            map.setView([latitude, longitude], 13);
-            L.marker([latitude, longitude]).addTo(map);
-          });
+        if (window.L) {
+          const map = L.map(mapEl).setView([0, 0], 13);
+          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap'
+          }).addTo(map);
+          if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(pos => {
+              const { latitude, longitude } = pos.coords;
+              map.setView([latitude, longitude], 13);
+              L.marker([latitude, longitude]).addTo(map);
+            });
+          }
+        } else {
+          mapEl.textContent = 'Map failed to load';
         }
       }
       panel.dataset.init = 'true';
