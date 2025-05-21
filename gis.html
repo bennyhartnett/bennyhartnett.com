@@ -3,7 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dark OpenTopoMap</title>
+ 
+  <title>Dark OpenTopoMap | Benny Hartnett</title>
+  <meta name="description" content="Dark-themed OpenTopoMap viewer with geolocation by Benny Hartnett.">
+  <meta name="author" content="Benny Hartnett">
+  <link rel="canonical" href="https://bennyhartnett.com/gis.html">
+  <meta name="robots" content="index, follow">
+  <meta property="og:title" content="Dark OpenTopoMap">
+  <meta property="og:description" content="Dark-themed OpenTopoMap viewer with geolocation by Benny Hartnett.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://bennyhartnett.com/gis.html">
+ 
   <!-- Leaflet CSS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <style>
@@ -34,9 +44,10 @@
     // Initialize map without default attribution control
     var map = L.map('map', { attributionControl: false }).setView([20, 0], 2);
 
-    // Add custom attribution control styled like standard map credits
+ 
     L.control.attribution({ 
       prefix: '<img src="https://upload.wikimedia.org/wikipedia/en/thumb/a/a4/Flag_of_the_United_States.svg/24px-Flag_of_the_United_States.svg.png" alt="USA"> © Lion Federal',
+ 
       position: 'bottomright'
     }).addTo(map);
 

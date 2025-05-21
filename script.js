@@ -42,6 +42,11 @@
           navigator.clipboard.writeText(panel.querySelector('#emailInput').value);
         });
       }
+      if (id === 'github') {
+        panel.querySelector('#cloneCopyBtn').addEventListener('click', () => {
+          navigator.clipboard.writeText(panel.querySelector('#gitCloneInput').value);
+        });
+      }
       if (id === 'search') {
         const input = panel.querySelector('input');
         const resultsEl = panel.querySelector('.search-results');
@@ -125,7 +130,7 @@
 
     function showPanel(id) {
       loadPanelContent(id);
-      if (id === 'github') startRedirect('https://github.com/bennyhartnett', 'githubText', 'githubProgress', 'GitHub');
+      if (id === 'github') startRedirect('https://github.com/bennyhartnett/bennyhartnett.com', 'githubText', 'githubProgress', 'GitHub');
       if (id === 'linkedin') startRedirect('https://www.linkedin.com/in/dev-dc/', 'linkedinText', 'linkedinProgress', 'LinkedIn');
       iconGrid.classList.add('hidden');
       panels.forEach(p => p.classList.toggle('open', p.id === id));
