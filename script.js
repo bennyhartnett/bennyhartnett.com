@@ -121,6 +121,12 @@
             attribution: ''
           }).addTo(map);
           darkLayer.getContainer().style.filter = 'invert(0.85) brightness(0.6)';
+
+          // Attempt to locate the user's position and recenter the map
+          map.locate({ setView: true, maxZoom: 16 });
+          map.on('locationfound', function(e) {
+            L.marker(e.latlng).addTo(map);
+          });
         } else {
           mapEl.textContent = 'Map failed to load';
         }
