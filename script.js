@@ -2,20 +2,46 @@
     const iconGrid = document.getElementById('iconGrid');
     const icons = document.querySelectorAll('.icon-btn');
     const panels = document.querySelectorAll('.panel');
-    function showPanel(id) {
-      iconGrid.classList.add('hidden');
-      panels.forEach(p => p.classList.toggle('open', p.id === id));
-      if (id === 'panel4') startRedirect('https://github.com', 'githubText', 'githubProgress');
-      if (id === 'panel5') startRedirect('https://linkedin.com', 'linkedinText', 'linkedinProgress');
-    }
-    function hidePanels() { panels.forEach(p => p.classList.remove('open')); iconGrid.classList.remove('hidden'); }
-    icons.forEach(icon => icon.addEventListener('click', () => showPanel(icon.dataset.panel)));
-    document.querySelectorAll('.close-btn').forEach(btn => btn.addEventListener('click', hidePanels));
 
-    /* COPY EMAIL */
-    document.getElementById('copyBtn').addEventListener('click', () => {
-      navigator.clipboard.writeText(document.getElementById('emailInput').value);
-    });
+    function loadPanelContent(id) {
+      const panel = document.getElementById(id);
+      if (panel.dataset.loaded) return Promise.resolve();
+      return fetch(`${id}.html`)
+        .then(res => res.text())
+        .then(html => {
+          panel.innerHTML = html;
+          panel.dataset.loaded = 'true';
+          const closeBtn = panel.querySelector('.close-btn');
+          if (closeBtn) closeBtn.addEventListener('click', hidePanels);
+          if (id === 'panel1') {
+            panel.querySelector('#copyBtn').addEventListener('click', () => {
+              navigator.clipboard.writeText(panel.querySelector('#emailInput').value);
+            });
+          }
+          if (id === 'panel6') {
+            panel.querySelector('#searchBtn').addEventListener('click', () => {
+              const q = panel.querySelector('input').value;
+              window.open(`https://www.google.com/search?q=${encodeURIComponent(q)}`, '_blank');
+            });
+          }
+          if (id === 'panel4') startRedirect('https://github.com', 'githubText', 'githubProgress');
+          if (id === 'panel5') startRedirect('https://linkedin.com', 'linkedinText', 'linkedinProgress');
+        });
+    }
+
+    function showPanel(id) {
+      loadPanelContent(id).then(() => {
+        iconGrid.classList.add('hidden');
+        panels.forEach(p => p.classList.toggle('open', p.id === id));
+      });
+    }
+
+    function hidePanels() {
+      panels.forEach(p => p.classList.remove('open'));
+      iconGrid.classList.remove('hidden');
+    }
+
+    icons.forEach(icon => icon.addEventListener('click', () => showPanel(icon.dataset.panel)));
 
     /* REDIRECT COUNTDOWN WITH PROGRESS */
     function startRedirect(url, textId, progressId) {
