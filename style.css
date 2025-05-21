@@ -8,7 +8,18 @@
     #app { width: 90vw; max-width: 1200px; height: 90vh; position: relative; }
 
     /* ICON GRID */
-    #iconGrid { display: grid; grid-template-columns: repeat(2,1fr); grid-template-rows: repeat(3,1fr); gap:4rem 6rem; width:100%; height:100%; padding:4rem 6rem; transition:opacity .3s ease; }
+    #iconGrid {
+      display: grid;
+      grid-template-columns: repeat(2,1fr);
+      grid-template-rows: repeat(3,1fr);
+      gap: 4rem 6rem;
+      width: 100%;
+      height: 100%;
+      padding: 4rem 6rem;
+      transition: opacity .35s ease, transform .35s ease;
+      opacity: 1;
+      transform: scale(1);
+    }
     .icon-btn { cursor:pointer; display:flex; align-items:center; justify-content:center; color:#fff; transition:transform .25s; }
     .icon-btn i { font-size:4rem; transition:transform .25s; }
     .icon-btn:hover { transform: scale(1.2); }
@@ -45,4 +56,8 @@
       transition: width 1s linear;
     }
 
-    .hidden { display:none!important; }
+    .hidden {
+      opacity: 0 !important;
+      pointer-events: none !important;
+      transform: scale(0.95);
+    }
