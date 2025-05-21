@@ -28,10 +28,32 @@
       opacity: 1;
       transform: scale(1);
     }
-    .icon-btn { cursor:pointer; display:flex; align-items:center; justify-content:center; color:#fff; transition:transform .25s; }
+    .icon-btn {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      transition: transform .25s;
+      font-family: monospace;
+    }
     .icon-btn i { font-size:4rem; transition:transform .25s; }
     .icon-btn:hover { transform: scale(1.2); }
     .icon-btn.rocket i { transform: rotate(-45deg); }
+    .icon-label {
+      margin-left: .5rem;
+      white-space: nowrap;
+      display: none;
+    }
+    .icon-label.visible { display: inline-block; }
+    .icon-label.blink::after {
+      content: '_';
+      animation: blinkCursor 1s step-end infinite;
+    }
+    @keyframes blinkCursor {
+      0%, 50% { opacity: 1; }
+      50.01%, 100% { opacity: 0; }
+    }
 
     /* PANEL WITH BETTER TRANSITION */
     .panel {
