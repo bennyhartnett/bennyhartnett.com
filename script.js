@@ -127,7 +127,14 @@
             maxZoom: 17,
             attribution: ''
           }).addTo(map);
-          darkLayer.getContainer().style.filter = 'invert(0.85) brightness(0.6)';
+          // Apply the dark styling filter once the tiles have loaded so
+          // the layer container is available.
+          darkLayer.on('load', function() {
+            const container = darkLayer.getContainer();
+            if (container) {
+              container.style.filter = 'invert(0.85) brightness(0.6)';
+            }
+          });
 
           // Attempt to locate the user's position and recenter the map
           map.locate({ setView: true, maxZoom: 16 });
