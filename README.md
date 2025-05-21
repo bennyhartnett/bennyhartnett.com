@@ -11,3 +11,10 @@ This repository contains the source for Benny Hartnett's personal website. The m
 ## Development
 Open `index.html` in a modern browser or use a lightweight static server. The site uses Bootstrap and Remix Icon CDN links, so an internet connection is required for full styling. The main page now includes basic SEO metadata for better discoverability.
 
+## Features
+- Email panel with one-click copy
+- GIS panel that shows your location on an interactive map
+- Rocketship panel listing project ideas in an accordion
+- Search panel with dynamic results
+- GitHub and LinkedIn buttons that redirect after a short countdown
+
