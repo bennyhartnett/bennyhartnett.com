@@ -183,7 +183,11 @@
 
 /* Rounded scrollbars for panels */
 .panel::-webkit-scrollbar { width: 8px; height: 8px; }
-.panel::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); border-radius: 10px; }
+.panel::-webkit-scrollbar-track {
+  background: rgba(0,0,0,0.1);
+  border-radius: 10px;
+  margin-block: 8px; /* allow space from the rounded container edges */
+}
 .panel::-webkit-scrollbar-thumb { background: rgba(52,121,255,0.6); border-radius: 10px; }
 .panel::-webkit-scrollbar-thumb:hover { background: rgba(52,121,255,0.8); }
 .panel { scrollbar-width: thin; scrollbar-color: rgba(52,121,255,0.6) rgba(0,0,0,0.1); }
