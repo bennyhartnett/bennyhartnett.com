@@ -11,6 +11,8 @@ All site files live in the repository root:
 - `style.css` – Styles for layout and animations
 - `.vscode/` – Editor configuration
 - `LICENSE` – Project license
+- `searchData.js` – Records used by `search.html`
+- `sitemap.xml` – Sitemap for search engines
 
 ## Development
 Open `index.html` directly or start a local server to test cross‑browser links. Run:
@@ -24,11 +26,17 @@ and visit `http://localhost:8000` in your browser. The site uses Bootstrap and R
 ## Purpose
 This repository hosts Benny's personal site and small experiments. The goal is to keep things simple and easily hackable.
 
+## Features
+- Interactive icon grid on the main page
+- Dark-themed GIS map using Leaflet and OpenTopoMap
+- Search demo backed by `searchData.js`
+- Rocketship hardware ideas as an accordion list
+
 ## Contributing
 Pull requests are welcome! Fork the repository, create a feature branch, and open a PR describing your change. For larger proposals, open an issue first so we can discuss.
 
  
 ## License
-This project is released under the BENNY License. See [LICENSE](LICENSE) for details.
+This project is released under the MIT License. See [LICENSE](LICENSE) for details.
  
  
