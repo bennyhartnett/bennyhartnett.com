@@ -35,8 +35,10 @@
     var map = L.map('map', { attributionControl: false }).setView([20, 0], 2);
 
     // Add custom attribution control styled like standard map credits
+ 
     L.control.attribution({
       prefix: '<img src="https://upload.wikimedia.org/wikipedia/en/thumb/a/a4/Flag_of_the_United_States.svg/24px-Flag_of_the_United_States.svg.png" alt="USA"> &copy; Lion Federal',
+ 
       position: 'bottomright'
     }).addTo(map);
 
