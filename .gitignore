@@ -1,0 +1,17 @@
+# Ignore VSCode settings
+.vscode/
+
+# Node.js dependencies
+node_modules/
+
+# Mac/Linux system files
+.DS_Store
+
+# Temp files
+*.log
+*.tmp
+*.swp
+
+# Environment files
+.env
+
