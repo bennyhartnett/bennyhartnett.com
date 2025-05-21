@@ -13,6 +13,7 @@ All site files live in the repository root:
 - `LICENSE` – Project license
 - `searchData.js` – Records used by `search.html`
 - `sitemap.xml` – Sitemap for search engines
+- `newsfragments/` – Pending release notes
 
 ## Development
 Open `index.html` directly or start a local server to test cross‑browser links. Run:
@@ -24,6 +25,15 @@ python3 -m http.server
 and visit `http://localhost:8000` in your browser. The site uses Bootstrap and Remix Icon CDN links, so an internet connection is required for full styling. All pages include canonical links and Open Graph tags, and `robots.txt` plus `sitemap.xml` assist search engines. The landing page also defines Twitter card metadata for rich previews.
 
 The GitHub panel includes a copy button with a prefilled `git clone` command so you can quickly grab the site's source.
+
+## Editing Content
+Because the site is entirely static, editing pages is as simple as modifying the
+corresponding HTML, CSS or JavaScript file and reloading your browser. The icon
+grid on `index.html` links to each panel page. To add a new panel, create a new
+`*.html` file and update the grid markup accordingly.
+
+Short text files in the `newsfragments/` folder act as release notes for future
+site updates.
 
 ## Purpose
 This repository hosts Benny's personal site and small experiments. The goal is to keep things simple and easily hackable.
