@@ -5,35 +5,29 @@
 
     function loadPanelContent(id) {
       const panel = document.getElementById(id);
-      if (panel.dataset.loaded) return Promise.resolve();
-      return fetch(`${id}.html`)
-        .then(res => res.text())
-        .then(html => {
-          panel.innerHTML = html;
-          panel.dataset.loaded = 'true';
-          const closeBtn = panel.querySelector('.close-btn');
-          if (closeBtn) closeBtn.addEventListener('click', hidePanels);
-          if (id === 'email') {
-            panel.querySelector('#copyBtn').addEventListener('click', () => {
-              navigator.clipboard.writeText(panel.querySelector('#emailInput').value);
-            });
-          }
-          if (id === 'search') {
-            panel.querySelector('#searchBtn').addEventListener('click', () => {
-              const q = panel.querySelector('input').value;
-              window.open(`https://www.google.com/search?q=${encodeURIComponent(q)}`, '_blank');
-            });
-          }
-          if (id === 'github') startRedirect('https://github.com', 'githubText', 'githubProgress');
-          if (id === 'linkedin') startRedirect('https://linkedin.com', 'linkedinText', 'linkedinProgress');
+      if (panel.dataset.init) return;
+      const closeBtn = panel.querySelector('.close-btn');
+      if (closeBtn) closeBtn.addEventListener('click', hidePanels);
+      if (id === 'email') {
+        panel.querySelector('#copyBtn').addEventListener('click', () => {
+          navigator.clipboard.writeText(panel.querySelector('#emailInput').value);
         });
+      }
+      if (id === 'search') {
+        panel.querySelector('#searchBtn').addEventListener('click', () => {
+          const q = panel.querySelector('input').value;
+          window.open(`https://www.google.com/search?q=${encodeURIComponent(q)}`, '_blank');
+        });
+      }
+      panel.dataset.init = 'true';
     }
 
     function showPanel(id) {
-      loadPanelContent(id).then(() => {
-        iconGrid.classList.add('hidden');
-        panels.forEach(p => p.classList.toggle('open', p.id === id));
-      });
+      loadPanelContent(id);
+      if (id === 'github') startRedirect('https://github.com/bennyhartnett', 'githubText', 'githubProgress');
+      if (id === 'linkedin') startRedirect('https://www.linkedin.com/in/dev-dc/', 'linkedinText', 'linkedinProgress');
+      iconGrid.classList.add('hidden');
+      panels.forEach(p => p.classList.toggle('open', p.id === id));
     }
 
     function hidePanels() {

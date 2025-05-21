@@ -23,12 +23,38 @@
     </div>
 
     <!-- PANELS -->
-    <div class="panel" id="email"></div>
-    <div class="panel" id="chatbot"></div>
-    <div class="panel" id="rocketship"></div>
-    <div class="panel" id="github"></div>
-    <div class="panel" id="linkedin"></div>
-    <div class="panel" id="search"></div>
+    <div class="panel" id="email">
+      <header>Email <button class="close-btn" aria-label="Close">&times;</button></header>
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" id="emailInput" value="me@bennyhartnett.com" readonly>
+        <button class="btn btn-outline-secondary" id="copyBtn" type="button">Copy</button>
+      </div>
+    </div>
+    <div class="panel" id="chatbot">
+      <header>Chatbot <button class="close-btn" aria-label="Close">&times;</button></header>
+      <p>Interact with an AI assistant here… (placeholder content).</p>
+    </div>
+    <div class="panel" id="rocketship">
+      <header>Rocketship <button class="close-btn" aria-label="Close">&times;</button></header>
+      <p>Launch settings or mission control… (placeholder content).</p>
+    </div>
+    <div class="panel" id="github">
+      <header>GitHub <button class="close-btn" aria-label="Close">&times;</button></header>
+      <div class="progress-container"><div class="progress-bar" id="githubProgress"></div></div>
+      <p id="githubText">Redirecting to github.com/bennyhartnett in 3…</p>
+    </div>
+    <div class="panel" id="linkedin">
+      <header>LinkedIn <button class="close-btn" aria-label="Close">&times;</button></header>
+      <div class="progress-container"><div class="progress-bar" id="linkedinProgress"></div></div>
+      <p id="linkedinText">Redirecting to www.linkedin.com/in/dev-dc/ in 3…</p>
+    </div>
+    <div class="panel" id="search">
+      <header>Search <button class="close-btn" aria-label="Close">&times;</button></header>
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Search…">
+        <button class="btn btn-outline-secondary" type="button" id="searchBtn">Search</button>
+      </div>
+    </div>
   </div>
 
   <script src="script.js"></script>

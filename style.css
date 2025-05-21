@@ -2,13 +2,32 @@
     html, body { height: 100%; }
     body {
       font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background: radial-gradient(circle at 30% 30%, #2d73ff 0%, #3479ff 30%, #5d62ff 60%, #a04d9c 85%, #d64080 100%);
+      background: linear-gradient(-45deg, #2d73ff, #3479ff, #5d62ff, #a04d9c, #d64080);
+      background-size: 400% 400%;
+      animation: gradientMove 15s ease infinite;
       display: flex; align-items: center; justify-content: center;
+    }
+
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
     #app { width: 90vw; max-width: 1200px; height: 90vh; position: relative; }
 
     /* ICON GRID */
-    #iconGrid { display: grid; grid-template-columns: repeat(2,1fr); grid-template-rows: repeat(3,1fr); gap:4rem 6rem; width:100%; height:100%; padding:4rem 6rem; transition:opacity .3s ease; }
+    #iconGrid {
+      display: grid;
+      grid-template-columns: repeat(2,1fr);
+      grid-template-rows: repeat(3,1fr);
+      gap: 4rem 6rem;
+      width: 100%;
+      height: 100%;
+      padding: 4rem 6rem;
+      transition: opacity .35s ease, transform .35s ease;
+      opacity: 1;
+      transform: scale(1);
+    }
     .icon-btn { cursor:pointer; display:flex; align-items:center; justify-content:center; color:#fff; transition:transform .25s; }
     .icon-btn i { font-size:4rem; transition:transform .25s; }
     .icon-btn:hover { transform: scale(1.2); }
@@ -45,6 +64,7 @@
       transition: width 1s linear;
     }
 
+
 .hidden { display:none!important; }
 
 /* CARD LIST FOR ROCKETSHIP PANEL */
@@ -66,3 +86,10 @@
   transform: translateY(-4px);
   box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
+
+    .hidden {
+      opacity: 0 !important;
+      pointer-events: none !important;
+      transform: scale(0.95);
+    }
+
