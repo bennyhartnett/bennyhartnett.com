@@ -1,4 +1,4 @@
-const searchRecords = [
+window.searchRecords = [
   { title: 'Alpha Centauri Mission', description: 'Exploration of the nearest star system.' },
   { title: 'Binary Star Research', description: 'Studying the dynamics of binary stars.' },
   { title: 'Comet Tracking Program', description: 'Monitor comet trajectories and compositions.' },

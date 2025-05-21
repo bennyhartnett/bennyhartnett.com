@@ -62,22 +62,19 @@
               det.appendChild(p);
               resultsEl.appendChild(det);
               resultsEl.scrollTop = resultsEl.scrollHeight;
-            }, idx * 150);
+            }, idx * 100);
             timeouts.push(t);
           });
         };
 
         const renderResults = () => {
           const q = input.value.trim().toLowerCase();
-          if (!q) {
-            timeouts.forEach(t => clearTimeout(t));
-            resultsEl.innerHTML = '';
-            return;
-          }
-          const matches = searchRecords.filter(r =>
-            r.title.toLowerCase().includes(q) ||
-            r.description.toLowerCase().includes(q)
-          );
+          const matches = (q
+            ? searchRecords.filter(r =>
+                r.title.toLowerCase().includes(q) ||
+                r.description.toLowerCase().includes(q)
+              )
+            : searchRecords);
           addSequentially(matches);
         };
 
