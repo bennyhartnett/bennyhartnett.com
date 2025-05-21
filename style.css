@@ -127,12 +127,30 @@
   border: 1px solid #ddd;
   border-radius: 6px;
   padding: 0.5rem 0.75rem;
+  transition: background-color 0.3s, transform 0.3s;
 }
 
 .accordion summary {
   cursor: pointer;
   font-weight: 600;
   list-style: none;
+  display: flex;
+  align-items: center;
+}
+
+.accordion-icon {
+  margin-right: 0.5rem;
+  transition: transform 0.3s;
+  display: inline-block;
+}
+
+.accordion details:hover {
+  background: #e0e0e0;
+  transform: translateX(4px);
+}
+
+.accordion details:hover .accordion-icon {
+  transform: rotate(-10deg) scale(1.2);
 }
 
 .accordion p {
