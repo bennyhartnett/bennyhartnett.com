@@ -93,3 +93,27 @@
       transform: scale(0.95);
     }
 
+/* ACCORDION FOR ROCKETSHIP PANEL */
+.accordion {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.accordion details {
+  background: #f5f5f5;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 0.5rem 0.75rem;
+}
+
+.accordion summary {
+  cursor: pointer;
+  font-weight: 600;
+  list-style: none;
+}
+
+.accordion p {
+  margin-top: 0.5rem;
+}
+
