@@ -25,7 +25,9 @@
             });
           }
           if (id === 'github') startRedirect('https://github.com/bennyhartnett', 'githubText', 'githubProgress');
-          if (id === 'linkedin') startRedirect('https://linkedin.com', 'linkedinText', 'linkedinProgress');
+
+          if (id === 'linkedin') startRedirect('https://www.linkedin.com/in/dev-dc/', 'linkedinText', 'linkedinProgress');
+
         });
     }
 
