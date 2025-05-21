@@ -78,6 +78,7 @@
     // Hide modal when Find button is clicked
     document.getElementById('findBtn').addEventListener('click', function() {
       document.getElementById('searchModal').style.display = 'none';
+    });
 
     map.on('locationerror', function() {
       map.setView([20, 0], 2); // Fallback view if location fails
