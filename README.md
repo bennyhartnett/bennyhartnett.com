@@ -1,6 +1,6 @@
 # FederalInnovations
 
-This repository contains a simple web page demonstration using [three.js](https://threejs.org/) to render an animated wave background. The page includes a fixed navigation bar and responsive styling.
+This repository contains a small set of static web pages. The main page uses [three.js](https://threejs.org/) to render an animated wave background and includes a fixed navigation bar with responsive styling.
 
 ## Usage
 
@@ -10,7 +10,11 @@ Mouse movement influences the animation, causing waves to react in real time. Na
 
 ## Repository Layout
 
-- `index.html` – The main HTML file defining the page layout, styles, and wave background script.
+- `index.html` – Main landing page with the wave animation.
+- `home.html` – A simple home page with contact links.
+- `projects.html` – Placeholder for future project descriptions.
+- `gis.html` – Placeholder page for GIS related work.
+- `nuclear.html` – Placeholder page covering nuclear projects.
 - `README.md` – This file.
 
-Feel free to modify the HTML and CSS to fit your needs or extend the script for additional effects.
+Feel free to modify the HTML and CSS to fit your needs or extend the script for additional effects. Each page is intentionally minimal and can be expanded with your own content.
