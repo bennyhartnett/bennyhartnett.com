@@ -238,13 +238,12 @@
         .catch(() => {
           // Fallback content when running directly from the file system
           container.innerHTML = `\
-            <style>\
-              .link-list { list-style: none; padding: 0; display: flex; justify-content: center; gap: 1.5rem; }\
-              .link-list a { color: white; text-decoration: none; font-size: 1.25rem; font-family: 'Inter', sans-serif; }\
-            </style>\
-            <h1>Welcome to Benny Hartnett's Home Page</h1>\
-            <p>Connect with me:</p>\
-            <ul class="link-list">\
+              <style>\
+                .link-list { list-style: none; padding: 0; margin: 0; }\
+                .link-list li { margin: 0.5rem 0; }\
+                .link-list a { display: block; width: 100%; color: white; text-decoration: none; font-size: 1.5rem; font-family: 'Inter', sans-serif; padding: 0.5rem 0; }\
+              </style>\
+              <ul class="link-list">\
               <li><a href="https://www.linkedin.com/in/benny-hartnett" target="_blank">LinkedIn</a></li>\
               <li><a href="mailto:benny@example.com">Email</a></li>\
               <li><a href="projects.html">Projects</a></li>\
