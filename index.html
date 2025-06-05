@@ -214,13 +214,19 @@
   </nav>
 
   <div class="content">
-    <!-- Page-specific content goes here -->
+    <!-- Loaded content will appear here -->
   </div>
 
   <script>
     // Initialize background when loaded
     window.addEventListener('DOMContentLoaded', () => {
       window.initWaveBackground();
+      // Load home page content into the container
+      fetch('home.html')
+        .then(r => r.text())
+        .then(html => {
+          document.querySelector('.content').innerHTML = html;
+        });
     });
   </script>
 </body>
