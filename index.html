@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <script async src="https://ga.jspm.io/npm:es-module-shims@1.5.1/dist/es-module-shims.js" crossorigin="anonymous"></script>
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.165.0/build/three.module.js",
+      "three/addons/": "https://unpkg.com/three@0.165.0/examples/jsm/"
+    }
+  }
+  </script>
+  <style>
+    /* Import fonts */
+    @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@600&family=Inter:wght@400;600&display=swap');
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      overflow-x: hidden; /* allow vertical scrolling if needed */
+      overflow-y: auto;
+    }
+    /* Invisible nav bar with responsive behavior */
+    nav {
+      position: fixed; /* fixed so it remains visible */
+      top: 0;
+      left: 0;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      padding: 8px 12px;
+      background: rgba(0, 0, 0, 0); /* transparent */
+      z-index: 100; /* higher than canvas */
+    }
+    nav .title {
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-weight: 600; /* SemiBold */
+      text-transform: uppercase;
+      letter-spacing: -0.5px;
+      color: white;
+      font-size: 1.1em;
+      flex: 0 0 auto;
+      margin-right: 12px;
+    }
+    nav .menu {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      flex: 1 1 auto;
+      justify-content: flex-end;
+    }
+    nav .menu a {
+      font-family: 'Inter', sans-serif;
+      font-weight: 600; /* SemiBold */
+      color: white;
+      text-decoration: none;
+      font-size: 0.95em;
+      white-space: nowrap;
+      padding: 3px 5px;
+    }
+    /* Stack title and menu vertically on narrower screens */
+    @media (max-width: 700px) {
+      nav {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      nav .title {
+        margin-bottom: 6px;
+      }
+      nav .menu {
+        justify-content: flex-start;
+        width: 100%;
+      }
+    }
+    /* Ensure nav items shrink on very small screens */
+    @media (max-width: 500px) {
+      nav .menu a {
+        font-size: 0.8em;
+        padding: 2px 4px;
+      }
+    }
+    #wave-canvas {
+      display: block;
+      width: 100%;
+      height: 100vh; /* full viewport height */
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
+    /* Provide spacing at top so content isn't covered by nav */
+    .content {
+      margin-top: 56px; /* approx nav height */
+    }
+  </style>
+  <script type="module">
+    import * as THREE from "three";
+    import { SimplexNoise } from "three/addons/math/SimplexNoise.js";
+
+    window.initWaveBackground = function() {
+      const scene = new THREE.Scene();
+      scene.background = new THREE.Color('black');
+
+      const camera = new THREE.PerspectiveCamera(30, window.innerWidth / window.innerHeight);
+      camera.position.set(4, 2, 8);
+      camera.lookAt(scene.position);
+
+      const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+      renderer.setPixelRatio(window.devicePixelRatio);
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.domElement.id = 'wave-canvas';
+      document.body.appendChild(renderer.domElement);
+      renderer.setAnimationLoop(animationLoop);
+
+      window.addEventListener("resize", () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      });
+
+      const planeWidth = 12;
+      const planeHeight = 8;
+      const geometry = new THREE.PlaneGeometry(planeWidth, planeHeight, 150, 100);
+      const pos = geometry.getAttribute('position');
+      const basePositions = new Float32Array(pos.array);
+      const simplex = new SimplexNoise();
+
+      const material = new THREE.PointsMaterial({ size: 0.02, color: 'blue' });
+      const waves = new THREE.Points(geometry, material);
+      waves.rotation.x = -Math.PI / 2;
+      scene.add(waves);
+
+      const colorBlue = new THREE.Color('blue');
+      const colorPurple = new THREE.Color('purple');
+      const colorGold = new THREE.Color('#FFD700');
+
+      let mouseX = 0;
+      let mouseY = 0;
+
+      window.addEventListener('mousemove', (event) => {
+        mouseX = (event.clientX / window.innerWidth - 0.5) * 2;
+        mouseY = (event.clientY / window.innerHeight - 0.5) * 2;
+      });
+
+      function animationLoop(time) {
+        const impactX = mouseX * (planeWidth / 2);
+        const impactY = mouseY * (planeHeight / 2);
+
+        for (let i = 0; i < pos.count; i++) {
+          const baseX = basePositions[i * 3];
+          const baseY = basePositions[i * 3 + 1];
+          const edgeOffsetX = 0.1 * simplex.noise3d(baseX, baseY, time / 5000);
+          const edgeOffsetY = 0.1 * simplex.noise3d(baseX, baseY, time / 6000);
+          const x = baseX + edgeOffsetX;
+          const y = baseY + edgeOffsetY;
+
+          const nx = x / 2 + mouseX * 2;
+          const ny = y / 2 + mouseY * 2;
+          const nz = time / 4000;
+
+          const dx = x - impactX;
+          const dy = y - impactY;
+          const dist2 = dx * dx + dy * dy;
+          const radiationImpact = 2.0 / (dist2 + 0.5);
+
+          const noiseVal = simplex.noise3d(nx, ny, nz);
+          const z = 0.5 * noiseVal * radiationImpact;
+
+          pos.setX(i, x);
+          pos.setY(i, y);
+          pos.setZ(i, z);
+        }
+        pos.needsUpdate = true;
+
+        const cycleDuration = 9000;
+        const t = time % cycleDuration;
+        const segment = cycleDuration / 3;
+        if (t < segment) {
+          const lerpT = t / segment;
+          material.color.copy(colorBlue).lerp(colorPurple, lerpT);
+        } else if (t < 2 * segment) {
+          const lerpT = (t - segment) / segment;
+          material.color.copy(colorPurple).lerp(colorGold, lerpT);
+        } else {
+          const lerpT = (t - 2 * segment) / segment;
+          material.color.copy(colorGold).lerp(colorBlue, lerpT);
+        }
+
+        waves.rotation.z = mouseX * 0.3;
+        camera.position.y = 2 + mouseY * 1;
+        camera.lookAt(scene.position);
+
+        renderer.render(scene, camera);
+      }
+    };
+  </script>
+</head>
+<body>
+  <!-- Invisible navigation bar -->
+  <nav>
+    <div class="title">Benny Hartnett</div>
+    <div class="menu">
+      <a href="#">Our Mission</a>
+      <a href="#">Defense</a>
+      <a href="#">Intelligence</a>
+      <a href="#">Civilian</a>
+      <a href="#"></a><!--  needed for spacing leave it -->
+      <!-- Add more links as needed -->
+    </div>
+  </nav>
+
+  <div class="content">
+    <!-- Page-specific content goes here -->
+  </div>
+
+  <script>
+    // Initialize background when loaded
+    window.addEventListener('DOMContentLoaded', () => {
+      window.initWaveBackground();
+    });
+  </script>
+</body>
+</html>
