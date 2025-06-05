@@ -95,6 +95,13 @@
     /* Provide spacing at top so content isn't covered by nav */
     .content {
       margin-top: 56px; /* approx nav height */
+      padding: 1rem;
+      font-family: Arial, sans-serif;
+      color: white;
+    }
+
+    .content a {
+      color: #00bfff;
     }
   </style>
   <script type="module">
@@ -221,11 +228,25 @@
     // Initialize background when loaded
     window.addEventListener('DOMContentLoaded', () => {
       window.initWaveBackground();
-      // Load home page content into the container
+      const container = document.querySelector('.content');
+      // Attempt to load home.html from disk
       fetch('home.html')
         .then(r => r.text())
         .then(html => {
-          document.querySelector('.content').innerHTML = html;
+          container.innerHTML = html;
+        })
+        .catch(() => {
+          // Fallback content when running directly from the file system
+          container.innerHTML = `\
+            <h1>Welcome to Benny Hartnett's Home Page</h1>\
+            <p>Connect with me:</p>\
+            <ul>\
+              <li><a href="https://www.linkedin.com/in/benny-hartnett" target="_blank">LinkedIn</a></li>\
+              <li><a href="mailto:benny@example.com">Email</a></li>\
+              <li><a href="projects.html">Projects</a></li>\
+              <li><a href="gis.html">GIS</a></li>\
+              <li><a href="nuclear.html">Nuclear</a></li>\
+            </ul>`;
         });
     });
   </script>
