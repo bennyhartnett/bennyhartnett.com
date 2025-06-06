@@ -18,6 +18,8 @@ BennyHartnett.com is a minimalist static website built with plain HTML and a lit
 - `government-contracting.html` &ndash; Placeholder for government contracting information.
 - `generative-ai.html` &ndash; Placeholder about generative AI efforts.
 - `privacy.html` &ndash; Static privacy policy.
+- `sitemap.xml` &ndash; Search engine sitemap listing all pages.
+- `robots.txt` &ndash; Crawling directives that reference the sitemap.
 - `.vscode/launch.json` &ndash; VS Code configuration for launching `index.html`.
 - `README.md` &ndash; Project documentation.
 
