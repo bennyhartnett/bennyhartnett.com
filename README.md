@@ -19,3 +19,8 @@ Mouse movement influences the animation, causing waves to react in real time. Na
 - `README.md` – This file.
 
 Feel free to modify the HTML and CSS to fit your needs or extend the script for additional effects. Each page is intentionally minimal and can be expanded with your own content.
+
+## Contact
+
+- GitHub: [benyhartnett](https://github.com/benyhartnett)
+- LinkedIn: [dev-dc](https://www.linkedin.com/in/dev-dc)
