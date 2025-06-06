@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://federalinnovations.example.com/</loc>
+    <lastmod>2025-06-05</lastmod>
+  </url>
+  <url>
+    <loc>https://federalinnovations.example.com/home.html</loc>
+    <lastmod>2025-06-05</lastmod>
+  </url>
+  <url>
+    <loc>https://federalinnovations.example.com/gis.html</loc>
+    <lastmod>2025-06-05</lastmod>
+  </url>
+  <url>
+    <loc>https://federalinnovations.example.com/nuclear.html</loc>
+    <lastmod>2025-06-05</lastmod>
+  </url>
+  <url>
+    <loc>https://federalinnovations.example.com/government-contracting.html</loc>
+    <lastmod>2025-06-05</lastmod>
+  </url>
+  <url>
+    <loc>https://federalinnovations.example.com/generative-ai.html</loc>
+    <lastmod>2025-06-05</lastmod>
+  </url>
+  <url>
+    <loc>https://federalinnovations.example.com/privacy.html</loc>
+    <lastmod>2025-06-05</lastmod>
+  </url>
+</urlset>
