@@ -31,6 +31,8 @@ python3 -m http.server
 
 Navigate to `http://localhost:8000` to view the pages. Because scripts are pulled from CDNs, no installation is required.
 
+You can also view a live deployment at [bennyhartnett.com](https://bennyhartnett.com).
+
 ## Customization
 
 - **Navigation links** &ndash; Edit the `<nav>` element in `index.html` to change the menu structure or link targets.
