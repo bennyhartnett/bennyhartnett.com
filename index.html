@@ -11,6 +11,8 @@
   <meta name="keywords" content="Benny Hartnett, generative AI, GIS, government contracting, nuclear" />
   <meta name="author" content="Benny Hartnett" />
   <link rel="canonical" href="https://bennyhartnett.com/" />
+  <link rel="sitemap" type="application/xml" href="sitemap.xml" />
+  <meta name="robots" content="index,follow" />
   <meta property="og:title" content="Benny Hartnett" />
   <meta property="og:description"
     content="Explore projects and articles on generative AI, GIS, government contracting, and nuclear technology." />
@@ -365,6 +367,32 @@
       const container = document.querySelector('.content');
       const toggleBtn = document.querySelector('.menu-toggle');
       const menu = document.querySelector('nav .menu');
+      const metaMap = {
+        'home.html': {
+          title: 'Benny Hartnett - Home',
+          desc: 'Overview of Benny Hartnett\'s projects including generative AI, GIS, nuclear work and contracting.'
+        },
+        'generative-ai.html': {
+          title: 'Generative AI - Benny Hartnett',
+          desc: 'Articles and resources on generative AI from Benny Hartnett.'
+        },
+        'gis.html': {
+          title: 'GIS Projects - Benny Hartnett',
+          desc: 'Examples of geographic information systems work by Benny Hartnett.'
+        },
+        'government-contracting.html': {
+          title: 'Government Contracting - Benny Hartnett',
+          desc: 'Insights and resources about government contracting.'
+        },
+        'nuclear.html': {
+          title: 'Nuclear Research - Benny Hartnett',
+          desc: 'Summaries of Benny Hartnett\'s nuclear-related projects.'
+        },
+        'privacy.html': {
+          title: 'Privacy Policy - Benny Hartnett',
+          desc: 'Privacy practices for bennyhartnett.com.'
+        }
+      };
       if (toggleBtn && menu) {
         toggleBtn.addEventListener('click', () => {
           menu.classList.toggle('open');
@@ -383,6 +411,18 @@
           .then(r => r.text())
           .then(html => {
             container.innerHTML = html;
+            const meta = metaMap[url] || metaMap['home.html'];
+            document.title = meta.title;
+            const descTag = document.querySelector('meta[name="description"]');
+            if (descTag) descTag.setAttribute('content', meta.desc);
+            const canonical = document.querySelector('link[rel="canonical"]');
+            if (canonical) canonical.setAttribute('href', 'https://bennyhartnett.com/' + (url === 'home.html' ? '' : url));
+            const ogTitle = document.querySelector('meta[property="og:title"]');
+            if (ogTitle) ogTitle.setAttribute('content', meta.title);
+            const ogDesc = document.querySelector('meta[property="og:description"]');
+            if (ogDesc) ogDesc.setAttribute('content', meta.desc);
+            const ogUrl = document.querySelector('meta[property="og:url"]');
+            if (ogUrl) ogUrl.setAttribute('content', 'https://bennyhartnett.com/' + (url === 'home.html' ? '' : url));
             if (push) {
               history.pushState({ url }, '', '#' + url);
             }
