@@ -123,6 +123,15 @@
       display: none;
     }
 
+    .search-icon {
+      position: absolute;
+      right: 1rem;
+      top: 0.5rem;
+      color: white;
+      text-decoration: none;
+      font-size: 1.2em;
+    }
+
     /* Stack title and menu vertically on narrower screens */
     @media (max-width: 700px) {
       nav {
@@ -325,8 +334,7 @@
     <div class="nav-header">
       <div class="title">Benny Hartnett</div>
      
-      <a href="#"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></a>
-      <a href="#"><i   aria-hidden="true"></i></a>
+      <a href="#" class="search-icon"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></a>
       <button class="menu-toggle" aria-label="Toggle navigation">
         <i class="fa-solid fa-bars"></i>
       </button>
