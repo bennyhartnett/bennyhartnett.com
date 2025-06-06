@@ -61,6 +61,10 @@
       font-size: 0.95em;
       white-space: nowrap;
       padding: 4px 8px;
+      transition: color 0.3s ease;
+    }
+    nav .menu a:hover {
+      color: #FFD700;
     }
     /* Stack title and menu vertically on narrower screens */
     @media (max-width: 700px) {
@@ -103,11 +107,21 @@
 
     .content a {
       color: #00bfff;
+      transition: color 0.3s ease;
+    }
+
+    .content a:hover {
+      color: #FFD700;
     }
 
     footer a {
       color: white;
       text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    footer a:hover {
+      color: #FFD700;
     }
 
     footer {
@@ -259,7 +273,8 @@
                 .home-container { min-height: calc(100vh - 56px - 2rem); display: flex; justify-content: center; align-items: center; padding: 1rem; }\
                 .link-list { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: center; }\
                 .link-list li { margin: 0; }\
-                .link-list a { display: block; color: white; text-decoration: none; font-size: 1.5rem; font-family: 'Inter', sans-serif; padding: 0.75rem; }\
+                .link-list a { display: block; color: white; text-decoration: none; font-size: 1.5rem; font-family: 'Inter', sans-serif; padding: 0.75rem; transition: color 0.3s ease; }\
+                .link-list a:hover { color: #FFD700; }\
               </style>\
               <div class="home-container">\
               <ul class="link-list">\
