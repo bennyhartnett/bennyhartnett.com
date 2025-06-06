@@ -73,6 +73,7 @@
       font-size: 1.1em;
       flex: 0 0 auto;
       margin-right: 12px;
+      cursor: pointer;
     }
 
     nav .nav-header {
@@ -371,9 +372,8 @@
 
         const title = document.querySelector('nav .title');
         if (title) {
-          title.addEventListener('click', (e) => {
-            e.preventDefault();
-            loadContent('home.html');
+          title.addEventListener('click', () => {
+            location.reload();
           });
         }
 
