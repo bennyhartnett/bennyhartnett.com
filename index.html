@@ -81,14 +81,14 @@
       width: 100%;
     }
 
-      nav .search-bar {
-        display: block;
-        padding: 4px 8px;
-        font-size: 0.95em;
-        border-radius: 4px;
-        border: 1px solid #ccc;
-        margin-left: auto;
-      }
+    nav .search-bar {
+      display: block;
+      padding: 4px 8px;
+      font-size: 0.95em;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      margin-left: auto;
+    }
 
     nav .menu {
       display: flex;
@@ -343,13 +343,14 @@
   <nav>
     <div class="nav-header">
       <div class="title">Benny Hartnett</div>
-     
+
       <a href="#" class="search-icon"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></a>
+      <a href="#"><i aria-hidden="true"></i></a>
       <button class="menu-toggle" aria-label="Toggle navigation">
         <i class="fa-solid fa-bars"></i>
       </button>
     </div>
-    
+
   </nav>
 
   <div class="content">
@@ -361,21 +362,21 @@
     window.addEventListener('DOMContentLoaded', () => {
       window.initWaveBackground();
       const container = document.querySelector('.content');
-        const toggleBtn = document.querySelector('.menu-toggle');
-        const menu = document.querySelector('nav .menu');
-        if (toggleBtn && menu) {
-          toggleBtn.addEventListener('click', () => {
-            menu.classList.toggle('open');
-          });
-        }
+      const toggleBtn = document.querySelector('.menu-toggle');
+      const menu = document.querySelector('nav .menu');
+      if (toggleBtn && menu) {
+        toggleBtn.addEventListener('click', () => {
+          menu.classList.toggle('open');
+        });
+      }
 
-        const title = document.querySelector('nav .title');
-        if (title) {
-          title.addEventListener('click', (e) => {
-            e.preventDefault();
-            loadContent('home.html');
-          });
-        }
+      const title = document.querySelector('nav .title');
+      if (title) {
+        title.addEventListener('click', (e) => {
+          e.preventDefault();
+          loadContent('home.html');
+        });
+      }
 
       function loadContent(url, push = true) {
         fetch(url)
