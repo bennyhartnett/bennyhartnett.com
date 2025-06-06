@@ -99,6 +99,15 @@
       color: #FFD700;
     }
 
+    .menu-toggle {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.2em;
+      cursor: pointer;
+      display: none;
+    }
+
     /* Stack title and menu vertically on narrower screens */
     @media (max-width: 700px) {
       nav {
@@ -110,9 +119,20 @@
         margin-bottom: 6px;
       }
 
+      .menu-toggle {
+        display: block;
+        margin-left: auto;
+      }
+
       nav .menu {
-        justify-content: flex-start;
+        display: none;
+        flex-direction: column;
         width: 100%;
+        margin-top: 8px;
+      }
+
+      nav .menu.open {
+        display: flex;
       }
     }
 
@@ -283,11 +303,18 @@
   <!-- Invisible navigation bar -->
   <nav>
     <div class="title">Benny Hartnett</div>
+    <button class="menu-toggle" aria-label="Toggle navigation">
+      <i class="fa-solid fa-bars"></i>
+    </button>
     <div class="menu">
-
+      <a href="home.html">Home</a>
+      <a href="generative-ai.html">Generative AI</a>
+      <a href="gis.html">GIS</a>
+      <a href="government-contracting.html">Gov Contracting</a>
+      <a href="nuclear.html">Nuclear</a>
+      <a href="privacy.html">Privacy</a>
       <a href="#"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></a>
-
-      <a< /a>
+      <a href="#"><i class="fa-solid fa-right-to-bracket" aria-hidden="true"></i></a>
     </div>
   </nav>
 
@@ -300,6 +327,13 @@
     window.addEventListener('DOMContentLoaded', () => {
       window.initWaveBackground();
       const container = document.querySelector('.content');
+      const toggleBtn = document.querySelector('.menu-toggle');
+      const menu = document.querySelector('nav .menu');
+      if (toggleBtn && menu) {
+        toggleBtn.addEventListener('click', () => {
+          menu.classList.toggle('open');
+        });
+      }
 
       function loadContent(url, push = true) {
         fetch(url)

@@ -5,7 +5,7 @@ This project contains a collection of static HTML pages that serve as a lightwei
 ## Features
 
 - **Animated wave background** &ndash; `index.html` draws a 3D wave using three.js and `SimplexNoise`. The waves react to mouse movement and smoothly cycle through colors.
-- **Responsive navigation** &ndash; Links in the navigation bar collapse on narrow screens and can be customized for any destination.
+- **Responsive navigation** &ndash; On small screens, a hamburger button toggles the navigation links for easier mobile browsing.
 - **Modular pages** &ndash; Additional pages (`home.html`, `gis.html`, `nuclear.html`, `government-contracting.html`, `generative-ai.html`, and `privacy.html`) are simple templates that can be edited or replaced.
 - **Zero build system** &ndash; All dependencies load from CDNs so you only need a basic HTTP server for testing.
 
