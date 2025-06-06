@@ -19,3 +19,17 @@ Mouse movement influences the animation, causing waves to react in real time. Na
 - `README.md` – This file.
 
 Feel free to modify the HTML and CSS to fit your needs or extend the script for additional effects. Each page is intentionally minimal and can be expanded with your own content.
+
+## Local Development
+
+You can quickly preview the site by running a simple HTTP server from the repository root:
+
+```bash
+python3 -m http.server
+```
+
+Then open `http://localhost:8000` in your browser. Any changes to the files will be reflected immediately when you refresh the page.
+
+### Customizing the Wave Animation
+
+The wave effect on the landing page is controlled by the JavaScript code in `index.html`. Adjust the vertex shader parameters to tweak amplitude or frequency. You can also change the color scheme using CSS variables defined in the `<style>` section.
