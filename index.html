@@ -107,6 +107,7 @@
 
     footer a {
       color: white;
+      text-decoration: none;
     }
 
     footer {
@@ -275,6 +276,11 @@
   </script>
   <footer>
     <a href="privacy.html">Privacy Policy</a>
+    <span id="copyright"></span>
   </footer>
+  <script>
+    document.getElementById('copyright').textContent =
+      '\u00A9 ' + new Date().getFullYear() + ' Benny Hartnett';
+  </script>
 </body>
 </html>

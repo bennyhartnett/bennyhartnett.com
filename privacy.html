@@ -10,11 +10,27 @@
       color: white;
       padding: 1rem;
     }
-    a { color: white; }
+    a {
+      color: white;
+      text-decoration: none;
+    }
   </style>
 </head>
 <body>
   <h1>Privacy Policy</h1>
-  <p>This is a placeholder privacy policy page.</p>
+  <p>Last updated: <span id="policy-year"></span></p>
+  <p>
+    This website does not use cookies or track visitors. Any information you
+    choose to send via email will be used solely to reply to your request and
+    is never shared with third parties.
+  </p>
+  <p>
+    If you have any questions about this policy, please contact us by email.
+  </p>
+  <a href="index.html">Back to Home</a>
+
+  <script>
+    document.getElementById('policy-year').textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
