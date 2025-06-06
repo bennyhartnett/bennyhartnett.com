@@ -32,6 +32,10 @@
     /* Import fonts */
     @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@600&family=Inter:wght@400;600&display=swap');
 
+    :root {
+      --wave-color: blue;
+    }
+
     html,
     body {
       width: 100%;
@@ -111,7 +115,7 @@
     }
 
     nav .menu a:hover {
-      color: #FFD700;
+      color: var(--wave-color);
     }
 
     .menu-toggle {
@@ -192,7 +196,7 @@
     }
 
     .content a:hover {
-      color: #FFD700;
+      color: var(--wave-color);
     }
 
     footer a {
@@ -202,7 +206,7 @@
     }
 
     footer a:hover {
-      color: #FFD700;
+      color: var(--wave-color);
     }
 
     footer {
@@ -252,6 +256,9 @@
       const waves = new THREE.Points(geometry, material);
       waves.rotation.x = -Math.PI / 2;
       scene.add(waves);
+      document.documentElement.style.setProperty(
+        '--wave-color', '#' + material.color.getHexString()
+      );
 
       const colorBlue = new THREE.Color('blue');
       const colorPurple = new THREE.Color('purple');
@@ -308,6 +315,9 @@
           const lerpT = (t - 2 * segment) / segment;
           material.color.copy(colorGold).lerp(colorBlue, lerpT);
         }
+        document.documentElement.style.setProperty(
+          '--wave-color', '#' + material.color.getHexString()
+        );
 
         waves.rotation.z = mouseX * 0.3;
         camera.position.y = 2 + mouseY * 1;
@@ -376,7 +386,7 @@
                   .link-list { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: center; }\
                   .link-list li { margin: 0; }\
                   .link-list a { display: block; color: white; text-decoration: none; font-size: 1.5rem; font-family: 'Inter', sans-serif; padding: 0.75rem; transition: color 0.3s ease; }\
-                  .link-list a:hover { color: #FFD700; }\
+                  .link-list a:hover { color: var(--wave-color); }\
                 </style>\
                 <div class="home-container">\
                 <ul class="link-list">\
@@ -398,7 +408,7 @@
                   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
                   body { font-family: 'Inter', sans-serif; color: white; padding: 1rem; }
                   a { color: white; transition: color 0.3s ease; }
-                  a:hover { color: #FFD700; }
+                  a:hover { color: var(--wave-color); }
                 </style>
                 <h1>GIS</h1>
                 <p>This page will highlight my GIS work.</p>
@@ -409,7 +419,7 @@
                   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
                   body { font-family: 'Inter', sans-serif; color: white; padding: 1rem; }
                   a { color: white; text-decoration: none; transition: color 0.3s ease; }
-                  a:hover { color: #FFD700; }
+                  a:hover { color: var(--wave-color); }
                 </style>
                 <h1>Privacy Policy</h1>
                 <p>Last updated: ${new Date().getFullYear()}</p>
