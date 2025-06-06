@@ -3,6 +3,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+ 
+  <title>Federal Innovations - Benny Hartnett</title>
+  <meta name="description" content="Insights and projects spanning generative AI, GIS, government contracting, and nuclear research." />
+  <meta name="keywords" content="Benny Hartnett, generative AI, GIS, government contracting, nuclear" />
+  <meta name="author" content="Benny Hartnett" />
+  <link rel="canonical" href="https://federalinnovations.example.com/" />
+  <meta property="og:title" content="Federal Innovations - Benny Hartnett" />
+  <meta property="og:description" content="Explore projects and articles on generative AI, GIS, government contracting, and nuclear technology." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://federalinnovations.example.com/" />
+ 
   <script async src="https://ga.jspm.io/npm:es-module-shims@1.5.1/dist/es-module-shims.js" crossorigin="anonymous"></script>
   <script type="importmap">
   {
@@ -12,6 +23,7 @@
     }
   }
   </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
   <style>
     /* Import fonts */
     @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@600&family=Inter:wght@400;600&display=swap');
@@ -62,6 +74,9 @@
       white-space: nowrap;
       padding: 4px 8px;
       transition: color 0.3s ease;
+    }
+    nav .menu a i {
+      font-size: 1.1em;
     }
     nav .menu a:hover {
       color: #FFD700;
@@ -248,6 +263,8 @@
       <a href="government-contracting.html">Gov Contracting</a>
       <a href="nuclear.html">Nuclear</a>
       <a href="privacy.html">Privacy</a>
+      <a href="#"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></a>
+      <a href="#"><i class="fa-solid fa-right-to-bracket" aria-hidden="true"></i></a>
     </div>
   </nav>
 
@@ -260,36 +277,62 @@
     window.addEventListener('DOMContentLoaded', () => {
       window.initWaveBackground();
       const container = document.querySelector('.content');
-      // Attempt to load home.html from disk
-      fetch('home.html')
-        .then(r => r.text())
-        .then(html => {
-          container.innerHTML = html;
-        })
-        .catch(() => {
-          // Fallback content when running directly from the file system
-          container.innerHTML = `\
-              <style>\
-                .home-container { min-height: calc(100vh - 56px - 2rem); display: flex; justify-content: center; align-items: center; padding: 1rem; }\
-                .link-list { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: center; }\
-                .link-list li { margin: 0; }\
-                .link-list a { display: block; color: white; text-decoration: none; font-size: 1.5rem; font-family: 'Inter', sans-serif; padding: 0.75rem; transition: color 0.3s ease; }\
-                .link-list a:hover { color: #FFD700; }\
-              </style>\
-              <div class="home-container">\
-              <ul class="link-list">\
-              <li><a href="mailto:benny@example.com">Email</a></li>\
-              <li><a href="https://www.linkedin.com/in/dev-dc" target="_blank">LinkedIn</a></li>\
-              <li><a href="https://github.com/benyhartnett" target="_blank">GitHub</a></li>\
-              <li><a href="generative-ai.html">Generative AI</a></li>\
-              
-              
-              <li><a href="government-contracting.html">Government Contracting</a></li>\
-              
-              <li><a href="nuclear.html">Nuclear</a></li>\
-            </ul>\
-            </div>`;
-        });
+
+      function loadContent(url, push = true) {
+        fetch(url)
+          .then(r => r.text())
+          .then(html => {
+            container.innerHTML = html;
+            if (push) {
+              history.pushState({ url }, '', '#' + url);
+            }
+          })
+          .catch(() => {
+            if (url === 'home.html') {
+              container.innerHTML = `\
+                <style>\
+                  .home-container { min-height: calc(100vh - 56px - 2rem); display: flex; justify-content: center; align-items: center; padding: 1rem; }\
+                  .link-list { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: center; }\
+                  .link-list li { margin: 0; }\
+                  .link-list a { display: block; color: white; text-decoration: none; font-size: 1.5rem; font-family: 'Inter', sans-serif; padding: 0.75rem; transition: color 0.3s ease; }\
+                  .link-list a:hover { color: #FFD700; }\
+                </style>\
+                <div class="home-container">\
+                <ul class="link-list">\
+                <li><a href="mailto:benny@example.com">Email</a></li>\
+                  <li><a href="https://www.lionpro.ai/" target="_blank" rel="noopener">Generative AI</a></li>\
+                <li><a href="gis.html">GIS</a></li>\
+                <li><a href="https://github.com/benyhartnett" target="_blank" rel="noopener">GitHub</a></li>\
+                  <li><a href="https://lionfederal.com" target="_blank" rel="noopener">Government Contracting</a></li>\
+                <li><a href="https://www.linkedin.com/in/dev-dc" target="_blank" rel="noopener">LinkedIn</a></li>\
+                  <li><a href="https://bennyhartnett.com/experiments.html" target="_blank" rel="noopener">Nuclear</a></li>\
+              </ul>\
+              </div>`;
+            } else {
+              container.innerHTML = '<p style="color:white">Page could not be loaded.</p>';
+            }
+          });
+      }
+
+      document.body.addEventListener('click', (e) => {
+        const link = e.target.closest('a');
+        if (!link) return;
+        const href = link.getAttribute('href');
+        if (href && href.endsWith('.html') && !href.startsWith('http')) {
+          e.preventDefault();
+          loadContent(href);
+        }
+      });
+
+      window.addEventListener('popstate', (e) => {
+        const state = e.state;
+        if (state && state.url) {
+          loadContent(state.url, false);
+        }
+      });
+
+      const initial = location.hash.substring(1) || 'home.html';
+      loadContent(initial, false);
     });
   </script>
   <footer>
