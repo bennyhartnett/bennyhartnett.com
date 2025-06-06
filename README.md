@@ -47,7 +47,7 @@ The pages load the following libraries from public CDNs:
 
 ## Contact
 
-- GitHub: [benyhartnett](https://github.com/benyhartnett)
+- GitHub: [bennyhartnett](https://github.com/bennyhartnett)
 - LinkedIn: [dev-dc](https://www.linkedin.com/in/dev-dc)
 - Email: [benny@example.com](mailto:benny@example.com)
 
