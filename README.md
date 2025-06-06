@@ -16,6 +16,7 @@ Mouse movement influences the animation, causing waves to react in real time. Na
 - `nuclear.html` – Placeholder page covering nuclear projects.
 - `government-contracting.html` – Placeholder page for Government Contracting.
 - `generative-ai.html` – Placeholder page discussing generative AI.
+- `privacy.html` – Basic privacy policy information.
 - `README.md` – This file.
 
 Feel free to modify the HTML and CSS to fit your needs or extend the script for additional effects. Each page is intentionally minimal and can be expanded with your own content.
