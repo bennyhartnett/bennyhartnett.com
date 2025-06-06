@@ -1,42 +1,60 @@
 # FederalInnovations
 
-This repository contains a small set of static web pages. The main page uses [three.js](https://threejs.org/) to render an animated wave background and includes a fixed navigation bar with responsive styling.
+This project contains a collection of static HTML pages that serve as a lightweight personal and professional site. The landing page relies on [three.js](https://threejs.org/) to render a dynamic wave animation in the background. All files can be opened directly in a browser with no build step required.
 
-## Usage
+## Features
 
-Simply open `index.html` in a modern web browser. The page fetches the required modules from a CDN, so no build or installation steps are necessary.
+- **Animated wave background** &ndash; `index.html` draws a 3D wave using three.js and `SimplexNoise`. The waves react to mouse movement and smoothly cycle through colors.
+- **Responsive navigation** &ndash; Links in the navigation bar collapse on narrow screens and can be customized for any destination.
+- **Modular pages** &ndash; Additional pages (`home.html`, `gis.html`, `nuclear.html`, `government-contracting.html`, `generative-ai.html`, and `privacy.html`) are simple templates that can be edited or replaced.
+- **Zero build system** &ndash; All dependencies load from CDNs so you only need a basic HTTP server for testing.
 
-Mouse movement influences the animation, causing waves to react in real time. Navigation links are placeholders that can be updated for your specific content.
+## File Overview
 
-## Repository Layout
+- `index.html` &ndash; Entry point that loads `home.html` via `fetch` and initializes the wave canvas.
+- `home.html` &ndash; Landing page with quick links such as email, GitHub, and LinkedIn.
+- `gis.html` &ndash; Placeholder for geographic information systems work.
+- `nuclear.html` &ndash; Placeholder summarizing nuclear projects.
+- `government-contracting.html` &ndash; Placeholder for government contracting information.
+- `generative-ai.html` &ndash; Placeholder about generative AI efforts.
+- `privacy.html` &ndash; Static privacy policy.
+- `.vscode/launch.json` &ndash; VS Code configuration for launching `index.html`.
+- `README.md` &ndash; Project documentation.
 
-- `index.html` – Main landing page with the wave animation.
-- `home.html` – A simple home page with contact links.
-- `gis.html` – Placeholder page for GIS related work.
-- `nuclear.html` – Placeholder page covering nuclear projects.
-- `government-contracting.html` – Placeholder page for Government Contracting.
-- `generative-ai.html` – Placeholder page discussing generative AI.
-- `privacy.html` – Basic privacy policy information.
-- `README.md` – This file.
+## Running the Site
 
-Feel free to modify the HTML and CSS to fit your needs or extend the script for additional effects. Each page is intentionally minimal and can be expanded with your own content.
-
-## Contact
-
-- GitHub: [benyhartnett](https://github.com/benyhartnett)
-- LinkedIn: [dev-dc](https://www.linkedin.com/in/dev-dc)
-
-## Local Development
-
-You can quickly preview the site by running a simple HTTP server from the repository root:
+Open `index.html` in your browser or launch a local server from the repository root:
 
 ```bash
 python3 -m http.server
 ```
 
-Then open `http://localhost:8000` in your browser. Any changes to the files will be reflected immediately when you refresh the page.
+Navigate to `http://localhost:8000` to view the pages. Because scripts are pulled from CDNs, no installation is required.
 
-### Customizing the Wave Animation
+## Customization
 
-The wave effect on the landing page is controlled by the JavaScript code in `index.html`. Adjust the vertex shader parameters to tweak amplitude or frequency. You can also change the color scheme using CSS variables defined in the `<style>` section.
+- **Navigation links** &ndash; Edit the `<nav>` element in `index.html` to change the menu structure or link targets.
+- **Wave parameters** &ndash; Adjust `planeWidth`, `planeHeight`, color values, and the animation loop inside `index.html` to modify the effect.
+- **Fonts and styles** &ndash; Each page includes inline CSS that imports Google Fonts. Update these `<style>` blocks to match your branding.
+- **Adding content** &ndash; Replace the placeholder text in the individual HTML files or add new pages and update the navigation accordingly.
 
+## Dependencies
+
+The pages load the following libraries from public CDNs:
+
+- `three` and `SimplexNoise` for 3D rendering and noise calculations.
+- `es-module-shims` to support modern module syntax across browsers.
+
+## Contact
+
+- GitHub: [benyhartnett](https://github.com/benyhartnett)
+- LinkedIn: [dev-dc](https://www.linkedin.com/in/dev-dc)
+- Email: [benny@example.com](mailto:benny@example.com)
+
+## License
+
+This repository currently does not include a license file. If you plan to distribute or reuse the code, consider adding an appropriate license.
+
+---
+
+Feel free to modify any file to suit your needs. The project is intentionally minimal so you can extend it in any direction.
