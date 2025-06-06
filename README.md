@@ -1,13 +1,13 @@
 # FederalInnovations
 
-This project contains a collection of static HTML pages that serve as a lightweight personal and professional site. The landing page relies on [three.js](https://threejs.org/) to render a dynamic wave animation in the background. All files can be opened directly in a browser with no build step required.
+Federal Innovations is a minimalist static website built with plain HTML and a little JavaScript. The landing page uses [three.js](https://threejs.org/) to draw an animated wave background. Because every library loads from public CDNs, you can open the files directly in a browser with no build step required.
 
 ## Features
 
 - **Animated wave background** &ndash; `index.html` draws a 3D wave using three.js and `SimplexNoise`. The waves react to mouse movement and smoothly cycle through colors.
 - **Responsive navigation** &ndash; Links in the navigation bar collapse on narrow screens and can be customized for any destination.
 - **Modular pages** &ndash; Additional pages (`home.html`, `gis.html`, `nuclear.html`, `government-contracting.html`, `generative-ai.html`, and `privacy.html`) are simple templates that can be edited or replaced.
-- **Zero build system** &ndash; All dependencies load from CDNs so you only need a basic HTTP server for testing.
+- **No build step** &ndash; All dependencies load from CDNs, so you can open the files directly or serve them with a simple HTTP server.
 
 ## File Overview
 
@@ -21,15 +21,15 @@ This project contains a collection of static HTML pages that serve as a lightwei
 - `.vscode/launch.json` &ndash; VS Code configuration for launching `index.html`.
 - `README.md` &ndash; Project documentation.
 
-## Running the Site
+## Quick Start
 
-Open `index.html` in your browser or launch a local server from the repository root:
+Clone or download the repository and start a simple HTTP server from the project root:
 
 ```bash
 python3 -m http.server
 ```
 
-Navigate to `http://localhost:8000` to view the pages. Because scripts are pulled from CDNs, no installation is required.
+Open `http://localhost:8000` in your browser. Because all scripts load from CDNs, no installation is required.
 
 ## Customization
 
@@ -37,6 +37,10 @@ Navigate to `http://localhost:8000` to view the pages. Because scripts are pulle
 - **Wave parameters** &ndash; Adjust `planeWidth`, `planeHeight`, color values, and the animation loop inside `index.html` to modify the effect.
 - **Fonts and styles** &ndash; Each page includes inline CSS that imports Google Fonts. Update these `<style>` blocks to match your branding.
 - **Adding content** &ndash; Replace the placeholder text in the individual HTML files or add new pages and update the navigation accordingly.
+
+## Deployment
+
+The site is entirely static, so you can host it anywhere that serves HTML files. Copy the repository contents to your preferred platform&mdash;GitHub Pages, an S3 bucket, Netlify, and so on&mdash;and it will work without additional configuration.
 
 ## Dependencies
 
