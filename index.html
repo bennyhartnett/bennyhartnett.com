@@ -71,6 +71,21 @@
       margin-right: 12px;
     }
 
+    nav .nav-header {
+      display: flex;
+      align-items: center;
+      width: 100%;
+    }
+
+    nav .search-bar {
+      display: none;
+      padding: 4px 8px;
+      font-size: 0.95em;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      margin-left: auto;
+    }
+
     nav .menu {
       display: flex;
       flex-wrap: wrap;
@@ -116,7 +131,12 @@
       }
 
       nav .title {
-        margin-bottom: 6px;
+        margin-bottom: 0;
+      }
+
+      nav .search-bar {
+        display: block;
+        margin-left: 12px;
       }
 
       .menu-toggle {
@@ -302,10 +322,13 @@
 <body>
   <!-- Invisible navigation bar -->
   <nav>
-    <div class="title">Benny Hartnett</div>
-    <button class="menu-toggle" aria-label="Toggle navigation">
-      <i class="fa-solid fa-bars"></i>
-    </button>
+    <div class="nav-header">
+      <div class="title">Benny Hartnett</div>
+      <input class="search-bar" type="search" placeholder="Search" />
+      <button class="menu-toggle" aria-label="Toggle navigation">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </div>
     <div class="menu">
       <a href="home.html">Home</a>
       <a href="generative-ai.html">Generative AI</a>
