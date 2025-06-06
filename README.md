@@ -1,6 +1,6 @@
 # FederalInnovations
 
-This repository contains a small set of static web pages. The main page uses [three.js](https://threejs.org/) to render an animated wave background and includes a fixed navigation bar with responsive styling.
+This repository contains a small set of static web pages. The main page uses [three.js](https://threejs.org/) to render an animated wave background and includes a fixed navigation bar with responsive styling. The other pages are loaded dynamically so the background and navigation remain visible.
 
 ## Usage
 
@@ -34,6 +34,10 @@ python3 -m http.server
 ```
 
 Then open `http://localhost:8000` in your browser. Any changes to the files will be reflected immediately when you refresh the page.
+
+### Navigating Pages
+
+`index.html` acts as a master page that loads the content of the other HTML files into a single view. Directly opening any of the subpages will redirect back to the master page with the correct section loaded.
 
 ### Customizing the Wave Animation
 
