@@ -242,12 +242,12 @@
   <nav>
     <div class="title">Benny Hartnett</div>
     <div class="menu">
-      <a href="#">Civilian</a>
-      <a href="#">Defense</a>
-      <a href="#">Intelligence</a>
-      <a href="#">Our Mission</a>
-      <a href="#"></a><!--  needed for spacing leave it -->
-      <!-- Add more links as needed -->
+      <a href="home.html">Home</a>
+      <a href="generative-ai.html">Generative AI</a>
+      <a href="gis.html">GIS</a>
+      <a href="government-contracting.html">Gov Contracting</a>
+      <a href="nuclear.html">Nuclear</a>
+      <a href="privacy.html">Privacy</a>
     </div>
   </nav>
 
@@ -256,38 +256,65 @@
   </div>
 
   <script>
-    // Initialize background when loaded
     window.addEventListener('DOMContentLoaded', () => {
       window.initWaveBackground();
       const container = document.querySelector('.content');
-      // Attempt to load home.html from disk
-      fetch('home.html')
-        .then(r => r.text())
-        .then(html => {
-          container.innerHTML = html;
-        })
-        .catch(() => {
-          // Fallback content when running directly from the file system
-          container.innerHTML = `\
-              <style>\
-                .home-container { min-height: calc(100vh - 56px - 2rem); display: flex; justify-content: center; align-items: center; padding: 1rem; }\
-                .link-list { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: center; }\
-                .link-list li { margin: 0; }\
-                .link-list a { display: block; color: white; text-decoration: none; font-size: 1.5rem; font-family: 'Inter', sans-serif; padding: 0.75rem; transition: color 0.3s ease; }\
-                .link-list a:hover { color: #FFD700; }\
-              </style>\
-              <div class="home-container">\
-              <ul class="link-list">\
-              <li><a href="mailto:benny@example.com">Email</a></li>\
-                <li><a href="https://www.lionpro.ai/" target="_blank" rel="noopener">Generative AI</a></li>\
-              <li><a href="gis.html">GIS</a></li>\
-              <li><a href="https://github.com/benyhartnett" target="_blank">GitHub</a></li>\
-                <li><a href="https://lionfederal.com" target="_blank" rel="noopener">Government Contracting</a></li>\
-              <li><a href="https://www.linkedin.com/in/dev-dc" target="_blank">LinkedIn</a></li>\
-                <li><a href="https://bennyhartnett.com/experiments.html" target="_blank" rel="noopener">Nuclear</a></li>\
-            </ul>\
-            </div>`;
-        });
+
+      function loadContent(url, push = true) {
+        fetch(url)
+          .then(r => r.text())
+          .then(html => {
+            container.innerHTML = html;
+            if (push) {
+              history.pushState({ url }, '', '#' + url);
+            }
+          })
+          .catch(() => {
+            if (url === 'home.html') {
+              container.innerHTML = `\
+                <style>\
+                  .home-container { min-height: calc(100vh - 56px - 2rem); display: flex; justify-content: center; align-items: center; padding: 1rem; }\
+                  .link-list { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: center; }\
+                  .link-list li { margin: 0; }\
+                  .link-list a { display: block; color: white; text-decoration: none; font-size: 1.5rem; font-family: 'Inter', sans-serif; padding: 0.75rem; transition: color 0.3s ease; }\
+                  .link-list a:hover { color: #FFD700; }\
+                </style>\
+                <div class="home-container">\
+                <ul class="link-list">\
+                <li><a href="mailto:benny@example.com">Email</a></li>\
+                  <li><a href="https://www.lionpro.ai/" target="_blank" rel="noopener">Generative AI</a></li>\
+                <li><a href="gis.html">GIS</a></li>\
+                <li><a href="https://github.com/benyhartnett" target="_blank">GitHub</a></li>\
+                  <li><a href="https://lionfederal.com" target="_blank" rel="noopener">Government Contracting</a></li>\
+                <li><a href="https://www.linkedin.com/in/dev-dc" target="_blank">LinkedIn</a></li>\
+                  <li><a href="https://bennyhartnett.com/experiments.html" target="_blank" rel="noopener">Nuclear</a></li>\
+              </ul>\
+              </div>`;
+            } else {
+              container.innerHTML = '<p style="color:white">Page could not be loaded.</p>';
+            }
+          });
+      }
+
+      document.body.addEventListener('click', (e) => {
+        const link = e.target.closest('a');
+        if (!link) return;
+        const href = link.getAttribute('href');
+        if (href && href.endsWith('.html') && !href.startsWith('http')) {
+          e.preventDefault();
+          loadContent(href);
+        }
+      });
+
+      window.addEventListener('popstate', (e) => {
+        const state = e.state;
+        if (state && state.url) {
+          loadContent(state.url, false);
+        }
+      });
+
+      const initial = location.hash.substring(1) || 'home.html';
+      loadContent(initial, false);
     });
   </script>
   <footer>
