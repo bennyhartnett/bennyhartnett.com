@@ -334,6 +334,29 @@
                   <li><a href="https://bennyhartnett.com/experiments.html" target="_blank" rel="noopener">Nuclear</a></li>\
               </ul>\
               </div>`;
+            } else if (url === 'gis.html') {
+              container.innerHTML = `
+                <style>
+                  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+                  body { font-family: 'Inter', sans-serif; color: white; padding: 1rem; }
+                  a { color: white; transition: color 0.3s ease; }
+                  a:hover { color: #FFD700; }
+                </style>
+                <h1>GIS</h1>
+                <p>This page will highlight my GIS work.</p>
+                <p>Additional details about mapping projects will appear here.</p>`;
+            } else if (url === 'privacy.html') {
+              container.innerHTML = `
+                <style>
+                  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+                  body { font-family: 'Inter', sans-serif; color: white; padding: 1rem; }
+                  a { color: white; text-decoration: none; transition: color 0.3s ease; }
+                  a:hover { color: #FFD700; }
+                </style>
+                <h1>Privacy Policy</h1>
+                <p>Last updated: ${new Date().getFullYear()}</p>
+                <p>This site does not collect personal information.</p>
+                <p>Contact benny@example.com for questions.</p>`;
             } else {
               container.innerHTML = '<p style="color:white">Page could not be loaded.</p>';
             }
