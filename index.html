@@ -95,7 +95,7 @@
     /* Provide spacing at top so content isn't covered by nav */
     .content {
       margin-top: 56px; /* approx nav height */
-      padding: 1rem;
+      padding: 0 1rem; /* only horizontal padding to avoid extra height */
       font-family: 'Inter', sans-serif;
       color: white;
     }
@@ -256,7 +256,7 @@
           // Fallback content when running directly from the file system
           container.innerHTML = `\
               <style>\
-                .home-container { min-height: calc(100vh - 56px); display: flex; justify-content: center; align-items: center; padding: 1rem; }\
+                .home-container { min-height: calc(100vh - 56px - 2rem); display: flex; justify-content: center; align-items: center; padding: 1rem; }\
                 .link-list { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: center; }\
                 .link-list li { margin: 0; }\
                 .link-list a { display: block; color: white; text-decoration: none; font-size: 1.5rem; font-family: 'Inter', sans-serif; padding: 0.75rem; }\
