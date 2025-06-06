@@ -1,6 +1,6 @@
 # bennyhartnett.com
 
-Federal Innovations is a minimalist static website built with plain HTML and a little JavaScript. The landing page uses [three.js](https://threejs.org/) to draw an animated wave background. Because every library loads from public CDNs, you can open the files directly in a browser with no build step required.
+BennyHartnett.com is a minimalist static website built with plain HTML and a little JavaScript. The landing page uses [three.js](https://threejs.org/) to draw an animated wave background. Because every library loads from public CDNs, you can open the files directly in a browser with no build step required.
 
 ## Features
 
