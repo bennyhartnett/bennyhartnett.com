@@ -1,4 +1,4 @@
-# FederalInnovations
+# bennyhartnett.com
 
 This project contains a collection of static HTML pages that serve as a lightweight personal and professional site. The landing page relies on [three.js](https://threejs.org/) to render a dynamic wave animation in the background. All files can be opened directly in a browser with no build step required.
 
@@ -49,7 +49,7 @@ The pages load the following libraries from public CDNs:
 
 - GitHub: [bennyhartnett](https://github.com/bennyhartnett)
 - LinkedIn: [dev-dc](https://www.linkedin.com/in/dev-dc)
-- Email: [benny@example.com](mailto:benny@example.com)
+- Email: [me@bennyhartnett.com](mailto:me@bennyhartnett.com)
 
 ## License
 
