@@ -44,6 +44,14 @@ Open `http://localhost:8000` in your browser. Because all scripts load from CDNs
 
 The site is entirely static, so you can host it anywhere that serves HTML files. Copy the repository contents to your preferred platform&mdash;GitHub Pages, an S3 bucket, Netlify, and so on&mdash;and it will work without additional configuration.
 
+### GitHub Pages
+
+1. Ensure the `gh-pages.yml` workflow is enabled in the repository's **Actions** tab.
+2. In the repository **Settings** &rarr; **Pages**, choose **GitHub Actions** as the source.
+3. Push changes to the `main` branch and the workflow will automatically deploy the site.
+
+The repository includes a `.nojekyll` file so Pages serves the files as-is.
+
 ## Dependencies
 
 The pages load the following libraries from public CDNs:

@@ -10,7 +10,7 @@
     content="Insights and projects spanning generative AI, GIS, government contracting, and nuclear research." />
   <meta name="keywords" content="Benny Hartnett, generative AI, GIS, government contracting, nuclear" />
   <meta name="author" content="Benny Hartnett" />
-  <link rel="canonical" href="https://bennyhartnett.com/" />
+  <link rel="canonical" href="" id="canonical-link" />
   <link rel="sitemap" type="application/xml" href="sitemap.xml" />
   <link rel="icon" type="image/svg+xml" href="https://unpkg.com/heroicons@2.0.18/24/solid/code-bracket.svg" />
   <meta name="robots" content="index,follow" />
@@ -18,7 +18,7 @@
   <meta property="og:description"
     content="Explore projects and articles on generative AI, GIS, government contracting, and nuclear technology." />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://bennyhartnett.com/" />
+  <meta property="og:url" content="" id="og-url" />
 
   <script async src="https://ga.jspm.io/npm:es-module-shims@1.5.1/dist/es-module-shims.js"
     crossorigin="anonymous"></script>
@@ -376,6 +376,11 @@
       const container = document.querySelector('.content');
       const toggleBtn = document.querySelector('.menu-toggle');
       const menu = document.querySelector('nav .menu');
+      const canonicalTag = document.getElementById('canonical-link');
+      const ogUrlTag = document.getElementById('og-url');
+      const baseUrl = window.location.origin + window.location.pathname.replace(/[^\/]*$/, '');
+      if (canonicalTag) canonicalTag.setAttribute('href', baseUrl);
+      if (ogUrlTag) ogUrlTag.setAttribute('content', baseUrl);
       const metaMap = {
         'home.html': {
           title: 'Benny Hartnett - Home',
@@ -400,7 +405,7 @@
         },
         'privacy.html': {
           title: 'Privacy Policy - Benny Hartnett',
-          desc: 'Privacy practices for bennyhartnett.com.'
+          desc: 'Privacy practices for this site.'
         }
       };
       if (toggleBtn && menu) {
@@ -426,13 +431,14 @@
             const descTag = document.querySelector('meta[name="description"]');
             if (descTag) descTag.setAttribute('content', meta.desc);
             const canonical = document.querySelector('link[rel="canonical"]');
-            if (canonical) canonical.setAttribute('href', 'https://bennyhartnett.com/' + (url === 'home.html' ? '' : url));
+            const ogUrl = document.querySelector('meta[property="og:url"]');
+            const fullUrl = baseUrl + (url === 'home.html' ? '' : url);
+            if (canonical) canonical.setAttribute('href', fullUrl);
             const ogTitle = document.querySelector('meta[property="og:title"]');
             if (ogTitle) ogTitle.setAttribute('content', meta.title);
             const ogDesc = document.querySelector('meta[property="og:description"]');
             if (ogDesc) ogDesc.setAttribute('content', meta.desc);
-            const ogUrl = document.querySelector('meta[property="og:url"]');
-            if (ogUrl) ogUrl.setAttribute('content', 'https://bennyhartnett.com/' + (url === 'home.html' ? '' : url));
+            if (ogUrl) ogUrl.setAttribute('content', fullUrl);
             if (push) {
               history.pushState({ url }, '', '#' + url);
             }
