@@ -523,6 +523,7 @@
       });
 
       const initial = location.hash.substring(1) || 'home.html';
+      history.replaceState({ url: initial }, '', '#' + initial);
       loadContent(initial, false);
     });
   </script>
