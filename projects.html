@@ -42,7 +42,42 @@
 <h1>Projects</h1>
 <p>This page lists various projects and ideas explored on this site.</p>
 
-<table id="projects-table" style="width:100%; border-collapse: collapse; color: white;">
+<h2>Concepts</h2>
+<table id="concepts-table" style="width:100%; border-collapse: collapse; color: white; margin-bottom: 2rem;">
+  <thead>
+    <tr>
+      <th>Year</th>
+      <th>Type</th>
+      <th>Project Name</th>
+      <th>Description</th>
+      <th>Technologies</th>
+      <th>Categories</th>
+      <th>Customer</th>
+      <th>Company</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
+<h2>Active Projects</h2>
+<table id="active-table" style="width:100%; border-collapse: collapse; color: white; margin-bottom: 2rem;">
+  <thead>
+    <tr>
+      <th>Year</th>
+      <th>Type</th>
+      <th>Project Name</th>
+      <th>Description</th>
+      <th>Technologies</th>
+      <th>Categories</th>
+      <th>Customer</th>
+      <th>Company</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
+<h2>Past Work</h2>
+<table id="past-table" style="width:100%; border-collapse: collapse; color: white;">
   <thead>
     <tr>
       <th>Year</th>
@@ -62,7 +97,10 @@
 fetch('projects.json')
   .then(r => r.json())
   .then(items => {
-    const tbody = document.querySelector('#projects-table tbody');
+    const conceptTbody = document.querySelector('#concepts-table tbody');
+    const activeTbody = document.querySelector('#active-table tbody');
+    const pastTbody = document.querySelector('#past-table tbody');
+
     items.forEach(item => {
       const tr = document.createElement('tr');
       tr.innerHTML = `
@@ -75,7 +113,14 @@ fetch('projects.json')
         <td>${item.customer}</td>
         <td>${item.company}</td>
       `;
-      tbody.appendChild(tr);
+
+      if (item.status === 'Concept') {
+        conceptTbody.appendChild(tr);
+      } else if (item.status === 'Active') {
+        activeTbody.appendChild(tr);
+      } else {
+        pastTbody.appendChild(tr);
+      }
     });
   })
   .catch(() => {
