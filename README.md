@@ -14,7 +14,7 @@ BennyHartnett.com is a minimalist static website built with plain HTML and a lit
 - `index.html` &ndash; Entry point that loads `home.html` via `fetch` and initializes the wave canvas.
 - `home.html` &ndash; Landing page with quick links such as email, GitHub, and LinkedIn.
 - `gis.html` &ndash; Placeholder for geographic information systems work.
-- `nuclear.html` &ndash; Placeholder summarizing nuclear projects.
+- `nuclear.html` &ndash; Placeholder summarizing nuclear concepts.
 - `government-contracting.html` &ndash; Placeholder for government contracting information.
 - `generative-ai.html` &ndash; Placeholder about generative AI efforts.
 - `privacy.html` &ndash; Static privacy policy.

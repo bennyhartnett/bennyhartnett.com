@@ -13,6 +13,57 @@
   a:hover {
     color: var(--wave-color);
   }
+  table, th, td {
+    border: 1px solid white;
+  }
+  th, td {
+    padding: 0.5rem;
+    text-align: left;
+  }
 </style>
 <h1>Concepts</h1>
-<p>This page will outline various concepts and ideas explored on this site.</p>
+<p>This page lists various concepts and ideas explored on this site.</p>
+
+<table id="concepts-table" style="width:100%; border-collapse: collapse; color: white;">
+  <thead>
+    <tr>
+      <th>Year</th>
+      <th>Type</th>
+      <th>Concept Name</th>
+      <th>Description</th>
+      <th>Technologies</th>
+      <th>Categories</th>
+      <th>Customer</th>
+      <th>Company</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
+<script>
+fetch('concepts.json')
+  .then(r => r.json())
+  .then(items => {
+    const tbody = document.querySelector('#concepts-table tbody');
+    items.forEach(item => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${item.year}</td>
+        <td>${item.type}</td>
+        <td>${item.name}</td>
+        <td>${item.description}</td>
+        <td>${item.technologies.join(', ')}</td>
+        <td>${item.categories.join(', ')}</td>
+        <td>${item.customer}</td>
+        <td>${item.company}</td>
+      `;
+      tbody.appendChild(tr);
+    });
+  })
+  .catch(() => {
+    const body = document.querySelector('body');
+    const p = document.createElement('p');
+    p.textContent = 'Failed to load concepts.';
+    body.appendChild(p);
+  });
+</script>
