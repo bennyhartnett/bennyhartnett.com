@@ -42,7 +42,7 @@
     html,
     body {
       width: 100%;
-      height: 100%;
+      min-height: 100%;
       margin: 0;
       overflow-x: hidden;
       /* allow vertical scrolling if needed */
@@ -205,10 +205,11 @@
       width: 100%;
       height: 100vh;
       /* full viewport height */
-      position: absolute;
+      position: fixed;
       top: 0;
       left: 0;
       z-index: -1;
+      pointer-events: none;
     }
 
     /* Provide spacing at top so content isn't covered by nav */
