@@ -34,6 +34,25 @@
       transition: color 0.3s ease;
     }
 
+  /* Dark mode scrollbar */
+  ::-webkit-scrollbar {
+    width: 12px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #111;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #444;
+    border-radius: 6px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #444 #111;
+  }
+
   @media (max-width: 600px) {
     .link-list {
       flex-direction: column;
@@ -61,6 +80,6 @@
       <li><a href="https://lionfederal.com" target="_blank" rel="noopener">Government Contracting</a></li>
   <li><a href="https://www.linkedin.com/in/dev-dc" target="_blank" rel="noopener">LinkedIn</a></li>
   <li><a href="https://bennyhartnett.com/experiments.html" target="_blank" rel="noopener">Nuclear</a></li>
-  <li><a href="concepts.html">Concepts</a></li>
+  <li><a href="projects.html">Projects</a></li>
 </ul>
   </div>
