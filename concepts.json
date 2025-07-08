@@ -1,0 +1,22 @@
+[
+  {
+    "year": 2017,
+    "type": "Academic",
+    "name": "Frisbee Game in Unity",
+    "description": "A 3D frisbee game built using Unity targeting Oculus headsets, including 3D modeling in Trimble SketchUp",
+    "technologies": ["C#", "Oculus", "Trimble SketchUp"],
+    "categories": ["3D modeling", "game design", "programming"],
+    "customer": "Virginia TSA",
+    "company": "Virginia TSA"
+  },
+  {
+    "year": 2021,
+    "type": "Professional",
+    "name": "IoT-based Wildfire Detection System",
+    "description": "Designed and developed an IoT system for real-time wildfire detection and prevention, deployed on fire towers in remote high-risk areas; integrated AWS S3 image storage, Google Maps geolocation; durable waterproof enclosure",
+    "technologies": ["Raspberry Pi", "FLIR thermal camera", "GSM chip", "servo motors", "AWS S3", "Google Maps"],
+    "categories": ["IoT", "system design", "embedded programming", "agile"],
+    "customer": "Perimeter",
+    "company": "Perimeter"
+  }
+]
