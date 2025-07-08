@@ -426,6 +426,17 @@
           .then(r => r.text())
           .then(html => {
             container.innerHTML = html;
+            // Execute any inline scripts from the loaded fragment
+            container.querySelectorAll('script').forEach(oldScript => {
+              const newScript = document.createElement('script');
+              if (oldScript.type) newScript.type = oldScript.type;
+              if (oldScript.src) {
+                newScript.src = oldScript.src;
+              } else {
+                newScript.textContent = oldScript.textContent;
+              }
+              oldScript.replaceWith(newScript);
+            });
             const meta = metaMap[url] || metaMap['home.html'];
             document.title = meta.title;
             const descTag = document.querySelector('meta[name="description"]');
