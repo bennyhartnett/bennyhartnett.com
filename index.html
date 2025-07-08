@@ -31,6 +31,8 @@
   }
   </script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@5/dark.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
   <style>
     /* Import fonts */
     @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@600&family=Inter:wght@400;600&display=swap');
@@ -533,7 +535,16 @@
           e.preventDefault();
           const email = emailLink.dataset.email;
           navigator.clipboard.writeText(email).then(() => {
-            alert('Email copied to clipboard');
+            Swal.fire({
+              text: 'Email copied to clipboard',
+              icon: 'success',
+              toast: true,
+              position: 'top-end',
+              showConfirmButton: false,
+              timer: 2000,
+              background: '#333',
+              color: '#fff'
+            });
           });
           return;
         }
