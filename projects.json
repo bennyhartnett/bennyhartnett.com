@@ -5,8 +5,16 @@
     "status": "Past",
     "name": "Frisbee Game in Unity",
     "description": "A 3D frisbee game built using Unity targeting Oculus headsets, including 3D modeling in Trimble SketchUp",
-    "technologies": ["C#", "Oculus", "Trimble SketchUp"],
-    "categories": ["3D modeling", "game design", "programming"],
+    "technologies": [
+      "C#",
+      "Oculus",
+      "Trimble SketchUp"
+    ],
+    "categories": [
+      "3D modeling",
+      "game design",
+      "programming"
+    ],
     "customer": "Virginia TSA",
     "company": "Virginia TSA"
   },
@@ -16,21 +24,22 @@
     "status": "Active",
     "name": "IoT-based Wildfire Detection System",
     "description": "Designed and developed an IoT system for real-time wildfire detection and prevention, deployed on fire towers in remote high-risk areas; integrated AWS S3 image storage, Google Maps geolocation; durable waterproof enclosure",
-    "technologies": ["Raspberry Pi", "FLIR thermal camera", "GSM chip", "servo motors", "AWS S3", "Google Maps"],
-    "categories": ["IoT", "system design", "embedded programming", "agile"],
+    "technologies": [
+      "Raspberry Pi",
+      "FLIR thermal camera",
+      "GSM chip",
+      "servo motors",
+      "AWS S3",
+      "Google Maps"
+    ],
+    "categories": [
+      "IoT",
+      "system design",
+      "embedded programming",
+      "agile"
+    ],
     "customer": "Perimeter",
     "company": "Perimeter"
-  },
-  {
-    "year": 2024,
-    "type": "Personal",
-    "status": "Concept",
-    "name": "AI-powered Drone Swarm",
-    "description": "Exploring collaborative drone control using generative AI for real-time path planning and obstacle avoidance",
-    "technologies": ["Python", "ROS", "OpenAI Gym"],
-    "categories": ["UAV", "AI", "simulation"],
-    "customer": "N/A",
-    "company": "Personal Project"
   },
   {
     "year": 2025,
@@ -38,9 +47,75 @@
     "status": "Past",
     "name": "Uranium Enrichment Calculator",
     "description": "Built for Centrus Energy to compute feed quantity, SWU requirements, and optimum tails assay from input assays",
-    "technologies": ["HTML", "JavaScript"],
-    "categories": ["nuclear", "web development"],
+    "technologies": [
+      "HTML",
+      "JavaScript"
+    ],
+    "categories": [
+      "nuclear",
+      "web development"
+    ],
     "customer": "Centrus Energy",
     "company": "bennyhartnett.com"
+  },
+  {
+    "year": 2024,
+    "type": "Personal",
+    "status": "Concept",
+    "name": "Subterranean Autonomous Vehicle",
+    "description": "Concept for an underground autonomous vehicle capable of tunnel boring, seismic surveillance, and payload delivery",
+    "technologies": [
+      "LIDAR",
+      "ROS",
+      "seismic sensors",
+      "autonomous navigation"
+    ],
+    "categories": [
+      "robotics",
+      "underground",
+      "autonomy"
+    ],
+    "customer": "N/A",
+    "company": "Personal Project"
+  },
+  {
+    "year": 2024,
+    "type": "Personal",
+    "status": "Concept",
+    "name": "Edge Vehicle Make/Model Detection",
+    "description": "Using NVIDIA Jetson to detect vehicle make and model at the edge",
+    "technologies": [
+      "NVIDIA Jetson",
+      "computer vision",
+      "deep learning"
+    ],
+    "categories": [
+      "AI",
+      "edge computing",
+      "computer vision"
+    ],
+    "customer": "N/A",
+    "company": "Personal Project"
+  },
+  {
+    "year": 2024,
+    "type": "Personal",
+    "status": "Concept",
+    "name": "Trunk Radio Speech Intelligence",
+    "description": "Converts trunk radio audio to text with speech-to-text models, uses LLM with RAG for local code definitions and jargon, generates news feed and activity map with camera feed integration",
+    "technologies": [
+      "speech-to-text",
+      "LLM",
+      "RAG",
+      "mapping",
+      "camera feeds"
+    ],
+    "categories": [
+      "emergency services",
+      "AI",
+      "data processing"
+    ],
+    "customer": "N/A",
+    "company": "Personal Project"
   }
 ]
