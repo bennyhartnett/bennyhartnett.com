@@ -25,10 +25,32 @@
     "year": 2024,
     "type": "Personal",
     "status": "Concept",
-    "name": "AI-powered Drone Swarm",
-    "description": "Exploring collaborative drone control using generative AI for real-time path planning and obstacle avoidance",
-    "technologies": ["Python", "ROS", "OpenAI Gym"],
-    "categories": ["UAV", "AI", "simulation"],
+    "name": "Underground Autonomous Vehicle",
+    "description": "Autonomous platform for tunnel boring, seismic monitoring, underground surveillance, and payload delivery",
+    "technologies": ["LIDAR", "SLAM", "robotics"],
+    "categories": ["ground vehicle", "autonomy", "seismic", "payload"],
+    "customer": "N/A",
+    "company": "Personal Project"
+  },
+  {
+    "year": 2024,
+    "type": "Personal",
+    "status": "Concept",
+    "name": "Edge Vehicle Recognition",
+    "description": "Detect vehicle make and model at the edge using NVIDIA Jetson",
+    "technologies": ["NVIDIA Jetson", "OpenCV", "deep learning"],
+    "categories": ["computer vision", "edge computing", "vehicles"],
+    "customer": "N/A",
+    "company": "Personal Project"
+  },
+  {
+    "year": 2024,
+    "type": "Personal",
+    "status": "Concept",
+    "name": "Trunk Radio Speech Intelligence",
+    "description": "Speech-to-text for emergency trunk radio, LLM with retrieval to decode local codes and create news feed and activity map with camera feeds",
+    "technologies": ["Whisper", "LLM", "RAG", "mapping"],
+    "categories": ["speech recognition", "emergency services", "LLM", "situational awareness"],
     "customer": "N/A",
     "company": "Personal Project"
   }
