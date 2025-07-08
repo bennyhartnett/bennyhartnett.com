@@ -44,6 +44,11 @@ Open `http://localhost:8000` in your browser. Because all scripts load from CDNs
 
 The site is entirely static, so you can host it anywhere that serves HTML files. Copy the repository contents to your preferred platform&mdash;GitHub Pages, an S3 bucket, Netlify, and so on&mdash;and it will work without additional configuration.
 
+## Continuous Integration
+
+- `deploy.yml` publishes the `main` branch to GitHub Pages using GitHub Actions.
+- `prettier.yml` runs Prettier to check HTML, CSS, and JavaScript formatting on pushes and pull requests.
+
 ## Dependencies
 
 The pages load the following libraries from public CDNs:
