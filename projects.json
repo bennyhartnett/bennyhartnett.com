@@ -31,5 +31,16 @@
     "categories": ["UAV", "AI", "simulation"],
     "customer": "N/A",
     "company": "Personal Project"
+  },
+  {
+    "year": 2025,
+    "type": "Professional",
+    "status": "Past",
+    "name": "Uranium Enrichment Calculator",
+    "description": "Built for Centrus Energy to compute feed quantity, SWU requirements, and optimum tails assay from input assays",
+    "technologies": ["HTML", "JavaScript"],
+    "categories": ["nuclear", "web development"],
+    "customer": "Centrus Energy",
+    "company": "bennyhartnett.com"
   }
 ]
