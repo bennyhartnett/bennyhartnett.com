@@ -436,8 +436,9 @@
 
         const title = document.querySelector('nav .title');
         if (title) {
-          title.addEventListener('click', () => {
-            location.reload();
+          title.addEventListener('click', (e) => {
+            e.preventDefault();
+            loadContent('home.html');
           });
         }
 
