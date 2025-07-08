@@ -13,6 +13,24 @@
   a:hover {
     color: var(--wave-color);
   }
+  /* Dark mode scrollbar */
+  ::-webkit-scrollbar {
+    width: 12px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #111;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #444;
+    border-radius: 6px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #444 #111;
+  }
 </style>
   <h1>Government Contracting</h1>
   <p>This page will cover government contracting topics. Visit

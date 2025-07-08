@@ -13,6 +13,24 @@
   a:hover {
     color: var(--wave-color);
   }
+  /* Dark mode scrollbar */
+  ::-webkit-scrollbar {
+    width: 12px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #111;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #444;
+    border-radius: 6px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #444 #111;
+  }
   table, th, td {
     border: 1px solid white;
   }
@@ -21,15 +39,15 @@
     text-align: left;
   }
 </style>
-<h1>Concepts</h1>
-<p>This page lists various concepts and ideas explored on this site.</p>
+<h1>Projects</h1>
+<p>This page lists various projects and ideas explored on this site.</p>
 
-<table id="concepts-table" style="width:100%; border-collapse: collapse; color: white;">
+<table id="projects-table" style="width:100%; border-collapse: collapse; color: white;">
   <thead>
     <tr>
       <th>Year</th>
       <th>Type</th>
-      <th>Concept Name</th>
+      <th>Project Name</th>
       <th>Description</th>
       <th>Technologies</th>
       <th>Categories</th>
@@ -41,10 +59,10 @@
 </table>
 
 <script>
-fetch('concepts.json')
+fetch('projects.json')
   .then(r => r.json())
   .then(items => {
-    const tbody = document.querySelector('#concepts-table tbody');
+    const tbody = document.querySelector('#projects-table tbody');
     items.forEach(item => {
       const tr = document.createElement('tr');
       tr.innerHTML = `
@@ -63,7 +81,7 @@ fetch('concepts.json')
   .catch(() => {
     const body = document.querySelector('body');
     const p = document.createElement('p');
-    p.textContent = 'Failed to load concepts.';
+    p.textContent = 'Failed to load projects.';
     body.appendChild(p);
   });
 </script>
