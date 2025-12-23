@@ -3,995 +3,520 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Uranium Enrichment Calculators – Tailwind</title>
+  <title>Uranium Enrichment Calculators</title>
 
   <!-- Tailwind via CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            nuclear: {
+              50: '#f0fdf4',
+              100: '#dcfce7',
+              200: '#bbf7d0',
+              300: '#86efac',
+              400: '#4ade80',
+              500: '#22c55e',
+              600: '#16a34a',
+              700: '#15803d',
+              800: '#166534',
+              900: '#14532d',
+            }
+          }
+        }
+      }
     }
   </script>
 
   <!-- SweetAlert2 for error messages -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-  <!-- Dark mode initialization (prevent flash) -->
-  <script>
-    if (localStorage.getItem('darkMode') === 'true' ||
-        (!localStorage.getItem('darkMode') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-      document.documentElement.classList.add('dark');
-    }
-  </script>
-</head>
-<body class="min-h-screen bg-gradient-to-b from-sky-400 to-teal-500 dark:from-slate-900 dark:to-slate-800 px-4 py-8 text-slate-900 dark:text-slate-100 transition-colors duration-300">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    body { font-family: 'Inter', sans-serif; }
 
-  <main class="relative mx-auto w-full max-w-4xl rounded-2xl bg-white/95 dark:bg-slate-800/95 p-6 shadow-xl ring-1 ring-slate-200 dark:ring-slate-700 transition-colors duration-300">
-    <!-- Header -->
-    <header class="mb-6 flex flex-col items-center gap-3">
-      <!-- Dark mode toggle -->
-      <button
-        id="darkModeToggle"
-        type="button"
-        class="absolute top-4 right-4 sm:top-6 sm:right-6 p-2 rounded-full bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 transition-colors"
-        aria-label="Toggle dark mode"
-      >
-        <!-- Sun icon (shown in dark mode) -->
-        <svg class="hidden dark:block h-5 w-5 text-yellow-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.166a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM17.834 18.894a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 10-1.061 1.06l1.59 1.591zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591z" />
+    /* Custom scrollbar */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #1e293b; }
+    ::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #64748b; }
+
+    /* Smooth transitions */
+    details[open] summary ~ * { animation: fadeIn 0.2s ease-out; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* Active tab indicator */
+    .tab-active { border-bottom: 2px solid #22c55e; color: #22c55e; }
+  </style>
+</head>
+<body class="min-h-screen bg-slate-900 text-slate-100">
+
+  <!-- Top bar -->
+  <header class="fixed top-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur border-b border-slate-800">
+    <div class="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
+      <a href="/" class="flex items-center gap-2 text-slate-400 hover:text-white transition-colors">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
         </svg>
-        <!-- Moon icon (shown in light mode) -->
-        <svg class="block dark:hidden h-5 w-5 text-slate-700" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-          <path fill-rule="evenodd" d="M9.528 1.718a.75.75 0 01.162.819A8.97 8.97 0 009 6a9 9 0 009 9 8.97 8.97 0 003.463-.69.75.75 0 01.981.98 10.503 10.503 0 01-9.694 6.46c-5.799 0-10.5-4.701-10.5-10.5 0-4.368 2.667-8.112 6.46-9.694a.75.75 0 01.818.162z" clip-rule="evenodd" />
-        </svg>
-      </button>
-      <img
-        src="https://bennyhartnett.com/assets/Centrus-Logo-Color-1-400x222.png"
-        alt="Centrus Energy logo"
-        class="h-16 w-auto object-contain dark:brightness-110"
-      />
-      <div class="text-center">
-        <h1 class="text-3xl font-bold tracking-tight">Uranium Enrichment Calculators</h1>
-        <p class="mt-1 max-w-xl text-sm text-slate-600 dark:text-slate-400">
-          Lightweight browser-based tools for common uranium enrichment scenarios:
-          feed requirements, SWU demand, and optimum tails assay.
+        <span class="text-sm font-medium">Back</span>
+      </a>
+      <h1 class="text-sm font-semibold text-slate-300">Uranium Enrichment Calculators</h1>
+      <div class="w-16"></div>
+    </div>
+  </header>
+
+  <main class="pt-20 pb-16 px-4">
+    <div class="max-w-3xl mx-auto">
+
+      <!-- Hero section -->
+      <div class="text-center mb-10">
+        <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-nuclear-500/10 mb-4">
+          <svg class="w-8 h-8 text-nuclear-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/>
+          </svg>
+        </div>
+        <h2 class="text-2xl font-bold text-white mb-2">SWU Calculator Suite</h2>
+        <p class="text-slate-400 text-sm max-w-lg mx-auto">
+          Browser-based tools for uranium enrichment calculations: feed requirements, SWU demand, and optimum tails assay.
         </p>
       </div>
-    </header>
 
-    <!-- Mode navigation -->
-    <nav class="mb-6 flex flex-wrap justify-center gap-2 text-xs sm:text-sm">
-      <a href="#mode1" class="rounded-full bg-slate-100 dark:bg-slate-700 px-3 py-1 font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors">
-        1. Feed &amp; SWU for 1&nbsp;kg U EUP
-      </a>
-      <a href="#mode2" class="rounded-full bg-slate-100 dark:bg-slate-700 px-3 py-1 font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors">
-        2. Feed &amp; SWU from EUP
-      </a>
-      <a href="#mode3" class="rounded-full bg-slate-100 dark:bg-slate-700 px-3 py-1 font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors">
-        3. EUP &amp; SWU from Feed
-      </a>
-      <a href="#mode4" class="rounded-full bg-slate-100 dark:bg-slate-700 px-3 py-1 font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors">
-        4. Feed &amp; EUP from SWU
-      </a>
-      <a href="#mode5" class="rounded-full bg-slate-100 dark:bg-slate-700 px-3 py-1 font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors">
-        5. Optimum Tails Assay
-      </a>
-    </nav>
+      <!-- Calculator tabs -->
+      <nav class="flex gap-1 overflow-x-auto pb-2 mb-6 border-b border-slate-800" id="calcTabs">
+        <button data-target="mode1" class="tab-active px-3 py-2 text-xs font-medium whitespace-nowrap rounded-t hover:text-nuclear-400 transition-colors">
+          Feed & SWU (1 kg)
+        </button>
+        <button data-target="mode2" class="px-3 py-2 text-xs font-medium whitespace-nowrap text-slate-500 rounded-t hover:text-nuclear-400 transition-colors">
+          Feed & SWU from EUP
+        </button>
+        <button data-target="mode3" class="px-3 py-2 text-xs font-medium whitespace-nowrap text-slate-500 rounded-t hover:text-nuclear-400 transition-colors">
+          EUP & SWU from Feed
+        </button>
+        <button data-target="mode4" class="px-3 py-2 text-xs font-medium whitespace-nowrap text-slate-500 rounded-t hover:text-nuclear-400 transition-colors">
+          Feed & EUP from SWU
+        </button>
+        <button data-target="mode5" class="px-3 py-2 text-xs font-medium whitespace-nowrap text-slate-500 rounded-t hover:text-nuclear-400 transition-colors">
+          Optimum Tails
+        </button>
+      </nav>
 
-    <!-- Calculator 1 -->
-    <section id="mode1" class="mb-5">
-      <details class="group rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 shadow-sm" open>
-        <summary
-          class="flex cursor-pointer items-center justify-between gap-3 rounded-t-xl border-b border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 px-4 py-3 text-sm font-semibold text-slate-800 dark:text-slate-200 transition-colors group-open:bg-slate-100 dark:group-open:bg-slate-600"
-        >
-          <span>Feed &amp; SWU for 1&nbsp;kg U EUP</span>
-          <svg
-            class="h-4 w-4 shrink-0 text-slate-500 dark:text-slate-400 transition-transform group-open:rotate-180"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            aria-hidden="true"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.25a.75.75 0 01-1.06 0L5.21 8.27a.75.75 0 01.02-1.06z"
-              clip-rule="evenodd"
-            />
-          </svg>
-        </summary>
+      <!-- Calculator 1: Feed & SWU for 1 kg U EUP -->
+      <section id="mode1" class="calc-section">
+        <div class="bg-slate-800/50 rounded-xl border border-slate-700/50 p-6">
+          <div class="mb-6">
+            <h3 class="text-lg font-semibold text-white mb-1">Feed & SWU for 1 kg U EUP</h3>
+            <p class="text-slate-500 text-sm">Calculate feed and SWU requirements for 1 kilogram of enriched uranium product.</p>
+          </div>
 
-        <div class="space-y-6 bg-slate-50 dark:bg-slate-700 px-4 py-5 rounded-b-xl">
           <form id="form1" class="space-y-6">
-            <!-- Inputs -->
-            <section>
-              <h2 class="mb-3 text-base font-semibold text-slate-900 dark:text-slate-100">Inputs</h2>
-
-              <div class="space-y-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:space-y-0">
-                <!-- Product assay -->
-                <div>
-                  <label for="xp1" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                    Product Assay
-                  </label>
-                  <div class="mt-1 flex rounded-md shadow-sm">
-                    <input
-                      id="xp1"
-                      type="number"
-                      step="any"
-                      placeholder="5"
-                      class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-600 px-3 py-2 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-                    <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
-                    >
-                      % U-235
-                    </span>
-                  </div>
-                  <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
-                    Percent of U-235 in the product stream.
-                  </p>
-                </div>
-
-                <!-- Tails assay -->
-                <div>
-                  <label for="xw1" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                    Tails Assay
-                  </label>
-                  <div class="mt-1 flex rounded-md shadow-sm">
-                    <input
-                      id="xw1"
-                      type="number"
-                      step="any"
-                      placeholder="0.3"
-                      class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-600 px-3 py-2 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-                    <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
-                    >
-                      % U-235
-                    </span>
-                  </div>
-                  <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
-                    Percent of U-235 in the waste stream.
-                  </p>
-                </div>
-
-                <!-- Feed assay -->
-                <div>
-                  <label for="xf1" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                    Feed Assay
-                  </label>
-                  <div class="mt-1 flex rounded-md shadow-sm">
-                    <input
-                      id="xf1"
-                      type="number"
-                      step="any"
-                      placeholder="0.7"
-                      class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-600 px-3 py-2 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-                    <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
-                    >
-                      % U-235
-                    </span>
-                  </div>
-                  <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
-                    Percent of U-235 in the feed.
-                  </p>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div>
+                <label for="xp1" class="block text-xs font-medium text-slate-400 mb-1.5">Product Assay</label>
+                <div class="relative">
+                  <input id="xp1" type="number" step="any" placeholder="5"
+                    class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-white placeholder-slate-600 focus:border-nuclear-500 focus:ring-1 focus:ring-nuclear-500 outline-none transition" />
+                  <span class="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-500">% U-235</span>
                 </div>
               </div>
-            </section>
-
-            <!-- Outputs -->
-            <section>
-              <h2 class="mb-3 text-base font-semibold text-slate-900 dark:text-slate-100">Outputs (for 1&nbsp;kg U in product)</h2>
-
-              <div class="space-y-4 sm:grid sm:grid-cols-2 sm:gap-4 sm:space-y-0">
-                <!-- Feed quantity -->
-                <div>
-                  <label for="feed1" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                    Feed Quantity
-                  </label>
-                  <div class="mt-1 flex rounded-md shadow-sm">
-                    <input
-                      id="feed1"
-                      type="text"
-                      readonly
-                      class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-600 px-3 py-2 text-sm text-slate-700 dark:text-slate-200 focus:outline-none"
-                    />
-                    <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
-                    >
-                      kg UF₆
-                    </span>
-                  </div>
-                </div>
-
-                <!-- SWU quantity -->
-                <div>
-                  <label for="swu1" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                    SWU Quantity
-                  </label>
-                  <div class="mt-1 flex rounded-md shadow-sm">
-                    <input
-                      id="swu1"
-                      type="text"
-                      readonly
-                      class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-600 px-3 py-2 text-sm text-slate-700 dark:text-slate-200 focus:outline-none"
-                    />
-                    <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
-                    >
-                      SWU
-                    </span>
-                  </div>
+              <div>
+                <label for="xw1" class="block text-xs font-medium text-slate-400 mb-1.5">Tails Assay</label>
+                <div class="relative">
+                  <input id="xw1" type="number" step="any" placeholder="0.3"
+                    class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-white placeholder-slate-600 focus:border-nuclear-500 focus:ring-1 focus:ring-nuclear-500 outline-none transition" />
+                  <span class="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-500">% U-235</span>
                 </div>
               </div>
-            </section>
+              <div>
+                <label for="xf1" class="block text-xs font-medium text-slate-400 mb-1.5">Feed Assay</label>
+                <div class="relative">
+                  <input id="xf1" type="number" step="any" placeholder="0.711"
+                    class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-white placeholder-slate-600 focus:border-nuclear-500 focus:ring-1 focus:ring-nuclear-500 outline-none transition" />
+                  <span class="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-500">% U-235</span>
+                </div>
+              </div>
+            </div>
 
-            <!-- Actions -->
-            <div class="flex flex-col gap-3 pt-2 sm:flex-row">
-              <button
-                id="clear1"
-                type="button"
-                class="w-full rounded-md border border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-600 py-2 text-sm font-medium text-slate-700 dark:text-slate-200 transition hover:bg-slate-200 dark:hover:bg-slate-500"
-              >
+            <div class="h-px bg-slate-700/50"></div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label for="feed1" class="block text-xs font-medium text-slate-400 mb-1.5">Feed Quantity</label>
+                <div class="relative">
+                  <input id="feed1" type="text" readonly
+                    class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-nuclear-400 font-mono outline-none" />
+                  <span class="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-500">kg U</span>
+                </div>
+              </div>
+              <div>
+                <label for="swu1" class="block text-xs font-medium text-slate-400 mb-1.5">SWU Quantity</label>
+                <div class="relative">
+                  <input id="swu1" type="text" readonly
+                    class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-nuclear-400 font-mono outline-none" />
+                  <span class="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-500">SWU</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="flex gap-3 pt-2">
+              <button type="button" id="clear1"
+                class="flex-1 py-2.5 px-4 text-sm font-medium text-slate-400 bg-slate-800 border border-slate-700 rounded-lg hover:bg-slate-700 hover:text-white transition">
                 Clear
               </button>
-              <button
-                id="calc1"
-                type="button"
-                class="w-full rounded-md bg-blue-600 dark:bg-blue-500 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 dark:hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 dark:focus:ring-offset-slate-700"
-              >
+              <button type="button" id="calc1"
+                class="flex-1 py-2.5 px-4 text-sm font-medium text-white bg-nuclear-600 rounded-lg hover:bg-nuclear-500 transition">
                 Calculate
               </button>
             </div>
           </form>
         </div>
-      </details>
-    </section>
+      </section>
 
-    <!-- Calculator 2 -->
-    <section id="mode2" class="mb-5">
-      <details class="group rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 shadow-sm">
-        <summary
-          class="flex cursor-pointer items-center justify-between gap-3 rounded-t-xl border-b border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 px-4 py-3 text-sm font-semibold text-slate-800 dark:text-slate-200 transition-colors group-open:bg-slate-100 dark:group-open:bg-slate-600"
-        >
-          <span>Feed &amp; SWU from EUP Quantity</span>
-          <svg
-            class="h-4 w-4 shrink-0 text-slate-500 dark:text-slate-400 transition-transform group-open:rotate-180"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            aria-hidden="true"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.25a.75.75 0 01-1.06 0L5.21 8.27a.75.75 0 01.02-1.06z"
-              clip-rule="evenodd"
-            />
-          </svg>
-        </summary>
+      <!-- Calculator 2: Feed & SWU from EUP Quantity -->
+      <section id="mode2" class="calc-section hidden">
+        <div class="bg-slate-800/50 rounded-xl border border-slate-700/50 p-6">
+          <div class="mb-6">
+            <h3 class="text-lg font-semibold text-white mb-1">Feed & SWU from EUP Quantity</h3>
+            <p class="text-slate-500 text-sm">Calculate feed and SWU requirements for a given mass of enriched product.</p>
+          </div>
 
-        <div class="space-y-6 bg-slate-50 dark:bg-slate-700 px-4 py-5 rounded-b-xl">
           <form id="form2" class="space-y-6">
-            <!-- Inputs -->
-            <section>
-              <h2 class="mb-3 text-base font-semibold text-slate-900 dark:text-slate-100">Inputs</h2>
-
-              <div class="space-y-4 sm:grid sm:grid-cols-2 sm:gap-4 sm:space-y-0">
-                <!-- EUP quantity -->
-                <div>
-                  <label for="p2" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                    EUP Quantity
-                  </label>
-                  <div class="mt-1 flex rounded-md shadow-sm">
-                    <input
-                      id="p2"
-                      type="number"
-                      step="any"
-                      placeholder="100"
-                      class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-600 px-3 py-2 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-                    <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
-                    >
-                      kg UF₆
-                    </span>
-                  </div>
-                  <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
-                    Mass of enriched uranium product.
-                  </p>
-                </div>
-
-                <!-- Product assay -->
-                <div>
-                  <label for="xp2" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                    Product Assay
-                  </label>
-                  <div class="mt-1 flex rounded-md shadow-sm">
-                    <input
-                      id="xp2"
-                      type="number"
-                      step="any"
-                      placeholder="5"
-                      class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-600 px-3 py-2 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-                    <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
-                    >
-                      % U-235
-                    </span>
-                  </div>
-                </div>
-
-                <!-- Tails assay -->
-                <div>
-                  <label for="xw2" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                    Tails Assay
-                  </label>
-                  <div class="mt-1 flex rounded-md shadow-sm">
-                    <input
-                      id="xw2"
-                      type="number"
-                      step="any"
-                      placeholder="0.3"
-                      class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-600 px-3 py-2 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-                    <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
-                    >
-                      % U-235
-                    </span>
-                  </div>
-                </div>
-
-                <!-- Feed assay -->
-                <div>
-                  <label for="xf2" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                    Feed Assay
-                  </label>
-                  <div class="mt-1 flex rounded-md shadow-sm">
-                    <input
-                      id="xf2"
-                      type="number"
-                      step="any"
-                      placeholder="0.7"
-                      class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-600 px-3 py-2 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-                    <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
-                    >
-                      % U-235
-                    </span>
-                  </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label for="p2" class="block text-xs font-medium text-slate-400 mb-1.5">EUP Quantity</label>
+                <div class="relative">
+                  <input id="p2" type="number" step="any" placeholder="100"
+                    class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-white placeholder-slate-600 focus:border-nuclear-500 focus:ring-1 focus:ring-nuclear-500 outline-none transition" />
+                  <span class="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-500">kg U</span>
                 </div>
               </div>
-            </section>
-
-            <!-- Outputs -->
-            <section>
-              <h2 class="mb-3 text-base font-semibold text-slate-900 dark:text-slate-100">Outputs</h2>
-
-              <div class="space-y-4 sm:grid sm:grid-cols-2 sm:gap-4 sm:space-y-0">
-                <!-- Feed quantity -->
-                <div>
-                  <label for="feed2" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                    Feed Quantity
-                  </label>
-                  <div class="mt-1 flex rounded-md shadow-sm">
-                    <input
-                      id="feed2"
-                      type="text"
-                      readonly
-                      class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-600 px-3 py-2 text-sm text-slate-700 dark:text-slate-200 focus:outline-none"
-                    />
-                    <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
-                    >
-                      kg UF₆
-                    </span>
-                  </div>
-                </div>
-
-                <!-- SWU quantity -->
-                <div>
-                  <label for="swu2" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                    SWU Quantity
-                  </label>
-                  <div class="mt-1 flex rounded-md shadow-sm">
-                    <input
-                      id="swu2"
-                      type="text"
-                      readonly
-                      class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-600 px-3 py-2 text-sm text-slate-700 dark:text-slate-200 focus:outline-none"
-                    />
-                    <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
-                    >
-                      SWU
-                    </span>
-                  </div>
+              <div>
+                <label for="xp2" class="block text-xs font-medium text-slate-400 mb-1.5">Product Assay</label>
+                <div class="relative">
+                  <input id="xp2" type="number" step="any" placeholder="5"
+                    class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-white placeholder-slate-600 focus:border-nuclear-500 focus:ring-1 focus:ring-nuclear-500 outline-none transition" />
+                  <span class="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-500">% U-235</span>
                 </div>
               </div>
-            </section>
+              <div>
+                <label for="xw2" class="block text-xs font-medium text-slate-400 mb-1.5">Tails Assay</label>
+                <div class="relative">
+                  <input id="xw2" type="number" step="any" placeholder="0.3"
+                    class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-white placeholder-slate-600 focus:border-nuclear-500 focus:ring-1 focus:ring-nuclear-500 outline-none transition" />
+                  <span class="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-500">% U-235</span>
+                </div>
+              </div>
+              <div>
+                <label for="xf2" class="block text-xs font-medium text-slate-400 mb-1.5">Feed Assay</label>
+                <div class="relative">
+                  <input id="xf2" type="number" step="any" placeholder="0.711"
+                    class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-white placeholder-slate-600 focus:border-nuclear-500 focus:ring-1 focus:ring-nuclear-500 outline-none transition" />
+                  <span class="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-500">% U-235</span>
+                </div>
+              </div>
+            </div>
 
-            <!-- Actions -->
-            <div class="flex flex-col gap-3 pt-2 sm:flex-row">
-              <button
-                id="clear2"
-                type="button"
-                class="w-full rounded-md border border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-600 py-2 text-sm font-medium text-slate-700 dark:text-slate-200 transition hover:bg-slate-200 dark:hover:bg-slate-500"
-              >
+            <div class="h-px bg-slate-700/50"></div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label for="feed2" class="block text-xs font-medium text-slate-400 mb-1.5">Feed Quantity</label>
+                <div class="relative">
+                  <input id="feed2" type="text" readonly
+                    class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-nuclear-400 font-mono outline-none" />
+                  <span class="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-500">kg U</span>
+                </div>
+              </div>
+              <div>
+                <label for="swu2" class="block text-xs font-medium text-slate-400 mb-1.5">SWU Quantity</label>
+                <div class="relative">
+                  <input id="swu2" type="text" readonly
+                    class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-nuclear-400 font-mono outline-none" />
+                  <span class="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-500">SWU</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="flex gap-3 pt-2">
+              <button type="button" id="clear2"
+                class="flex-1 py-2.5 px-4 text-sm font-medium text-slate-400 bg-slate-800 border border-slate-700 rounded-lg hover:bg-slate-700 hover:text-white transition">
                 Clear
               </button>
-              <button
-                id="calc2"
-                type="button"
-                class="w-full rounded-md bg-blue-600 dark:bg-blue-500 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 dark:hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 dark:focus:ring-offset-slate-700"
-              >
+              <button type="button" id="calc2"
+                class="flex-1 py-2.5 px-4 text-sm font-medium text-white bg-nuclear-600 rounded-lg hover:bg-nuclear-500 transition">
                 Calculate
               </button>
             </div>
           </form>
         </div>
-      </details>
-    </section>
+      </section>
 
-    <!-- Calculator 3 -->
-    <section id="mode3" class="mb-5">
-      <details class="group rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 shadow-sm">
-        <summary
-          class="flex cursor-pointer items-center justify-between gap-3 rounded-t-xl border-b border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 px-4 py-3 text-sm font-semibold text-slate-800 dark:text-slate-200 transition-colors group-open:bg-slate-100 dark:group-open:bg-slate-600"
-        >
-          <span>EUP &amp; SWU from Feed Quantity</span>
-          <svg
-            class="h-4 w-4 shrink-0 text-slate-500 dark:text-slate-400 transition-transform group-open:rotate-180"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            aria-hidden="true"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.25a.75.75 0 01-1.06 0L5.21 8.27a.75.75 0 01.02-1.06z"
-              clip-rule="evenodd"
-            />
-          </svg>
-        </summary>
+      <!-- Calculator 3: EUP & SWU from Feed Quantity -->
+      <section id="mode3" class="calc-section hidden">
+        <div class="bg-slate-800/50 rounded-xl border border-slate-700/50 p-6">
+          <div class="mb-6">
+            <h3 class="text-lg font-semibold text-white mb-1">EUP & SWU from Feed Quantity</h3>
+            <p class="text-slate-500 text-sm">Calculate enriched product and SWU from a given feed mass.</p>
+          </div>
 
-        <div class="space-y-6 bg-slate-50 dark:bg-slate-700 px-4 py-5 rounded-b-xl">
           <form id="form3" class="space-y-6">
-            <!-- Inputs -->
-            <section>
-              <h2 class="mb-3 text-base font-semibold text-slate-900 dark:text-slate-100">Inputs</h2>
-
-              <div class="space-y-4 sm:grid sm:grid-cols-2 sm:gap-4 sm:space-y-0">
-                <!-- Feed quantity -->
-                <div>
-                  <label for="F3" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                    Feed Quantity
-                  </label>
-                  <div class="mt-1 flex rounded-md shadow-sm">
-                    <input
-                      id="F3"
-                      type="number"
-                      step="any"
-                      placeholder="100"
-                      class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-600 px-3 py-2 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-                    <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
-                    >
-                      kg UF₆
-                    </span>
-                  </div>
-                </div>
-
-                <!-- Product assay -->
-                <div>
-                  <label for="xp3" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                    Product Assay
-                  </label>
-                  <div class="mt-1 flex rounded-md shadow-sm">
-                    <input
-                      id="xp3"
-                      type="number"
-                      step="any"
-                      placeholder="5"
-                      class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-600 px-3 py-2 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-                    <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
-                    >
-                      % U-235
-                    </span>
-                  </div>
-                </div>
-
-                <!-- Tails assay -->
-                <div>
-                  <label for="xw3" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                    Tails Assay
-                  </label>
-                  <div class="mt-1 flex rounded-md shadow-sm">
-                    <input
-                      id="xw3"
-                      type="number"
-                      step="any"
-                      placeholder="0.3"
-                      class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-600 px-3 py-2 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-                    <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
-                    >
-                      % U-235
-                    </span>
-                  </div>
-                </div>
-
-                <!-- Feed assay -->
-                <div>
-                  <label for="xf3" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                    Feed Assay
-                  </label>
-                  <div class="mt-1 flex rounded-md shadow-sm">
-                    <input
-                      id="xf3"
-                      type="number"
-                      step="any"
-                      placeholder="0.7"
-                      class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-600 px-3 py-2 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-                    <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
-                    >
-                      % U-235
-                    </span>
-                  </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label for="F3" class="block text-xs font-medium text-slate-400 mb-1.5">Feed Quantity</label>
+                <div class="relative">
+                  <input id="F3" type="number" step="any" placeholder="100"
+                    class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-white placeholder-slate-600 focus:border-nuclear-500 focus:ring-1 focus:ring-nuclear-500 outline-none transition" />
+                  <span class="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-500">kg U</span>
                 </div>
               </div>
-            </section>
-
-            <!-- Outputs -->
-            <section>
-              <h2 class="mb-3 text-base font-semibold text-slate-900 dark:text-slate-100">Outputs</h2>
-
-              <div class="space-y-4 sm:grid sm:grid-cols-2 sm:gap-4 sm:space-y-0">
-                <!-- EUP quantity -->
-                <div>
-                  <label for="P3" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                    EUP Quantity
-                  </label>
-                  <div class="mt-1 flex rounded-md shadow-sm">
-                    <input
-                      id="P3"
-                      type="text"
-                      readonly
-                      class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-600 px-3 py-2 text-sm text-slate-700 dark:text-slate-200 focus:outline-none"
-                    />
-                    <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
-                    >
-                      kg UF₆
-                    </span>
-                  </div>
-                </div>
-
-                <!-- SWU quantity -->
-                <div>
-                  <label for="swu3" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                    SWU Quantity
-                  </label>
-                  <div class="mt-1 flex rounded-md shadow-sm">
-                    <input
-                      id="swu3"
-                      type="text"
-                      readonly
-                      class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-600 px-3 py-2 text-sm text-slate-700 dark:text-slate-200 focus:outline-none"
-                    />
-                    <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
-                    >
-                      SWU
-                    </span>
-                  </div>
+              <div>
+                <label for="xp3" class="block text-xs font-medium text-slate-400 mb-1.5">Product Assay</label>
+                <div class="relative">
+                  <input id="xp3" type="number" step="any" placeholder="5"
+                    class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-white placeholder-slate-600 focus:border-nuclear-500 focus:ring-1 focus:ring-nuclear-500 outline-none transition" />
+                  <span class="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-500">% U-235</span>
                 </div>
               </div>
-            </section>
+              <div>
+                <label for="xw3" class="block text-xs font-medium text-slate-400 mb-1.5">Tails Assay</label>
+                <div class="relative">
+                  <input id="xw3" type="number" step="any" placeholder="0.3"
+                    class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-white placeholder-slate-600 focus:border-nuclear-500 focus:ring-1 focus:ring-nuclear-500 outline-none transition" />
+                  <span class="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-500">% U-235</span>
+                </div>
+              </div>
+              <div>
+                <label for="xf3" class="block text-xs font-medium text-slate-400 mb-1.5">Feed Assay</label>
+                <div class="relative">
+                  <input id="xf3" type="number" step="any" placeholder="0.711"
+                    class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-white placeholder-slate-600 focus:border-nuclear-500 focus:ring-1 focus:ring-nuclear-500 outline-none transition" />
+                  <span class="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-500">% U-235</span>
+                </div>
+              </div>
+            </div>
 
-            <!-- Actions -->
-            <div class="flex flex-col gap-3 pt-2 sm:flex-row">
-              <button
-                id="clear3"
-                type="button"
-                class="w-full rounded-md border border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-600 py-2 text-sm font-medium text-slate-700 dark:text-slate-200 transition hover:bg-slate-200 dark:hover:bg-slate-500"
-              >
+            <div class="h-px bg-slate-700/50"></div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label for="P3" class="block text-xs font-medium text-slate-400 mb-1.5">EUP Quantity</label>
+                <div class="relative">
+                  <input id="P3" type="text" readonly
+                    class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-nuclear-400 font-mono outline-none" />
+                  <span class="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-500">kg U</span>
+                </div>
+              </div>
+              <div>
+                <label for="swu3" class="block text-xs font-medium text-slate-400 mb-1.5">SWU Quantity</label>
+                <div class="relative">
+                  <input id="swu3" type="text" readonly
+                    class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-nuclear-400 font-mono outline-none" />
+                  <span class="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-500">SWU</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="flex gap-3 pt-2">
+              <button type="button" id="clear3"
+                class="flex-1 py-2.5 px-4 text-sm font-medium text-slate-400 bg-slate-800 border border-slate-700 rounded-lg hover:bg-slate-700 hover:text-white transition">
                 Clear
               </button>
-              <button
-                id="calc3"
-                type="button"
-                class="w-full rounded-md bg-blue-600 dark:bg-blue-500 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 dark:hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 dark:focus:ring-offset-slate-700"
-              >
+              <button type="button" id="calc3"
+                class="flex-1 py-2.5 px-4 text-sm font-medium text-white bg-nuclear-600 rounded-lg hover:bg-nuclear-500 transition">
                 Calculate
               </button>
             </div>
           </form>
         </div>
-      </details>
-    </section>
+      </section>
 
-    <!-- Calculator 4 -->
-    <section id="mode4" class="mb-5">
-      <details class="group rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 shadow-sm">
-        <summary
-          class="flex cursor-pointer items-center justify-between gap-3 rounded-t-xl border-b border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 px-4 py-3 text-sm font-semibold text-slate-800 dark:text-slate-200 transition-colors group-open:bg-slate-100 dark:group-open:bg-slate-600"
-        >
-          <span>Feed &amp; EUP from SWU Quantity</span>
-          <svg
-            class="h-4 w-4 shrink-0 text-slate-500 dark:text-slate-400 transition-transform group-open:rotate-180"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            aria-hidden="true"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.25a.75.75 0 01-1.06 0L5.21 8.27a.75.75 0 01.02-1.06z"
-              clip-rule="evenodd"
-            />
-          </svg>
-        </summary>
+      <!-- Calculator 4: Feed & EUP from SWU Quantity -->
+      <section id="mode4" class="calc-section hidden">
+        <div class="bg-slate-800/50 rounded-xl border border-slate-700/50 p-6">
+          <div class="mb-6">
+            <h3 class="text-lg font-semibold text-white mb-1">Feed & EUP from SWU Quantity</h3>
+            <p class="text-slate-500 text-sm">Calculate feed and product quantities from available SWU.</p>
+          </div>
 
-        <div class="space-y-6 bg-slate-50 dark:bg-slate-700 px-4 py-5 rounded-b-xl">
           <form id="form4" class="space-y-6">
-            <!-- Inputs -->
-            <section>
-              <h2 class="mb-3 text-base font-semibold text-slate-900 dark:text-slate-100">Inputs</h2>
-
-              <div class="space-y-4 sm:grid sm:grid-cols-2 sm:gap-4 sm:space-y-0">
-                <!-- SWU quantity -->
-                <div>
-                  <label for="S4" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                    SWU Quantity
-                  </label>
-                  <div class="mt-1 flex rounded-md shadow-sm">
-                    <input
-                      id="S4"
-                      type="number"
-                      step="any"
-                      placeholder="500"
-                      class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-600 px-3 py-2 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-                    <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
-                    >
-                      SWU
-                    </span>
-                  </div>
-                </div>
-
-                <!-- Product assay -->
-                <div>
-                  <label for="xp4" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                    Product Assay
-                  </label>
-                  <div class="mt-1 flex rounded-md shadow-sm">
-                    <input
-                      id="xp4"
-                      type="number"
-                      step="any"
-                      placeholder="5"
-                      class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-600 px-3 py-2 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-                    <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
-                    >
-                      % U-235
-                    </span>
-                  </div>
-                </div>
-
-                <!-- Tails assay -->
-                <div>
-                  <label for="xw4" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                    Tails Assay
-                  </label>
-                  <div class="mt-1 flex rounded-md shadow-sm">
-                    <input
-                      id="xw4"
-                      type="number"
-                      step="any"
-                      placeholder="0.3"
-                      class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-600 px-3 py-2 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-                    <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
-                    >
-                      % U-235
-                    </span>
-                  </div>
-                </div>
-
-                <!-- Feed assay -->
-                <div>
-                  <label for="xf4" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                    Feed Assay
-                  </label>
-                  <div class="mt-1 flex rounded-md shadow-sm">
-                    <input
-                      id="xf4"
-                      type="number"
-                      step="any"
-                      placeholder="0.7"
-                      class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-600 px-3 py-2 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-                    <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
-                    >
-                      % U-235
-                    </span>
-                  </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label for="S4" class="block text-xs font-medium text-slate-400 mb-1.5">SWU Quantity</label>
+                <div class="relative">
+                  <input id="S4" type="number" step="any" placeholder="500"
+                    class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-white placeholder-slate-600 focus:border-nuclear-500 focus:ring-1 focus:ring-nuclear-500 outline-none transition" />
+                  <span class="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-500">SWU</span>
                 </div>
               </div>
-            </section>
-
-            <!-- Outputs -->
-            <section>
-              <h2 class="mb-3 text-base font-semibold text-slate-900 dark:text-slate-100">Outputs</h2>
-
-              <div class="space-y-4 sm:grid sm:grid-cols-2 sm:gap-4 sm:space-y-0">
-                <!-- EUP quantity -->
-                <div>
-                  <label for="P4" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                    EUP Quantity
-                  </label>
-                  <div class="mt-1 flex rounded-md shadow-sm">
-                    <input
-                      id="P4"
-                      type="text"
-                      readonly
-                      class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-600 px-3 py-2 text-sm text-slate-700 dark:text-slate-200 focus:outline-none"
-                    />
-                    <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
-                    >
-                      kg U
-                    </span>
-                  </div>
-                </div>
-
-                <!-- Feed quantity -->
-                <div>
-                  <label for="feed4" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                    Feed Quantity
-                  </label>
-                  <div class="mt-1 flex rounded-md shadow-sm">
-                    <input
-                      id="feed4"
-                      type="text"
-                      readonly
-                      class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-600 px-3 py-2 text-sm text-slate-700 dark:text-slate-200 focus:outline-none"
-                    />
-                    <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
-                    >
-                      kg UF₆
-                    </span>
-                  </div>
+              <div>
+                <label for="xp4" class="block text-xs font-medium text-slate-400 mb-1.5">Product Assay</label>
+                <div class="relative">
+                  <input id="xp4" type="number" step="any" placeholder="5"
+                    class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-white placeholder-slate-600 focus:border-nuclear-500 focus:ring-1 focus:ring-nuclear-500 outline-none transition" />
+                  <span class="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-500">% U-235</span>
                 </div>
               </div>
-            </section>
+              <div>
+                <label for="xw4" class="block text-xs font-medium text-slate-400 mb-1.5">Tails Assay</label>
+                <div class="relative">
+                  <input id="xw4" type="number" step="any" placeholder="0.3"
+                    class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-white placeholder-slate-600 focus:border-nuclear-500 focus:ring-1 focus:ring-nuclear-500 outline-none transition" />
+                  <span class="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-500">% U-235</span>
+                </div>
+              </div>
+              <div>
+                <label for="xf4" class="block text-xs font-medium text-slate-400 mb-1.5">Feed Assay</label>
+                <div class="relative">
+                  <input id="xf4" type="number" step="any" placeholder="0.711"
+                    class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-white placeholder-slate-600 focus:border-nuclear-500 focus:ring-1 focus:ring-nuclear-500 outline-none transition" />
+                  <span class="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-500">% U-235</span>
+                </div>
+              </div>
+            </div>
 
-            <!-- Actions -->
-            <div class="flex flex-col gap-3 pt-2 sm:flex-row">
-              <button
-                id="clear4"
-                type="button"
-                class="w-full rounded-md border border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-600 py-2 text-sm font-medium text-slate-700 dark:text-slate-200 transition hover:bg-slate-200 dark:hover:bg-slate-500"
-              >
+            <div class="h-px bg-slate-700/50"></div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label for="P4" class="block text-xs font-medium text-slate-400 mb-1.5">EUP Quantity</label>
+                <div class="relative">
+                  <input id="P4" type="text" readonly
+                    class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-nuclear-400 font-mono outline-none" />
+                  <span class="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-500">kg U</span>
+                </div>
+              </div>
+              <div>
+                <label for="feed4" class="block text-xs font-medium text-slate-400 mb-1.5">Feed Quantity</label>
+                <div class="relative">
+                  <input id="feed4" type="text" readonly
+                    class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-nuclear-400 font-mono outline-none" />
+                  <span class="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-500">kg U</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="flex gap-3 pt-2">
+              <button type="button" id="clear4"
+                class="flex-1 py-2.5 px-4 text-sm font-medium text-slate-400 bg-slate-800 border border-slate-700 rounded-lg hover:bg-slate-700 hover:text-white transition">
                 Clear
               </button>
-              <button
-                id="calc4"
-                type="button"
-                class="w-full rounded-md bg-blue-600 dark:bg-blue-500 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 dark:hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 dark:focus:ring-offset-slate-700"
-              >
+              <button type="button" id="calc4"
+                class="flex-1 py-2.5 px-4 text-sm font-medium text-white bg-nuclear-600 rounded-lg hover:bg-nuclear-500 transition">
                 Calculate
               </button>
             </div>
           </form>
         </div>
-      </details>
-    </section>
+      </section>
 
-    <!-- Calculator 5 -->
-    <section id="mode5">
-      <details class="group rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 shadow-sm">
-        <summary
-          class="flex cursor-pointer items-center justify-between gap-3 rounded-t-xl border-b border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 px-4 py-3 text-sm font-semibold text-slate-800 dark:text-slate-200 transition-colors group-open:bg-slate-100 dark:group-open:bg-slate-600"
-        >
-          <span>Optimum Tails Assay</span>
-          <svg
-            class="h-4 w-4 shrink-0 text-slate-500 dark:text-slate-400 transition-transform group-open:rotate-180"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            aria-hidden="true"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.25a.75.75 0 01-1.06 0L5.21 8.27a.75.75 0 01.02-1.06z"
-              clip-rule="evenodd"
-            />
-          </svg>
-        </summary>
+      <!-- Calculator 5: Optimum Tails Assay -->
+      <section id="mode5" class="calc-section hidden">
+        <div class="bg-slate-800/50 rounded-xl border border-slate-700/50 p-6">
+          <div class="mb-6">
+            <h3 class="text-lg font-semibold text-white mb-1">Optimum Tails Assay</h3>
+            <p class="text-slate-500 text-sm">Find the economically optimal tails assay based on feed and SWU prices.</p>
+          </div>
 
-        <div class="space-y-6 bg-slate-50 dark:bg-slate-700 px-4 py-5 rounded-b-xl">
           <form id="form5" class="space-y-6">
-            <!-- Inputs -->
-            <section>
-              <h2 class="mb-3 text-base font-semibold text-slate-900 dark:text-slate-100">Inputs</h2>
-
-              <div class="space-y-4 sm:grid sm:grid-cols-2 sm:gap-4 sm:space-y-0">
-                <!-- Feed price -->
-                <div>
-                  <label for="cf5" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                    Feed Price
-                  </label>
-                  <div class="mt-1 flex rounded-md shadow-sm">
-                    <input
-                      id="cf5"
-                      type="number"
-                      step="any"
-                      placeholder="75"
-                      class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-600 px-3 py-2 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-                    <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
-                    >
-                      currency / kg
-                    </span>
-                  </div>
-                  <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
-                    Cost of feed per kilogram of uranium.
-                  </p>
-                </div>
-
-                <!-- SWU price -->
-                <div>
-                  <label for="cs5" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                    SWU Price
-                  </label>
-                  <div class="mt-1 flex rounded-md shadow-sm">
-                    <input
-                      id="cs5"
-                      type="number"
-                      step="any"
-                      placeholder="100"
-                      class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-600 px-3 py-2 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-                    <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
-                    >
-                      currency / SWU
-                    </span>
-                  </div>
-                  <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
-                    Cost of enrichment work per SWU.
-                  </p>
-                </div>
-
-                <!-- Product assay -->
-                <div>
-                  <label for="xp5" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                    Product Assay
-                  </label>
-                  <div class="mt-1 flex rounded-md shadow-sm">
-                    <input
-                      id="xp5"
-                      type="number"
-                      step="any"
-                      placeholder="5"
-                      class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-600 px-3 py-2 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-                    <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
-                    >
-                      % U-235
-                    </span>
-                  </div>
-                </div>
-
-                <!-- Feed assay -->
-                <div>
-                  <label for="xf5" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                    Feed Assay
-                  </label>
-                  <div class="mt-1 flex rounded-md shadow-sm">
-                    <input
-                      id="xf5"
-                      type="number"
-                      step="any"
-                      placeholder="0.7"
-                      class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-600 px-3 py-2 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-                    <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
-                    >
-                      % U-235
-                    </span>
-                  </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label for="cf5" class="block text-xs font-medium text-slate-400 mb-1.5">Feed Price</label>
+                <div class="relative">
+                  <input id="cf5" type="number" step="any" placeholder="75"
+                    class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-white placeholder-slate-600 focus:border-nuclear-500 focus:ring-1 focus:ring-nuclear-500 outline-none transition" />
+                  <span class="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-500">$/kg</span>
                 </div>
               </div>
-            </section>
-
-            <!-- Output -->
-            <section>
-              <h2 class="mb-3 text-base font-semibold text-slate-900 dark:text-slate-100">Output</h2>
-
-              <div class="space-y-4 sm:w-1/2">
-                <div>
-                  <label for="xw5" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                    Optimum Tails Assay
-                  </label>
-                  <div class="mt-1 flex rounded-md shadow-sm">
-                    <input
-                      id="xw5"
-                      type="text"
-                      readonly
-                      class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-600 px-3 py-2 text-sm text-slate-700 dark:text-slate-200 focus:outline-none"
-                    />
-                    <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
-                    >
-                      % U-235
-                    </span>
-                  </div>
+              <div>
+                <label for="cs5" class="block text-xs font-medium text-slate-400 mb-1.5">SWU Price</label>
+                <div class="relative">
+                  <input id="cs5" type="number" step="any" placeholder="100"
+                    class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-white placeholder-slate-600 focus:border-nuclear-500 focus:ring-1 focus:ring-nuclear-500 outline-none transition" />
+                  <span class="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-500">$/SWU</span>
                 </div>
               </div>
-            </section>
+              <div>
+                <label for="xp5" class="block text-xs font-medium text-slate-400 mb-1.5">Product Assay</label>
+                <div class="relative">
+                  <input id="xp5" type="number" step="any" placeholder="5"
+                    class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-white placeholder-slate-600 focus:border-nuclear-500 focus:ring-1 focus:ring-nuclear-500 outline-none transition" />
+                  <span class="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-500">% U-235</span>
+                </div>
+              </div>
+              <div>
+                <label for="xf5" class="block text-xs font-medium text-slate-400 mb-1.5">Feed Assay</label>
+                <div class="relative">
+                  <input id="xf5" type="number" step="any" placeholder="0.711"
+                    class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-white placeholder-slate-600 focus:border-nuclear-500 focus:ring-1 focus:ring-nuclear-500 outline-none transition" />
+                  <span class="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-500">% U-235</span>
+                </div>
+              </div>
+            </div>
 
-            <!-- Actions -->
-            <div class="flex flex-col gap-3 pt-2 sm:flex-row">
-              <button
-                id="clear5"
-                type="button"
-                class="w-full rounded-md border border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-600 py-2 text-sm font-medium text-slate-700 dark:text-slate-200 transition hover:bg-slate-200 dark:hover:bg-slate-500"
-              >
+            <div class="h-px bg-slate-700/50"></div>
+
+            <div class="sm:w-1/2">
+              <label for="xw5" class="block text-xs font-medium text-slate-400 mb-1.5">Optimum Tails Assay</label>
+              <div class="relative">
+                <input id="xw5" type="text" readonly
+                  class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-nuclear-400 font-mono outline-none" />
+                <span class="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-500">% U-235</span>
+              </div>
+            </div>
+
+            <div class="flex gap-3 pt-2">
+              <button type="button" id="clear5"
+                class="flex-1 py-2.5 px-4 text-sm font-medium text-slate-400 bg-slate-800 border border-slate-700 rounded-lg hover:bg-slate-700 hover:text-white transition">
                 Clear
               </button>
-              <button
-                id="calc5"
-                type="button"
-                class="w-full rounded-md bg-blue-600 dark:bg-blue-500 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 dark:hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 dark:focus:ring-offset-slate-700"
-              >
+              <button type="button" id="calc5"
+                class="flex-1 py-2.5 px-4 text-sm font-medium text-white bg-nuclear-600 rounded-lg hover:bg-nuclear-500 transition">
                 Calculate
               </button>
             </div>
           </form>
         </div>
-      </details>
-    </section>
+      </section>
 
-    <!-- Footer -->
-    <footer class="mt-6 border-t border-slate-200 dark:border-slate-600 pt-3 text-center text-xs text-slate-500 dark:text-slate-400">
-      <div>© <span id="current-year"></span> bennyhartnett.com</div>
-    </footer>
+    </div>
   </main>
+
+  <!-- Footer -->
+  <footer class="fixed bottom-0 left-0 right-0 py-3 text-center text-xs text-slate-600 bg-slate-900/95 backdrop-blur border-t border-slate-800">
+    <span id="current-year"></span> bennyhartnett.com
+  </footer>
 
   <!-- Calculator logic -->
   <script>
     (function () {
       const EPS = 1e-9;
-
       const byId = (id) => document.getElementById(id);
+
+      // Tab navigation
+      document.querySelectorAll('#calcTabs button').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('#calcTabs button').forEach(b => {
+            b.classList.remove('tab-active');
+            b.classList.add('text-slate-500');
+          });
+          btn.classList.add('tab-active');
+          btn.classList.remove('text-slate-500');
+
+          document.querySelectorAll('.calc-section').forEach(s => s.classList.add('hidden'));
+          document.getElementById(btn.dataset.target).classList.remove('hidden');
+        });
+      });
 
       function showError(message) {
         Swal.fire({
           icon: "error",
           title: "Invalid input",
           text: message,
+          background: '#1e293b',
+          color: '#f1f5f9',
+          confirmButtonColor: '#22c55e'
         });
       }
 
@@ -1115,7 +640,7 @@
       }
 
       function findOptimumTails(xp, xf, cf, cs) {
-        checkOrdering(xp, xf, xf / 2); // loose check to ensure xp>xf
+        checkOrdering(xp, xf, xf / 2);
 
         const a = Math.max(EPS, xf * 0.01);
         const b = Math.max(a + EPS, xf - EPS);
@@ -1247,16 +772,6 @@
 
         const yearEl = document.getElementById("current-year");
         if (yearEl) yearEl.textContent = new Date().getFullYear();
-
-        // Dark mode toggle
-        const darkModeToggle = document.getElementById("darkModeToggle");
-        if (darkModeToggle) {
-          darkModeToggle.addEventListener("click", () => {
-            const html = document.documentElement;
-            const isDark = html.classList.toggle("dark");
-            localStorage.setItem("darkMode", isDark);
-          });
-        }
       }
 
       if (document.readyState === "loading") {
