@@ -1262,7 +1262,8 @@
       if (document.readyState === "loading") {
         document.addEventListener("DOMContentLoaded", setupHandlers);
       } else {
-        setupHandlers();
+        // Use setTimeout to defer execution, ensuring DOM is ready after SPA navigation
+        setTimeout(setupHandlers, 0);
       }
     })();
   </script>
