@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <title>Redirecting...</title>
   <script>
-    // Handle clean URLs by redirecting to hash-based routing
-    // e.g., /nuclear -> /#nuclear.html
+    // Handle clean URLs by redirecting to the actual HTML file
+    // e.g., /nuclear -> /nuclear.html
     (function() {
       var path = window.location.pathname;
       // Remove leading slash and trailing slash if present
@@ -16,8 +16,8 @@
         if (!page.endsWith('.html')) {
           page = page + '.html';
         }
-        // Redirect to hash-based URL
-        window.location.replace('/#' + page);
+        // Redirect to the actual HTML file
+        window.location.replace('/' + page);
       } else {
         // No path, just go to home
         window.location.replace('/');
