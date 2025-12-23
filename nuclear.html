@@ -7,23 +7,52 @@
 
   <!-- Tailwind via CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+    }
+  </script>
 
   <!-- SweetAlert2 for error messages -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-</head>
-<body class="min-h-screen bg-gradient-to-b from-sky-400 to-teal-500 px-4 py-8 text-slate-900">
 
-  <main class="mx-auto w-full max-w-4xl rounded-2xl bg-white/95 p-6 shadow-xl ring-1 ring-slate-200">
+  <!-- Dark mode initialization (prevent flash) -->
+  <script>
+    if (localStorage.getItem('darkMode') === 'true' ||
+        (!localStorage.getItem('darkMode') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    }
+  </script>
+</head>
+<body class="min-h-screen bg-gradient-to-b from-sky-400 to-teal-500 dark:from-slate-900 dark:to-slate-800 px-4 py-8 text-slate-900 dark:text-slate-100 transition-colors duration-300">
+
+  <main class="relative mx-auto w-full max-w-4xl rounded-2xl bg-white/95 dark:bg-slate-800/95 p-6 shadow-xl ring-1 ring-slate-200 dark:ring-slate-700 transition-colors duration-300">
     <!-- Header -->
     <header class="mb-6 flex flex-col items-center gap-3">
+      <!-- Dark mode toggle -->
+      <button
+        id="darkModeToggle"
+        type="button"
+        class="absolute top-4 right-4 sm:top-6 sm:right-6 p-2 rounded-full bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 transition-colors"
+        aria-label="Toggle dark mode"
+      >
+        <!-- Sun icon (shown in dark mode) -->
+        <svg class="hidden dark:block h-5 w-5 text-yellow-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.166a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM17.834 18.894a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 10-1.061 1.06l1.59 1.591zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591z" />
+        </svg>
+        <!-- Moon icon (shown in light mode) -->
+        <svg class="block dark:hidden h-5 w-5 text-slate-700" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+          <path fill-rule="evenodd" d="M9.528 1.718a.75.75 0 01.162.819A8.97 8.97 0 009 6a9 9 0 009 9 8.97 8.97 0 003.463-.69.75.75 0 01.981.98 10.503 10.503 0 01-9.694 6.46c-5.799 0-10.5-4.701-10.5-10.5 0-4.368 2.667-8.112 6.46-9.694a.75.75 0 01.818.162z" clip-rule="evenodd" />
+        </svg>
+      </button>
       <img
         src="https://bennyhartnett.com/assets/Centrus-Logo-Color-1-400x222.png"
         alt="Centrus Energy logo"
-        class="h-16 w-auto object-contain"
+        class="h-16 w-auto object-contain dark:brightness-110"
       />
       <div class="text-center">
         <h1 class="text-3xl font-bold tracking-tight">Uranium Enrichment Calculators</h1>
-        <p class="mt-1 max-w-xl text-sm text-slate-600">
+        <p class="mt-1 max-w-xl text-sm text-slate-600 dark:text-slate-400">
           Lightweight browser-based tools for common uranium enrichment scenarios:
           feed requirements, SWU demand, and optimum tails assay.
         </p>
@@ -32,32 +61,32 @@
 
     <!-- Mode navigation -->
     <nav class="mb-6 flex flex-wrap justify-center gap-2 text-xs sm:text-sm">
-      <a href="#mode1" class="rounded-full bg-slate-100 px-3 py-1 font-medium text-slate-700 hover:bg-slate-200">
+      <a href="#mode1" class="rounded-full bg-slate-100 dark:bg-slate-700 px-3 py-1 font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors">
         1. Feed &amp; SWU for 1&nbsp;kg U EUP
       </a>
-      <a href="#mode2" class="rounded-full bg-slate-100 px-3 py-1 font-medium text-slate-700 hover:bg-slate-200">
+      <a href="#mode2" class="rounded-full bg-slate-100 dark:bg-slate-700 px-3 py-1 font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors">
         2. Feed &amp; SWU from EUP
       </a>
-      <a href="#mode3" class="rounded-full bg-slate-100 px-3 py-1 font-medium text-slate-700 hover:bg-slate-200">
+      <a href="#mode3" class="rounded-full bg-slate-100 dark:bg-slate-700 px-3 py-1 font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors">
         3. EUP &amp; SWU from Feed
       </a>
-      <a href="#mode4" class="rounded-full bg-slate-100 px-3 py-1 font-medium text-slate-700 hover:bg-slate-200">
+      <a href="#mode4" class="rounded-full bg-slate-100 dark:bg-slate-700 px-3 py-1 font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors">
         4. Feed &amp; EUP from SWU
       </a>
-      <a href="#mode5" class="rounded-full bg-slate-100 px-3 py-1 font-medium text-slate-700 hover:bg-slate-200">
+      <a href="#mode5" class="rounded-full bg-slate-100 dark:bg-slate-700 px-3 py-1 font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors">
         5. Optimum Tails Assay
       </a>
     </nav>
 
     <!-- Calculator 1 -->
     <section id="mode1" class="mb-5">
-      <details class="group rounded-xl border border-slate-200 bg-white shadow-sm" open>
+      <details class="group rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 shadow-sm" open>
         <summary
-          class="flex cursor-pointer items-center justify-between gap-3 rounded-t-xl border-b border-slate-200 bg-slate-50 px-4 py-3 text-sm font-semibold text-slate-800 transition-colors group-open:bg-slate-100"
+          class="flex cursor-pointer items-center justify-between gap-3 rounded-t-xl border-b border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 px-4 py-3 text-sm font-semibold text-slate-800 dark:text-slate-200 transition-colors group-open:bg-slate-100 dark:group-open:bg-slate-600"
         >
           <span>Feed &amp; SWU for 1&nbsp;kg U EUP</span>
           <svg
-            class="h-4 w-4 shrink-0 text-slate-500 transition-transform group-open:rotate-180"
+            class="h-4 w-4 shrink-0 text-slate-500 dark:text-slate-400 transition-transform group-open:rotate-180"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"
             fill="currentColor"
@@ -71,16 +100,16 @@
           </svg>
         </summary>
 
-        <div class="space-y-6 bg-slate-50 px-4 py-5 rounded-b-xl">
+        <div class="space-y-6 bg-slate-50 dark:bg-slate-700 px-4 py-5 rounded-b-xl">
           <form id="form1" class="space-y-6">
             <!-- Inputs -->
             <section>
-              <h2 class="mb-3 text-base font-semibold text-slate-900">Inputs</h2>
+              <h2 class="mb-3 text-base font-semibold text-slate-900 dark:text-slate-100">Inputs</h2>
 
               <div class="space-y-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:space-y-0">
                 <!-- Product assay -->
                 <div>
-                  <label for="xp1" class="block text-sm font-medium text-slate-700">
+                  <label for="xp1" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
                     Product Assay
                   </label>
                   <div class="mt-1 flex rounded-md shadow-sm">
@@ -89,22 +118,22 @@
                       type="number"
                       step="any"
                       placeholder="5"
-                      class="block w-full flex-1 rounded-l-md border border-slate-300 px-3 py-2 text-sm text-slate-900 placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-600 px-3 py-2 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                     <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 bg-slate-100 px-3 text-xs font-medium text-slate-600"
+                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
                     >
                       % U-235
                     </span>
                   </div>
-                  <p class="mt-1 text-xs text-slate-500">
+                  <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
                     Percent of U-235 in the product stream.
                   </p>
                 </div>
 
                 <!-- Tails assay -->
                 <div>
-                  <label for="xw1" class="block text-sm font-medium text-slate-700">
+                  <label for="xw1" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
                     Tails Assay
                   </label>
                   <div class="mt-1 flex rounded-md shadow-sm">
@@ -113,22 +142,22 @@
                       type="number"
                       step="any"
                       placeholder="0.3"
-                      class="block w-full flex-1 rounded-l-md border border-slate-300 px-3 py-2 text-sm text-slate-900 placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-600 px-3 py-2 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                     <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 bg-slate-100 px-3 text-xs font-medium text-slate-600"
+                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
                     >
                       % U-235
                     </span>
                   </div>
-                  <p class="mt-1 text-xs text-slate-500">
+                  <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
                     Percent of U-235 in the waste stream.
                   </p>
                 </div>
 
                 <!-- Feed assay -->
                 <div>
-                  <label for="xf1" class="block text-sm font-medium text-slate-700">
+                  <label for="xf1" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
                     Feed Assay
                   </label>
                   <div class="mt-1 flex rounded-md shadow-sm">
@@ -137,15 +166,15 @@
                       type="number"
                       step="any"
                       placeholder="0.7"
-                      class="block w-full flex-1 rounded-l-md border border-slate-300 px-3 py-2 text-sm text-slate-900 placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-600 px-3 py-2 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                     <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 bg-slate-100 px-3 text-xs font-medium text-slate-600"
+                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
                     >
                       % U-235
                     </span>
                   </div>
-                  <p class="mt-1 text-xs text-slate-500">
+                  <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
                     Percent of U-235 in the feed.
                   </p>
                 </div>
@@ -154,12 +183,12 @@
 
             <!-- Outputs -->
             <section>
-              <h2 class="mb-3 text-base font-semibold text-slate-900">Outputs (for 1&nbsp;kg U in product)</h2>
+              <h2 class="mb-3 text-base font-semibold text-slate-900 dark:text-slate-100">Outputs (for 1&nbsp;kg U in product)</h2>
 
               <div class="space-y-4 sm:grid sm:grid-cols-2 sm:gap-4 sm:space-y-0">
                 <!-- Feed quantity -->
                 <div>
-                  <label for="feed1" class="block text-sm font-medium text-slate-700">
+                  <label for="feed1" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
                     Feed Quantity
                   </label>
                   <div class="mt-1 flex rounded-md shadow-sm">
@@ -167,10 +196,10 @@
                       id="feed1"
                       type="text"
                       readonly
-                      class="block w-full flex-1 rounded-l-md border border-slate-300 bg-slate-100 px-3 py-2 text-sm text-slate-700 focus:outline-none"
+                      class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-600 px-3 py-2 text-sm text-slate-700 dark:text-slate-200 focus:outline-none"
                     />
                     <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 bg-slate-100 px-3 text-xs font-medium text-slate-600"
+                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
                     >
                       kg UF₆
                     </span>
@@ -179,7 +208,7 @@
 
                 <!-- SWU quantity -->
                 <div>
-                  <label for="swu1" class="block text-sm font-medium text-slate-700">
+                  <label for="swu1" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
                     SWU Quantity
                   </label>
                   <div class="mt-1 flex rounded-md shadow-sm">
@@ -187,10 +216,10 @@
                       id="swu1"
                       type="text"
                       readonly
-                      class="block w-full flex-1 rounded-l-md border border-slate-300 bg-slate-100 px-3 py-2 text-sm text-slate-700 focus:outline-none"
+                      class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-600 px-3 py-2 text-sm text-slate-700 dark:text-slate-200 focus:outline-none"
                     />
                     <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 bg-slate-100 px-3 text-xs font-medium text-slate-600"
+                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
                     >
                       SWU
                     </span>
@@ -204,14 +233,14 @@
               <button
                 id="clear1"
                 type="button"
-                class="w-full rounded-md border border-slate-300 bg-slate-100 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-200"
+                class="w-full rounded-md border border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-600 py-2 text-sm font-medium text-slate-700 dark:text-slate-200 transition hover:bg-slate-200 dark:hover:bg-slate-500"
               >
                 Clear
               </button>
               <button
                 id="calc1"
                 type="button"
-                class="w-full rounded-md bg-blue-600 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
+                class="w-full rounded-md bg-blue-600 dark:bg-blue-500 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 dark:hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 dark:focus:ring-offset-slate-700"
               >
                 Calculate
               </button>
@@ -223,13 +252,13 @@
 
     <!-- Calculator 2 -->
     <section id="mode2" class="mb-5">
-      <details class="group rounded-xl border border-slate-200 bg-white shadow-sm">
+      <details class="group rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 shadow-sm">
         <summary
-          class="flex cursor-pointer items-center justify-between gap-3 rounded-t-xl border-b border-slate-200 bg-slate-50 px-4 py-3 text-sm font-semibold text-slate-800 transition-colors group-open:bg-slate-100"
+          class="flex cursor-pointer items-center justify-between gap-3 rounded-t-xl border-b border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 px-4 py-3 text-sm font-semibold text-slate-800 dark:text-slate-200 transition-colors group-open:bg-slate-100 dark:group-open:bg-slate-600"
         >
           <span>Feed &amp; SWU from EUP Quantity</span>
           <svg
-            class="h-4 w-4 shrink-0 text-slate-500 transition-transform group-open:rotate-180"
+            class="h-4 w-4 shrink-0 text-slate-500 dark:text-slate-400 transition-transform group-open:rotate-180"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"
             fill="currentColor"
@@ -243,16 +272,16 @@
           </svg>
         </summary>
 
-        <div class="space-y-6 bg-slate-50 px-4 py-5 rounded-b-xl">
+        <div class="space-y-6 bg-slate-50 dark:bg-slate-700 px-4 py-5 rounded-b-xl">
           <form id="form2" class="space-y-6">
             <!-- Inputs -->
             <section>
-              <h2 class="mb-3 text-base font-semibold text-slate-900">Inputs</h2>
+              <h2 class="mb-3 text-base font-semibold text-slate-900 dark:text-slate-100">Inputs</h2>
 
               <div class="space-y-4 sm:grid sm:grid-cols-2 sm:gap-4 sm:space-y-0">
                 <!-- EUP quantity -->
                 <div>
-                  <label for="p2" class="block text-sm font-medium text-slate-700">
+                  <label for="p2" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
                     EUP Quantity
                   </label>
                   <div class="mt-1 flex rounded-md shadow-sm">
@@ -261,22 +290,22 @@
                       type="number"
                       step="any"
                       placeholder="100"
-                      class="block w-full flex-1 rounded-l-md border border-slate-300 px-3 py-2 text-sm text-slate-900 placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-600 px-3 py-2 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                     <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 bg-slate-100 px-3 text-xs font-medium text-slate-600"
+                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
                     >
                       kg UF₆
                     </span>
                   </div>
-                  <p class="mt-1 text-xs text-slate-500">
+                  <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
                     Mass of enriched uranium product.
                   </p>
                 </div>
 
                 <!-- Product assay -->
                 <div>
-                  <label for="xp2" class="block text-sm font-medium text-slate-700">
+                  <label for="xp2" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
                     Product Assay
                   </label>
                   <div class="mt-1 flex rounded-md shadow-sm">
@@ -285,10 +314,10 @@
                       type="number"
                       step="any"
                       placeholder="5"
-                      class="block w-full flex-1 rounded-l-md border border-slate-300 px-3 py-2 text-sm text-slate-900 placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-600 px-3 py-2 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                     <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 bg-slate-100 px-3 text-xs font-medium text-slate-600"
+                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
                     >
                       % U-235
                     </span>
@@ -297,7 +326,7 @@
 
                 <!-- Tails assay -->
                 <div>
-                  <label for="xw2" class="block text-sm font-medium text-slate-700">
+                  <label for="xw2" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
                     Tails Assay
                   </label>
                   <div class="mt-1 flex rounded-md shadow-sm">
@@ -306,10 +335,10 @@
                       type="number"
                       step="any"
                       placeholder="0.3"
-                      class="block w-full flex-1 rounded-l-md border border-slate-300 px-3 py-2 text-sm text-slate-900 placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-600 px-3 py-2 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                     <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 bg-slate-100 px-3 text-xs font-medium text-slate-600"
+                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
                     >
                       % U-235
                     </span>
@@ -318,7 +347,7 @@
 
                 <!-- Feed assay -->
                 <div>
-                  <label for="xf2" class="block text-sm font-medium text-slate-700">
+                  <label for="xf2" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
                     Feed Assay
                   </label>
                   <div class="mt-1 flex rounded-md shadow-sm">
@@ -327,10 +356,10 @@
                       type="number"
                       step="any"
                       placeholder="0.7"
-                      class="block w-full flex-1 rounded-l-md border border-slate-300 px-3 py-2 text-sm text-slate-900 placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-600 px-3 py-2 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                     <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 bg-slate-100 px-3 text-xs font-medium text-slate-600"
+                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
                     >
                       % U-235
                     </span>
@@ -341,12 +370,12 @@
 
             <!-- Outputs -->
             <section>
-              <h2 class="mb-3 text-base font-semibold text-slate-900">Outputs</h2>
+              <h2 class="mb-3 text-base font-semibold text-slate-900 dark:text-slate-100">Outputs</h2>
 
               <div class="space-y-4 sm:grid sm:grid-cols-2 sm:gap-4 sm:space-y-0">
                 <!-- Feed quantity -->
                 <div>
-                  <label for="feed2" class="block text-sm font-medium text-slate-700">
+                  <label for="feed2" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
                     Feed Quantity
                   </label>
                   <div class="mt-1 flex rounded-md shadow-sm">
@@ -354,10 +383,10 @@
                       id="feed2"
                       type="text"
                       readonly
-                      class="block w-full flex-1 rounded-l-md border border-slate-300 bg-slate-100 px-3 py-2 text-sm text-slate-700 focus:outline-none"
+                      class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-600 px-3 py-2 text-sm text-slate-700 dark:text-slate-200 focus:outline-none"
                     />
                     <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 bg-slate-100 px-3 text-xs font-medium text-slate-600"
+                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
                     >
                       kg UF₆
                     </span>
@@ -366,7 +395,7 @@
 
                 <!-- SWU quantity -->
                 <div>
-                  <label for="swu2" class="block text-sm font-medium text-slate-700">
+                  <label for="swu2" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
                     SWU Quantity
                   </label>
                   <div class="mt-1 flex rounded-md shadow-sm">
@@ -374,10 +403,10 @@
                       id="swu2"
                       type="text"
                       readonly
-                      class="block w-full flex-1 rounded-l-md border border-slate-300 bg-slate-100 px-3 py-2 text-sm text-slate-700 focus:outline-none"
+                      class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-600 px-3 py-2 text-sm text-slate-700 dark:text-slate-200 focus:outline-none"
                     />
                     <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 bg-slate-100 px-3 text-xs font-medium text-slate-600"
+                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
                     >
                       SWU
                     </span>
@@ -391,14 +420,14 @@
               <button
                 id="clear2"
                 type="button"
-                class="w-full rounded-md border border-slate-300 bg-slate-100 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-200"
+                class="w-full rounded-md border border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-600 py-2 text-sm font-medium text-slate-700 dark:text-slate-200 transition hover:bg-slate-200 dark:hover:bg-slate-500"
               >
                 Clear
               </button>
               <button
                 id="calc2"
                 type="button"
-                class="w-full rounded-md bg-blue-600 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
+                class="w-full rounded-md bg-blue-600 dark:bg-blue-500 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 dark:hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 dark:focus:ring-offset-slate-700"
               >
                 Calculate
               </button>
@@ -410,13 +439,13 @@
 
     <!-- Calculator 3 -->
     <section id="mode3" class="mb-5">
-      <details class="group rounded-xl border border-slate-200 bg-white shadow-sm">
+      <details class="group rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 shadow-sm">
         <summary
-          class="flex cursor-pointer items-center justify-between gap-3 rounded-t-xl border-b border-slate-200 bg-slate-50 px-4 py-3 text-sm font-semibold text-slate-800 transition-colors group-open:bg-slate-100"
+          class="flex cursor-pointer items-center justify-between gap-3 rounded-t-xl border-b border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 px-4 py-3 text-sm font-semibold text-slate-800 dark:text-slate-200 transition-colors group-open:bg-slate-100 dark:group-open:bg-slate-600"
         >
           <span>EUP &amp; SWU from Feed Quantity</span>
           <svg
-            class="h-4 w-4 shrink-0 text-slate-500 transition-transform group-open:rotate-180"
+            class="h-4 w-4 shrink-0 text-slate-500 dark:text-slate-400 transition-transform group-open:rotate-180"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"
             fill="currentColor"
@@ -430,16 +459,16 @@
           </svg>
         </summary>
 
-        <div class="space-y-6 bg-slate-50 px-4 py-5 rounded-b-xl">
+        <div class="space-y-6 bg-slate-50 dark:bg-slate-700 px-4 py-5 rounded-b-xl">
           <form id="form3" class="space-y-6">
             <!-- Inputs -->
             <section>
-              <h2 class="mb-3 text-base font-semibold text-slate-900">Inputs</h2>
+              <h2 class="mb-3 text-base font-semibold text-slate-900 dark:text-slate-100">Inputs</h2>
 
               <div class="space-y-4 sm:grid sm:grid-cols-2 sm:gap-4 sm:space-y-0">
                 <!-- Feed quantity -->
                 <div>
-                  <label for="F3" class="block text-sm font-medium text-slate-700">
+                  <label for="F3" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
                     Feed Quantity
                   </label>
                   <div class="mt-1 flex rounded-md shadow-sm">
@@ -448,10 +477,10 @@
                       type="number"
                       step="any"
                       placeholder="100"
-                      class="block w-full flex-1 rounded-l-md border border-slate-300 px-3 py-2 text-sm text-slate-900 placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-600 px-3 py-2 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                     <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 bg-slate-100 px-3 text-xs font-medium text-slate-600"
+                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
                     >
                       kg UF₆
                     </span>
@@ -460,7 +489,7 @@
 
                 <!-- Product assay -->
                 <div>
-                  <label for="xp3" class="block text-sm font-medium text-slate-700">
+                  <label for="xp3" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
                     Product Assay
                   </label>
                   <div class="mt-1 flex rounded-md shadow-sm">
@@ -469,10 +498,10 @@
                       type="number"
                       step="any"
                       placeholder="5"
-                      class="block w-full flex-1 rounded-l-md border border-slate-300 px-3 py-2 text-sm text-slate-900 placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-600 px-3 py-2 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                     <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 bg-slate-100 px-3 text-xs font-medium text-slate-600"
+                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
                     >
                       % U-235
                     </span>
@@ -481,7 +510,7 @@
 
                 <!-- Tails assay -->
                 <div>
-                  <label for="xw3" class="block text-sm font-medium text-slate-700">
+                  <label for="xw3" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
                     Tails Assay
                   </label>
                   <div class="mt-1 flex rounded-md shadow-sm">
@@ -490,10 +519,10 @@
                       type="number"
                       step="any"
                       placeholder="0.3"
-                      class="block w-full flex-1 rounded-l-md border border-slate-300 px-3 py-2 text-sm text-slate-900 placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-600 px-3 py-2 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                     <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 bg-slate-100 px-3 text-xs font-medium text-slate-600"
+                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
                     >
                       % U-235
                     </span>
@@ -502,7 +531,7 @@
 
                 <!-- Feed assay -->
                 <div>
-                  <label for="xf3" class="block text-sm font-medium text-slate-700">
+                  <label for="xf3" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
                     Feed Assay
                   </label>
                   <div class="mt-1 flex rounded-md shadow-sm">
@@ -511,10 +540,10 @@
                       type="number"
                       step="any"
                       placeholder="0.7"
-                      class="block w-full flex-1 rounded-l-md border border-slate-300 px-3 py-2 text-sm text-slate-900 placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-600 px-3 py-2 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                     <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 bg-slate-100 px-3 text-xs font-medium text-slate-600"
+                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
                     >
                       % U-235
                     </span>
@@ -525,12 +554,12 @@
 
             <!-- Outputs -->
             <section>
-              <h2 class="mb-3 text-base font-semibold text-slate-900">Outputs</h2>
+              <h2 class="mb-3 text-base font-semibold text-slate-900 dark:text-slate-100">Outputs</h2>
 
               <div class="space-y-4 sm:grid sm:grid-cols-2 sm:gap-4 sm:space-y-0">
                 <!-- EUP quantity -->
                 <div>
-                  <label for="P3" class="block text-sm font-medium text-slate-700">
+                  <label for="P3" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
                     EUP Quantity
                   </label>
                   <div class="mt-1 flex rounded-md shadow-sm">
@@ -538,10 +567,10 @@
                       id="P3"
                       type="text"
                       readonly
-                      class="block w-full flex-1 rounded-l-md border border-slate-300 bg-slate-100 px-3 py-2 text-sm text-slate-700 focus:outline-none"
+                      class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-600 px-3 py-2 text-sm text-slate-700 dark:text-slate-200 focus:outline-none"
                     />
                     <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 bg-slate-100 px-3 text-xs font-medium text-slate-600"
+                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
                     >
                       kg UF₆
                     </span>
@@ -550,7 +579,7 @@
 
                 <!-- SWU quantity -->
                 <div>
-                  <label for="swu3" class="block text-sm font-medium text-slate-700">
+                  <label for="swu3" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
                     SWU Quantity
                   </label>
                   <div class="mt-1 flex rounded-md shadow-sm">
@@ -558,10 +587,10 @@
                       id="swu3"
                       type="text"
                       readonly
-                      class="block w-full flex-1 rounded-l-md border border-slate-300 bg-slate-100 px-3 py-2 text-sm text-slate-700 focus:outline-none"
+                      class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-600 px-3 py-2 text-sm text-slate-700 dark:text-slate-200 focus:outline-none"
                     />
                     <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 bg-slate-100 px-3 text-xs font-medium text-slate-600"
+                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
                     >
                       SWU
                     </span>
@@ -575,14 +604,14 @@
               <button
                 id="clear3"
                 type="button"
-                class="w-full rounded-md border border-slate-300 bg-slate-100 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-200"
+                class="w-full rounded-md border border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-600 py-2 text-sm font-medium text-slate-700 dark:text-slate-200 transition hover:bg-slate-200 dark:hover:bg-slate-500"
               >
                 Clear
               </button>
               <button
                 id="calc3"
                 type="button"
-                class="w-full rounded-md bg-blue-600 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
+                class="w-full rounded-md bg-blue-600 dark:bg-blue-500 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 dark:hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 dark:focus:ring-offset-slate-700"
               >
                 Calculate
               </button>
@@ -594,13 +623,13 @@
 
     <!-- Calculator 4 -->
     <section id="mode4" class="mb-5">
-      <details class="group rounded-xl border border-slate-200 bg-white shadow-sm">
+      <details class="group rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 shadow-sm">
         <summary
-          class="flex cursor-pointer items-center justify-between gap-3 rounded-t-xl border-b border-slate-200 bg-slate-50 px-4 py-3 text-sm font-semibold text-slate-800 transition-colors group-open:bg-slate-100"
+          class="flex cursor-pointer items-center justify-between gap-3 rounded-t-xl border-b border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 px-4 py-3 text-sm font-semibold text-slate-800 dark:text-slate-200 transition-colors group-open:bg-slate-100 dark:group-open:bg-slate-600"
         >
           <span>Feed &amp; EUP from SWU Quantity</span>
           <svg
-            class="h-4 w-4 shrink-0 text-slate-500 transition-transform group-open:rotate-180"
+            class="h-4 w-4 shrink-0 text-slate-500 dark:text-slate-400 transition-transform group-open:rotate-180"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"
             fill="currentColor"
@@ -614,16 +643,16 @@
           </svg>
         </summary>
 
-        <div class="space-y-6 bg-slate-50 px-4 py-5 rounded-b-xl">
+        <div class="space-y-6 bg-slate-50 dark:bg-slate-700 px-4 py-5 rounded-b-xl">
           <form id="form4" class="space-y-6">
             <!-- Inputs -->
             <section>
-              <h2 class="mb-3 text-base font-semibold text-slate-900">Inputs</h2>
+              <h2 class="mb-3 text-base font-semibold text-slate-900 dark:text-slate-100">Inputs</h2>
 
               <div class="space-y-4 sm:grid sm:grid-cols-2 sm:gap-4 sm:space-y-0">
                 <!-- SWU quantity -->
                 <div>
-                  <label for="S4" class="block text-sm font-medium text-slate-700">
+                  <label for="S4" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
                     SWU Quantity
                   </label>
                   <div class="mt-1 flex rounded-md shadow-sm">
@@ -632,10 +661,10 @@
                       type="number"
                       step="any"
                       placeholder="500"
-                      class="block w-full flex-1 rounded-l-md border border-slate-300 px-3 py-2 text-sm text-slate-900 placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-600 px-3 py-2 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                     <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 bg-slate-100 px-3 text-xs font-medium text-slate-600"
+                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
                     >
                       SWU
                     </span>
@@ -644,7 +673,7 @@
 
                 <!-- Product assay -->
                 <div>
-                  <label for="xp4" class="block text-sm font-medium text-slate-700">
+                  <label for="xp4" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
                     Product Assay
                   </label>
                   <div class="mt-1 flex rounded-md shadow-sm">
@@ -653,10 +682,10 @@
                       type="number"
                       step="any"
                       placeholder="5"
-                      class="block w-full flex-1 rounded-l-md border border-slate-300 px-3 py-2 text-sm text-slate-900 placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-600 px-3 py-2 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                     <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 bg-slate-100 px-3 text-xs font-medium text-slate-600"
+                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
                     >
                       % U-235
                     </span>
@@ -665,7 +694,7 @@
 
                 <!-- Tails assay -->
                 <div>
-                  <label for="xw4" class="block text-sm font-medium text-slate-700">
+                  <label for="xw4" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
                     Tails Assay
                   </label>
                   <div class="mt-1 flex rounded-md shadow-sm">
@@ -674,10 +703,10 @@
                       type="number"
                       step="any"
                       placeholder="0.3"
-                      class="block w-full flex-1 rounded-l-md border border-slate-300 px-3 py-2 text-sm text-slate-900 placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-600 px-3 py-2 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                     <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 bg-slate-100 px-3 text-xs font-medium text-slate-600"
+                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
                     >
                       % U-235
                     </span>
@@ -686,7 +715,7 @@
 
                 <!-- Feed assay -->
                 <div>
-                  <label for="xf4" class="block text-sm font-medium text-slate-700">
+                  <label for="xf4" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
                     Feed Assay
                   </label>
                   <div class="mt-1 flex rounded-md shadow-sm">
@@ -695,10 +724,10 @@
                       type="number"
                       step="any"
                       placeholder="0.7"
-                      class="block w-full flex-1 rounded-l-md border border-slate-300 px-3 py-2 text-sm text-slate-900 placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-600 px-3 py-2 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                     <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 bg-slate-100 px-3 text-xs font-medium text-slate-600"
+                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
                     >
                       % U-235
                     </span>
@@ -709,12 +738,12 @@
 
             <!-- Outputs -->
             <section>
-              <h2 class="mb-3 text-base font-semibold text-slate-900">Outputs</h2>
+              <h2 class="mb-3 text-base font-semibold text-slate-900 dark:text-slate-100">Outputs</h2>
 
               <div class="space-y-4 sm:grid sm:grid-cols-2 sm:gap-4 sm:space-y-0">
                 <!-- EUP quantity -->
                 <div>
-                  <label for="P4" class="block text-sm font-medium text-slate-700">
+                  <label for="P4" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
                     EUP Quantity
                   </label>
                   <div class="mt-1 flex rounded-md shadow-sm">
@@ -722,10 +751,10 @@
                       id="P4"
                       type="text"
                       readonly
-                      class="block w-full flex-1 rounded-l-md border border-slate-300 bg-slate-100 px-3 py-2 text-sm text-slate-700 focus:outline-none"
+                      class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-600 px-3 py-2 text-sm text-slate-700 dark:text-slate-200 focus:outline-none"
                     />
                     <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 bg-slate-100 px-3 text-xs font-medium text-slate-600"
+                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
                     >
                       kg U
                     </span>
@@ -734,7 +763,7 @@
 
                 <!-- Feed quantity -->
                 <div>
-                  <label for="feed4" class="block text-sm font-medium text-slate-700">
+                  <label for="feed4" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
                     Feed Quantity
                   </label>
                   <div class="mt-1 flex rounded-md shadow-sm">
@@ -742,10 +771,10 @@
                       id="feed4"
                       type="text"
                       readonly
-                      class="block w-full flex-1 rounded-l-md border border-slate-300 bg-slate-100 px-3 py-2 text-sm text-slate-700 focus:outline-none"
+                      class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-600 px-3 py-2 text-sm text-slate-700 dark:text-slate-200 focus:outline-none"
                     />
                     <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 bg-slate-100 px-3 text-xs font-medium text-slate-600"
+                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
                     >
                       kg UF₆
                     </span>
@@ -759,14 +788,14 @@
               <button
                 id="clear4"
                 type="button"
-                class="w-full rounded-md border border-slate-300 bg-slate-100 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-200"
+                class="w-full rounded-md border border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-600 py-2 text-sm font-medium text-slate-700 dark:text-slate-200 transition hover:bg-slate-200 dark:hover:bg-slate-500"
               >
                 Clear
               </button>
               <button
                 id="calc4"
                 type="button"
-                class="w-full rounded-md bg-blue-600 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
+                class="w-full rounded-md bg-blue-600 dark:bg-blue-500 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 dark:hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 dark:focus:ring-offset-slate-700"
               >
                 Calculate
               </button>
@@ -778,13 +807,13 @@
 
     <!-- Calculator 5 -->
     <section id="mode5">
-      <details class="group rounded-xl border border-slate-200 bg-white shadow-sm">
+      <details class="group rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 shadow-sm">
         <summary
-          class="flex cursor-pointer items-center justify-between gap-3 rounded-t-xl border-b border-slate-200 bg-slate-50 px-4 py-3 text-sm font-semibold text-slate-800 transition-colors group-open:bg-slate-100"
+          class="flex cursor-pointer items-center justify-between gap-3 rounded-t-xl border-b border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 px-4 py-3 text-sm font-semibold text-slate-800 dark:text-slate-200 transition-colors group-open:bg-slate-100 dark:group-open:bg-slate-600"
         >
           <span>Optimum Tails Assay</span>
           <svg
-            class="h-4 w-4 shrink-0 text-slate-500 transition-transform group-open:rotate-180"
+            class="h-4 w-4 shrink-0 text-slate-500 dark:text-slate-400 transition-transform group-open:rotate-180"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"
             fill="currentColor"
@@ -798,16 +827,16 @@
           </svg>
         </summary>
 
-        <div class="space-y-6 bg-slate-50 px-4 py-5 rounded-b-xl">
+        <div class="space-y-6 bg-slate-50 dark:bg-slate-700 px-4 py-5 rounded-b-xl">
           <form id="form5" class="space-y-6">
             <!-- Inputs -->
             <section>
-              <h2 class="mb-3 text-base font-semibold text-slate-900">Inputs</h2>
+              <h2 class="mb-3 text-base font-semibold text-slate-900 dark:text-slate-100">Inputs</h2>
 
               <div class="space-y-4 sm:grid sm:grid-cols-2 sm:gap-4 sm:space-y-0">
                 <!-- Feed price -->
                 <div>
-                  <label for="cf5" class="block text-sm font-medium text-slate-700">
+                  <label for="cf5" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
                     Feed Price
                   </label>
                   <div class="mt-1 flex rounded-md shadow-sm">
@@ -816,22 +845,22 @@
                       type="number"
                       step="any"
                       placeholder="75"
-                      class="block w-full flex-1 rounded-l-md border border-slate-300 px-3 py-2 text-sm text-slate-900 placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-600 px-3 py-2 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                     <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 bg-slate-100 px-3 text-xs font-medium text-slate-600"
+                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
                     >
                       currency / kg
                     </span>
                   </div>
-                  <p class="mt-1 text-xs text-slate-500">
+                  <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
                     Cost of feed per kilogram of uranium.
                   </p>
                 </div>
 
                 <!-- SWU price -->
                 <div>
-                  <label for="cs5" class="block text-sm font-medium text-slate-700">
+                  <label for="cs5" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
                     SWU Price
                   </label>
                   <div class="mt-1 flex rounded-md shadow-sm">
@@ -840,22 +869,22 @@
                       type="number"
                       step="any"
                       placeholder="100"
-                      class="block w-full flex-1 rounded-l-md border border-slate-300 px-3 py-2 text-sm text-slate-900 placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-600 px-3 py-2 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                     <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 bg-slate-100 px-3 text-xs font-medium text-slate-600"
+                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
                     >
                       currency / SWU
                     </span>
                   </div>
-                  <p class="mt-1 text-xs text-slate-500">
+                  <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
                     Cost of enrichment work per SWU.
                   </p>
                 </div>
 
                 <!-- Product assay -->
                 <div>
-                  <label for="xp5" class="block text-sm font-medium text-slate-700">
+                  <label for="xp5" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
                     Product Assay
                   </label>
                   <div class="mt-1 flex rounded-md shadow-sm">
@@ -864,10 +893,10 @@
                       type="number"
                       step="any"
                       placeholder="5"
-                      class="block w-full flex-1 rounded-l-md border border-slate-300 px-3 py-2 text-sm text-slate-900 placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-600 px-3 py-2 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                     <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 bg-slate-100 px-3 text-xs font-medium text-slate-600"
+                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
                     >
                       % U-235
                     </span>
@@ -876,7 +905,7 @@
 
                 <!-- Feed assay -->
                 <div>
-                  <label for="xf5" class="block text-sm font-medium text-slate-700">
+                  <label for="xf5" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
                     Feed Assay
                   </label>
                   <div class="mt-1 flex rounded-md shadow-sm">
@@ -885,10 +914,10 @@
                       type="number"
                       step="any"
                       placeholder="0.7"
-                      class="block w-full flex-1 rounded-l-md border border-slate-300 px-3 py-2 text-sm text-slate-900 placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-600 px-3 py-2 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                     <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 bg-slate-100 px-3 text-xs font-medium text-slate-600"
+                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
                     >
                       % U-235
                     </span>
@@ -899,11 +928,11 @@
 
             <!-- Output -->
             <section>
-              <h2 class="mb-3 text-base font-semibold text-slate-900">Output</h2>
+              <h2 class="mb-3 text-base font-semibold text-slate-900 dark:text-slate-100">Output</h2>
 
               <div class="space-y-4 sm:w-1/2">
                 <div>
-                  <label for="xw5" class="block text-sm font-medium text-slate-700">
+                  <label for="xw5" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
                     Optimum Tails Assay
                   </label>
                   <div class="mt-1 flex rounded-md shadow-sm">
@@ -911,10 +940,10 @@
                       id="xw5"
                       type="text"
                       readonly
-                      class="block w-full flex-1 rounded-l-md border border-slate-300 bg-slate-100 px-3 py-2 text-sm text-slate-700 focus:outline-none"
+                      class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-600 px-3 py-2 text-sm text-slate-700 dark:text-slate-200 focus:outline-none"
                     />
                     <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 bg-slate-100 px-3 text-xs font-medium text-slate-600"
+                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
                     >
                       % U-235
                     </span>
@@ -928,14 +957,14 @@
               <button
                 id="clear5"
                 type="button"
-                class="w-full rounded-md border border-slate-300 bg-slate-100 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-200"
+                class="w-full rounded-md border border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-600 py-2 text-sm font-medium text-slate-700 dark:text-slate-200 transition hover:bg-slate-200 dark:hover:bg-slate-500"
               >
                 Clear
               </button>
               <button
                 id="calc5"
                 type="button"
-                class="w-full rounded-md bg-blue-600 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
+                class="w-full rounded-md bg-blue-600 dark:bg-blue-500 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 dark:hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 dark:focus:ring-offset-slate-700"
               >
                 Calculate
               </button>
@@ -946,7 +975,7 @@
     </section>
 
     <!-- Footer -->
-    <footer class="mt-6 border-t border-slate-200 pt-3 text-center text-xs text-slate-500">
+    <footer class="mt-6 border-t border-slate-200 dark:border-slate-600 pt-3 text-center text-xs text-slate-500 dark:text-slate-400">
       <div>© <span id="current-year"></span> bennyhartnett.com</div>
     </footer>
   </main>
@@ -1218,6 +1247,16 @@
 
         const yearEl = document.getElementById("current-year");
         if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+        // Dark mode toggle
+        const darkModeToggle = document.getElementById("darkModeToggle");
+        if (darkModeToggle) {
+          darkModeToggle.addEventListener("click", () => {
+            const html = document.documentElement;
+            const isDark = html.classList.toggle("dark");
+            localStorage.setItem("darkMode", isDark);
+          });
+        }
       }
 
       if (document.readyState === "loading") {
