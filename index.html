@@ -564,6 +564,10 @@
         const link = e.target.closest('a');
         if (!link) return;
         const href = link.getAttribute('href');
+        // Skip SPA handling for nuclear page - do full page navigation
+        if (href === 'nuclear.html' || href === '/nuclear.html' || href === '/nuclear') {
+          return; // Let browser handle normally
+        }
         if (href && href.endsWith('.html') && !href.startsWith('http')) {
           e.preventDefault();
           loadContent(href);
