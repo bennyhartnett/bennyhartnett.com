@@ -369,7 +369,7 @@
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
 
-    gtag('config', 'G-GGGPH0X4LN');
+    gtag('config', 'G-GGGPH0X4LN', { send_page_view: false });
   </script>
 </head>
 <body>
@@ -412,7 +412,10 @@
           title: 'Generative AI - Benny Hartnett',
           desc: 'Articles and resources on generative AI from Benny Hartnett.'
         },
-        
+        'gis.html': {
+          title: 'GIS - Benny Hartnett',
+          desc: 'Geographic Information Systems projects and resources.'
+        },
         'government-contracting.html': {
           title: 'Government Contracting - Benny Hartnett',
           desc: 'Insights and resources about government contracting.'
@@ -428,6 +431,10 @@
         'privacy.html': {
           title: 'Privacy Policy - Benny Hartnett',
           desc: 'Privacy practices for this site.'
+        },
+        '404.html': {
+          title: 'Page Not Found - Benny Hartnett',
+          desc: 'The requested page could not be found.'
         }
       };
       if (toggleBtn && menu) {
@@ -473,6 +480,14 @@
             const ogDesc = document.querySelector('meta[property="og:description"]');
             if (ogDesc) ogDesc.setAttribute('content', meta.desc);
             if (ogUrl) ogUrl.setAttribute('content', fullUrl);
+            // Track page view in Google Analytics
+            if (typeof gtag === 'function') {
+              gtag('event', 'page_view', {
+                page_path: '/' + url.replace('.html', ''),
+                page_title: meta.title,
+                page_location: fullUrl
+              });
+            }
             if (push) {
               history.pushState({ url }, '', '#' + url);
             }
