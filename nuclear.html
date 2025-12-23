@@ -1269,6 +1269,40 @@
             localStorage.setItem("darkMode", isDark);
           });
         }
+
+        // Open accordion when clicking mode navigation buttons
+        function openAccordionForHash(hash) {
+          if (!hash) return;
+          const section = document.querySelector(hash);
+          if (!section) return;
+          const details = section.querySelector("details");
+          if (details) {
+            // Close all other accordions
+            document.querySelectorAll("section[id^='mode'] details").forEach((d) => {
+              if (d !== details) d.removeAttribute("open");
+            });
+            // Open the target accordion
+            details.setAttribute("open", "");
+          }
+        }
+
+        // Handle mode navigation link clicks
+        document.querySelectorAll('nav a[href^="#mode"]').forEach((link) => {
+          link.addEventListener("click", (e) => {
+            const hash = link.getAttribute("href");
+            openAccordionForHash(hash);
+          });
+        });
+
+        // Handle hash on page load
+        if (window.location.hash) {
+          openAccordionForHash(window.location.hash);
+        }
+
+        // Handle hash changes (e.g., back/forward navigation)
+        window.addEventListener("hashchange", () => {
+          openAccordionForHash(window.location.hash);
+        });
       }
 
       if (document.readyState === "loading") {
