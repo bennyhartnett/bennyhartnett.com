@@ -30,258 +30,39 @@
     }
   }
   </script>
+
+  <!-- External Stylesheets -->
+  <link rel="stylesheet" href="assets/css/main.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@5/dark.min.css" />
+
+  <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
-  <style>
-    /* Import fonts */
-    @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@600&family=Inter:wght@400;600&display=swap');
-
-    :root {
-      --wave-color: blue;
-    }
-
-    html,
-    body {
-      width: 100%;
-      min-height: 100%;
-      margin: 0;
-      overflow-x: hidden;
-      /* allow vertical scrolling if needed */
-      overflow-y: auto;
-    }
-
-    /* Dark mode scrollbar */
-    ::-webkit-scrollbar {
-      width: 12px;
-    }
-    ::-webkit-scrollbar-track {
-      background: #111;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #444;
-      border-radius: 6px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: #555;
-    }
-    * {
-      scrollbar-width: thin;
-      scrollbar-color: #444 #111;
-    }
-
-    /* Invisible nav bar with responsive behavior */
-    nav {
-      position: fixed;
-      /* fixed so it remains visible */
-      top: 0;
-      left: 0;
-      width: 100%;
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      padding: 8px 12px;
-      background: rgba(0, 0, 0, 0);
-      /* transparent */
-      z-index: 100;
-      /* higher than canvas */
-    }
-
-    nav .title {
-      font-family: 'IBM Plex Sans', sans-serif;
-      font-weight: 600;
-      /* SemiBold */
-      text-transform: uppercase;
-      letter-spacing: -0.5px;
-      color: white;
-      font-size: 1.1em;
-      flex: 0 0 auto;
-      margin-right: 12px;
-      cursor: pointer;
-    }
-
-    nav .nav-header {
-      display: flex;
-      align-items: center;
-      width: 100%;
-    }
-
-    nav .search-bar {
-      display: block;
-      padding: 4px 8px;
-      font-size: 0.95em;
-      border-radius: 4px;
-      border: 1px solid #ccc;
-      margin-left: auto;
-    }
-
-    nav .menu {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      flex: 1 1 auto;
-      justify-content: flex-end;
-    }
-
-    nav .menu a {
-      font-family: 'Inter', sans-serif;
-      font-weight: 600;
-      /* SemiBold */
-      color: white;
-      text-decoration: none;
-      font-size: 0.95em;
-      white-space: nowrap;
-      padding: 4px 8px;
-      transition: color 0.3s ease;
-    }
-
-    nav .menu a i {
-      font-size: 1.1em;
-    }
-
-    nav .menu a:hover {
-      color: var(--wave-color);
-    }
-
-    .menu-toggle {
-      background: none;
-      border: none;
-      color: white;
-      font-size: 1.2em;
-      cursor: pointer;
-      display: none;
-    }
-
-    .search-icon {
-      position: absolute;
-      right: 1rem;
-      top: 0.5rem;
-      color: white;
-      text-decoration: none;
-      font-size: 1.2em;
-    }
-
-    /* Stack title and menu vertically on narrower screens */
-    @media (max-width: 700px) {
-      nav {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      nav .title {
-        margin-bottom: 0;
-      }
-
-      nav .search-bar {
-        display: block;
-        margin-left: 12px;
-      }
-
-      .menu-toggle {
-        display: block;
-        margin-left: auto;
-      }
-
-      nav .menu {
-        display: none;
-        flex-direction: column;
-        width: 100%;
-        margin-top: 8px;
-      }
-
-      nav .menu.open {
-        display: flex;
-      }
-    }
-
-    /* Ensure nav items shrink on very small screens */
-    @media (max-width: 500px) {
-      nav .menu a {
-        font-size: 0.8em;
-        padding: 2px 4px;
-      }
-    }
-
-    #wave-canvas {
-      display: block;
-      width: 100%;
-      height: 100vh;
-      /* full viewport height */
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: -1;
-      pointer-events: none;
-    }
-
-    /* Provide spacing at top so content isn't covered by nav */
-    .content {
-      margin-top: 56px;
-      /* approx nav height */
-      padding: 0 1rem;
-      /* only horizontal padding to avoid extra height */
-      font-family: 'Inter', sans-serif;
-      color: white;
-    }
-
-
-    .content a {
-      color: #00bfff;
-      transition: color 0.3s ease;
-    }
-
-    .content a:hover {
-      color: var(--wave-color);
-    }
-
-    footer a {
-      color: white;
-      text-decoration: none;
-      transition: color 0.3s ease;
-    }
-
-    footer a:hover {
-      color: var(--wave-color);
-    }
-
-    footer {
-      font-family: 'Inter', sans-serif;
-      text-align: center;
-      font-size: 0.7em;
-      color: rgba(255, 255, 255, 0.3);
-      position: fixed;
-      bottom: 0;
-      width: 100%;
-      padding: 4px 0;
-    }
-  </style>
   <script type="module">
-    import { initWaveBackground } from "./wave-background.js";
+    import { initWaveBackground } from "./scripts/wave-background.js";
     window.initWaveBackground = initWaveBackground;
   </script>
-  <!-- Google tag (gtag.js) -->
+
+  <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-GGGPH0X4LN"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-
     gtag('config', 'G-GGGPH0X4LN', { send_page_view: false });
   </script>
 </head>
+
 <body>
-  <!-- Invisible navigation bar -->
+  <!-- Navigation -->
   <nav>
     <div class="nav-header">
       <div class="title">Benny Hartnett</div>
-
-      
       <a href="#"><i aria-hidden="true"></i></a>
       <button class="menu-toggle" aria-label="Toggle navigation">
         <i class="fa-solid fa-bars"></i>
       </button>
     </div>
-
   </nav>
 
   <div class="content">
@@ -300,20 +81,21 @@
       const baseUrl = window.location.origin + window.location.pathname.replace(/[^\/]*$/, '');
       if (canonicalTag) canonicalTag.setAttribute('href', baseUrl);
       if (ogUrlTag) ogUrlTag.setAttribute('content', baseUrl);
+
       const metaMap = {
-        'home.html': {
+        'pages/home.html': {
           title: 'Benny Hartnett - Home',
           desc: 'Overview of Benny Hartnett\'s projects including generative AI, GIS, nuclear work and contracting.'
         },
-        'generative-ai.html': {
+        'pages/generative-ai.html': {
           title: 'Generative AI - Benny Hartnett',
           desc: 'Articles and resources on generative AI from Benny Hartnett.'
         },
-        'gis.html': {
+        'pages/gis.html': {
           title: 'GIS - Benny Hartnett',
           desc: 'Geographic Information Systems projects and resources.'
         },
-        'government-contracting.html': {
+        'pages/government-contracting.html': {
           title: 'Government Contracting - Benny Hartnett',
           desc: 'Insights and resources about government contracting.'
         },
@@ -321,28 +103,33 @@
           title: 'Nuclear Research - Benny Hartnett',
           desc: 'Summaries of Benny Hartnett\'s nuclear-related projects.'
         },
-        'privacy.html': {
+        'pages/privacy.html': {
           title: 'Privacy Policy - Benny Hartnett',
           desc: 'Privacy practices for this site.'
+        },
+        'pages/projects.html': {
+          title: 'Projects - Benny Hartnett',
+          desc: 'List of projects and ideas explored by Benny Hartnett.'
         },
         '404.html': {
           title: 'Page Not Found - Benny Hartnett',
           desc: 'The requested page could not be found.'
         }
       };
+
       if (toggleBtn && menu) {
         toggleBtn.addEventListener('click', () => {
           menu.classList.toggle('open');
         });
       }
 
-        const title = document.querySelector('nav .title');
-        if (title) {
-          title.addEventListener('click', (e) => {
-            e.preventDefault();
-            loadContent('home.html');
-          });
-        }
+      const title = document.querySelector('nav .title');
+      if (title) {
+        title.addEventListener('click', (e) => {
+          e.preventDefault();
+          loadContent('pages/home.html');
+        });
+      }
 
       function loadContent(url, push = true) {
         fetch(url)
@@ -360,13 +147,15 @@
               }
               oldScript.replaceWith(newScript);
             });
-            const meta = metaMap[url] || metaMap['home.html'];
+            const meta = metaMap[url] || metaMap['pages/home.html'];
             document.title = meta.title;
             const descTag = document.querySelector('meta[name="description"]');
             if (descTag) descTag.setAttribute('content', meta.desc);
             const canonical = document.querySelector('link[rel="canonical"]');
             const ogUrl = document.querySelector('meta[property="og:url"]');
-            const fullUrl = baseUrl + (url === 'home.html' ? '' : url);
+            // Clean URL for display (remove pages/ prefix and .html)
+            const cleanPath = url.replace('pages/', '').replace('.html', '');
+            const fullUrl = baseUrl + (cleanPath === 'home' ? '' : cleanPath);
             if (canonical) canonical.setAttribute('href', fullUrl);
             const ogTitle = document.querySelector('meta[property="og:title"]');
             if (ogTitle) ogTitle.setAttribute('content', meta.title);
@@ -376,63 +165,44 @@
             // Track page view in Google Analytics
             if (typeof gtag === 'function') {
               gtag('event', 'page_view', {
-                page_path: '/' + url.replace('.html', ''),
+                page_path: '/' + cleanPath,
                 page_title: meta.title,
                 page_location: fullUrl
               });
             }
             if (push) {
-              const cleanUrl = url === 'home.html' ? '/' : '/' + url.replace('.html', '');
-              history.pushState({ url }, '', cleanUrl);
+              const displayUrl = cleanPath === 'home' ? '/' : '/' + cleanPath;
+              history.pushState({ url }, '', displayUrl);
             }
           })
           .catch(() => {
-            if (url === 'home.html') {
-              container.innerHTML = `\
-                <style>\
-                  .home-container { min-height: calc(100vh - 56px - 2rem); display: flex; justify-content: center; align-items: center; padding: 1rem; }\
-                  .link-list { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: center; }\
-                  .link-list li { margin: 0; }\
-                  .link-list a { display: block; color: white; text-decoration: none; font-size: 1.5rem; font-family: 'Inter', sans-serif; padding: 0.75rem; transition: color 0.3s ease; }\
-                  .link-list a:hover { color: var(--wave-color); }\
-                </style>\
-                <div class="home-container">\
-                <ul class="link-list">\
-                  <li><a href="https://www.linkedin.com/in/dev-dc" target="_blank" rel="noopener">LinkedIn</a></li>\
-                  <li><a href="#" class="copy-email" data-email="me@bennyhartnett.com">Email</a></li>\
-                  
-                
-                <li><a href="https://github.com/bennyhartnett" target="_blank" rel="noopener">GitHub</a></li>\
-               
-                 <li><a href="https://www.lionpro.ai/" target="_blank" rel="noopener">Generative AI</a></li>\
-                <li><a href="https://lionfederal.com" target="_blank" rel="noopener">Government Contracting</a></li>\
-                
-                  <li><a href="nuclear.html">Nuclear</a></li>\
-              </ul>\
-              </div>`;
-            } else if (url === 'gis.html') {
+            if (url === 'pages/home.html') {
               container.innerHTML = `
-                <style>
-                  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
-                  body { font-family: 'Inter', sans-serif; color: white; padding: 1rem; }
-                  a { color: white; transition: color 0.3s ease; }
-                  a:hover { color: var(--wave-color); }
-                </style>
+                <div class="home-container">
+                <ul class="link-list">
+                  <li><a href="https://www.linkedin.com/in/dev-dc" target="_blank" rel="noopener">LinkedIn</a></li>
+                  <li><a href="#" class="copy-email" data-email="me@bennyhartnett.com">Email</a></li>
+                  <li><a href="https://github.com/bennyhartnett" target="_blank" rel="noopener">GitHub</a></li>
+                  <li><a href="https://www.lionpro.ai/" target="_blank" rel="noopener">Generative AI</a></li>
+                  <li><a href="https://lionfederal.com" target="_blank" rel="noopener">Government Contracting</a></li>
+                  <li><a href="nuclear.html">Nuclear</a></li>
+                </ul>
+                </div>`;
+            } else if (url === 'pages/gis.html') {
+              container.innerHTML = `
+                <div class="page-content">
                 <h1>GIS</h1>
                 <p>This page will highlight my GIS work.</p>
-                <p>Additional details about mapping projects will appear here.</p>`;
-            } else if (url === 'privacy.html') {
+                <p>Additional details about mapping projects will appear here.</p>
+                </div>`;
+            } else if (url === 'pages/privacy.html') {
               container.innerHTML = `
-                <style>
-                  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
-                  body { font-family: 'Inter', sans-serif; color: white; padding: 1rem; }
-                  a { color: white; text-decoration: none; transition: color 0.3s ease; }
-                  a:hover { color: var(--wave-color); }
-                </style>
+                <div class="page-content">
                 <h1>Privacy Policy</h1>
                 <p>Last updated: ${new Date().getFullYear()}</p>
                 <p>We may collect personal or non-personal data for any purpose.</p>
-                <p>Contact me@bennyhartnett.com for questions.</p>`;
+                <p>Contact me@bennyhartnett.com for questions.</p>
+                </div>`;
             } else {
               container.innerHTML = '<p style="color:white">Page could not be loaded.</p>';
             }
@@ -467,7 +237,12 @@
         }
         if (href && href.endsWith('.html') && !href.startsWith('http')) {
           e.preventDefault();
-          loadContent(href);
+          // Convert old paths to new paths
+          let newHref = href;
+          if (!href.startsWith('pages/') && href !== 'nuclear.html' && href !== '404.html' && href !== 'index.html') {
+            newHref = 'pages/' + href;
+          }
+          loadContent(newHref);
         }
       });
 
@@ -479,26 +254,37 @@
       });
 
       // Determine initial page from pathname (clean URL) or hash (legacy)
-      let initial = 'home.html';
+      let initial = 'pages/home.html';
       const path = location.pathname.replace(/^\//, '').replace(/\/$/, '');
       if (path && path !== 'index.html' && path !== '') {
-        initial = path.endsWith('.html') ? path : path + '.html';
+        // Map clean URLs to actual file paths
+        if (path === 'nuclear' || path === 'nuclear.html') {
+          // Nuclear page is standalone, redirect to it
+          window.location.href = '/nuclear.html';
+          return;
+        }
+        const pagePath = path.endsWith('.html') ? path : path + '.html';
+        initial = 'pages/' + pagePath;
       } else if (location.hash) {
-        initial = location.hash.substring(1);
+        const hashPage = location.hash.substring(1);
+        initial = 'pages/' + (hashPage.endsWith('.html') ? hashPage : hashPage + '.html');
       }
-      const cleanUrl = initial === 'home.html' ? '/' : '/' + initial.replace('.html', '');
+      const cleanPath = initial.replace('pages/', '').replace('.html', '');
+      const cleanUrl = cleanPath === 'home' ? '/' : '/' + cleanPath;
       history.replaceState({ url: initial }, '', cleanUrl);
       loadContent(initial, false);
     });
   </script>
+
   <footer>
-    <a href="privacy.html">Privacy Policy</a>
+    <a href="pages/privacy.html">Privacy Policy</a>
     <span id="copyright"></span>
     <span id="design-credit"></span>
   </footer>
+
   <script>
     document.getElementById('copyright').textContent =
-      '\u00A9 ' + new Date().getFullYear() + ' Benny Hartnett';
+      '\u00A0\u00A9 ' + new Date().getFullYear() + ' Benny Hartnett';
     document.getElementById('design-credit').textContent =
       ' \u2022 Design by Benny Hartnett';
   </script>

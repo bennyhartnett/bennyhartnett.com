@@ -1,38 +1,4 @@
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
-  body {
-    font-family: 'Inter', sans-serif;
-    color: white;
-    padding: 1rem;
-  }
-  a {
-    color: white;
-    text-decoration: none;
-    transition: color 0.3s ease;
-  }
-
-  a:hover {
-    color: var(--wave-color);
-  }
-  /* Dark mode scrollbar */
-  ::-webkit-scrollbar {
-    width: 12px;
-  }
-  ::-webkit-scrollbar-track {
-    background: #111;
-  }
-  ::-webkit-scrollbar-thumb {
-    background: #444;
-    border-radius: 6px;
-  }
-  ::-webkit-scrollbar-thumb:hover {
-    background: #555;
-  }
-  * {
-    scrollbar-width: thin;
-    scrollbar-color: #444 #111;
-  }
-</style>
+<div class="page-content">
   <h1>Privacy Policy</h1>
   <p>Last updated: <span id="policy-year"></span></p>
 
@@ -123,7 +89,8 @@
   </p>
 
   <a href="index.html">Back to Home</a>
+</div>
 
-  <script>
-    document.getElementById('policy-year').textContent = new Date().getFullYear();
-  </script>
+<script>
+  document.getElementById('policy-year').textContent = new Date().getFullYear();
+</script>

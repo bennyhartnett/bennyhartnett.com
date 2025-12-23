@@ -1,0 +1,93 @@
+<div class="page-content">
+  <h1>Projects</h1>
+  <p>This page lists various projects and ideas explored on this site.</p>
+
+  <h2>Concepts</h2>
+  <table id="concepts-table">
+    <thead>
+      <tr>
+        <th>Year</th>
+        <th>Type</th>
+        <th>Project Name</th>
+        <th>Description</th>
+        <th>Technologies</th>
+        <th>Categories</th>
+        <th>Customer</th>
+        <th>Company</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <h2>Active Projects</h2>
+  <table id="active-table">
+    <thead>
+      <tr>
+        <th>Year</th>
+        <th>Type</th>
+        <th>Project Name</th>
+        <th>Description</th>
+        <th>Technologies</th>
+        <th>Categories</th>
+        <th>Customer</th>
+        <th>Company</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <h2>Past Work</h2>
+  <table id="past-table">
+    <thead>
+      <tr>
+        <th>Year</th>
+        <th>Type</th>
+        <th>Project Name</th>
+        <th>Description</th>
+        <th>Technologies</th>
+        <th>Categories</th>
+        <th>Customer</th>
+        <th>Company</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+</div>
+
+<script>
+fetch('data/projects.json')
+  .then(r => r.json())
+  .then(items => {
+    const conceptTbody = document.querySelector('#concepts-table tbody');
+    const activeTbody = document.querySelector('#active-table tbody');
+    const pastTbody = document.querySelector('#past-table tbody');
+
+    items.forEach(item => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${item.year}</td>
+        <td>${item.type}</td>
+        <td>${item.name}</td>
+        <td>${item.description}</td>
+        <td>${item.technologies.join(', ')}</td>
+        <td>${item.categories.join(', ')}</td>
+        <td>${item.customer}</td>
+        <td>${item.company}</td>
+      `;
+
+      if (item.status === 'Concept') {
+        conceptTbody.appendChild(tr);
+      } else if (item.status === 'Active') {
+        activeTbody.appendChild(tr);
+      } else {
+        pastTbody.appendChild(tr);
+      }
+    });
+  })
+  .catch(() => {
+    const body = document.querySelector('body');
+    const p = document.createElement('p');
+    p.textContent = 'Failed to load projects.';
+    body.appendChild(p);
+  });
+</script>
