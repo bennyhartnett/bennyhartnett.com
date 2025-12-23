@@ -485,7 +485,8 @@
               });
             }
             if (push) {
-              history.pushState({ url }, '', '#' + url);
+              const cleanUrl = url === 'home.html' ? '/' : '/' + url.replace('.html', '');
+              history.pushState({ url }, '', cleanUrl);
             }
           })
           .catch(() => {
@@ -576,8 +577,16 @@
         }
       });
 
-      const initial = location.hash.substring(1) || 'home.html';
-      history.replaceState({ url: initial }, '', '#' + initial);
+      // Determine initial page from pathname (clean URL) or hash (legacy)
+      let initial = 'home.html';
+      const path = location.pathname.replace(/^\//, '').replace(/\/$/, '');
+      if (path && path !== 'index.html' && path !== '') {
+        initial = path.endsWith('.html') ? path : path + '.html';
+      } else if (location.hash) {
+        initial = location.hash.substring(1);
+      }
+      const cleanUrl = initial === 'home.html' ? '/' : '/' + initial.replace('.html', '');
+      history.replaceState({ url: initial }, '', cleanUrl);
       loadContent(initial, false);
     });
   </script>
