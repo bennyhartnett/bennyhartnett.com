@@ -19,6 +19,31 @@
     content="Explore projects and articles on generative AI, GIS, government contracting, and nuclear technology." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="" id="og-url" />
+  <meta property="og:image" content="https://bennyhartnett.com/og-image.png" />
+  <meta property="og:site_name" content="Benny Hartnett" />
+
+  <!-- Twitter Card tags -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Benny Hartnett" />
+  <meta name="twitter:description" content="Insights and projects spanning generative AI, GIS, government contracting, and nuclear research." />
+  <meta name="twitter:image" content="https://bennyhartnett.com/og-image.png" />
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Benny Hartnett",
+    "url": "https://bennyhartnett.com",
+    "sameAs": [
+      "https://www.linkedin.com/in/dev-dc",
+      "https://github.com/bennyhartnett"
+    ],
+    "jobTitle": "Software Engineer",
+    "knowsAbout": ["Generative AI", "GIS", "Government Contracting", "Nuclear Technology"],
+    "description": "Insights and projects spanning generative AI, GIS, government contracting, and nuclear research."
+  }
+  </script>
 
   <script async src="https://ga.jspm.io/npm:es-module-shims@1.5.1/dist/es-module-shims.js"
     crossorigin="anonymous"></script>
@@ -373,6 +398,11 @@
             const ogDesc = document.querySelector('meta[property="og:description"]');
             if (ogDesc) ogDesc.setAttribute('content', meta.desc);
             if (ogUrl) ogUrl.setAttribute('content', fullUrl);
+            // Update Twitter Card tags
+            const twitterTitle = document.querySelector('meta[name="twitter:title"]');
+            if (twitterTitle) twitterTitle.setAttribute('content', meta.title);
+            const twitterDesc = document.querySelector('meta[name="twitter:description"]');
+            if (twitterDesc) twitterDesc.setAttribute('content', meta.desc);
             // Track page view in Google Analytics
             if (typeof gtag === 'function') {
               gtag('event', 'page_view', {
