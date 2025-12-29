@@ -400,7 +400,7 @@
                 <ul class="link-list">\
                   <li><a href="https://www.linkedin.com/in/dev-dc" target="_blank" rel="noopener">LinkedIn</a></li>\
                 <li><a href="https://github.com/bennyhartnett" target="_blank" rel="noopener">GitHub</a></li>\
-                  <li><a href="resume_benny_hartnett.pdf" download>Resume</a></li>\
+                  <li><a href="#" data-action="download-resume">Resume</a></li>\
                   <li><a href="nuclear.html">Nuclear</a></li>\
               </ul>\
               </div>`;
@@ -450,6 +450,20 @@
               color: '#fff'
             });
           });
+          return;
+        }
+        // Secure resume download - URL constructed at runtime to avoid crawler detection
+        const resumeLink = e.target.closest('[data-action="download-resume"]');
+        if (resumeLink) {
+          e.preventDefault();
+          const parts = ['resume', '_benny', '_hartnett', '.pdf'];
+          const url = parts.join('');
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = '';
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
           return;
         }
         const link = e.target.closest('a');
