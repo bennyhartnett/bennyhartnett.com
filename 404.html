@@ -4,24 +4,19 @@
   <meta charset="UTF-8">
   <title>Redirecting...</title>
   <script>
-    // Handle clean URLs by redirecting to the actual HTML file
-    // e.g., /nuclear -> /nuclear.html
+    // GitHub Pages SPA redirect: store path and redirect to index.html
+    // The SPA will read the stored path and load the correct content
     (function() {
       var path = window.location.pathname;
-      // Remove leading slash and trailing slash if present
+      // Remove leading/trailing slashes
       var page = path.replace(/^\//, '').replace(/\/$/, '');
 
-      if (page) {
-        // Add .html extension if not present
-        if (!page.endsWith('.html')) {
-          page = page + '.html';
-        }
-        // Redirect to the actual HTML file
-        window.location.replace('/' + page);
-      } else {
-        // No path, just go to home
-        window.location.replace('/');
+      if (page && page !== 'index.html') {
+        // Store the requested path for the SPA to handle
+        sessionStorage.setItem('spa-redirect', page);
       }
+      // Redirect to root where index.html will handle routing
+      window.location.replace('/');
     })();
   </script>
   <style>
