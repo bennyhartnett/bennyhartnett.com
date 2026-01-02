@@ -42,14 +42,17 @@
   }
   .form-group input,
   .form-group textarea {
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 8px;
     padding: 0.75rem;
     font-family: 'Inter', sans-serif;
     font-size: 1rem;
     color: white;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1);
   }
   .form-group input::placeholder,
   .form-group textarea::placeholder {
@@ -59,7 +62,8 @@
   .form-group textarea:focus {
     outline: none;
     border-color: var(--wave-color);
-    box-shadow: 0 0 0 2px rgba(0, 191, 255, 0.2);
+    background: rgba(255, 255, 255, 0.12);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 0 0 2px rgba(0, 191, 255, 0.2);
   }
   .form-group textarea {
     min-height: 150px;
