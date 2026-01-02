@@ -494,14 +494,23 @@
         }
       });
 
-      // Determine initial page from pathname (clean URL) or hash (legacy)
+      // Determine initial page from pathname, sessionStorage redirect, or hash (legacy)
       let initial = 'home.html';
-      const path = location.pathname.replace(/^\//, '').replace(/\/$/, '');
-      if (path && path !== 'index.html' && path !== '') {
-        initial = path.endsWith('.html') ? path : path + '.html';
-      } else if (location.hash) {
-        initial = location.hash.substring(1);
+
+      // Check for SPA redirect from 404.html
+      const redirectPath = sessionStorage.getItem('spa-redirect');
+      if (redirectPath) {
+        sessionStorage.removeItem('spa-redirect');
+        initial = redirectPath.endsWith('.html') ? redirectPath : redirectPath + '.html';
+      } else {
+        const path = location.pathname.replace(/^\//, '').replace(/\/$/, '');
+        if (path && path !== 'index.html' && path !== '') {
+          initial = path.endsWith('.html') ? path : path + '.html';
+        } else if (location.hash) {
+          initial = location.hash.substring(1);
+        }
       }
+
       const cleanUrl = initial === 'home.html' ? '/' : '/' + initial.replace('.html', '');
       history.replaceState({ url: initial }, '', cleanUrl);
       loadContent(initial, false);
