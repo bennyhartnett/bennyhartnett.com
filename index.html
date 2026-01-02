@@ -14,11 +14,56 @@
   <link rel="sitemap" type="application/xml" href="sitemap.xml" />
   <link rel="icon" type="image/svg+xml" href="https://unpkg.com/heroicons@2.0.18/24/solid/code-bracket.svg" />
   <meta name="robots" content="index,follow" />
-  <meta property="og:title" content="Benny Hartnett" />
+  <meta name="theme-color" content="#000000" />
+  <link rel="apple-touch-icon" href="https://unpkg.com/heroicons@2.0.18/24/solid/code-bracket.svg" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Benny Hartnett" id="og-title" />
   <meta property="og:description"
-    content="Explore projects and articles on generative AI, GIS, government contracting, and nuclear technology." />
+    content="Explore projects and articles on generative AI, GIS, government contracting, and nuclear technology." id="og-description" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="" id="og-url" />
+  <meta property="og:site_name" content="Benny Hartnett" />
+  <meta property="og:locale" content="en_US" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Benny Hartnett" id="twitter-title" />
+  <meta name="twitter:description" content="Explore projects and articles on generative AI, GIS, government contracting, and nuclear technology." id="twitter-description" />
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Benny Hartnett",
+    "url": "https://bennyhartnett.com",
+    "description": "Insights and projects spanning generative AI, GIS, government contracting, and nuclear research.",
+    "author": {
+      "@type": "Person",
+      "name": "Benny Hartnett",
+      "url": "https://bennyhartnett.com",
+      "sameAs": [
+        "https://www.linkedin.com/in/dev-dc",
+        "https://github.com/bennyhartnett"
+      ]
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Benny Hartnett",
+    "url": "https://bennyhartnett.com",
+    "jobTitle": "Software Developer",
+    "knowsAbout": ["Generative AI", "GIS", "Government Contracting", "Nuclear Technology"],
+    "sameAs": [
+      "https://www.linkedin.com/in/dev-dc",
+      "https://github.com/bennyhartnett"
+    ]
+  }
+  </script>
 
   <script async src="https://ga.jspm.io/npm:es-module-shims@1.5.1/dist/es-module-shims.js"
     crossorigin="anonymous"></script>
@@ -336,6 +381,10 @@
         'pages/thank-you.html': {
           title: 'Thank You - Benny Hartnett',
           desc: 'Thank you for your message.'
+        },
+        'pages/projects.html': {
+          title: 'Projects - Benny Hartnett',
+          desc: 'Portfolio of projects spanning generative AI, GIS, government contracting, and nuclear research.'
         }
       };
       if (toggleBtn && menu) {
@@ -381,6 +430,11 @@
             const ogDesc = document.querySelector('meta[property="og:description"]');
             if (ogDesc) ogDesc.setAttribute('content', meta.desc);
             if (ogUrl) ogUrl.setAttribute('content', fullUrl);
+            // Update Twitter Card meta tags
+            const twitterTitle = document.querySelector('meta[name="twitter:title"]');
+            if (twitterTitle) twitterTitle.setAttribute('content', meta.title);
+            const twitterDesc = document.querySelector('meta[name="twitter:description"]');
+            if (twitterDesc) twitterDesc.setAttribute('content', meta.desc);
             // Track page view in Google Analytics
             if (typeof gtag === 'function') {
               gtag('event', 'page_view', {
