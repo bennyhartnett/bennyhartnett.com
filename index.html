@@ -460,15 +460,15 @@
                   .home-container { min-height: calc(100vh - 56px - 2rem); display: flex; justify-content: center; align-items: center; padding: 1rem; }\
                   .link-list { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: center; }\
                   .link-list li { margin: 0; }\
-                  .link-list a { display: block; color: white; text-decoration: none; font-size: 1.5rem; font-family: 'Inter', sans-serif; padding: 0.75rem; transition: color 0.3s ease; }\
+                  .link-list a { display: block; color: white; text-decoration: none; font-size: 1.5rem; font-family: 'Inter', sans-serif; padding: 0.75rem; transition: color 0.3s ease; cursor: pointer; }\
                   .link-list a:hover { color: var(--wave-color); }\
                 </style>\
                 <div class="home-container">\
                 <ul class="link-list">\
-                  <li><a href="https://www.linkedin.com/in/dev-dc" target="_blank" rel="noopener">LinkedIn</a></li>\
-                <li><a href="https://github.com/bennyhartnett" target="_blank" rel="noopener">GitHub</a></li>\
-                  <li><a href="#" data-action="download-resume">Resume</a></li>\
-                  <li><a href="nuclear.html">Nuclear</a></li>\
+                  <li><a data-href="https://www.linkedin.com/in/dev-dc" data-external="true">LinkedIn</a></li>\
+                <li><a data-href="https://github.com/bennyhartnett" data-external="true">GitHub</a></li>\
+                  <li><a data-action="download-resume">Resume</a></li>\
+                  <li><a data-href="nuclear.html">Nuclear</a></li>\
               </ul>\
               </div>`;
             } else if (url === 'pages/gis.html') {
@@ -535,10 +535,20 @@
         }
         const link = e.target.closest('a');
         if (!link) return;
-        const href = link.getAttribute('href');
+        // Support data-href to prevent URL preview on hover
+        const href = link.getAttribute('data-href') || link.getAttribute('href');
+        if (!href) return;
+        // Handle external links
+        if (link.dataset.external === 'true') {
+          e.preventDefault();
+          window.open(href, '_blank', 'noopener');
+          return;
+        }
         // Skip SPA handling for nuclear page - do full page navigation
         if (href === 'nuclear.html' || href === '/nuclear.html' || href === '/nuclear') {
-          return; // Let browser handle normally
+          e.preventDefault();
+          window.location.href = href;
+          return;
         }
         if (href && href.endsWith('.html') && !href.startsWith('http')) {
           e.preventDefault();
@@ -582,7 +592,7 @@
     });
   </script>
   <footer>
-    <a href="privacy.html">Privacy Policy</a>
+    <a data-href="privacy.html" style="cursor:pointer">Privacy Policy</a>
     <span id="copyright"></span>
     <span id="design-credit"></span>
   </footer>
