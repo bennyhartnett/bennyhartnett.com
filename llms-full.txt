@@ -1,0 +1,216 @@
+# Benny Hartnett - Complete Portfolio & Professional Profile
+
+> Software developer specializing in generative AI, GIS, government contracting, and nuclear technology.
+
+---
+
+## Professional Summary
+
+Benny Hartnett is a software developer based in Washington, D.C., specializing in emerging technologies with applications across government, energy, and public safety sectors. His work spans generative AI, geographic information systems (GIS), government contracting, nuclear technology research, and IoT embedded systems.
+
+---
+
+## Areas of Expertise
+
+### Generative AI
+- Large Language Model (LLM) development and integration
+- AI-powered automation and tooling
+- Speech-to-text and natural language processing
+- Retrieval-Augmented Generation (RAG) systems
+
+### Geographic Information Systems (GIS)
+- Mapping and geospatial analysis
+- Location-based services integration
+- Google Maps API integration
+
+### Government Contracting
+- Federal acquisition regulations
+- Government technology solutions
+- Public sector software development
+
+### Nuclear Technology
+- Uranium enrichment calculations
+- Nuclear industry software tools
+- Energy sector applications
+
+### IoT & Embedded Systems
+- Raspberry Pi and edge computing
+- Sensor integration and data collection
+- Real-time monitoring systems
+- Hardware-software integration
+
+---
+
+## Projects Portfolio
+
+### Professional Projects
+
+#### Uranium Enrichment Calculator (2025)
+**Client:** Centrus Energy
+**Status:** Completed
+
+Built a specialized calculator for Centrus Energy to compute:
+- Feed quantity requirements
+- Separative Work Unit (SWU) calculations
+- Optimum tails assay from input assays
+
+**Technologies Used:**
+- HTML5
+- JavaScript
+
+**Categories:** Nuclear, Web Development
+
+---
+
+#### IoT-based Wildfire Detection System (2021)
+**Client:** Perimeter
+**Status:** Active/Deployed
+
+Designed and developed a comprehensive IoT system for real-time wildfire detection and prevention. The system is deployed on fire towers in remote high-risk areas across the United States.
+
+**Key Features:**
+- Real-time thermal imaging for fire detection
+- Automated 360-degree scanning capability
+- Cloud-based image storage and analysis
+- GPS geolocation and mapping integration
+- Durable waterproof enclosure for outdoor deployment
+
+**Technologies Used:**
+- Raspberry Pi (edge computing)
+- FLIR thermal camera
+- GSM chip (cellular connectivity)
+- Servo motors (pan-tilt mechanism)
+- AWS S3 (image storage)
+- Google Maps API (geolocation)
+
+**Categories:** IoT, System Design, Embedded Programming, Agile Development
+
+---
+
+### Personal & Concept Projects
+
+#### Edge Vehicle Make/Model Detection (2024)
+**Status:** Concept
+
+Research project exploring the use of NVIDIA Jetson for real-time vehicle identification at the edge, without requiring cloud connectivity.
+
+**Technologies Used:**
+- NVIDIA Jetson
+- Computer vision models
+- Deep learning frameworks
+
+**Categories:** AI, Edge Computing, Computer Vision
+
+---
+
+#### Trunk Radio Speech Intelligence (2024)
+**Status:** Concept
+
+An intelligent system that processes emergency services radio communications to provide:
+- Real-time speech-to-text transcription
+- LLM-powered interpretation with local jargon understanding
+- RAG integration for code definitions and terminology
+- Automated news feed generation
+- Activity mapping with camera feed integration
+
+**Technologies Used:**
+- Speech-to-text models
+- Large Language Models (LLM)
+- Retrieval-Augmented Generation (RAG)
+- Mapping APIs
+- Camera feed integration
+
+**Categories:** Emergency Services, AI, Data Processing
+
+---
+
+#### Subterranean Autonomous Vehicle (2024)
+**Status:** Concept
+
+Conceptual design for an underground autonomous vehicle with capabilities including:
+- Tunnel boring
+- Seismic surveillance
+- Payload delivery
+
+**Technologies Used:**
+- LIDAR
+- ROS (Robot Operating System)
+- Seismic sensors
+- Autonomous navigation systems
+
+**Categories:** Robotics, Underground Systems, Autonomy
+
+---
+
+### Academic Projects
+
+#### Frisbee Game in Unity (2017)
+**Client:** Virginia TSA
+**Status:** Completed
+
+A 3D frisbee game developed for Virginia TSA competition, built using Unity and targeting Oculus VR headsets.
+
+**Features:**
+- 3D modeling using Trimble SketchUp
+- VR integration for Oculus headsets
+- Physics-based frisbee mechanics
+
+**Technologies Used:**
+- C#
+- Unity Game Engine
+- Oculus SDK
+- Trimble SketchUp
+
+**Categories:** 3D Modeling, Game Design, Programming, VR
+
+---
+
+## Contact Information
+
+- **Website:** https://bennyhartnett.com
+- **Email:** me@bennyhartnett.com
+- **LinkedIn:** https://www.linkedin.com/in/dev-dc
+- **GitHub:** https://github.com/bennyhartnett
+
+---
+
+## Site Navigation
+
+| Page | URL | Description |
+|------|-----|-------------|
+| Home | https://bennyhartnett.com/ | Main landing page with quick links |
+| Generative AI | https://bennyhartnett.com/generative-ai | AI articles and resources |
+| GIS | https://bennyhartnett.com/gis | Geographic Information Systems work |
+| Nuclear | https://bennyhartnett.com/nuclear | Nuclear technology projects |
+| Government Contracting | https://bennyhartnett.com/government-contracting | Government sector insights |
+| Projects | https://bennyhartnett.com/projects | Complete project portfolio |
+| Contact | https://bennyhartnett.com/contact | Contact form |
+
+---
+
+## Frequently Asked Questions
+
+### Who is Benny Hartnett?
+Benny Hartnett is a software developer based in Washington, D.C., specializing in generative AI, GIS, government contracting, and nuclear technology.
+
+### What services does Benny Hartnett offer?
+Benny Hartnett offers software development services spanning AI/ML development, IoT system design, GIS applications, and custom software solutions for government and commercial clients.
+
+### What is the Uranium Enrichment Calculator?
+A specialized web-based calculator built for Centrus Energy that computes feed quantity, SWU (Separative Work Unit) requirements, and optimum tails assay from input assays for uranium enrichment processes.
+
+### What is the IoT Wildfire Detection System?
+An IoT-based system using thermal imaging and edge computing to detect wildfires in real-time, deployed on fire towers in remote high-risk areas.
+
+### How can I contact Benny Hartnett?
+You can reach Benny Hartnett via email at me@bennyhartnett.com or through the contact form at https://bennyhartnett.com/contact.
+
+---
+
+## Keywords
+
+Benny Hartnett, software developer, Washington DC, generative AI, large language models, LLM, GIS, geographic information systems, government contracting, nuclear technology, uranium enrichment, IoT, Internet of Things, embedded systems, Raspberry Pi, wildfire detection, edge computing, NVIDIA Jetson, computer vision, deep learning, speech-to-text, RAG, retrieval augmented generation
+
+---
+
+*Last updated: 2026-01-06*

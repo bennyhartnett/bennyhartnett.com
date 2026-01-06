@@ -1,6 +1,55 @@
+# Robots.txt for bennyhartnett.com
+
 User-agent: *
 Allow: /
 Disallow: /assets/d/
 Disallow: /resume-download
+
+# AI/LLM Crawlers - Welcome!
+# For AI assistants and LLM crawlers, see our dedicated files:
+# https://bennyhartnett.com/llms.txt (summary)
+# https://bennyhartnett.com/llms-full.txt (detailed)
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Anthropic-AI
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Cohere-AI
+Allow: /
+
+User-agent: Meta-ExternalAgent
+Allow: /
+
+User-agent: Meta-ExternalFetcher
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: Omgilibot
+Allow: /
+
+User-agent: Diffbot
+Allow: /
 
 Sitemap: https://bennyhartnett.com/sitemap.xml
