@@ -566,11 +566,11 @@
         const resumeLink = e.target.closest('[data-action="download-resume"]');
         if (resumeLink) {
           e.preventDefault();
-          const parts = ['resume', '_benny', '_hartnett', '.pdf'];
-          const url = parts.join('');
+          const p = ['/', 'assets', '/d/', 'r-', '8f3a', '2c9e', '7b1d', '.pdf'];
+          const url = p[0] + p[1] + p[2] + p[3] + p[4] + p[5] + p[6] + p[7];
           const a = document.createElement('a');
           a.href = url;
-          a.download = '';
+          a.download = 'resume_benny_hartnett.pdf';
           document.body.appendChild(a);
           a.click();
           document.body.removeChild(a);

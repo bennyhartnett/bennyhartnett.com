@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /assets/d/
+Disallow: /resume-download
 
 Sitemap: https://bennyhartnett.com/sitemap.xml
