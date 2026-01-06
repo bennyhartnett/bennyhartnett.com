@@ -5,6 +5,20 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <!-- Security Headers -->
+  <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+  <meta http-equiv="X-Frame-Options" content="SAMEORIGIN" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+
+  <!-- Performance Hints -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://unpkg.com" />
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+  <link rel="preconnect" href="https://www.googletagmanager.com" />
+  <link rel="dns-prefetch" href="https://ga.jspm.io" />
+
   <title>Benny Hartnett</title>
   <meta name="description"
     content="Insights and projects spanning generative AI, GIS, government contracting, and nuclear research." />
@@ -25,11 +39,17 @@
   <meta property="og:url" content="" id="og-url" />
   <meta property="og:site_name" content="Benny Hartnett" />
   <meta property="og:locale" content="en_US" />
+  <meta property="og:image" content="https://bennyhartnett.com/assets/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Benny Hartnett - Software Developer specializing in AI, GIS, and Nuclear Technology" />
 
   <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Benny Hartnett" id="twitter-title" />
   <meta name="twitter:description" content="Explore projects and articles on generative AI, GIS, government contracting, and nuclear technology." id="twitter-description" />
+  <meta name="twitter:image" content="https://bennyhartnett.com/assets/og-image.png" />
+  <meta name="twitter:image:alt" content="Benny Hartnett - Software Developer" />
 
   <!-- JSON-LD Structured Data for LLM Search Optimization -->
   <script type="application/ld+json">
@@ -220,6 +240,105 @@
         "item": "https://bennyhartnett.com/projects"
       }
     ]
+  }
+  </script>
+  <!-- Organization Schema for business/brand identity -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "@id": "https://bennyhartnett.com/#organization",
+    "name": "Benny Hartnett",
+    "url": "https://bennyhartnett.com",
+    "logo": "https://bennyhartnett.com/assets/og-image.png",
+    "description": "Software development services specializing in generative AI, GIS, government contracting, and nuclear technology.",
+    "founder": {
+      "@type": "Person",
+      "@id": "https://bennyhartnett.com/#person"
+    },
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "email": "me@bennyhartnett.com",
+      "contactType": "customer service",
+      "availableLanguage": "English"
+    },
+    "sameAs": [
+      "https://www.linkedin.com/in/dev-dc",
+      "https://github.com/bennyhartnett"
+    ],
+    "areaServed": {
+      "@type": "Country",
+      "name": "United States"
+    }
+  }
+  </script>
+  <!-- Service Schema for offerings -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "serviceType": "Software Development",
+    "provider": {
+      "@type": "Person",
+      "@id": "https://bennyhartnett.com/#person"
+    },
+    "areaServed": {
+      "@type": "Country",
+      "name": "United States"
+    },
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Software Development Services",
+      "itemListElement": [
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Generative AI Development",
+            "description": "Large Language Model integration, AI-powered automation, RAG systems, and speech-to-text solutions"
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "IoT & Embedded Systems",
+            "description": "Raspberry Pi development, edge computing, sensor integration, and real-time monitoring systems"
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "GIS Applications",
+            "description": "Mapping solutions, geospatial analysis, and location-based services"
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Government Technology Solutions",
+            "description": "Custom software development for federal and government clients"
+          }
+        }
+      ]
+    }
+  }
+  </script>
+  <!-- Speakable Schema for voice assistant optimization -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "speakable": {
+      "@type": "SpeakableSpecification",
+      "cssSelector": [".content h1", ".content h2", ".content p:first-of-type"]
+    },
+    "mainEntity": {
+      "@type": "Person",
+      "@id": "https://bennyhartnett.com/#person"
+    }
   }
   </script>
 

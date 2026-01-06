@@ -1,0 +1,25 @@
+/* TEAM */
+Developer: Benny Hartnett
+Site: https://bennyhartnett.com
+Contact: me@bennyhartnett.com
+Location: Washington, DC, USA
+LinkedIn: https://www.linkedin.com/in/dev-dc
+GitHub: https://github.com/bennyhartnett
+
+/* THANKS */
+Built with vanilla HTML, CSS, and JavaScript.
+3D wave animation powered by Three.js.
+
+/* SITE */
+Last update: 2026-01-06
+Language: English
+Doctype: HTML5
+Standards: HTML5, CSS3, ES6+
+Components: Three.js, Font Awesome, SweetAlert2
+Analytics: Google Analytics 4
+Hosting: GitHub Pages
+
+/* AI/LLM INFORMATION */
+This site is optimized for AI and LLM search engines.
+See /llms.txt for a summary or /llms-full.txt for comprehensive information.
+AI crawlers are welcome - see robots.txt for details.
