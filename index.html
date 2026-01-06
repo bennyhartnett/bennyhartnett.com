@@ -408,7 +408,10 @@
 
       function loadContent(url, push = true) {
         fetch(url)
-          .then(r => r.text())
+          .then(r => {
+            if (!r.ok) throw new Error('Not found');
+            return r.text();
+          })
           .then(html => {
             container.innerHTML = html;
             // Execute any inline scripts from the loaded fragment
