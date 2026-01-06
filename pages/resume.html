@@ -90,9 +90,17 @@
 <div class="resume-container">
   <div class="resume-header">
     <h1>Resume</h1>
-    <a href="/resume_benny_hartnett.pdf" download class="download-btn">Download PDF</a>
+    <a href="/resume-download" class="download-btn" id="resume-download-btn">Download PDF</a>
   </div>
   <div class="pdf-wrapper">
-    <iframe class="pdf-embed" src="/resume_benny_hartnett.pdf" type="application/pdf"></iframe>
+    <iframe class="pdf-embed" id="resume-iframe" type="application/pdf"></iframe>
   </div>
 </div>
+<script>
+(function() {
+  // Set iframe src via JS to prevent static scraping
+  var p = ['/', 'assets', '/d/', 'r-', '8f3a', '2c9e', '7b1d', '.pdf'];
+  var url = p[0] + p[1] + p[2] + p[3] + p[4] + p[5] + p[6] + p[7];
+  document.getElementById('resume-iframe').src = url;
+})();
+</script>
