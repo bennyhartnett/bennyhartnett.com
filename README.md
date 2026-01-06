@@ -67,7 +67,7 @@ The pages load the following libraries from public CDNs:
 
 ## License
 
-This repository currently does not include a license file. If you plan to distribute or reuse the code, consider adding an appropriate license.
+All Rights Reserved. See [LICENSE](LICENSE) for details.
 
 ---
 
