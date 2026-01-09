@@ -313,23 +313,56 @@
   // ============================================================================
 
   function initMode1() {
-    byId('calc1').addEventListener('click', () => {
+    const calculate1 = () => {
       try {
         const xp = parseAssay('xp1');
         const xw = parseAssay('xw1');
         const xf = parseAssay('xf1');
         const res = computeFeedSwuForOneKg(xp, xw, xf);
         byId('feed1').value = res.F.toFixed(MASS_PRECISION);
+        byId('waste1').value = res.W.toFixed(MASS_PRECISION);
+        byId('swu1').value = res.swu.toFixed(SWU_PRECISION);
+      } catch (err) {
+        // Clear outputs on invalid input (for real-time calc)
+        byId('feed1').value = '';
+        byId('waste1').value = '';
+        byId('swu1').value = '';
+      }
+    };
+
+    const calculateWithError1 = () => {
+      try {
+        const xp = parseAssay('xp1');
+        const xw = parseAssay('xw1');
+        const xf = parseAssay('xf1');
+        const res = computeFeedSwuForOneKg(xp, xw, xf);
+        byId('feed1').value = res.F.toFixed(MASS_PRECISION);
+        byId('waste1').value = res.W.toFixed(MASS_PRECISION);
         byId('swu1').value = res.swu.toFixed(SWU_PRECISION);
       } catch (err) {
         showError(err.message);
       }
-    });
+    };
+
+    byId('calc1').addEventListener('click', calculateWithError1);
     byId('clear1').addEventListener('click', () => resetForm('form1'));
+
+    // Real-time calculation on input
+    ['xp1', 'xw1', 'xf1'].forEach((id) => {
+      byId(id).addEventListener('input', calculate1);
+    });
+
+    // Enter key support
+    byId('form1').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        calculateWithError1();
+      }
+    });
   }
 
   function initMode2() {
-    byId('calc2').addEventListener('click', () => {
+    const calculate2 = () => {
       try {
         const P = parseMass('p2');
         const xp = parseAssay('xp2');
@@ -337,16 +370,66 @@
         const xf = parseAssay('xf2');
         const res = computeFeedSwu(xp, xw, xf, P);
         byId('feed2').value = res.F.toFixed(MASS_PRECISION);
+        byId('waste2').value = res.W.toFixed(MASS_PRECISION);
+        byId('swu2').value = res.swu.toFixed(SWU_PRECISION);
+      } catch (err) {
+        // Clear outputs on invalid input (for real-time calc)
+        byId('feed2').value = '';
+        byId('waste2').value = '';
+        byId('swu2').value = '';
+      }
+    };
+
+    const calculateWithError2 = () => {
+      try {
+        const P = parseMass('p2');
+        const xp = parseAssay('xp2');
+        const xw = parseAssay('xw2');
+        const xf = parseAssay('xf2');
+        const res = computeFeedSwu(xp, xw, xf, P);
+        byId('feed2').value = res.F.toFixed(MASS_PRECISION);
+        byId('waste2').value = res.W.toFixed(MASS_PRECISION);
         byId('swu2').value = res.swu.toFixed(SWU_PRECISION);
       } catch (err) {
         showError(err.message);
       }
-    });
+    };
+
+    byId('calc2').addEventListener('click', calculateWithError2);
     byId('clear2').addEventListener('click', () => resetForm('form2'));
+
+    // Real-time calculation on input
+    ['p2', 'xp2', 'xw2', 'xf2'].forEach((id) => {
+      byId(id).addEventListener('input', calculate2);
+    });
+
+    // Enter key support
+    byId('form2').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        calculateWithError2();
+      }
+    });
   }
 
   function initMode3() {
-    byId('calc3').addEventListener('click', () => {
+    const calculate3 = () => {
+      try {
+        const F = parseMass('F3');
+        const xp = parseAssay('xp3');
+        const xw = parseAssay('xw3');
+        const xf = parseAssay('xf3');
+        const res = computeEupSwu(xp, xw, xf, F);
+        byId('P3').value = res.P.toFixed(MASS_PRECISION);
+        byId('swu3').value = res.swu.toFixed(SWU_PRECISION);
+      } catch (err) {
+        // Clear outputs on invalid input (for real-time calc)
+        byId('P3').value = '';
+        byId('swu3').value = '';
+      }
+    };
+
+    const calculateWithError3 = () => {
       try {
         const F = parseMass('F3');
         const xp = parseAssay('xp3');
@@ -358,12 +441,43 @@
       } catch (err) {
         showError(err.message);
       }
-    });
+    };
+
+    byId('calc3').addEventListener('click', calculateWithError3);
     byId('clear3').addEventListener('click', () => resetForm('form3'));
+
+    // Real-time calculation on input
+    ['F3', 'xp3', 'xw3', 'xf3'].forEach((id) => {
+      byId(id).addEventListener('input', calculate3);
+    });
+
+    // Enter key support
+    byId('form3').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        calculateWithError3();
+      }
+    });
   }
 
   function initMode4() {
-    byId('calc4').addEventListener('click', () => {
+    const calculate4 = () => {
+      try {
+        const S = parsePositiveNumber('S4');
+        const xp = parseAssay('xp4');
+        const xw = parseAssay('xw4');
+        const xf = parseAssay('xf4');
+        const res = computeFeedEupFromSwu(xp, xw, xf, S);
+        byId('P4').value = res.P.toFixed(MASS_PRECISION);
+        byId('feed4').value = res.F.toFixed(MASS_PRECISION);
+      } catch (err) {
+        // Clear outputs on invalid input (for real-time calc)
+        byId('P4').value = '';
+        byId('feed4').value = '';
+      }
+    };
+
+    const calculateWithError4 = () => {
       try {
         const S = parsePositiveNumber('S4');
         const xp = parseAssay('xp4');
@@ -375,12 +489,29 @@
       } catch (err) {
         showError(err.message);
       }
-    });
+    };
+
+    byId('calc4').addEventListener('click', calculateWithError4);
     byId('clear4').addEventListener('click', () => resetForm('form4'));
+
+    // Real-time calculation on input
+    ['S4', 'xp4', 'xw4', 'xf4'].forEach((id) => {
+      byId(id).addEventListener('input', calculate4);
+    });
+
+    // Enter key support
+    byId('form4').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        calculateWithError4();
+      }
+    });
   }
 
   function initMode5() {
-    byId('calc5').addEventListener('click', () => {
+    const COST_PRECISION = 2;
+
+    const calculate5 = () => {
       try {
         const cf = parsePositiveNumber('cf5');
         const cs = parsePositiveNumber('cs5');
@@ -388,11 +519,49 @@
         const xf = parseAssay('xf5');
         const res = findOptimumTails(xp, xf, cf, cs);
         byId('xw5').value = (res.xw * 100).toFixed(PERCENT_PRECISION);
+        byId('feedPerP5').value = res.F_per_P.toFixed(MASS_PRECISION);
+        byId('swuPerP5').value = res.swu_per_P.toFixed(SWU_PRECISION);
+        byId('costPerP5').value = res.cost_per_P.toFixed(COST_PRECISION);
+      } catch (err) {
+        // Clear outputs on invalid input (for real-time calc)
+        byId('xw5').value = '';
+        byId('feedPerP5').value = '';
+        byId('swuPerP5').value = '';
+        byId('costPerP5').value = '';
+      }
+    };
+
+    const calculateWithError5 = () => {
+      try {
+        const cf = parsePositiveNumber('cf5');
+        const cs = parsePositiveNumber('cs5');
+        const xp = parseAssay('xp5');
+        const xf = parseAssay('xf5');
+        const res = findOptimumTails(xp, xf, cf, cs);
+        byId('xw5').value = (res.xw * 100).toFixed(PERCENT_PRECISION);
+        byId('feedPerP5').value = res.F_per_P.toFixed(MASS_PRECISION);
+        byId('swuPerP5').value = res.swu_per_P.toFixed(SWU_PRECISION);
+        byId('costPerP5').value = res.cost_per_P.toFixed(COST_PRECISION);
       } catch (err) {
         showError(err.message);
       }
-    });
+    };
+
+    byId('calc5').addEventListener('click', calculateWithError5);
     byId('clear5').addEventListener('click', () => resetForm('form5'));
+
+    // Real-time calculation on input
+    ['cf5', 'cs5', 'xp5', 'xf5'].forEach((id) => {
+      byId(id).addEventListener('input', calculate5);
+    });
+
+    // Enter key support
+    byId('form5').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        calculateWithError5();
+      }
+    });
   }
 
   // ============================================================================
