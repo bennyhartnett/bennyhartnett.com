@@ -237,17 +237,22 @@
 
   /**
    * Triggers a green-to-blue shimmer effect on result fields
+   * Applies to the full input group wrapper (input + unit label)
    * @param {string[]} elementIds - Array of element IDs to apply shimmer to
    */
   function triggerShimmer(elementIds) {
     elementIds.forEach((id) => {
       const el = byId(id);
       if (el) {
-        // Remove class first to allow re-triggering
-        el.classList.remove('result-shimmer');
-        // Force reflow to restart animation
-        void el.offsetWidth;
-        el.classList.add('result-shimmer');
+        // Apply shimmer to the input group wrapper (parent div)
+        const wrapper = el.parentElement;
+        if (wrapper) {
+          // Remove class first to allow re-triggering
+          wrapper.classList.remove('result-shimmer');
+          // Force reflow to restart animation
+          void wrapper.offsetWidth;
+          wrapper.classList.add('result-shimmer');
+        }
       }
     });
   }

@@ -98,51 +98,56 @@
       background-size: 200% 100%;
     }
 
-    /* Result shimmer effect on calculation */
+    /* Result shimmer effect on calculation - applies to input group wrapper */
     .result-shimmer {
-      animation: result-shimmer-effect 1s ease-out;
+      animation: result-shimmer-effect 5s ease-out;
+      border-radius: 0.375rem; /* rounded-md to match input group */
     }
     @keyframes result-shimmer-effect {
       0% {
         box-shadow: 0 0 0 0 rgba(16, 185, 129, 0), 0 0 0 0 rgba(59, 130, 246, 0);
-        background-color: inherit;
       }
-      15% {
+      5% {
         box-shadow: 0 0 8px 2px rgba(16, 185, 129, 0.6), inset 0 0 12px 2px rgba(16, 185, 129, 0.3);
       }
-      35% {
+      20% {
         box-shadow: 0 0 12px 3px rgba(34, 197, 164, 0.7), inset 0 0 16px 3px rgba(34, 197, 164, 0.35);
       }
-      55% {
+      40% {
         box-shadow: 0 0 12px 3px rgba(56, 189, 248, 0.7), inset 0 0 16px 3px rgba(56, 189, 248, 0.35);
       }
-      75% {
-        box-shadow: 0 0 8px 2px rgba(59, 130, 246, 0.6), inset 0 0 12px 2px rgba(59, 130, 246, 0.3);
+      60% {
+        box-shadow: 0 0 10px 2px rgba(59, 130, 246, 0.5), inset 0 0 10px 2px rgba(59, 130, 246, 0.25);
+      }
+      80% {
+        box-shadow: 0 0 6px 1px rgba(59, 130, 246, 0.3), inset 0 0 6px 1px rgba(59, 130, 246, 0.15);
       }
       100% {
         box-shadow: 0 0 0 0 rgba(59, 130, 246, 0), 0 0 0 0 rgba(59, 130, 246, 0);
-        background-color: inherit;
       }
     }
     /* Dark mode shimmer - slightly brighter */
     .dark .result-shimmer {
-      animation: result-shimmer-effect-dark 1s ease-out;
+      animation: result-shimmer-effect-dark 5s ease-out;
     }
     @keyframes result-shimmer-effect-dark {
       0% {
         box-shadow: 0 0 0 0 rgba(16, 185, 129, 0), 0 0 0 0 rgba(59, 130, 246, 0);
       }
-      15% {
+      5% {
         box-shadow: 0 0 10px 3px rgba(16, 185, 129, 0.7), inset 0 0 14px 3px rgba(16, 185, 129, 0.35);
       }
-      35% {
+      20% {
         box-shadow: 0 0 14px 4px rgba(34, 197, 164, 0.8), inset 0 0 18px 4px rgba(34, 197, 164, 0.4);
       }
-      55% {
+      40% {
         box-shadow: 0 0 14px 4px rgba(56, 189, 248, 0.8), inset 0 0 18px 4px rgba(56, 189, 248, 0.4);
       }
-      75% {
-        box-shadow: 0 0 10px 3px rgba(59, 130, 246, 0.7), inset 0 0 14px 3px rgba(59, 130, 246, 0.35);
+      60% {
+        box-shadow: 0 0 10px 3px rgba(59, 130, 246, 0.6), inset 0 0 12px 3px rgba(59, 130, 246, 0.3);
+      }
+      80% {
+        box-shadow: 0 0 6px 2px rgba(59, 130, 246, 0.4), inset 0 0 8px 2px rgba(59, 130, 246, 0.2);
       }
       100% {
         box-shadow: 0 0 0 0 rgba(59, 130, 246, 0), 0 0 0 0 rgba(59, 130, 246, 0);
