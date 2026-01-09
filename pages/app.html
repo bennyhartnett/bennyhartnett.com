@@ -1,0 +1,178 @@
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+  body {
+    font-family: 'Inter', sans-serif;
+    color: white;
+    margin: 0;
+  }
+  .app-container {
+    min-height: calc(100vh - 56px - 2rem);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+  }
+  .app-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 1rem;
+    padding: 2rem;
+    max-width: 400px;
+    text-align: center;
+  }
+  .app-icon {
+    width: 100px;
+    height: 100px;
+    border-radius: 22%;
+    margin: 0 auto 1.5rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  }
+  .app-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0 0 0.5rem;
+  }
+  .app-subtitle {
+    font-size: 0.9rem;
+    opacity: 0.8;
+    margin: 0 0 1.5rem;
+  }
+  .install-btn {
+    display: inline-block;
+    background: white;
+    color: #1a1a2e;
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 0.875rem 2rem;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+    border: none;
+  }
+  .install-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
+  }
+  .install-btn:active {
+    transform: translateY(0);
+  }
+  .divider {
+    display: flex;
+    align-items: center;
+    margin: 1.5rem 0;
+    opacity: 0.5;
+  }
+  .divider::before, .divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: white;
+  }
+  .divider span {
+    padding: 0 1rem;
+    font-size: 0.8rem;
+  }
+  .manual-steps {
+    text-align: left;
+    font-size: 0.9rem;
+    line-height: 1.8;
+  }
+  .manual-steps ol {
+    margin: 0;
+    padding-left: 1.25rem;
+  }
+  .manual-steps li {
+    margin-bottom: 0.5rem;
+  }
+  .share-icon {
+    display: inline-block;
+    width: 1.2em;
+    height: 1.2em;
+    vertical-align: middle;
+    margin: 0 0.1em;
+  }
+  .hidden {
+    display: none !important;
+  }
+  .not-ios-message {
+    font-size: 0.9rem;
+    opacity: 0.9;
+    line-height: 1.6;
+  }
+  .not-ios-message a {
+    color: white;
+    text-decoration: underline;
+  }
+  .already-installed {
+    padding: 1rem;
+    background: rgba(74, 222, 128, 0.2);
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+  }
+</style>
+
+<div class="app-container">
+  <div class="app-card">
+    <img src="/centrus_icon.png" alt="SWU Calculator" class="app-icon">
+    <h1 class="app-title">SWU Calculator</h1>
+    <p class="app-subtitle">Uranium enrichment calculator for iOS</p>
+
+    <!-- Already installed message -->
+    <div id="already-installed" class="already-installed hidden">
+      You're already using the app! Enjoy.
+    </div>
+
+    <!-- iOS Install Options -->
+    <div id="ios-content" class="hidden">
+      <a href="/swu-calculator.mobileconfig" class="install-btn" id="config-btn">
+        Install App
+      </a>
+
+      <div class="divider"><span>or manually</span></div>
+
+      <div class="manual-steps">
+        <ol>
+          <li>Tap the <strong>Share</strong> button <svg class="share-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg></li>
+          <li>Scroll down and tap <strong>"Add to Home Screen"</strong></li>
+          <li>Tap <strong>"Add"</strong> in the top right</li>
+        </ol>
+      </div>
+    </div>
+
+    <!-- Non-iOS message -->
+    <div id="non-ios-content" class="hidden">
+      <p class="not-ios-message">
+        This install page is designed for iPhone and iPad.<br><br>
+        You can still use the <a href="/nuclear">SWU Calculator</a> in your browser, or on Android you can tap the menu and select "Add to Home Screen".
+      </p>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
+  const isStandalone = window.navigator.standalone === true ||
+    window.matchMedia('(display-mode: standalone)').matches ||
+    window.matchMedia('(display-mode: fullscreen)').matches;
+
+  const iosContent = document.getElementById('ios-content');
+  const nonIosContent = document.getElementById('non-ios-content');
+  const alreadyInstalled = document.getElementById('already-installed');
+
+  if (isStandalone) {
+    alreadyInstalled.classList.remove('hidden');
+    // Redirect to the app after a moment
+    setTimeout(() => {
+      window.location.href = '/nuclear';
+    }, 2000);
+  } else if (isIOS) {
+    iosContent.classList.remove('hidden');
+  } else {
+    nonIosContent.classList.remove('hidden');
+  }
+})();
+</script>

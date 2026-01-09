@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>PayloadContent</key>
+    <array>
+        <dict>
+            <key>FullScreen</key>
+            <true/>
+            <key>Icon</key>
+            <data></data>
+            <key>IsRemovable</key>
+            <true/>
+            <key>Label</key>
+            <string>SWU Calculator</string>
+            <key>PayloadDescription</key>
+            <string>Adds the SWU Calculator app to your home screen</string>
+            <key>PayloadDisplayName</key>
+            <string>SWU Calculator</string>
+            <key>PayloadIdentifier</key>
+            <string>com.bennyhartnett.swu-calculator.webclip</string>
+            <key>PayloadType</key>
+            <string>com.apple.webClip.managed</string>
+            <key>PayloadUUID</key>
+            <string>A1B2C3D4-E5F6-7890-ABCD-EF1234567890</string>
+            <key>PayloadVersion</key>
+            <integer>1</integer>
+            <key>Precomposed</key>
+            <true/>
+            <key>URL</key>
+            <string>https://bennyhartnett.com/nuclear</string>
+        </dict>
+    </array>
+    <key>PayloadDescription</key>
+    <string>Installs the SWU Calculator as a home screen app</string>
+    <key>PayloadDisplayName</key>
+    <string>SWU Calculator</string>
+    <key>PayloadIdentifier</key>
+    <string>com.bennyhartnett.swu-calculator</string>
+    <key>PayloadOrganization</key>
+    <string>bennyhartnett.com</string>
+    <key>PayloadRemovalDisallowed</key>
+    <false/>
+    <key>PayloadType</key>
+    <string>Configuration</string>
+    <key>PayloadUUID</key>
+    <string>B2C3D4E5-F6A7-8901-BCDE-F23456789012</string>
+    <key>PayloadVersion</key>
+    <integer>1</integer>
+    <key>ConsentText</key>
+    <dict>
+        <key>default</key>
+        <string>This profile will add the SWU Calculator to your home screen for quick access.</string>
+    </dict>
+</dict>
+</plist>
