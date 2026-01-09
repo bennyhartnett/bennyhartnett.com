@@ -393,6 +393,7 @@
   // ============================================================================
 
   function initMode1() {
+    const mode1Inputs = ['xp1', 'xw1', 'xf1'];
     const mode1Outputs = ['feed1', 'waste1', 'swu1'];
 
     const calculate1 = () => {
@@ -438,7 +439,7 @@
 
     byId('calc1').addEventListener('click', calculateWithError1);
     byId('clear1').addEventListener('click', () => {
-      triggerClearShimmer(mode1Outputs);
+      triggerClearShimmer(mode1Inputs);
       triggerClearButtonAnimation('clear1');
       resetForm('form1');
     });
@@ -458,6 +459,7 @@
   }
 
   function initMode2() {
+    const mode2Inputs = ['p2', 'xp2', 'xw2', 'xf2'];
     const mode2Outputs = ['feed2', 'waste2', 'swu2'];
 
     const calculate2 = () => {
@@ -497,7 +499,7 @@
 
     byId('calc2').addEventListener('click', calculateWithError2);
     byId('clear2').addEventListener('click', () => {
-      triggerClearShimmer(mode2Outputs);
+      triggerClearShimmer(mode2Inputs);
       triggerClearButtonAnimation('clear2');
       resetForm('form2');
     });
@@ -517,6 +519,7 @@
   }
 
   function initMode3() {
+    const mode3Inputs = ['F3', 'xp3', 'xw3', 'xf3'];
     const mode3Outputs = ['P3', 'swu3'];
 
     const calculate3 = () => {
@@ -553,7 +556,7 @@
 
     byId('calc3').addEventListener('click', calculateWithError3);
     byId('clear3').addEventListener('click', () => {
-      triggerClearShimmer(mode3Outputs);
+      triggerClearShimmer(mode3Inputs);
       triggerClearButtonAnimation('clear3');
       resetForm('form3');
     });
@@ -573,6 +576,7 @@
   }
 
   function initMode4() {
+    const mode4Inputs = ['S4', 'xp4', 'xw4', 'xf4'];
     const mode4Outputs = ['P4', 'feed4'];
 
     const calculate4 = () => {
@@ -609,7 +613,7 @@
 
     byId('calc4').addEventListener('click', calculateWithError4);
     byId('clear4').addEventListener('click', () => {
-      triggerClearShimmer(mode4Outputs);
+      triggerClearShimmer(mode4Inputs);
       triggerClearButtonAnimation('clear4');
       resetForm('form4');
     });
@@ -630,6 +634,7 @@
 
   function initMode5() {
     const COST_PRECISION = 2;
+    const mode5Inputs = ['cf5', 'cs5', 'xp5', 'xf5'];
     const mode5Outputs = ['xw5', 'feedPerP5', 'swuPerP5', 'costPerP5'];
 
     const calculate5 = () => {
@@ -681,7 +686,7 @@
 
     byId('calc5').addEventListener('click', calculateWithError5);
     byId('clear5').addEventListener('click', () => {
-      triggerClearShimmer(mode5Outputs);
+      triggerClearShimmer(mode5Inputs);
       triggerClearButtonAnimation('clear5');
       resetForm('form5');
     });
