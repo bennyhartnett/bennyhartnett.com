@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
 
   <!-- Security Headers -->
   <meta http-equiv="X-Content-Type-Options" content="nosniff" />
@@ -371,6 +371,8 @@
       overflow-x: hidden;
       /* allow vertical scrolling if needed */
       overflow-y: auto;
+      /* Disable double-tap zoom on iOS */
+      touch-action: manipulation;
     }
 
     /* Dark mode scrollbar */
