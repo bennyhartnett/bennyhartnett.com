@@ -98,6 +98,43 @@
       background-size: 200% 100%;
     }
 
+    /* SweetAlert2 gradient button */
+    .swal-btn-gradient-animate {
+      background: linear-gradient(90deg, #38bdf8, #14b8a6, #38bdf8);
+      background-size: 200% 100%;
+      animation: gradient-shift 3s ease infinite;
+      color: white;
+      font-weight: 600;
+      font-size: 0.875rem;
+      padding: 0.625rem 1.5rem;
+      border-radius: 0.375rem;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      transition: all 0.2s ease;
+    }
+    .swal-btn-gradient-animate:hover {
+      background: linear-gradient(90deg, #0ea5e9, #0d9488, #0ea5e9);
+      background-size: 200% 100%;
+      animation: gradient-shift 3s ease infinite;
+    }
+    .swal-btn-gradient-animate:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px white, 0 0 0 4px #14b8a6;
+    }
+    /* Dark mode SweetAlert2 button */
+    .dark .swal-btn-gradient-animate {
+      background: linear-gradient(90deg, #0ea5e9, #0d9488, #0ea5e9);
+      background-size: 200% 100%;
+    }
+    .dark .swal-btn-gradient-animate:hover {
+      background: linear-gradient(90deg, #0284c7, #0f766e, #0284c7);
+      background-size: 200% 100%;
+    }
+    .dark .swal-btn-gradient-animate:focus {
+      box-shadow: 0 0 0 2px #334155, 0 0 0 4px #14b8a6;
+    }
+
     /* Result shimmer effect on calculation - applies to input group wrapper */
     .result-shimmer {
       animation: result-shimmer-effect 5s ease-out;

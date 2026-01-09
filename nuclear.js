@@ -30,30 +30,39 @@
 
   function parseAssay(id) {
     const raw = byId(id).value.trim();
+    const label = byId(id).closest('div')?.querySelector('label')?.textContent || 'Assay';
     const value = parseFloat(raw);
     if (!isFinite(value)) {
-      throw new Error('Assay must be a number.');
+      throw new Error(`${label} must be a valid number. Please enter a numeric value (e.g., 5 or 0.7).`);
     }
     if (value <= 0 || value >= 100) {
-      throw new Error('Assay must be between 0 and 100 (exclusive).');
+      throw new Error(`${label} must be between 0% and 100% (exclusive). You entered ${value}%, which is outside the valid range.`);
     }
     return value / 100;
   }
 
   function parseMass(id) {
     const raw = byId(id).value.trim();
+    const label = byId(id).closest('div')?.querySelector('label')?.textContent || 'Mass';
     const value = parseFloat(raw);
-    if (!isFinite(value) || value <= 0) {
-      throw new Error('Mass values must be positive numbers.');
+    if (!isFinite(value)) {
+      throw new Error(`${label} must be a valid number. Please enter a numeric value greater than zero.`);
+    }
+    if (value <= 0) {
+      throw new Error(`${label} must be a positive number. You entered ${value}, but the value must be greater than zero.`);
     }
     return value;
   }
 
   function parsePositiveNumber(id) {
     const raw = byId(id).value.trim();
+    const label = byId(id).closest('div')?.querySelector('label')?.textContent || 'Value';
     const value = parseFloat(raw);
-    if (!isFinite(value) || value <= 0) {
-      throw new Error('Values must be positive numbers.');
+    if (!isFinite(value)) {
+      throw new Error(`${label} must be a valid number. Please enter a numeric value greater than zero.`);
+    }
+    if (value <= 0) {
+      throw new Error(`${label} must be a positive number. You entered ${value}, but the value must be greater than zero.`);
     }
     return value;
   }
@@ -76,7 +85,10 @@
    */
   function checkOrdering(xp, xf, xw) {
     if (!(xp > xf && xf > xw)) {
-      throw new Error('Assays must satisfy: product > feed > tails.');
+      const xpPct = (xp * 100).toFixed(3);
+      const xfPct = (xf * 100).toFixed(3);
+      const xwPct = (xw * 100).toFixed(3);
+      throw new Error(`Assay ordering is incorrect. Product (${xpPct}%) must be greater than Feed (${xfPct}%), which must be greater than Tails (${xwPct}%). Required: Product > Feed > Tails.`);
     }
   }
 
@@ -89,7 +101,7 @@
     const F = ((xp - xw) / (xf - xw)) * P;
     const W = F - P;
     if (F <= 0 || W <= 0) {
-      throw new Error('Computed masses must be positive.');
+      throw new Error(`Mass balance calculation resulted in invalid values (Feed: ${F.toFixed(3)} kg, Waste: ${W.toFixed(3)} kg). Please check that your assay values are physically realistic.`);
     }
     return { F, W };
   }
@@ -103,7 +115,7 @@
     const swu =
       P * valueFunction(xp) + W * valueFunction(xw) - F * valueFunction(xf);
     if (swu <= 0) {
-      throw new Error('Computed SWU must be positive.');
+      throw new Error(`SWU calculation resulted in a non-positive value (${swu.toFixed(3)} SWU). This typically indicates the assay values are too close together or physically unrealistic.`);
     }
     return { F, W, swu };
   }
@@ -133,13 +145,13 @@
     checkOrdering(xp, xf, xw);
     const P = ((xf - xw) / (xp - xw)) * F;
     if (P <= 0) {
-      throw new Error('Computed product mass must be positive.');
+      throw new Error(`Product mass calculation resulted in a non-positive value (${P.toFixed(3)} kg). The assay values may be too close together or configured incorrectly.`);
     }
     const W = F - P;
     const swu =
       P * valueFunction(xp) + W * valueFunction(xw) - F * valueFunction(xf);
     if (swu <= 0) {
-      throw new Error('Computed SWU must be positive.');
+      throw new Error(`SWU calculation resulted in a non-positive value (${swu.toFixed(3)} SWU). This typically indicates the assay values are too close together or physically unrealistic.`);
     }
     return { P, W, swu };
   }
@@ -150,7 +162,7 @@
    */
   function computeFeedEupFromSwu(xp, xw, xf, S) {
     checkOrdering(xp, xf, xw);
-    if (S <= 0) throw new Error('SWU must be positive.');
+    if (S <= 0) throw new Error(`SWU Quantity must be a positive number. You entered ${S}, but the value must be greater than zero.`);
 
     // Find upper bound for binary search
     let Plo = EPS;
@@ -161,7 +173,7 @@
       if (swu > S) break;
       Phi *= 2;
       if (Phi > 1e7) {
-        throw new Error('SWU too large or parameters unrealistic.');
+        throw new Error(`The SWU value (${S}) is too large for the given assay parameters, or the parameters are physically unrealistic. Try reducing the SWU or adjusting the assay values.`);
       }
     }
 
@@ -260,8 +272,13 @@
   function showError(message) {
     Swal.fire({
       icon: 'error',
-      title: 'Invalid input',
+      title: 'Invalid Input',
       text: message,
+      confirmButtonText: 'Got it',
+      customClass: {
+        confirmButton: 'swal-btn-gradient-animate',
+      },
+      buttonsStyling: false,
     });
   }
 
