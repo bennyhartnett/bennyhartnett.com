@@ -25,6 +25,138 @@
   const byId = (id) => document.getElementById(id);
 
   // ============================================================================
+  // DEBOUNCE UTILITY
+  // ============================================================================
+
+  const DEBOUNCE_DELAY = 300;
+
+  function debounce(fn, delay = DEBOUNCE_DELAY) {
+    let timeoutId;
+    return function (...args) {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => fn.apply(this, args), delay);
+    };
+  }
+
+  // ============================================================================
+  // INLINE ERROR DISPLAY
+  // ============================================================================
+
+  function showInlineError(formId, message) {
+    const form = byId(formId);
+    if (!form) return;
+
+    // Find or create error container
+    let errorContainer = form.querySelector('.inline-error');
+    if (!errorContainer) {
+      errorContainer = document.createElement('div');
+      errorContainer.className = 'inline-error mt-2 p-3 rounded-md bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300 text-sm';
+      // Insert before the action buttons
+      const actionsDiv = form.querySelector('.flex.flex-col.gap-3');
+      if (actionsDiv) {
+        actionsDiv.parentNode.insertBefore(errorContainer, actionsDiv);
+      } else {
+        form.appendChild(errorContainer);
+      }
+    }
+
+    errorContainer.textContent = message;
+    errorContainer.style.display = 'block';
+
+    // Auto-hide after 5 seconds
+    setTimeout(() => {
+      if (errorContainer) {
+        errorContainer.style.display = 'none';
+      }
+    }, 5000);
+  }
+
+  function clearInlineError(formId) {
+    const form = byId(formId);
+    if (!form) return;
+    const errorContainer = form.querySelector('.inline-error');
+    if (errorContainer) {
+      errorContainer.style.display = 'none';
+    }
+  }
+
+  // ============================================================================
+  // CALCULATOR FACTORY
+  // ============================================================================
+
+  function createCalculatorHandlers(config) {
+    const {
+      formId,
+      inputIds,
+      outputIds,
+      calcButtonId,
+      clearButtonId,
+      parseInputs,
+      compute,
+      formatOutputs,
+    } = config;
+
+    const clearOutputs = () => {
+      outputIds.forEach((id) => {
+        byId(id).value = '';
+      });
+    };
+
+    const calculate = () => {
+      try {
+        clearInlineError(formId);
+        const inputs = parseInputs();
+        const result = compute(inputs);
+        formatOutputs(result);
+        triggerShimmer(outputIds);
+      } catch (err) {
+        clearOutputs();
+      }
+    };
+
+    const calculateWithError = () => {
+      try {
+        clearInlineError(formId);
+        const inputs = parseInputs();
+        const result = compute(inputs);
+        formatOutputs(result);
+        triggerShimmer(outputIds);
+      } catch (err) {
+        showInlineError(formId, err.message);
+      }
+    };
+
+    const debouncedCalculate = debounce(calculate);
+
+    return {
+      calculate,
+      calculateWithError,
+      debouncedCalculate,
+      clearOutputs,
+      setup: () => {
+        byId(calcButtonId).addEventListener('click', calculateWithError);
+        byId(clearButtonId).addEventListener('click', () => {
+          triggerClearShimmer([...inputIds, ...outputIds]);
+          triggerClearButtonAnimation(clearButtonId);
+          resetForm(formId);
+          clearInlineError(formId);
+        });
+
+        inputIds.forEach((id) => {
+          byId(id).addEventListener('input', debouncedCalculate);
+        });
+
+        byId(formId).addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            calculateWithError();
+          }
+        });
+      },
+    };
+  }
+
+  // ============================================================================
   // INPUT PARSING
   // ============================================================================
 
@@ -310,19 +442,6 @@
     }
   }
 
-  function showError(message) {
-    Swal.fire({
-      icon: 'error',
-      title: 'Invalid Input',
-      text: message,
-      confirmButtonText: 'Got it',
-      customClass: {
-        confirmButton: 'swal-btn-gradient-animate',
-      },
-      buttonsStyling: false,
-    });
-  }
-
   function resetForm(formId) {
     const form = byId(formId);
     if (!form) return;
@@ -402,316 +521,112 @@
   // ============================================================================
 
   function initMode1() {
-    const mode1Inputs = ['xp1', 'xw1', 'xf1'];
-    const mode1Outputs = ['feed1', 'waste1', 'swu1'];
-
-    const calculate1 = () => {
-      try {
-        const xp = parseAssay('xp1');
-        const xw = parseAssay('xw1');
-        const xf = parseAssay('xf1');
-        console.log('Mode 1 inputs:', { xp, xw, xf });
-        const res = computeFeedSwuForOneKg(xp, xw, xf);
-        console.log('Mode 1 results:', res);
+    createCalculatorHandlers({
+      formId: 'form1',
+      inputIds: ['xp1', 'xw1', 'xf1'],
+      outputIds: ['feed1', 'waste1', 'swu1'],
+      calcButtonId: 'calc1',
+      clearButtonId: 'clear1',
+      parseInputs: () => ({
+        xp: parseAssay('xp1'),
+        xw: parseAssay('xw1'),
+        xf: parseAssay('xf1'),
+      }),
+      compute: ({ xp, xw, xf }) => computeFeedSwuForOneKg(xp, xw, xf),
+      formatOutputs: (res) => {
         byId('feed1').value = res.F.toFixed(MASS_PRECISION);
         byId('waste1').value = res.W.toFixed(MASS_PRECISION);
         byId('swu1').value = res.swu.toFixed(SWU_PRECISION);
-        console.log('Mode 1 values set:', {
-          feed1: byId('feed1').value,
-          waste1: byId('waste1').value,
-          swu1: byId('swu1').value
-        });
-        triggerShimmer(mode1Outputs);
-      } catch (err) {
-        // Clear outputs on invalid input (for real-time calc)
-        console.log('Mode 1 error:', err.message);
-        byId('feed1').value = '';
-        byId('waste1').value = '';
-        byId('swu1').value = '';
-      }
-    };
-
-    const calculateWithError1 = () => {
-      try {
-        const xp = parseAssay('xp1');
-        const xw = parseAssay('xw1');
-        const xf = parseAssay('xf1');
-        const res = computeFeedSwuForOneKg(xp, xw, xf);
-        byId('feed1').value = res.F.toFixed(MASS_PRECISION);
-        byId('waste1').value = res.W.toFixed(MASS_PRECISION);
-        byId('swu1').value = res.swu.toFixed(SWU_PRECISION);
-        triggerShimmer(mode1Outputs);
-      } catch (err) {
-        showError(err.message);
-      }
-    };
-
-    byId('calc1').addEventListener('click', calculateWithError1);
-    byId('clear1').addEventListener('click', () => {
-      triggerClearShimmer([...mode1Inputs, ...mode1Outputs]);
-      triggerClearButtonAnimation('clear1');
-      resetForm('form1');
-    });
-
-    // Real-time calculation on input
-    ['xp1', 'xw1', 'xf1'].forEach((id) => {
-      byId(id).addEventListener('input', calculate1);
-    });
-
-    // Enter key support
-    byId('form1').addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        calculateWithError1();
-      }
-    });
+      },
+    }).setup();
   }
 
   function initMode2() {
-    const mode2Inputs = ['p2', 'xp2', 'xw2', 'xf2'];
-    const mode2Outputs = ['feed2', 'waste2', 'swu2'];
-
-    const calculate2 = () => {
-      try {
-        const P = parseMass('p2');
-        const xp = parseAssay('xp2');
-        const xw = parseAssay('xw2');
-        const xf = parseAssay('xf2');
-        const res = computeFeedSwu(xp, xw, xf, P);
+    createCalculatorHandlers({
+      formId: 'form2',
+      inputIds: ['p2', 'xp2', 'xw2', 'xf2'],
+      outputIds: ['feed2', 'waste2', 'swu2'],
+      calcButtonId: 'calc2',
+      clearButtonId: 'clear2',
+      parseInputs: () => ({
+        P: parseMass('p2'),
+        xp: parseAssay('xp2'),
+        xw: parseAssay('xw2'),
+        xf: parseAssay('xf2'),
+      }),
+      compute: ({ P, xp, xw, xf }) => computeFeedSwu(xp, xw, xf, P),
+      formatOutputs: (res) => {
         byId('feed2').value = res.F.toFixed(MASS_PRECISION);
         byId('waste2').value = res.W.toFixed(MASS_PRECISION);
         byId('swu2').value = res.swu.toFixed(SWU_PRECISION);
-        triggerShimmer(mode2Outputs);
-      } catch (err) {
-        // Clear outputs on invalid input (for real-time calc)
-        byId('feed2').value = '';
-        byId('waste2').value = '';
-        byId('swu2').value = '';
-      }
-    };
-
-    const calculateWithError2 = () => {
-      try {
-        const P = parseMass('p2');
-        const xp = parseAssay('xp2');
-        const xw = parseAssay('xw2');
-        const xf = parseAssay('xf2');
-        const res = computeFeedSwu(xp, xw, xf, P);
-        byId('feed2').value = res.F.toFixed(MASS_PRECISION);
-        byId('waste2').value = res.W.toFixed(MASS_PRECISION);
-        byId('swu2').value = res.swu.toFixed(SWU_PRECISION);
-        triggerShimmer(mode2Outputs);
-      } catch (err) {
-        showError(err.message);
-      }
-    };
-
-    byId('calc2').addEventListener('click', calculateWithError2);
-    byId('clear2').addEventListener('click', () => {
-      triggerClearShimmer([...mode2Inputs, ...mode2Outputs]);
-      triggerClearButtonAnimation('clear2');
-      resetForm('form2');
-    });
-
-    // Real-time calculation on input
-    ['p2', 'xp2', 'xw2', 'xf2'].forEach((id) => {
-      byId(id).addEventListener('input', calculate2);
-    });
-
-    // Enter key support
-    byId('form2').addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        calculateWithError2();
-      }
-    });
+      },
+    }).setup();
   }
 
   function initMode3() {
-    const mode3Inputs = ['F3', 'xp3', 'xw3', 'xf3'];
-    const mode3Outputs = ['P3', 'swu3'];
-
-    const calculate3 = () => {
-      try {
-        const F = parseMass('F3');
-        const xp = parseAssay('xp3');
-        const xw = parseAssay('xw3');
-        const xf = parseAssay('xf3');
-        const res = computeEupSwu(xp, xw, xf, F);
+    createCalculatorHandlers({
+      formId: 'form3',
+      inputIds: ['F3', 'xp3', 'xw3', 'xf3'],
+      outputIds: ['P3', 'swu3'],
+      calcButtonId: 'calc3',
+      clearButtonId: 'clear3',
+      parseInputs: () => ({
+        F: parseMass('F3'),
+        xp: parseAssay('xp3'),
+        xw: parseAssay('xw3'),
+        xf: parseAssay('xf3'),
+      }),
+      compute: ({ F, xp, xw, xf }) => computeEupSwu(xp, xw, xf, F),
+      formatOutputs: (res) => {
         byId('P3').value = res.P.toFixed(MASS_PRECISION);
         byId('swu3').value = res.swu.toFixed(SWU_PRECISION);
-        triggerShimmer(mode3Outputs);
-      } catch (err) {
-        // Clear outputs on invalid input (for real-time calc)
-        byId('P3').value = '';
-        byId('swu3').value = '';
-      }
-    };
-
-    const calculateWithError3 = () => {
-      try {
-        const F = parseMass('F3');
-        const xp = parseAssay('xp3');
-        const xw = parseAssay('xw3');
-        const xf = parseAssay('xf3');
-        const res = computeEupSwu(xp, xw, xf, F);
-        byId('P3').value = res.P.toFixed(MASS_PRECISION);
-        byId('swu3').value = res.swu.toFixed(SWU_PRECISION);
-        triggerShimmer(mode3Outputs);
-      } catch (err) {
-        showError(err.message);
-      }
-    };
-
-    byId('calc3').addEventListener('click', calculateWithError3);
-    byId('clear3').addEventListener('click', () => {
-      triggerClearShimmer([...mode3Inputs, ...mode3Outputs]);
-      triggerClearButtonAnimation('clear3');
-      resetForm('form3');
-    });
-
-    // Real-time calculation on input
-    ['F3', 'xp3', 'xw3', 'xf3'].forEach((id) => {
-      byId(id).addEventListener('input', calculate3);
-    });
-
-    // Enter key support
-    byId('form3').addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        calculateWithError3();
-      }
-    });
+      },
+    }).setup();
   }
 
   function initMode4() {
-    const mode4Inputs = ['S4', 'xp4', 'xw4', 'xf4'];
-    const mode4Outputs = ['P4', 'feed4'];
-
-    const calculate4 = () => {
-      try {
-        const S = parsePositiveNumber('S4');
-        const xp = parseAssay('xp4');
-        const xw = parseAssay('xw4');
-        const xf = parseAssay('xf4');
-        const res = computeFeedEupFromSwu(xp, xw, xf, S);
+    createCalculatorHandlers({
+      formId: 'form4',
+      inputIds: ['S4', 'xp4', 'xw4', 'xf4'],
+      outputIds: ['P4', 'feed4'],
+      calcButtonId: 'calc4',
+      clearButtonId: 'clear4',
+      parseInputs: () => ({
+        S: parsePositiveNumber('S4'),
+        xp: parseAssay('xp4'),
+        xw: parseAssay('xw4'),
+        xf: parseAssay('xf4'),
+      }),
+      compute: ({ S, xp, xw, xf }) => computeFeedEupFromSwu(xp, xw, xf, S),
+      formatOutputs: (res) => {
         byId('P4').value = res.P.toFixed(MASS_PRECISION);
         byId('feed4').value = res.F.toFixed(MASS_PRECISION);
-        triggerShimmer(mode4Outputs);
-      } catch (err) {
-        // Clear outputs on invalid input (for real-time calc)
-        byId('P4').value = '';
-        byId('feed4').value = '';
-      }
-    };
-
-    const calculateWithError4 = () => {
-      try {
-        const S = parsePositiveNumber('S4');
-        const xp = parseAssay('xp4');
-        const xw = parseAssay('xw4');
-        const xf = parseAssay('xf4');
-        const res = computeFeedEupFromSwu(xp, xw, xf, S);
-        byId('P4').value = res.P.toFixed(MASS_PRECISION);
-        byId('feed4').value = res.F.toFixed(MASS_PRECISION);
-        triggerShimmer(mode4Outputs);
-      } catch (err) {
-        showError(err.message);
-      }
-    };
-
-    byId('calc4').addEventListener('click', calculateWithError4);
-    byId('clear4').addEventListener('click', () => {
-      triggerClearShimmer([...mode4Inputs, ...mode4Outputs]);
-      triggerClearButtonAnimation('clear4');
-      resetForm('form4');
-    });
-
-    // Real-time calculation on input
-    ['S4', 'xp4', 'xw4', 'xf4'].forEach((id) => {
-      byId(id).addEventListener('input', calculate4);
-    });
-
-    // Enter key support
-    byId('form4').addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        calculateWithError4();
-      }
-    });
+      },
+    }).setup();
   }
 
   function initMode5() {
     const COST_PRECISION = 2;
-    const mode5Inputs = ['cf5', 'cs5', 'xp5', 'xf5'];
-    const mode5Outputs = ['xw5', 'feedPerP5', 'swuPerP5', 'costPerP5'];
-
-    const calculate5 = () => {
-      try {
-        const cf = parsePositiveNumber('cf5');
-        const cs = parsePositiveNumber('cs5');
-        const xp = parseAssay('xp5');
-        const xf = parseAssay('xf5');
-        console.log('Mode 5 inputs:', { cf, cs, xp, xf });
-        const res = findOptimumTails(xp, xf, cf, cs);
-        console.log('Mode 5 results:', res);
+    createCalculatorHandlers({
+      formId: 'form5',
+      inputIds: ['cf5', 'cs5', 'xp5', 'xf5'],
+      outputIds: ['xw5', 'feedPerP5', 'swuPerP5', 'costPerP5'],
+      calcButtonId: 'calc5',
+      clearButtonId: 'clear5',
+      parseInputs: () => ({
+        cf: parsePositiveNumber('cf5'),
+        cs: parsePositiveNumber('cs5'),
+        xp: parseAssay('xp5'),
+        xf: parseAssay('xf5'),
+      }),
+      compute: ({ cf, cs, xp, xf }) => findOptimumTails(xp, xf, cf, cs),
+      formatOutputs: (res) => {
         byId('xw5').value = (res.xw * 100).toFixed(PERCENT_PRECISION);
         byId('feedPerP5').value = res.F_per_P.toFixed(MASS_PRECISION);
         byId('swuPerP5').value = res.swu_per_P.toFixed(SWU_PRECISION);
         byId('costPerP5').value = res.cost_per_P.toFixed(COST_PRECISION);
-        console.log('Mode 5 values set:', {
-          xw5: byId('xw5').value,
-          feedPerP5: byId('feedPerP5').value,
-          swuPerP5: byId('swuPerP5').value,
-          costPerP5: byId('costPerP5').value
-        });
-        triggerShimmer(mode5Outputs);
-      } catch (err) {
-        // Clear outputs on invalid input (for real-time calc)
-        console.log('Mode 5 error:', err.message);
-        byId('xw5').value = '';
-        byId('feedPerP5').value = '';
-        byId('swuPerP5').value = '';
-        byId('costPerP5').value = '';
-      }
-    };
-
-    const calculateWithError5 = () => {
-      try {
-        const cf = parsePositiveNumber('cf5');
-        const cs = parsePositiveNumber('cs5');
-        const xp = parseAssay('xp5');
-        const xf = parseAssay('xf5');
-        const res = findOptimumTails(xp, xf, cf, cs);
-        byId('xw5').value = (res.xw * 100).toFixed(PERCENT_PRECISION);
-        byId('feedPerP5').value = res.F_per_P.toFixed(MASS_PRECISION);
-        byId('swuPerP5').value = res.swu_per_P.toFixed(SWU_PRECISION);
-        byId('costPerP5').value = res.cost_per_P.toFixed(COST_PRECISION);
-        triggerShimmer(mode5Outputs);
-      } catch (err) {
-        showError(err.message);
-      }
-    };
-
-    byId('calc5').addEventListener('click', calculateWithError5);
-    byId('clear5').addEventListener('click', () => {
-      triggerClearShimmer([...mode5Inputs, ...mode5Outputs]);
-      triggerClearButtonAnimation('clear5');
-      resetForm('form5');
-    });
-
-    // Real-time calculation on input
-    ['cf5', 'cs5', 'xp5', 'xf5'].forEach((id) => {
-      byId(id).addEventListener('input', calculate5);
-    });
-
-    // Enter key support
-    byId('form5').addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        calculateWithError5();
-      }
-    });
+      },
+    }).setup();
   }
 
   // ============================================================================
