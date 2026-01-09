@@ -375,6 +375,34 @@
     .dark input[type="number"] {
       color-scheme: dark;
     }
+
+    /* Smooth accordion expand/collapse animation using grid technique */
+    details > div {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 0.3s ease-out, padding 0.3s ease-out, opacity 0.3s ease-out;
+      opacity: 0;
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+    details[open] > div {
+      grid-template-rows: 1fr;
+      opacity: 1;
+      padding-top: 1.25rem;
+      padding-bottom: 1.25rem;
+    }
+    details > div > * {
+      overflow: hidden;
+    }
+    /* Wrapper for accordion content to enable smooth animation */
+    details > div > form {
+      min-height: 0;
+    }
+
+    /* Smooth scroll margin for accordion sections */
+    section[id^="mode"] {
+      scroll-margin-top: 1rem;
+    }
   </style>
 
   <!-- Favicon and Apple Touch Icon -->
@@ -474,7 +502,7 @@
           </svg>
         </summary>
 
-        <div class="space-y-6 bg-slate-50 dark:bg-slate-700 px-4 py-5 rounded-b-xl">
+        <div class="bg-slate-50 dark:bg-slate-700 px-4 rounded-b-xl">
           <form id="form1" class="space-y-6">
             <!-- Inputs -->
             <section>
@@ -666,7 +694,7 @@
           </svg>
         </summary>
 
-        <div class="space-y-6 bg-slate-50 dark:bg-slate-700 px-4 py-5 rounded-b-xl">
+        <div class="bg-slate-50 dark:bg-slate-700 px-4 rounded-b-xl">
           <form id="form2" class="space-y-6">
             <!-- Inputs -->
             <section>
@@ -873,7 +901,7 @@
           </svg>
         </summary>
 
-        <div class="space-y-6 bg-slate-50 dark:bg-slate-700 px-4 py-5 rounded-b-xl">
+        <div class="bg-slate-50 dark:bg-slate-700 px-4 rounded-b-xl">
           <form id="form3" class="space-y-6">
             <!-- Inputs -->
             <section>
@@ -1057,7 +1085,7 @@
           </svg>
         </summary>
 
-        <div class="space-y-6 bg-slate-50 dark:bg-slate-700 px-4 py-5 rounded-b-xl">
+        <div class="bg-slate-50 dark:bg-slate-700 px-4 rounded-b-xl">
           <form id="form4" class="space-y-6">
             <!-- Inputs -->
             <section>
@@ -1241,7 +1269,7 @@
           </svg>
         </summary>
 
-        <div class="space-y-6 bg-slate-50 dark:bg-slate-700 px-4 py-5 rounded-b-xl">
+        <div class="bg-slate-50 dark:bg-slate-700 px-4 rounded-b-xl">
           <form id="form5" class="space-y-6">
             <!-- Inputs -->
             <section>
