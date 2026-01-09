@@ -235,6 +235,23 @@
   // UI FUNCTIONS
   // ============================================================================
 
+  /**
+   * Triggers a green-to-blue shimmer effect on result fields
+   * @param {string[]} elementIds - Array of element IDs to apply shimmer to
+   */
+  function triggerShimmer(elementIds) {
+    elementIds.forEach((id) => {
+      const el = byId(id);
+      if (el) {
+        // Remove class first to allow re-triggering
+        el.classList.remove('result-shimmer');
+        // Force reflow to restart animation
+        void el.offsetWidth;
+        el.classList.add('result-shimmer');
+      }
+    });
+  }
+
   function showError(message) {
     Swal.fire({
       icon: 'error',
@@ -313,6 +330,8 @@
   // ============================================================================
 
   function initMode1() {
+    const mode1Outputs = ['feed1', 'waste1', 'swu1'];
+
     const calculate1 = () => {
       try {
         const xp = parseAssay('xp1');
@@ -322,6 +341,7 @@
         byId('feed1').value = res.F.toFixed(MASS_PRECISION);
         byId('waste1').value = res.W.toFixed(MASS_PRECISION);
         byId('swu1').value = res.swu.toFixed(SWU_PRECISION);
+        triggerShimmer(mode1Outputs);
       } catch (err) {
         // Clear outputs on invalid input (for real-time calc)
         byId('feed1').value = '';
@@ -339,6 +359,7 @@
         byId('feed1').value = res.F.toFixed(MASS_PRECISION);
         byId('waste1').value = res.W.toFixed(MASS_PRECISION);
         byId('swu1').value = res.swu.toFixed(SWU_PRECISION);
+        triggerShimmer(mode1Outputs);
       } catch (err) {
         showError(err.message);
       }
@@ -362,6 +383,8 @@
   }
 
   function initMode2() {
+    const mode2Outputs = ['feed2', 'waste2', 'swu2'];
+
     const calculate2 = () => {
       try {
         const P = parseMass('p2');
@@ -372,6 +395,7 @@
         byId('feed2').value = res.F.toFixed(MASS_PRECISION);
         byId('waste2').value = res.W.toFixed(MASS_PRECISION);
         byId('swu2').value = res.swu.toFixed(SWU_PRECISION);
+        triggerShimmer(mode2Outputs);
       } catch (err) {
         // Clear outputs on invalid input (for real-time calc)
         byId('feed2').value = '';
@@ -390,6 +414,7 @@
         byId('feed2').value = res.F.toFixed(MASS_PRECISION);
         byId('waste2').value = res.W.toFixed(MASS_PRECISION);
         byId('swu2').value = res.swu.toFixed(SWU_PRECISION);
+        triggerShimmer(mode2Outputs);
       } catch (err) {
         showError(err.message);
       }
@@ -413,6 +438,8 @@
   }
 
   function initMode3() {
+    const mode3Outputs = ['P3', 'swu3'];
+
     const calculate3 = () => {
       try {
         const F = parseMass('F3');
@@ -422,6 +449,7 @@
         const res = computeEupSwu(xp, xw, xf, F);
         byId('P3').value = res.P.toFixed(MASS_PRECISION);
         byId('swu3').value = res.swu.toFixed(SWU_PRECISION);
+        triggerShimmer(mode3Outputs);
       } catch (err) {
         // Clear outputs on invalid input (for real-time calc)
         byId('P3').value = '';
@@ -438,6 +466,7 @@
         const res = computeEupSwu(xp, xw, xf, F);
         byId('P3').value = res.P.toFixed(MASS_PRECISION);
         byId('swu3').value = res.swu.toFixed(SWU_PRECISION);
+        triggerShimmer(mode3Outputs);
       } catch (err) {
         showError(err.message);
       }
@@ -461,6 +490,8 @@
   }
 
   function initMode4() {
+    const mode4Outputs = ['P4', 'feed4'];
+
     const calculate4 = () => {
       try {
         const S = parsePositiveNumber('S4');
@@ -470,6 +501,7 @@
         const res = computeFeedEupFromSwu(xp, xw, xf, S);
         byId('P4').value = res.P.toFixed(MASS_PRECISION);
         byId('feed4').value = res.F.toFixed(MASS_PRECISION);
+        triggerShimmer(mode4Outputs);
       } catch (err) {
         // Clear outputs on invalid input (for real-time calc)
         byId('P4').value = '';
@@ -486,6 +518,7 @@
         const res = computeFeedEupFromSwu(xp, xw, xf, S);
         byId('P4').value = res.P.toFixed(MASS_PRECISION);
         byId('feed4').value = res.F.toFixed(MASS_PRECISION);
+        triggerShimmer(mode4Outputs);
       } catch (err) {
         showError(err.message);
       }
@@ -510,6 +543,7 @@
 
   function initMode5() {
     const COST_PRECISION = 2;
+    const mode5Outputs = ['xw5', 'feedPerP5', 'swuPerP5', 'costPerP5'];
 
     const calculate5 = () => {
       try {
@@ -522,6 +556,7 @@
         byId('feedPerP5').value = res.F_per_P.toFixed(MASS_PRECISION);
         byId('swuPerP5').value = res.swu_per_P.toFixed(SWU_PRECISION);
         byId('costPerP5').value = res.cost_per_P.toFixed(COST_PRECISION);
+        triggerShimmer(mode5Outputs);
       } catch (err) {
         // Clear outputs on invalid input (for real-time calc)
         byId('xw5').value = '';
@@ -542,6 +577,7 @@
         byId('feedPerP5').value = res.F_per_P.toFixed(MASS_PRECISION);
         byId('swuPerP5').value = res.swu_per_P.toFixed(SWU_PRECISION);
         byId('costPerP5').value = res.cost_per_P.toFixed(COST_PRECISION);
+        triggerShimmer(mode5Outputs);
       } catch (err) {
         showError(err.message);
       }
