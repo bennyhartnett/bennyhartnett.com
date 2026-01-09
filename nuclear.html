@@ -71,6 +71,32 @@
     html, body {
       touch-action: manipulation;
     }
+
+    /* Animated gradient button (matches background gradient) */
+    .btn-gradient-animate {
+      background: linear-gradient(90deg, #38bdf8, #14b8a6, #38bdf8);
+      background-size: 200% 100%;
+      animation: gradient-shift 3s ease infinite;
+    }
+    .btn-gradient-animate:hover {
+      background: linear-gradient(90deg, #0ea5e9, #0d9488, #0ea5e9);
+      background-size: 200% 100%;
+      animation: gradient-shift 3s ease infinite;
+    }
+    @keyframes gradient-shift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    /* Dark mode gradient button */
+    .dark .btn-gradient-animate {
+      background: linear-gradient(90deg, #0ea5e9, #0d9488, #0ea5e9);
+      background-size: 200% 100%;
+    }
+    .dark .btn-gradient-animate:hover {
+      background: linear-gradient(90deg, #0284c7, #0f766e, #0284c7);
+      background-size: 200% 100%;
+    }
   </style>
 
   <!-- Apple Touch Icon for iOS home screen -->
@@ -309,7 +335,7 @@
               <button
                 id="calc1"
                 type="button"
-                class="w-full rounded-md bg-blue-600 dark:bg-blue-500 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 dark:hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 dark:focus:ring-offset-slate-700"
+                class="w-full rounded-md btn-gradient-animate py-2 text-sm font-semibold text-white shadow-sm transition focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-1 dark:focus:ring-offset-slate-700"
               >
                 Calculate
               </button>
@@ -496,7 +522,7 @@
               <button
                 id="calc2"
                 type="button"
-                class="w-full rounded-md bg-blue-600 dark:bg-blue-500 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 dark:hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 dark:focus:ring-offset-slate-700"
+                class="w-full rounded-md btn-gradient-animate py-2 text-sm font-semibold text-white shadow-sm transition focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-1 dark:focus:ring-offset-slate-700"
               >
                 Calculate
               </button>
@@ -680,7 +706,7 @@
               <button
                 id="calc3"
                 type="button"
-                class="w-full rounded-md bg-blue-600 dark:bg-blue-500 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 dark:hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 dark:focus:ring-offset-slate-700"
+                class="w-full rounded-md btn-gradient-animate py-2 text-sm font-semibold text-white shadow-sm transition focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-1 dark:focus:ring-offset-slate-700"
               >
                 Calculate
               </button>
@@ -864,7 +890,7 @@
               <button
                 id="calc4"
                 type="button"
-                class="w-full rounded-md bg-blue-600 dark:bg-blue-500 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 dark:hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 dark:focus:ring-offset-slate-700"
+                class="w-full rounded-md btn-gradient-animate py-2 text-sm font-semibold text-white shadow-sm transition focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-1 dark:focus:ring-offset-slate-700"
               >
                 Calculate
               </button>
@@ -1033,7 +1059,7 @@
               <button
                 id="calc5"
                 type="button"
-                class="w-full rounded-md bg-blue-600 dark:bg-blue-500 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 dark:hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 dark:focus:ring-offset-slate-700"
+                class="w-full rounded-md btn-gradient-animate py-2 text-sm font-semibold text-white shadow-sm transition focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-1 dark:focus:ring-offset-slate-700"
               >
                 Calculate
               </button>
