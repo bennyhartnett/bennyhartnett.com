@@ -153,6 +153,36 @@
         box-shadow: 0 0 0 0 rgba(59, 130, 246, 0), 0 0 0 0 rgba(59, 130, 246, 0);
       }
     }
+
+    /* Fluid animated gradient background */
+    .fluid-gradient-bg {
+      background: linear-gradient(-45deg, #0ea5e9, #14b8a6, #06b6d4, #10b981, #0284c7, #0d9488);
+      background-size: 400% 400%;
+      animation: fluid-gradient 15s ease infinite;
+    }
+    @keyframes fluid-gradient {
+      0% {
+        background-position: 0% 50%;
+      }
+      25% {
+        background-position: 50% 100%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      75% {
+        background-position: 50% 0%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+    /* Dark mode - darker but still animated */
+    .dark .fluid-gradient-bg {
+      background: linear-gradient(-45deg, #0f172a, #1e293b, #0c4a6e, #134e4a, #1e3a5f, #1e293b);
+      background-size: 400% 400%;
+      animation: fluid-gradient 15s ease infinite;
+    }
   </style>
 
   <!-- Favicon and Apple Touch Icon -->
@@ -164,7 +194,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <link rel="manifest" href="/manifest.webmanifest" />
 </head>
-<body class="min-h-screen bg-gradient-to-b from-sky-400 to-teal-500 dark:from-slate-950 dark:to-slate-900 px-4 py-8 text-slate-900 dark:text-slate-100 transition-colors duration-300">
+<body class="min-h-screen fluid-gradient-bg px-4 py-8 text-slate-900 dark:text-slate-100 transition-colors duration-300">
 
   <main class="relative mx-auto w-full max-w-4xl rounded-2xl bg-white/95 dark:bg-slate-800/95 p-6 shadow-xl ring-1 ring-slate-200 dark:ring-slate-700 transition-colors duration-300">
     <!-- Header -->
