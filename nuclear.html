@@ -247,6 +247,22 @@
       }
     }
 
+    /* Clear button red gradient on hover */
+    .clear-btn-gradient-hover:hover {
+      background: linear-gradient(90deg, #ef4444, #f87171, #ef4444);
+      background-size: 200% 100%;
+      animation: gradient-shift 3s ease infinite;
+      border-color: #dc2626;
+      color: white;
+    }
+    .dark .clear-btn-gradient-hover:hover {
+      background: linear-gradient(90deg, #dc2626, #ef4444, #dc2626);
+      background-size: 200% 100%;
+      animation: gradient-shift 3s ease infinite;
+      border-color: #b91c1c;
+      color: white;
+    }
+
     /* Clear button red animation */
     .clear-btn-active {
       animation: clear-btn-red 3s ease-out forwards;
@@ -570,7 +586,7 @@
               <button
                 id="clear1"
                 type="button"
-                class="w-full rounded-md border border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-600 py-2 text-sm font-medium text-slate-700 dark:text-slate-200 transition hover:bg-slate-200 dark:hover:bg-slate-500"
+                class="w-full rounded-md border border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-600 py-2 text-sm font-medium text-slate-700 dark:text-slate-200 transition clear-btn-gradient-hover"
               >
                 Clear
               </button>
@@ -777,7 +793,7 @@
               <button
                 id="clear2"
                 type="button"
-                class="w-full rounded-md border border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-600 py-2 text-sm font-medium text-slate-700 dark:text-slate-200 transition hover:bg-slate-200 dark:hover:bg-slate-500"
+                class="w-full rounded-md border border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-600 py-2 text-sm font-medium text-slate-700 dark:text-slate-200 transition clear-btn-gradient-hover"
               >
                 Clear
               </button>
@@ -961,7 +977,7 @@
               <button
                 id="clear3"
                 type="button"
-                class="w-full rounded-md border border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-600 py-2 text-sm font-medium text-slate-700 dark:text-slate-200 transition hover:bg-slate-200 dark:hover:bg-slate-500"
+                class="w-full rounded-md border border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-600 py-2 text-sm font-medium text-slate-700 dark:text-slate-200 transition clear-btn-gradient-hover"
               >
                 Clear
               </button>
@@ -1145,7 +1161,7 @@
               <button
                 id="clear4"
                 type="button"
-                class="w-full rounded-md border border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-600 py-2 text-sm font-medium text-slate-700 dark:text-slate-200 transition hover:bg-slate-200 dark:hover:bg-slate-500"
+                class="w-full rounded-md border border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-600 py-2 text-sm font-medium text-slate-700 dark:text-slate-200 transition clear-btn-gradient-hover"
               >
                 Clear
               </button>
@@ -1375,7 +1391,7 @@
               <button
                 id="clear5"
                 type="button"
-                class="w-full rounded-md border border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-600 py-2 text-sm font-medium text-slate-700 dark:text-slate-200 transition hover:bg-slate-200 dark:hover:bg-slate-500"
+                class="w-full rounded-md border border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-600 py-2 text-sm font-medium text-slate-700 dark:text-slate-200 transition clear-btn-gradient-hover"
               >
                 Clear
               </button>
