@@ -472,15 +472,6 @@
       color: var(--wave-color);
     }
 
-    .menu-toggle {
-      background: none;
-      border: none;
-      color: white;
-      font-size: 1.2em;
-      cursor: pointer;
-      display: none;
-    }
-
     .search-icon {
       position: absolute;
       right: 1rem;
@@ -504,11 +495,6 @@
       nav .search-bar {
         display: block;
         margin-left: 12px;
-      }
-
-      .menu-toggle {
-        display: block;
-        margin-left: auto;
       }
 
       nav .menu {
@@ -605,10 +591,6 @@
       <div class="title">Benny Hartnett</div>
 
       
-      <a href="#"><i aria-hidden="true"></i></a>
-      <button class="menu-toggle" aria-label="Toggle navigation">
-        <i class="fa-solid fa-bars"></i>
-      </button>
     </div>
 
   </nav>
@@ -622,8 +604,6 @@
     window.addEventListener('DOMContentLoaded', () => {
       window.initWaveBackground();
       const container = document.querySelector('.content');
-      const toggleBtn = document.querySelector('.menu-toggle');
-      const menu = document.querySelector('nav .menu');
       const canonicalTag = document.getElementById('canonical-link');
       const ogUrlTag = document.getElementById('og-url');
       const baseUrl = window.location.origin + window.location.pathname.replace(/[^\/]*$/, '');
@@ -671,12 +651,6 @@
           desc: 'Portfolio of projects spanning generative AI, GIS, government contracting, and nuclear research.'
         }
       };
-      if (toggleBtn && menu) {
-        toggleBtn.addEventListener('click', () => {
-          menu.classList.toggle('open');
-        });
-      }
-
         const title = document.querySelector('nav .title');
         if (title) {
           title.addEventListener('click', (e) => {
