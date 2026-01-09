@@ -257,6 +257,47 @@
     });
   }
 
+  /**
+   * Triggers a red shimmer effect on cleared result fields
+   * Applies to the full input group wrapper (input + unit label)
+   * @param {string[]} elementIds - Array of element IDs to apply red shimmer to
+   */
+  function triggerClearShimmer(elementIds) {
+    elementIds.forEach((id) => {
+      const el = byId(id);
+      if (el) {
+        // Apply shimmer to the input group wrapper (parent div)
+        const wrapper = el.parentElement;
+        if (wrapper) {
+          // Remove class first to allow re-triggering
+          wrapper.classList.remove('clear-shimmer');
+          // Force reflow to restart animation
+          void wrapper.offsetWidth;
+          wrapper.classList.add('clear-shimmer');
+        }
+      }
+    });
+  }
+
+  /**
+   * Triggers the clear button red animation for 3 seconds
+   * @param {string} buttonId - The ID of the clear button
+   */
+  function triggerClearButtonAnimation(buttonId) {
+    const btn = byId(buttonId);
+    if (btn) {
+      // Remove class first to allow re-triggering
+      btn.classList.remove('clear-btn-active');
+      // Force reflow to restart animation
+      void btn.offsetWidth;
+      btn.classList.add('clear-btn-active');
+      // Remove the class after animation completes (3 seconds)
+      setTimeout(() => {
+        btn.classList.remove('clear-btn-active');
+      }, 3000);
+    }
+  }
+
   function showError(message) {
     Swal.fire({
       icon: 'error',
@@ -379,7 +420,11 @@
     };
 
     byId('calc1').addEventListener('click', calculateWithError1);
-    byId('clear1').addEventListener('click', () => resetForm('form1'));
+    byId('clear1').addEventListener('click', () => {
+      triggerClearShimmer(mode1Outputs);
+      triggerClearButtonAnimation('clear1');
+      resetForm('form1');
+    });
 
     // Real-time calculation on input
     ['xp1', 'xw1', 'xf1'].forEach((id) => {
@@ -434,7 +479,11 @@
     };
 
     byId('calc2').addEventListener('click', calculateWithError2);
-    byId('clear2').addEventListener('click', () => resetForm('form2'));
+    byId('clear2').addEventListener('click', () => {
+      triggerClearShimmer(mode2Outputs);
+      triggerClearButtonAnimation('clear2');
+      resetForm('form2');
+    });
 
     // Real-time calculation on input
     ['p2', 'xp2', 'xw2', 'xf2'].forEach((id) => {
@@ -486,7 +535,11 @@
     };
 
     byId('calc3').addEventListener('click', calculateWithError3);
-    byId('clear3').addEventListener('click', () => resetForm('form3'));
+    byId('clear3').addEventListener('click', () => {
+      triggerClearShimmer(mode3Outputs);
+      triggerClearButtonAnimation('clear3');
+      resetForm('form3');
+    });
 
     // Real-time calculation on input
     ['F3', 'xp3', 'xw3', 'xf3'].forEach((id) => {
@@ -538,7 +591,11 @@
     };
 
     byId('calc4').addEventListener('click', calculateWithError4);
-    byId('clear4').addEventListener('click', () => resetForm('form4'));
+    byId('clear4').addEventListener('click', () => {
+      triggerClearShimmer(mode4Outputs);
+      triggerClearButtonAnimation('clear4');
+      resetForm('form4');
+    });
 
     // Real-time calculation on input
     ['S4', 'xp4', 'xw4', 'xf4'].forEach((id) => {
@@ -606,7 +663,11 @@
     };
 
     byId('calc5').addEventListener('click', calculateWithError5);
-    byId('clear5').addEventListener('click', () => resetForm('form5'));
+    byId('clear5').addEventListener('click', () => {
+      triggerClearShimmer(mode5Outputs);
+      triggerClearButtonAnimation('clear5');
+      resetForm('form5');
+    });
 
     // Real-time calculation on input
     ['cf5', 'cs5', 'xp5', 'xf5'].forEach((id) => {
