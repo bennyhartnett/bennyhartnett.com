@@ -439,7 +439,7 @@
 
     byId('calc1').addEventListener('click', calculateWithError1);
     byId('clear1').addEventListener('click', () => {
-      triggerClearShimmer(mode1Inputs);
+      triggerClearShimmer([...mode1Inputs, ...mode1Outputs]);
       triggerClearButtonAnimation('clear1');
       resetForm('form1');
     });
@@ -499,7 +499,7 @@
 
     byId('calc2').addEventListener('click', calculateWithError2);
     byId('clear2').addEventListener('click', () => {
-      triggerClearShimmer(mode2Inputs);
+      triggerClearShimmer([...mode2Inputs, ...mode2Outputs]);
       triggerClearButtonAnimation('clear2');
       resetForm('form2');
     });
@@ -556,7 +556,7 @@
 
     byId('calc3').addEventListener('click', calculateWithError3);
     byId('clear3').addEventListener('click', () => {
-      triggerClearShimmer(mode3Inputs);
+      triggerClearShimmer([...mode3Inputs, ...mode3Outputs]);
       triggerClearButtonAnimation('clear3');
       resetForm('form3');
     });
@@ -613,7 +613,7 @@
 
     byId('calc4').addEventListener('click', calculateWithError4);
     byId('clear4').addEventListener('click', () => {
-      triggerClearShimmer(mode4Inputs);
+      triggerClearShimmer([...mode4Inputs, ...mode4Outputs]);
       triggerClearButtonAnimation('clear4');
       resetForm('form4');
     });
@@ -686,7 +686,7 @@
 
     byId('calc5').addEventListener('click', calculateWithError5);
     byId('clear5').addEventListener('click', () => {
-      triggerClearShimmer(mode5Inputs);
+      triggerClearShimmer([...mode5Inputs, ...mode5Outputs]);
       triggerClearButtonAnimation('clear5');
       resetForm('form5');
     });
