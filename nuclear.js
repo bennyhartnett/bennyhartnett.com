@@ -353,7 +353,7 @@
   // ACCORDION NAVIGATION
   // ============================================================================
 
-  function openAccordionForHash(hash) {
+  function openAccordionForHash(hash, shouldScroll = true) {
     if (!hash) return;
     const section = document.querySelector(hash);
     if (!section) return;
@@ -365,21 +365,30 @@
       });
       // Open the target accordion
       details.setAttribute('open', '');
+      // Smooth scroll to the section after a brief delay to let animation start
+      if (shouldScroll) {
+        setTimeout(() => {
+          section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 50);
+      }
     }
   }
 
   function initAccordionNavigation() {
     // Handle mode navigation link clicks
     document.querySelectorAll('nav a[href^="#mode"]').forEach((link) => {
-      link.addEventListener('click', () => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
         const hash = link.getAttribute('href');
+        // Update URL without jumping
+        history.pushState(null, '', hash);
         openAccordionForHash(hash);
       });
     });
 
-    // Handle hash on page load
+    // Handle hash on page load (don't scroll on initial load if already at top)
     if (window.location.hash) {
-      openAccordionForHash(window.location.hash);
+      openAccordionForHash(window.location.hash, false);
     }
 
     // Handle hash changes (e.g., back/forward navigation)
