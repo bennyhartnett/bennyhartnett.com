@@ -309,27 +309,83 @@
   }
 
   // ============================================================================
+  // REAL-TIME CALCULATION HELPERS
+  // ============================================================================
+
+  const DEBOUNCE_DELAY = 300;
+
+  function debounce(fn, delay) {
+    let timeoutId;
+    return function (...args) {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => fn.apply(this, args), delay);
+    };
+  }
+
+  function clearOutputs(ids) {
+    ids.forEach((id) => {
+      const el = byId(id);
+      if (el) el.value = '';
+    });
+  }
+
+  function addRealTimeListeners(formId, inputIds, outputIds, calcFn) {
+    const form = byId(formId);
+    if (!form) return;
+
+    const debouncedCalc = debounce(() => {
+      calcFn(true);
+    }, DEBOUNCE_DELAY);
+
+    inputIds.forEach((id) => {
+      const input = byId(id);
+      if (input) {
+        input.addEventListener('input', () => {
+          clearOutputs(outputIds);
+          debouncedCalc();
+        });
+        input.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            calcFn(false);
+          }
+        });
+      }
+    });
+  }
+
+  // ============================================================================
   // CALCULATOR EVENT HANDLERS
   // ============================================================================
 
   function initMode1() {
-    byId('calc1').addEventListener('click', () => {
+    const inputIds = ['xp1', 'xw1', 'xf1'];
+    const outputIds = ['feed1', 'waste1', 'swu1'];
+
+    function calculate(silent) {
       try {
         const xp = parseAssay('xp1');
         const xw = parseAssay('xw1');
         const xf = parseAssay('xf1');
         const res = computeFeedSwuForOneKg(xp, xw, xf);
         byId('feed1').value = res.F.toFixed(MASS_PRECISION);
+        byId('waste1').value = res.W.toFixed(MASS_PRECISION);
         byId('swu1').value = res.swu.toFixed(SWU_PRECISION);
       } catch (err) {
-        showError(err.message);
+        if (!silent) showError(err.message);
       }
-    });
+    }
+
+    byId('calc1').addEventListener('click', () => calculate(false));
     byId('clear1').addEventListener('click', () => resetForm('form1'));
+    addRealTimeListeners('form1', inputIds, outputIds, calculate);
   }
 
   function initMode2() {
-    byId('calc2').addEventListener('click', () => {
+    const inputIds = ['p2', 'xp2', 'xw2', 'xf2'];
+    const outputIds = ['feed2', 'waste2', 'swu2'];
+
+    function calculate(silent) {
       try {
         const P = parseMass('p2');
         const xp = parseAssay('xp2');
@@ -337,16 +393,23 @@
         const xf = parseAssay('xf2');
         const res = computeFeedSwu(xp, xw, xf, P);
         byId('feed2').value = res.F.toFixed(MASS_PRECISION);
+        byId('waste2').value = res.W.toFixed(MASS_PRECISION);
         byId('swu2').value = res.swu.toFixed(SWU_PRECISION);
       } catch (err) {
-        showError(err.message);
+        if (!silent) showError(err.message);
       }
-    });
+    }
+
+    byId('calc2').addEventListener('click', () => calculate(false));
     byId('clear2').addEventListener('click', () => resetForm('form2'));
+    addRealTimeListeners('form2', inputIds, outputIds, calculate);
   }
 
   function initMode3() {
-    byId('calc3').addEventListener('click', () => {
+    const inputIds = ['F3', 'xp3', 'xw3', 'xf3'];
+    const outputIds = ['P3', 'swu3'];
+
+    function calculate(silent) {
       try {
         const F = parseMass('F3');
         const xp = parseAssay('xp3');
@@ -356,14 +419,20 @@
         byId('P3').value = res.P.toFixed(MASS_PRECISION);
         byId('swu3').value = res.swu.toFixed(SWU_PRECISION);
       } catch (err) {
-        showError(err.message);
+        if (!silent) showError(err.message);
       }
-    });
+    }
+
+    byId('calc3').addEventListener('click', () => calculate(false));
     byId('clear3').addEventListener('click', () => resetForm('form3'));
+    addRealTimeListeners('form3', inputIds, outputIds, calculate);
   }
 
   function initMode4() {
-    byId('calc4').addEventListener('click', () => {
+    const inputIds = ['S4', 'xp4', 'xw4', 'xf4'];
+    const outputIds = ['P4', 'feed4'];
+
+    function calculate(silent) {
       try {
         const S = parsePositiveNumber('S4');
         const xp = parseAssay('xp4');
@@ -373,14 +442,20 @@
         byId('P4').value = res.P.toFixed(MASS_PRECISION);
         byId('feed4').value = res.F.toFixed(MASS_PRECISION);
       } catch (err) {
-        showError(err.message);
+        if (!silent) showError(err.message);
       }
-    });
+    }
+
+    byId('calc4').addEventListener('click', () => calculate(false));
     byId('clear4').addEventListener('click', () => resetForm('form4'));
+    addRealTimeListeners('form4', inputIds, outputIds, calculate);
   }
 
   function initMode5() {
-    byId('calc5').addEventListener('click', () => {
+    const inputIds = ['cf5', 'cs5', 'xp5', 'xf5'];
+    const outputIds = ['xw5', 'feedPerP5', 'swuPerP5', 'costPerP5'];
+
+    function calculate(silent) {
       try {
         const cf = parsePositiveNumber('cf5');
         const cs = parsePositiveNumber('cs5');
@@ -388,11 +463,17 @@
         const xf = parseAssay('xf5');
         const res = findOptimumTails(xp, xf, cf, cs);
         byId('xw5').value = (res.xw * 100).toFixed(PERCENT_PRECISION);
+        byId('feedPerP5').value = res.F_per_P.toFixed(MASS_PRECISION);
+        byId('swuPerP5').value = res.swu_per_P.toFixed(SWU_PRECISION);
+        byId('costPerP5').value = res.cost_per_P.toFixed(2);
       } catch (err) {
-        showError(err.message);
+        if (!silent) showError(err.message);
       }
-    });
+    }
+
+    byId('calc5').addEventListener('click', () => calculate(false));
     byId('clear5').addEventListener('click', () => resetForm('form5'));
+    addRealTimeListeners('form5', inputIds, outputIds, calculate);
   }
 
   // ============================================================================

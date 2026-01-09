@@ -254,7 +254,7 @@
             <section>
               <h2 class="mb-3 text-base font-semibold text-slate-900 dark:text-slate-100">Outputs (for 1&nbsp;kg U in product)</h2>
 
-              <div class="space-y-4 sm:grid sm:grid-cols-2 sm:gap-4 sm:space-y-0">
+              <div class="space-y-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:space-y-0">
                 <!-- Feed quantity -->
                 <div>
                   <label for="feed1" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
@@ -263,6 +263,26 @@
                   <div class="mt-1 flex rounded-md shadow-sm">
                     <input
                       id="feed1"
+                      type="text"
+                      readonly
+                      class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-600 px-3 py-2 text-sm text-slate-700 dark:text-slate-200 focus:outline-none"
+                    />
+                    <span
+                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
+                    >
+                      kg UF₆
+                    </span>
+                  </div>
+                </div>
+
+                <!-- Waste quantity -->
+                <div>
+                  <label for="waste1" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
+                    Waste Quantity
+                  </label>
+                  <div class="mt-1 flex rounded-md shadow-sm">
+                    <input
+                      id="waste1"
                       type="text"
                       readonly
                       class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-600 px-3 py-2 text-sm text-slate-700 dark:text-slate-200 focus:outline-none"
@@ -441,7 +461,7 @@
             <section>
               <h2 class="mb-3 text-base font-semibold text-slate-900 dark:text-slate-100">Outputs</h2>
 
-              <div class="space-y-4 sm:grid sm:grid-cols-2 sm:gap-4 sm:space-y-0">
+              <div class="space-y-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:space-y-0">
                 <!-- Feed quantity -->
                 <div>
                   <label for="feed2" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
@@ -450,6 +470,26 @@
                   <div class="mt-1 flex rounded-md shadow-sm">
                     <input
                       id="feed2"
+                      type="text"
+                      readonly
+                      class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-600 px-3 py-2 text-sm text-slate-700 dark:text-slate-200 focus:outline-none"
+                    />
+                    <span
+                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
+                    >
+                      kg UF₆
+                    </span>
+                  </div>
+                </div>
+
+                <!-- Waste quantity -->
+                <div>
+                  <label for="waste2" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
+                    Waste Quantity
+                  </label>
+                  <div class="mt-1 flex rounded-md shadow-sm">
+                    <input
+                      id="waste2"
                       type="text"
                       readonly
                       class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-600 px-3 py-2 text-sm text-slate-700 dark:text-slate-200 focus:outline-none"
@@ -995,11 +1035,12 @@
               </div>
             </section>
 
-            <!-- Output -->
+            <!-- Outputs -->
             <section>
-              <h2 class="mb-3 text-base font-semibold text-slate-900 dark:text-slate-100">Output</h2>
+              <h2 class="mb-3 text-base font-semibold text-slate-900 dark:text-slate-100">Outputs (per 1&nbsp;kg U product)</h2>
 
-              <div class="space-y-4 sm:w-1/2">
+              <div class="space-y-4 sm:grid sm:grid-cols-2 sm:gap-4 sm:space-y-0">
+                <!-- Optimum Tails Assay -->
                 <div>
                   <label for="xw5" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
                     Optimum Tails Assay
@@ -1015,6 +1056,66 @@
                       class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
                     >
                       % U-235
+                    </span>
+                  </div>
+                </div>
+
+                <!-- Feed per Product -->
+                <div>
+                  <label for="feedPerP5" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
+                    Feed per Product
+                  </label>
+                  <div class="mt-1 flex rounded-md shadow-sm">
+                    <input
+                      id="feedPerP5"
+                      type="text"
+                      readonly
+                      class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-600 px-3 py-2 text-sm text-slate-700 dark:text-slate-200 focus:outline-none"
+                    />
+                    <span
+                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
+                    >
+                      kg UF₆
+                    </span>
+                  </div>
+                </div>
+
+                <!-- SWU per Product -->
+                <div>
+                  <label for="swuPerP5" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
+                    SWU per Product
+                  </label>
+                  <div class="mt-1 flex rounded-md shadow-sm">
+                    <input
+                      id="swuPerP5"
+                      type="text"
+                      readonly
+                      class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-600 px-3 py-2 text-sm text-slate-700 dark:text-slate-200 focus:outline-none"
+                    />
+                    <span
+                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
+                    >
+                      SWU
+                    </span>
+                  </div>
+                </div>
+
+                <!-- Cost per Product -->
+                <div>
+                  <label for="costPerP5" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
+                    Cost per Product
+                  </label>
+                  <div class="mt-1 flex rounded-md shadow-sm">
+                    <input
+                      id="costPerP5"
+                      type="text"
+                      readonly
+                      class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-600 px-3 py-2 text-sm text-slate-700 dark:text-slate-200 focus:outline-none"
+                    />
+                    <span
+                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
+                    >
+                      currency
                     </span>
                   </div>
                 </div>
