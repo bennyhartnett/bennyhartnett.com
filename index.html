@@ -822,7 +822,7 @@
                   <li><a data-href="https://www.linkedin.com/in/dev-dc" data-external="true">LinkedIn</a></li>\
                 <li><a data-href="https://github.com/bennyhartnett" data-external="true">GitHub</a></li>\
                   <li><a data-action="download-resume">Resume</a></li>\
-                  <li><a data-href="nuclear.html">Nuclear</a></li>\
+                  <li><a data-href="/nuclear">Nuclear</a></li>\
               </ul>\
               </div>`;
             } else if (url === 'pages/gis.html') {
@@ -888,7 +888,7 @@
                 <div class="error-container">
                   <p class="error-code">404</p>
                   <p class="error-message">Page not found</p>
-                  <a href="home.html" class="error-link">Go Home</a>
+                  <a href="/" class="error-link">Go Home</a>
                 </div>`;
             }
           });
@@ -941,13 +941,23 @@
         // Skip SPA handling for nuclear page - do full page navigation
         if (href === 'nuclear.html' || href === '/nuclear.html' || href === '/nuclear') {
           e.preventDefault();
-          window.location.href = href;
+          window.location.href = '/nuclear';
           return;
         }
-        if (href && href.endsWith('.html') && !href.startsWith('http')) {
+        // Handle clean URLs (e.g., /resume, /contact) and .html URLs
+        const isCleanUrl = href && href.startsWith('/') && !href.startsWith('http') && href !== '/';
+        const isHtmlUrl = href && href.endsWith('.html') && !href.startsWith('http');
+        if (isCleanUrl || isHtmlUrl) {
           e.preventDefault();
-          // Add pages/ prefix for fragment files (not nuclear.html which is a full page)
-          const pagePath = href === 'nuclear.html' ? href : 'pages/' + href.replace(/^pages\//, '');
+          let pagePath;
+          if (isCleanUrl) {
+            // Convert /resume to pages/resume.html
+            const pageName = href.substring(1); // Remove leading slash
+            pagePath = 'pages/' + pageName + '.html';
+          } else {
+            // Handle .html URLs for backward compatibility
+            pagePath = href === 'nuclear.html' ? href : 'pages/' + href.replace(/^pages\//, '');
+          }
           loadContent(pagePath);
         }
       });
@@ -986,7 +996,7 @@
     });
   </script>
   <footer>
-    <a data-href="privacy.html" style="cursor:pointer">Privacy Policy</a>
+    <a data-href="/privacy" style="cursor:pointer">Privacy Policy</a>
     <span id="copyright"></span>
     <span id="design-credit"></span>
   </footer>
