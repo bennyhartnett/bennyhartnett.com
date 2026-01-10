@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OG Image Generator</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background: #0f172a;
+      color: #f8fafc;
+      padding: 2rem;
+    }
+    h1 { margin-bottom: 1rem; }
+    p { color: #94a3b8; margin-bottom: 2rem; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: 2rem;
+    }
+    .card {
+      background: #1e293b;
+      border-radius: 12px;
+      padding: 1rem;
+    }
+    .card h3 { margin-bottom: 0.5rem; }
+    canvas {
+      width: 100%;
+      border-radius: 8px;
+      margin-bottom: 0.5rem;
+    }
+    button {
+      background: linear-gradient(90deg, #0ea5e9, #14b8a6);
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    button:hover { opacity: 0.9; }
+    .info { font-size: 0.8rem; color: #64748b; margin-top: 0.5rem; }
+  </style>
+</head>
+<body>
+  <h1>OG Image Generator</h1>
+  <p>Click "Download PNG" to save each image. Images are 1200x630px, optimized for social sharing.</p>
+
+  <div class="grid" id="grid"></div>
+
+  <script>
+    const images = [
+      {
+        name: 'og-image',
+        title: 'Benny Hartnett',
+        subtitle: 'Software Developer',
+        tagline: 'AI | GIS | Government Tech | Nuclear',
+        accentColors: ['#0ea5e9', '#14b8a6']
+      },
+      {
+        name: 'og-generative-ai',
+        title: 'Generative AI',
+        subtitle: 'Large Language Models | AI Development',
+        tagline: 'RAG Systems | Speech-to-Text | AI Automation',
+        accentColors: ['#8b5cf6', '#a855f7']
+      },
+      {
+        name: 'og-gis',
+        title: 'GIS',
+        subtitle: 'Geographic Information Systems',
+        tagline: 'Mapping Solutions | Geospatial Analysis | Location Services',
+        accentColors: ['#22c55e', '#10b981']
+      },
+      {
+        name: 'og-government-contracting',
+        title: 'Government Contracting',
+        subtitle: 'Federal Technology Solutions',
+        tagline: 'Custom Software | Compliance | Security Clearance',
+        accentColors: ['#3b82f6', '#1d4ed8']
+      },
+      {
+        name: 'og-nuclear',
+        title: 'Centrus SWU Calculator',
+        subtitle: 'Uranium Enrichment Tools',
+        tagline: 'Feed Requirements | SWU Demand | Optimum Tails Assay',
+        accentColors: ['#0ea5e9', '#14b8a6'],
+        extra: 'Built for Centrus Energy Corp.'
+      },
+      {
+        name: 'og-projects',
+        title: 'Projects',
+        subtitle: 'Software Development Portfolio',
+        tagline: 'AI | GIS | Government Tech | Nuclear | IoT',
+        accentColors: ['#f59e0b', '#d97706']
+      }
+    ];
+
+    const grid = document.getElementById('grid');
+
+    images.forEach(img => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `
+        <h3>${img.name}.png</h3>
+        <canvas id="${img.name}" width="1200" height="630"></canvas>
+        <button onclick="download('${img.name}')">Download PNG</button>
+        <div class="info">1200x630px</div>
+      `;
+      grid.appendChild(card);
+
+      const canvas = document.getElementById(img.name);
+      const ctx = canvas.getContext('2d');
+
+      // Background gradient
+      const bgGrad = ctx.createLinearGradient(0, 0, 1200, 630);
+      bgGrad.addColorStop(0, '#0f172a');
+      bgGrad.addColorStop(0.5, '#1e293b');
+      bgGrad.addColorStop(1, '#0f172a');
+      ctx.fillStyle = bgGrad;
+      ctx.fillRect(0, 0, 1200, 630);
+
+      // Accent bar
+      const accentGrad = ctx.createLinearGradient(0, 580, 1200, 580);
+      accentGrad.addColorStop(0, img.accentColors[0]);
+      accentGrad.addColorStop(0.5, img.accentColors[1]);
+      accentGrad.addColorStop(1, img.accentColors[0]);
+      ctx.fillStyle = accentGrad;
+      ctx.globalAlpha = 0.8;
+      ctx.fillRect(0, 580, 1200, 50);
+      ctx.globalAlpha = 1;
+
+      // Title
+      ctx.fillStyle = '#f8fafc';
+      ctx.font = 'bold 64px system-ui, -apple-system, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(img.title, 600, img.extra ? 220 : 260);
+
+      // Subtitle
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = '28px system-ui, -apple-system, sans-serif';
+      ctx.fillText(img.subtitle, 600, img.extra ? 300 : 340);
+
+      // Tagline
+      ctx.fillStyle = '#64748b';
+      ctx.font = '22px system-ui, -apple-system, sans-serif';
+      ctx.fillText(img.tagline, 600, img.extra ? 370 : 400);
+
+      // Extra text (if any)
+      if (img.extra) {
+        ctx.fillStyle = '#475569';
+        ctx.font = '18px system-ui, -apple-system, sans-serif';
+        ctx.fillText(img.extra, 600, 430);
+      }
+
+      // Footer
+      ctx.fillStyle = '#f8fafc';
+      ctx.font = '20px system-ui, -apple-system, sans-serif';
+      const footer = img.name === 'og-image' ? 'bennyhartnett.com' : 'Benny Hartnett | bennyhartnett.com';
+      ctx.fillText(footer, 600, 605);
+    });
+
+    function download(name) {
+      const canvas = document.getElementById(name);
+      const link = document.createElement('a');
+      link.download = name + '.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    }
+  </script>
+</body>
+</html>
