@@ -19,6 +19,61 @@
   const PERCENT_PRECISION = 3;
 
   // ============================================================================
+  // UNIT CONVERSION CONSTANTS
+  // ============================================================================
+
+  // Mass conversion factors (to kg)
+  const MASS_UNITS = {
+    'kg': { factor: 1, label: 'kg' },
+    'g': { factor: 0.001, label: 'g' },
+    'lb': { factor: 0.453592, label: 'lb' },
+    't': { factor: 1000, label: 't' },
+    'st': { factor: 907.185, label: 'short ton' }
+  };
+
+  // Assay conversion factors (to fraction 0-1)
+  const ASSAY_UNITS = {
+    'percent': { factor: 0.01, label: '% U-235' },
+    'ppm': { factor: 0.000001, label: 'ppm U-235' },
+    'fraction': { factor: 1, label: 'wt fraction' }
+  };
+
+  // SWU conversion factors (to SWU)
+  const SWU_UNITS = {
+    'swu': { factor: 1, label: 'SWU' },
+    'kswu': { factor: 1000, label: 'kSWU' },
+    'mswu': { factor: 1000000, label: 'MSWU' }
+  };
+
+  // ============================================================================
+  // UNIT CONVERSION FUNCTIONS
+  // ============================================================================
+
+  /**
+   * Convert a value from one unit to the base unit (kg for mass, fraction for assay, SWU for work)
+   */
+  function toBaseUnit(value, unitType, unit) {
+    const units = unitType === 'mass' ? MASS_UNITS : unitType === 'assay' ? ASSAY_UNITS : SWU_UNITS;
+    return value * units[unit].factor;
+  }
+
+  /**
+   * Convert a value from base unit to the selected display unit
+   */
+  function fromBaseUnit(value, unitType, unit) {
+    const units = unitType === 'mass' ? MASS_UNITS : unitType === 'assay' ? ASSAY_UNITS : SWU_UNITS;
+    return value / units[unit].factor;
+  }
+
+  /**
+   * Get the selected unit from a select element
+   */
+  function getSelectedUnit(selectId) {
+    const select = byId(selectId);
+    return select ? select.value : null;
+  }
+
+  // ============================================================================
   // DOM UTILITIES
   // ============================================================================
 
@@ -28,20 +83,26 @@
   // INPUT PARSING
   // ============================================================================
 
-  function parseAssay(id) {
+  function parseAssay(id, unitSelectId) {
     const raw = byId(id).value.trim();
     const label = byId(id).closest('div')?.querySelector('label')?.textContent || 'Assay';
     const value = parseFloat(raw);
     if (!isFinite(value)) {
       throw new Error(`${label} must be a valid number. Please enter a numeric value (e.g., 5 or 0.7).`);
     }
-    if (value <= 0 || value >= 100) {
-      throw new Error(`${label} must be between 0% and 100% (exclusive). You entered ${value}%, which is outside the valid range.`);
+
+    // Get the selected unit and convert to fraction
+    const unit = unitSelectId ? getSelectedUnit(unitSelectId) : 'percent';
+    const fraction = toBaseUnit(value, 'assay', unit);
+
+    if (fraction <= 0 || fraction >= 1) {
+      const unitLabel = ASSAY_UNITS[unit].label;
+      throw new Error(`${label} must be between 0 and 100% (exclusive). The value ${value} ${unitLabel} is outside the valid range.`);
     }
-    return value / 100;
+    return fraction;
   }
 
-  function parseMass(id) {
+  function parseMass(id, unitSelectId) {
     const raw = byId(id).value.trim();
     const label = byId(id).closest('div')?.querySelector('label')?.textContent || 'Mass';
     const value = parseFloat(raw);
@@ -51,7 +112,26 @@
     if (value <= 0) {
       throw new Error(`${label} must be a positive number. You entered ${value}, but the value must be greater than zero.`);
     }
-    return value;
+
+    // Get the selected unit and convert to kg
+    const unit = unitSelectId ? getSelectedUnit(unitSelectId) : 'kg';
+    return toBaseUnit(value, 'mass', unit);
+  }
+
+  function parseSwu(id, unitSelectId) {
+    const raw = byId(id).value.trim();
+    const label = byId(id).closest('div')?.querySelector('label')?.textContent || 'SWU';
+    const value = parseFloat(raw);
+    if (!isFinite(value)) {
+      throw new Error(`${label} must be a valid number. Please enter a numeric value greater than zero.`);
+    }
+    if (value <= 0) {
+      throw new Error(`${label} must be a positive number. You entered ${value}, but the value must be greater than zero.`);
+    }
+
+    // Get the selected unit and convert to SWU
+    const unit = unitSelectId ? getSelectedUnit(unitSelectId) : 'swu';
+    return toBaseUnit(value, 'swu', unit);
   }
 
   function parsePositiveNumber(id) {
@@ -65,6 +145,33 @@
       throw new Error(`${label} must be a positive number. You entered ${value}, but the value must be greater than zero.`);
     }
     return value;
+  }
+
+  /**
+   * Format and display a mass value in the selected output unit
+   */
+  function displayMass(elementId, valueInKg, unitSelectId) {
+    const unit = unitSelectId ? getSelectedUnit(unitSelectId) : 'kg';
+    const converted = fromBaseUnit(valueInKg, 'mass', unit);
+    byId(elementId).value = converted.toFixed(MASS_PRECISION);
+  }
+
+  /**
+   * Format and display an assay value in the selected output unit
+   */
+  function displayAssay(elementId, valueAsFraction, unitSelectId) {
+    const unit = unitSelectId ? getSelectedUnit(unitSelectId) : 'percent';
+    const converted = fromBaseUnit(valueAsFraction, 'assay', unit);
+    byId(elementId).value = converted.toFixed(PERCENT_PRECISION);
+  }
+
+  /**
+   * Format and display a SWU value in the selected output unit
+   */
+  function displaySwu(elementId, valueInSwu, unitSelectId) {
+    const unit = unitSelectId ? getSelectedUnit(unitSelectId) : 'swu';
+    const converted = fromBaseUnit(valueInSwu, 'swu', unit);
+    byId(elementId).value = converted.toFixed(SWU_PRECISION);
   }
 
   // ============================================================================
@@ -426,18 +533,19 @@
   function initMode1() {
     const mode1Inputs = ['xp1', 'xw1', 'xf1'];
     const mode1Outputs = ['feed1', 'waste1', 'swu1'];
+    const mode1UnitSelects = ['xp1-unit', 'xw1-unit', 'xf1-unit', 'feed1-unit', 'waste1-unit', 'swu1-unit'];
 
     const calculate1 = () => {
       try {
-        const xp = parseAssay('xp1');
-        const xw = parseAssay('xw1');
-        const xf = parseAssay('xf1');
+        const xp = parseAssay('xp1', 'xp1-unit');
+        const xw = parseAssay('xw1', 'xw1-unit');
+        const xf = parseAssay('xf1', 'xf1-unit');
         console.log('Mode 1 inputs:', { xp, xw, xf });
         const res = computeFeedSwuForOneKg(xp, xw, xf);
         console.log('Mode 1 results:', res);
-        byId('feed1').value = res.F.toFixed(MASS_PRECISION);
-        byId('waste1').value = res.W.toFixed(MASS_PRECISION);
-        byId('swu1').value = res.swu.toFixed(SWU_PRECISION);
+        displayMass('feed1', res.F, 'feed1-unit');
+        displayMass('waste1', res.W, 'waste1-unit');
+        displaySwu('swu1', res.swu, 'swu1-unit');
         console.log('Mode 1 values set:', {
           feed1: byId('feed1').value,
           waste1: byId('waste1').value,
@@ -455,14 +563,14 @@
 
     const calculateWithError1 = () => {
       try {
-        const xp = parseAssay('xp1');
-        const xw = parseAssay('xw1');
-        const xf = parseAssay('xf1');
+        const xp = parseAssay('xp1', 'xp1-unit');
+        const xw = parseAssay('xw1', 'xw1-unit');
+        const xf = parseAssay('xf1', 'xf1-unit');
         const res = computeFeedSwuForOneKg(xp, xw, xf);
-        byId('feed1').value = res.F.toFixed(MASS_PRECISION);
-        byId('waste1').value = res.W.toFixed(MASS_PRECISION);
-        byId('swu1').value = res.swu.toFixed(SWU_PRECISION);
-        triggerShimmer(mode1Outputs, `Calculation complete. Feed: ${res.F.toFixed(MASS_PRECISION)} kilograms, Waste: ${res.W.toFixed(MASS_PRECISION)} kilograms, SWU: ${res.swu.toFixed(SWU_PRECISION)}`);
+        displayMass('feed1', res.F, 'feed1-unit');
+        displayMass('waste1', res.W, 'waste1-unit');
+        displaySwu('swu1', res.swu, 'swu1-unit');
+        triggerShimmer(mode1Outputs, `Calculation complete. Feed: ${byId('feed1').value} ${MASS_UNITS[getSelectedUnit('feed1-unit')].label}, Waste: ${byId('waste1').value} ${MASS_UNITS[getSelectedUnit('waste1-unit')].label}, SWU: ${byId('swu1').value} ${SWU_UNITS[getSelectedUnit('swu1-unit')].label}`);
       } catch (err) {
         showError(err.message);
       }
@@ -480,6 +588,11 @@
       byId(id).addEventListener('input', calculate1);
     });
 
+    // Recalculate when unit selects change
+    mode1UnitSelects.forEach((id) => {
+      byId(id).addEventListener('change', calculate1);
+    });
+
     // Enter key support
     byId('form1').addEventListener('keydown', (e) => {
       if (e.key === 'Enter') {
@@ -492,17 +605,18 @@
   function initMode2() {
     const mode2Inputs = ['p2', 'xp2', 'xw2', 'xf2'];
     const mode2Outputs = ['feed2', 'waste2', 'swu2'];
+    const mode2UnitSelects = ['p2-unit', 'xp2-unit', 'xw2-unit', 'xf2-unit', 'feed2-unit', 'waste2-unit', 'swu2-unit'];
 
     const calculate2 = () => {
       try {
-        const P = parseMass('p2');
-        const xp = parseAssay('xp2');
-        const xw = parseAssay('xw2');
-        const xf = parseAssay('xf2');
+        const P = parseMass('p2', 'p2-unit');
+        const xp = parseAssay('xp2', 'xp2-unit');
+        const xw = parseAssay('xw2', 'xw2-unit');
+        const xf = parseAssay('xf2', 'xf2-unit');
         const res = computeFeedSwu(xp, xw, xf, P);
-        byId('feed2').value = res.F.toFixed(MASS_PRECISION);
-        byId('waste2').value = res.W.toFixed(MASS_PRECISION);
-        byId('swu2').value = res.swu.toFixed(SWU_PRECISION);
+        displayMass('feed2', res.F, 'feed2-unit');
+        displayMass('waste2', res.W, 'waste2-unit');
+        displaySwu('swu2', res.swu, 'swu2-unit');
         triggerShimmer(mode2Outputs);
       } catch (err) {
         // Clear outputs on invalid input (for real-time calc)
@@ -514,15 +628,15 @@
 
     const calculateWithError2 = () => {
       try {
-        const P = parseMass('p2');
-        const xp = parseAssay('xp2');
-        const xw = parseAssay('xw2');
-        const xf = parseAssay('xf2');
+        const P = parseMass('p2', 'p2-unit');
+        const xp = parseAssay('xp2', 'xp2-unit');
+        const xw = parseAssay('xw2', 'xw2-unit');
+        const xf = parseAssay('xf2', 'xf2-unit');
         const res = computeFeedSwu(xp, xw, xf, P);
-        byId('feed2').value = res.F.toFixed(MASS_PRECISION);
-        byId('waste2').value = res.W.toFixed(MASS_PRECISION);
-        byId('swu2').value = res.swu.toFixed(SWU_PRECISION);
-        triggerShimmer(mode2Outputs, `Calculation complete. Feed: ${res.F.toFixed(MASS_PRECISION)} kilograms, Waste: ${res.W.toFixed(MASS_PRECISION)} kilograms, SWU: ${res.swu.toFixed(SWU_PRECISION)}`);
+        displayMass('feed2', res.F, 'feed2-unit');
+        displayMass('waste2', res.W, 'waste2-unit');
+        displaySwu('swu2', res.swu, 'swu2-unit');
+        triggerShimmer(mode2Outputs, `Calculation complete. Feed: ${byId('feed2').value} ${MASS_UNITS[getSelectedUnit('feed2-unit')].label}, Waste: ${byId('waste2').value} ${MASS_UNITS[getSelectedUnit('waste2-unit')].label}, SWU: ${byId('swu2').value} ${SWU_UNITS[getSelectedUnit('swu2-unit')].label}`);
       } catch (err) {
         showError(err.message);
       }
@@ -540,6 +654,11 @@
       byId(id).addEventListener('input', calculate2);
     });
 
+    // Recalculate when unit selects change
+    mode2UnitSelects.forEach((id) => {
+      byId(id).addEventListener('change', calculate2);
+    });
+
     // Enter key support
     byId('form2').addEventListener('keydown', (e) => {
       if (e.key === 'Enter') {
@@ -552,16 +671,17 @@
   function initMode3() {
     const mode3Inputs = ['F3', 'xp3', 'xw3', 'xf3'];
     const mode3Outputs = ['P3', 'swu3'];
+    const mode3UnitSelects = ['F3-unit', 'xp3-unit', 'xw3-unit', 'xf3-unit', 'P3-unit', 'swu3-unit'];
 
     const calculate3 = () => {
       try {
-        const F = parseMass('F3');
-        const xp = parseAssay('xp3');
-        const xw = parseAssay('xw3');
-        const xf = parseAssay('xf3');
+        const F = parseMass('F3', 'F3-unit');
+        const xp = parseAssay('xp3', 'xp3-unit');
+        const xw = parseAssay('xw3', 'xw3-unit');
+        const xf = parseAssay('xf3', 'xf3-unit');
         const res = computeEupSwu(xp, xw, xf, F);
-        byId('P3').value = res.P.toFixed(MASS_PRECISION);
-        byId('swu3').value = res.swu.toFixed(SWU_PRECISION);
+        displayMass('P3', res.P, 'P3-unit');
+        displaySwu('swu3', res.swu, 'swu3-unit');
         triggerShimmer(mode3Outputs);
       } catch (err) {
         // Clear outputs on invalid input (for real-time calc)
@@ -572,14 +692,14 @@
 
     const calculateWithError3 = () => {
       try {
-        const F = parseMass('F3');
-        const xp = parseAssay('xp3');
-        const xw = parseAssay('xw3');
-        const xf = parseAssay('xf3');
+        const F = parseMass('F3', 'F3-unit');
+        const xp = parseAssay('xp3', 'xp3-unit');
+        const xw = parseAssay('xw3', 'xw3-unit');
+        const xf = parseAssay('xf3', 'xf3-unit');
         const res = computeEupSwu(xp, xw, xf, F);
-        byId('P3').value = res.P.toFixed(MASS_PRECISION);
-        byId('swu3').value = res.swu.toFixed(SWU_PRECISION);
-        triggerShimmer(mode3Outputs, `Calculation complete. EUP: ${res.P.toFixed(MASS_PRECISION)} kilograms, SWU: ${res.swu.toFixed(SWU_PRECISION)}`);
+        displayMass('P3', res.P, 'P3-unit');
+        displaySwu('swu3', res.swu, 'swu3-unit');
+        triggerShimmer(mode3Outputs, `Calculation complete. EUP: ${byId('P3').value} ${MASS_UNITS[getSelectedUnit('P3-unit')].label}, SWU: ${byId('swu3').value} ${SWU_UNITS[getSelectedUnit('swu3-unit')].label}`);
       } catch (err) {
         showError(err.message);
       }
@@ -597,6 +717,11 @@
       byId(id).addEventListener('input', calculate3);
     });
 
+    // Recalculate when unit selects change
+    mode3UnitSelects.forEach((id) => {
+      byId(id).addEventListener('change', calculate3);
+    });
+
     // Enter key support
     byId('form3').addEventListener('keydown', (e) => {
       if (e.key === 'Enter') {
@@ -609,16 +734,17 @@
   function initMode4() {
     const mode4Inputs = ['S4', 'xp4', 'xw4', 'xf4'];
     const mode4Outputs = ['P4', 'feed4'];
+    const mode4UnitSelects = ['S4-unit', 'xp4-unit', 'xw4-unit', 'xf4-unit', 'P4-unit', 'feed4-unit'];
 
     const calculate4 = () => {
       try {
-        const S = parsePositiveNumber('S4');
-        const xp = parseAssay('xp4');
-        const xw = parseAssay('xw4');
-        const xf = parseAssay('xf4');
+        const S = parseSwu('S4', 'S4-unit');
+        const xp = parseAssay('xp4', 'xp4-unit');
+        const xw = parseAssay('xw4', 'xw4-unit');
+        const xf = parseAssay('xf4', 'xf4-unit');
         const res = computeFeedEupFromSwu(xp, xw, xf, S);
-        byId('P4').value = res.P.toFixed(MASS_PRECISION);
-        byId('feed4').value = res.F.toFixed(MASS_PRECISION);
+        displayMass('P4', res.P, 'P4-unit');
+        displayMass('feed4', res.F, 'feed4-unit');
         triggerShimmer(mode4Outputs);
       } catch (err) {
         // Clear outputs on invalid input (for real-time calc)
@@ -629,14 +755,14 @@
 
     const calculateWithError4 = () => {
       try {
-        const S = parsePositiveNumber('S4');
-        const xp = parseAssay('xp4');
-        const xw = parseAssay('xw4');
-        const xf = parseAssay('xf4');
+        const S = parseSwu('S4', 'S4-unit');
+        const xp = parseAssay('xp4', 'xp4-unit');
+        const xw = parseAssay('xw4', 'xw4-unit');
+        const xf = parseAssay('xf4', 'xf4-unit');
         const res = computeFeedEupFromSwu(xp, xw, xf, S);
-        byId('P4').value = res.P.toFixed(MASS_PRECISION);
-        byId('feed4').value = res.F.toFixed(MASS_PRECISION);
-        triggerShimmer(mode4Outputs, `Calculation complete. EUP: ${res.P.toFixed(MASS_PRECISION)} kilograms, Feed: ${res.F.toFixed(MASS_PRECISION)} kilograms`);
+        displayMass('P4', res.P, 'P4-unit');
+        displayMass('feed4', res.F, 'feed4-unit');
+        triggerShimmer(mode4Outputs, `Calculation complete. EUP: ${byId('P4').value} ${MASS_UNITS[getSelectedUnit('P4-unit')].label}, Feed: ${byId('feed4').value} ${MASS_UNITS[getSelectedUnit('feed4-unit')].label}`);
       } catch (err) {
         showError(err.message);
       }
@@ -654,6 +780,11 @@
       byId(id).addEventListener('input', calculate4);
     });
 
+    // Recalculate when unit selects change
+    mode4UnitSelects.forEach((id) => {
+      byId(id).addEventListener('change', calculate4);
+    });
+
     // Enter key support
     byId('form4').addEventListener('keydown', (e) => {
       if (e.key === 'Enter') {
@@ -667,19 +798,20 @@
     const COST_PRECISION = 2;
     const mode5Inputs = ['cf5', 'cs5', 'xp5', 'xf5'];
     const mode5Outputs = ['xw5', 'feedPerP5', 'swuPerP5', 'costPerP5'];
+    const mode5UnitSelects = ['xp5-unit', 'xf5-unit', 'xw5-unit', 'feedPerP5-unit', 'swuPerP5-unit'];
 
     const calculate5 = () => {
       try {
         const cf = parsePositiveNumber('cf5');
         const cs = parsePositiveNumber('cs5');
-        const xp = parseAssay('xp5');
-        const xf = parseAssay('xf5');
+        const xp = parseAssay('xp5', 'xp5-unit');
+        const xf = parseAssay('xf5', 'xf5-unit');
         console.log('Mode 5 inputs:', { cf, cs, xp, xf });
         const res = findOptimumTails(xp, xf, cf, cs);
         console.log('Mode 5 results:', res);
-        byId('xw5').value = (res.xw * 100).toFixed(PERCENT_PRECISION);
-        byId('feedPerP5').value = res.F_per_P.toFixed(MASS_PRECISION);
-        byId('swuPerP5').value = res.swu_per_P.toFixed(SWU_PRECISION);
+        displayAssay('xw5', res.xw, 'xw5-unit');
+        displayMass('feedPerP5', res.F_per_P, 'feedPerP5-unit');
+        displaySwu('swuPerP5', res.swu_per_P, 'swuPerP5-unit');
         byId('costPerP5').value = res.cost_per_P.toFixed(COST_PRECISION);
         console.log('Mode 5 values set:', {
           xw5: byId('xw5').value,
@@ -702,14 +834,14 @@
       try {
         const cf = parsePositiveNumber('cf5');
         const cs = parsePositiveNumber('cs5');
-        const xp = parseAssay('xp5');
-        const xf = parseAssay('xf5');
+        const xp = parseAssay('xp5', 'xp5-unit');
+        const xf = parseAssay('xf5', 'xf5-unit');
         const res = findOptimumTails(xp, xf, cf, cs);
-        byId('xw5').value = (res.xw * 100).toFixed(PERCENT_PRECISION);
-        byId('feedPerP5').value = res.F_per_P.toFixed(MASS_PRECISION);
-        byId('swuPerP5').value = res.swu_per_P.toFixed(SWU_PRECISION);
+        displayAssay('xw5', res.xw, 'xw5-unit');
+        displayMass('feedPerP5', res.F_per_P, 'feedPerP5-unit');
+        displaySwu('swuPerP5', res.swu_per_P, 'swuPerP5-unit');
         byId('costPerP5').value = res.cost_per_P.toFixed(COST_PRECISION);
-        triggerShimmer(mode5Outputs, `Calculation complete. Optimum tails assay: ${(res.xw * 100).toFixed(PERCENT_PRECISION)}%, Feed: ${res.F_per_P.toFixed(MASS_PRECISION)} kilograms, SWU: ${res.swu_per_P.toFixed(SWU_PRECISION)}, Cost: ${res.cost_per_P.toFixed(COST_PRECISION)}`);
+        triggerShimmer(mode5Outputs, `Calculation complete. Optimum tails assay: ${byId('xw5').value} ${ASSAY_UNITS[getSelectedUnit('xw5-unit')].label}, Feed: ${byId('feedPerP5').value} ${MASS_UNITS[getSelectedUnit('feedPerP5-unit')].label}, SWU: ${byId('swuPerP5').value} ${SWU_UNITS[getSelectedUnit('swuPerP5-unit')].label}, Cost: ${res.cost_per_P.toFixed(COST_PRECISION)}`);
       } catch (err) {
         showError(err.message);
       }
@@ -725,6 +857,11 @@
     // Real-time calculation on input
     ['cf5', 'cs5', 'xp5', 'xf5'].forEach((id) => {
       byId(id).addEventListener('input', calculate5);
+    });
+
+    // Recalculate when unit selects change
+    mode5UnitSelects.forEach((id) => {
+      byId(id).addEventListener('change', calculate5);
     });
 
     // Enter key support
