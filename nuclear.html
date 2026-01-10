@@ -566,6 +566,31 @@
       white-space: nowrap;
       border: 0;
     }
+
+    /* Unit dropdown select styling */
+    .unit-select {
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3E%3C/svg%3E");
+      background-position: right 0.25rem center;
+      background-repeat: no-repeat;
+      background-size: 1.25em 1.25em;
+      padding-right: 1.75rem;
+      cursor: pointer;
+    }
+    .dark .unit-select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%9ca3af' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3E%3C/svg%3E");
+    }
+    .unit-select:focus {
+      outline: none;
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
+    }
+    .dark .unit-select:focus {
+      border-color: #60a5fa;
+      box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.5);
+    }
   </style>
 
   <!-- Favicon and Apple Touch Icon -->
@@ -687,11 +712,14 @@
                       placeholder="5"
                       class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-600 px-3 py-2 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
-                    <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
+                    <select
+                      id="xp1-unit"
+                      class="unit-select inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-2 text-xs font-medium text-slate-600 dark:text-slate-200"
                     >
-                      % U-235
-                    </span>
+                      <option value="percent">% U-235</option>
+                      <option value="ppm">ppm</option>
+                      <option value="fraction">fraction</option>
+                    </select>
                   </div>
                   <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
                     Percent of U-235 in the product stream.
@@ -711,11 +739,14 @@
                       placeholder="0.3"
                       class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-600 px-3 py-2 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
-                    <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
+                    <select
+                      id="xw1-unit"
+                      class="unit-select inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-2 text-xs font-medium text-slate-600 dark:text-slate-200"
                     >
-                      % U-235
-                    </span>
+                      <option value="percent">% U-235</option>
+                      <option value="ppm">ppm</option>
+                      <option value="fraction">fraction</option>
+                    </select>
                   </div>
                   <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
                     Percent of U-235 in the waste stream.
@@ -735,11 +766,14 @@
                       placeholder="0.7"
                       class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-600 px-3 py-2 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
-                    <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
+                    <select
+                      id="xf1-unit"
+                      class="unit-select inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-2 text-xs font-medium text-slate-600 dark:text-slate-200"
                     >
-                      % U-235
-                    </span>
+                      <option value="percent">% U-235</option>
+                      <option value="ppm">ppm</option>
+                      <option value="fraction">fraction</option>
+                    </select>
                   </div>
                   <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
                     Percent of U-235 in the feed.
@@ -765,11 +799,16 @@
                       readonly
                       class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-600 px-3 py-2 text-sm text-slate-700 dark:text-slate-200 focus:outline-none"
                     />
-                    <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
+                    <select
+                      id="feed1-unit"
+                      class="unit-select inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-2 text-xs font-medium text-slate-600 dark:text-slate-200"
                     >
-                      kg UF₆
-                    </span>
+                      <option value="kg">kg</option>
+                      <option value="g">g</option>
+                      <option value="lb">lb</option>
+                      <option value="t">t</option>
+                      <option value="st">short ton</option>
+                    </select>
                   </div>
                 </div>
 
@@ -785,11 +824,16 @@
                       readonly
                       class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-600 px-3 py-2 text-sm text-slate-700 dark:text-slate-200 focus:outline-none"
                     />
-                    <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
+                    <select
+                      id="waste1-unit"
+                      class="unit-select inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-2 text-xs font-medium text-slate-600 dark:text-slate-200"
                     >
-                      kg UF₆
-                    </span>
+                      <option value="kg">kg</option>
+                      <option value="g">g</option>
+                      <option value="lb">lb</option>
+                      <option value="t">t</option>
+                      <option value="st">short ton</option>
+                    </select>
                   </div>
                 </div>
 
@@ -805,11 +849,14 @@
                       readonly
                       class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-600 px-3 py-2 text-sm text-slate-700 dark:text-slate-200 focus:outline-none"
                     />
-                    <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
+                    <select
+                      id="swu1-unit"
+                      class="unit-select inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-2 text-xs font-medium text-slate-600 dark:text-slate-200"
                     >
-                      SWU
-                    </span>
+                      <option value="swu">SWU</option>
+                      <option value="kswu">kSWU</option>
+                      <option value="mswu">MSWU</option>
+                    </select>
                   </div>
                 </div>
               </div>
@@ -879,11 +926,16 @@
                       placeholder="100"
                       class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-600 px-3 py-2 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
-                    <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
+                    <select
+                      id="p2-unit"
+                      class="unit-select inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-2 text-xs font-medium text-slate-600 dark:text-slate-200"
                     >
-                      kg UF₆
-                    </span>
+                      <option value="kg">kg</option>
+                      <option value="g">g</option>
+                      <option value="lb">lb</option>
+                      <option value="t">t</option>
+                      <option value="st">short ton</option>
+                    </select>
                   </div>
                   <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
                     Mass of enriched uranium product.
@@ -903,11 +955,14 @@
                       placeholder="5"
                       class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-600 px-3 py-2 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
-                    <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
+                    <select
+                      id="xp2-unit"
+                      class="unit-select inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-2 text-xs font-medium text-slate-600 dark:text-slate-200"
                     >
-                      % U-235
-                    </span>
+                      <option value="percent">% U-235</option>
+                      <option value="ppm">ppm</option>
+                      <option value="fraction">fraction</option>
+                    </select>
                   </div>
                 </div>
 
@@ -924,11 +979,14 @@
                       placeholder="0.3"
                       class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-600 px-3 py-2 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
-                    <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
+                    <select
+                      id="xw2-unit"
+                      class="unit-select inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-2 text-xs font-medium text-slate-600 dark:text-slate-200"
                     >
-                      % U-235
-                    </span>
+                      <option value="percent">% U-235</option>
+                      <option value="ppm">ppm</option>
+                      <option value="fraction">fraction</option>
+                    </select>
                   </div>
                 </div>
 
@@ -945,11 +1003,14 @@
                       placeholder="0.7"
                       class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-600 px-3 py-2 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
-                    <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
+                    <select
+                      id="xf2-unit"
+                      class="unit-select inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-2 text-xs font-medium text-slate-600 dark:text-slate-200"
                     >
-                      % U-235
-                    </span>
+                      <option value="percent">% U-235</option>
+                      <option value="ppm">ppm</option>
+                      <option value="fraction">fraction</option>
+                    </select>
                   </div>
                 </div>
               </div>
@@ -972,11 +1033,16 @@
                       readonly
                       class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-600 px-3 py-2 text-sm text-slate-700 dark:text-slate-200 focus:outline-none"
                     />
-                    <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
+                    <select
+                      id="feed2-unit"
+                      class="unit-select inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-2 text-xs font-medium text-slate-600 dark:text-slate-200"
                     >
-                      kg UF₆
-                    </span>
+                      <option value="kg">kg</option>
+                      <option value="g">g</option>
+                      <option value="lb">lb</option>
+                      <option value="t">t</option>
+                      <option value="st">short ton</option>
+                    </select>
                   </div>
                 </div>
 
@@ -992,11 +1058,16 @@
                       readonly
                       class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-600 px-3 py-2 text-sm text-slate-700 dark:text-slate-200 focus:outline-none"
                     />
-                    <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
+                    <select
+                      id="waste2-unit"
+                      class="unit-select inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-2 text-xs font-medium text-slate-600 dark:text-slate-200"
                     >
-                      kg UF₆
-                    </span>
+                      <option value="kg">kg</option>
+                      <option value="g">g</option>
+                      <option value="lb">lb</option>
+                      <option value="t">t</option>
+                      <option value="st">short ton</option>
+                    </select>
                   </div>
                 </div>
 
@@ -1012,11 +1083,14 @@
                       readonly
                       class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-600 px-3 py-2 text-sm text-slate-700 dark:text-slate-200 focus:outline-none"
                     />
-                    <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
+                    <select
+                      id="swu2-unit"
+                      class="unit-select inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-2 text-xs font-medium text-slate-600 dark:text-slate-200"
                     >
-                      SWU
-                    </span>
+                      <option value="swu">SWU</option>
+                      <option value="kswu">kSWU</option>
+                      <option value="mswu">MSWU</option>
+                    </select>
                   </div>
                 </div>
               </div>
@@ -1086,11 +1160,16 @@
                       placeholder="100"
                       class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-600 px-3 py-2 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
-                    <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
+                    <select
+                      id="F3-unit"
+                      class="unit-select inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-2 text-xs font-medium text-slate-600 dark:text-slate-200"
                     >
-                      kg UF₆
-                    </span>
+                      <option value="kg">kg</option>
+                      <option value="g">g</option>
+                      <option value="lb">lb</option>
+                      <option value="t">t</option>
+                      <option value="st">short ton</option>
+                    </select>
                   </div>
                 </div>
 
@@ -1107,11 +1186,14 @@
                       placeholder="5"
                       class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-600 px-3 py-2 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
-                    <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
+                    <select
+                      id="xp3-unit"
+                      class="unit-select inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-2 text-xs font-medium text-slate-600 dark:text-slate-200"
                     >
-                      % U-235
-                    </span>
+                      <option value="percent">% U-235</option>
+                      <option value="ppm">ppm</option>
+                      <option value="fraction">fraction</option>
+                    </select>
                   </div>
                 </div>
 
@@ -1128,11 +1210,14 @@
                       placeholder="0.3"
                       class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-600 px-3 py-2 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
-                    <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
+                    <select
+                      id="xw3-unit"
+                      class="unit-select inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-2 text-xs font-medium text-slate-600 dark:text-slate-200"
                     >
-                      % U-235
-                    </span>
+                      <option value="percent">% U-235</option>
+                      <option value="ppm">ppm</option>
+                      <option value="fraction">fraction</option>
+                    </select>
                   </div>
                 </div>
 
@@ -1149,11 +1234,14 @@
                       placeholder="0.7"
                       class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-600 px-3 py-2 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
-                    <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
+                    <select
+                      id="xf3-unit"
+                      class="unit-select inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-2 text-xs font-medium text-slate-600 dark:text-slate-200"
                     >
-                      % U-235
-                    </span>
+                      <option value="percent">% U-235</option>
+                      <option value="ppm">ppm</option>
+                      <option value="fraction">fraction</option>
+                    </select>
                   </div>
                 </div>
               </div>
@@ -1176,11 +1264,16 @@
                       readonly
                       class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-600 px-3 py-2 text-sm text-slate-700 dark:text-slate-200 focus:outline-none"
                     />
-                    <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
+                    <select
+                      id="P3-unit"
+                      class="unit-select inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-2 text-xs font-medium text-slate-600 dark:text-slate-200"
                     >
-                      kg UF₆
-                    </span>
+                      <option value="kg">kg</option>
+                      <option value="g">g</option>
+                      <option value="lb">lb</option>
+                      <option value="t">t</option>
+                      <option value="st">short ton</option>
+                    </select>
                   </div>
                 </div>
 
@@ -1196,11 +1289,14 @@
                       readonly
                       class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-600 px-3 py-2 text-sm text-slate-700 dark:text-slate-200 focus:outline-none"
                     />
-                    <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
+                    <select
+                      id="swu3-unit"
+                      class="unit-select inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-2 text-xs font-medium text-slate-600 dark:text-slate-200"
                     >
-                      SWU
-                    </span>
+                      <option value="swu">SWU</option>
+                      <option value="kswu">kSWU</option>
+                      <option value="mswu">MSWU</option>
+                    </select>
                   </div>
                 </div>
               </div>
@@ -1270,11 +1366,14 @@
                       placeholder="500"
                       class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-600 px-3 py-2 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
-                    <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
+                    <select
+                      id="S4-unit"
+                      class="unit-select inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-2 text-xs font-medium text-slate-600 dark:text-slate-200"
                     >
-                      SWU
-                    </span>
+                      <option value="swu">SWU</option>
+                      <option value="kswu">kSWU</option>
+                      <option value="mswu">MSWU</option>
+                    </select>
                   </div>
                 </div>
 
@@ -1291,11 +1390,14 @@
                       placeholder="5"
                       class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-600 px-3 py-2 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
-                    <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
+                    <select
+                      id="xp4-unit"
+                      class="unit-select inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-2 text-xs font-medium text-slate-600 dark:text-slate-200"
                     >
-                      % U-235
-                    </span>
+                      <option value="percent">% U-235</option>
+                      <option value="ppm">ppm</option>
+                      <option value="fraction">fraction</option>
+                    </select>
                   </div>
                 </div>
 
@@ -1312,11 +1414,14 @@
                       placeholder="0.3"
                       class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-600 px-3 py-2 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
-                    <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
+                    <select
+                      id="xw4-unit"
+                      class="unit-select inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-2 text-xs font-medium text-slate-600 dark:text-slate-200"
                     >
-                      % U-235
-                    </span>
+                      <option value="percent">% U-235</option>
+                      <option value="ppm">ppm</option>
+                      <option value="fraction">fraction</option>
+                    </select>
                   </div>
                 </div>
 
@@ -1333,11 +1438,14 @@
                       placeholder="0.7"
                       class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-600 px-3 py-2 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
-                    <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
+                    <select
+                      id="xf4-unit"
+                      class="unit-select inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-2 text-xs font-medium text-slate-600 dark:text-slate-200"
                     >
-                      % U-235
-                    </span>
+                      <option value="percent">% U-235</option>
+                      <option value="ppm">ppm</option>
+                      <option value="fraction">fraction</option>
+                    </select>
                   </div>
                 </div>
               </div>
@@ -1360,11 +1468,16 @@
                       readonly
                       class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-600 px-3 py-2 text-sm text-slate-700 dark:text-slate-200 focus:outline-none"
                     />
-                    <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
+                    <select
+                      id="P4-unit"
+                      class="unit-select inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-2 text-xs font-medium text-slate-600 dark:text-slate-200"
                     >
-                      kg U
-                    </span>
+                      <option value="kg">kg</option>
+                      <option value="g">g</option>
+                      <option value="lb">lb</option>
+                      <option value="t">t</option>
+                      <option value="st">short ton</option>
+                    </select>
                   </div>
                 </div>
 
@@ -1380,11 +1493,16 @@
                       readonly
                       class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-600 px-3 py-2 text-sm text-slate-700 dark:text-slate-200 focus:outline-none"
                     />
-                    <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
+                    <select
+                      id="feed4-unit"
+                      class="unit-select inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-2 text-xs font-medium text-slate-600 dark:text-slate-200"
                     >
-                      kg UF₆
-                    </span>
+                      <option value="kg">kg</option>
+                      <option value="g">g</option>
+                      <option value="lb">lb</option>
+                      <option value="t">t</option>
+                      <option value="st">short ton</option>
+                    </select>
                   </div>
                 </div>
               </div>
@@ -1502,11 +1620,14 @@
                       placeholder="5"
                       class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-600 px-3 py-2 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
-                    <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
+                    <select
+                      id="xp5-unit"
+                      class="unit-select inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-2 text-xs font-medium text-slate-600 dark:text-slate-200"
                     >
-                      % U-235
-                    </span>
+                      <option value="percent">% U-235</option>
+                      <option value="ppm">ppm</option>
+                      <option value="fraction">fraction</option>
+                    </select>
                   </div>
                 </div>
 
@@ -1523,11 +1644,14 @@
                       placeholder="0.7"
                       class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-600 px-3 py-2 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
-                    <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
+                    <select
+                      id="xf5-unit"
+                      class="unit-select inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-2 text-xs font-medium text-slate-600 dark:text-slate-200"
                     >
-                      % U-235
-                    </span>
+                      <option value="percent">% U-235</option>
+                      <option value="ppm">ppm</option>
+                      <option value="fraction">fraction</option>
+                    </select>
                   </div>
                 </div>
               </div>
@@ -1550,11 +1674,14 @@
                       readonly
                       class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-600 px-3 py-2 text-sm text-slate-700 dark:text-slate-200 focus:outline-none"
                     />
-                    <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
+                    <select
+                      id="xw5-unit"
+                      class="unit-select inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-2 text-xs font-medium text-slate-600 dark:text-slate-200"
                     >
-                      % U-235
-                    </span>
+                      <option value="percent">% U-235</option>
+                      <option value="ppm">ppm</option>
+                      <option value="fraction">fraction</option>
+                    </select>
                   </div>
                 </div>
 
@@ -1570,11 +1697,16 @@
                       readonly
                       class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-600 px-3 py-2 text-sm text-slate-700 dark:text-slate-200 focus:outline-none"
                     />
-                    <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
+                    <select
+                      id="feedPerP5-unit"
+                      class="unit-select inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-2 text-xs font-medium text-slate-600 dark:text-slate-200"
                     >
-                      kg UF₆
-                    </span>
+                      <option value="kg">kg</option>
+                      <option value="g">g</option>
+                      <option value="lb">lb</option>
+                      <option value="t">t</option>
+                      <option value="st">short ton</option>
+                    </select>
                   </div>
                 </div>
 
@@ -1590,11 +1722,14 @@
                       readonly
                       class="block w-full flex-1 rounded-l-md border border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-600 px-3 py-2 text-sm text-slate-700 dark:text-slate-200 focus:outline-none"
                     />
-                    <span
-                      class="inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-3 text-xs font-medium text-slate-600 dark:text-slate-200"
+                    <select
+                      id="swuPerP5-unit"
+                      class="unit-select inline-flex items-center rounded-r-md border border-l-0 border-slate-300 dark:border-slate-500 bg-slate-100 dark:bg-slate-500 px-2 text-xs font-medium text-slate-600 dark:text-slate-200"
                     >
-                      SWU
-                    </span>
+                      <option value="swu">SWU</option>
+                      <option value="kswu">kSWU</option>
+                      <option value="mswu">MSWU</option>
+                    </select>
                   </div>
                 </div>
 
