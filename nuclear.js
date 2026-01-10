@@ -251,8 +251,9 @@
    * Triggers a green-to-blue shimmer effect on result fields
    * Applies to the full input group wrapper (input + unit label)
    * @param {string[]} elementIds - Array of element IDs to apply shimmer to
+   * @param {string} [announcement] - Optional announcement for screen readers
    */
-  function triggerShimmer(elementIds) {
+  function triggerShimmer(elementIds, announcement) {
     elementIds.forEach((id) => {
       const el = byId(id);
       if (el) {
@@ -267,6 +268,10 @@
         }
       }
     });
+    // Announce results to screen readers
+    if (announcement) {
+      announceToScreenReader(announcement);
+    }
   }
 
   /**
@@ -310,7 +315,24 @@
     }
   }
 
+  /**
+   * Announces a message to screen readers via ARIA live region
+   * @param {string} message - The message to announce
+   */
+  function announceToScreenReader(message) {
+    const announcer = byId('sr-announcements');
+    if (announcer) {
+      // Clear and set with a slight delay to ensure announcement
+      announcer.textContent = '';
+      setTimeout(() => {
+        announcer.textContent = message;
+      }, 100);
+    }
+  }
+
   function showError(message) {
+    // Announce error to screen readers
+    announceToScreenReader('Error: ' + message);
     Swal.fire({
       icon: 'error',
       title: 'Invalid Input',
@@ -440,7 +462,7 @@
         byId('feed1').value = res.F.toFixed(MASS_PRECISION);
         byId('waste1').value = res.W.toFixed(MASS_PRECISION);
         byId('swu1').value = res.swu.toFixed(SWU_PRECISION);
-        triggerShimmer(mode1Outputs);
+        triggerShimmer(mode1Outputs, `Calculation complete. Feed: ${res.F.toFixed(MASS_PRECISION)} kilograms, Waste: ${res.W.toFixed(MASS_PRECISION)} kilograms, SWU: ${res.swu.toFixed(SWU_PRECISION)}`);
       } catch (err) {
         showError(err.message);
       }
@@ -500,7 +522,7 @@
         byId('feed2').value = res.F.toFixed(MASS_PRECISION);
         byId('waste2').value = res.W.toFixed(MASS_PRECISION);
         byId('swu2').value = res.swu.toFixed(SWU_PRECISION);
-        triggerShimmer(mode2Outputs);
+        triggerShimmer(mode2Outputs, `Calculation complete. Feed: ${res.F.toFixed(MASS_PRECISION)} kilograms, Waste: ${res.W.toFixed(MASS_PRECISION)} kilograms, SWU: ${res.swu.toFixed(SWU_PRECISION)}`);
       } catch (err) {
         showError(err.message);
       }
@@ -557,7 +579,7 @@
         const res = computeEupSwu(xp, xw, xf, F);
         byId('P3').value = res.P.toFixed(MASS_PRECISION);
         byId('swu3').value = res.swu.toFixed(SWU_PRECISION);
-        triggerShimmer(mode3Outputs);
+        triggerShimmer(mode3Outputs, `Calculation complete. EUP: ${res.P.toFixed(MASS_PRECISION)} kilograms, SWU: ${res.swu.toFixed(SWU_PRECISION)}`);
       } catch (err) {
         showError(err.message);
       }
@@ -614,7 +636,7 @@
         const res = computeFeedEupFromSwu(xp, xw, xf, S);
         byId('P4').value = res.P.toFixed(MASS_PRECISION);
         byId('feed4').value = res.F.toFixed(MASS_PRECISION);
-        triggerShimmer(mode4Outputs);
+        triggerShimmer(mode4Outputs, `Calculation complete. EUP: ${res.P.toFixed(MASS_PRECISION)} kilograms, Feed: ${res.F.toFixed(MASS_PRECISION)} kilograms`);
       } catch (err) {
         showError(err.message);
       }
@@ -687,7 +709,7 @@
         byId('feedPerP5').value = res.F_per_P.toFixed(MASS_PRECISION);
         byId('swuPerP5').value = res.swu_per_P.toFixed(SWU_PRECISION);
         byId('costPerP5').value = res.cost_per_P.toFixed(COST_PRECISION);
-        triggerShimmer(mode5Outputs);
+        triggerShimmer(mode5Outputs, `Calculation complete. Optimum tails assay: ${(res.xw * 100).toFixed(PERCENT_PRECISION)}%, Feed: ${res.F_per_P.toFixed(MASS_PRECISION)} kilograms, SWU: ${res.swu_per_P.toFixed(SWU_PRECISION)}, Cost: ${res.cost_per_P.toFixed(COST_PRECISION)}`);
       } catch (err) {
         showError(err.message);
       }

@@ -403,6 +403,87 @@
     section[id^="mode"] {
       scroll-margin-top: 1rem;
     }
+
+    /* Skip link for accessibility */
+    .skip-link {
+      position: absolute;
+      top: -40px;
+      left: 0;
+      background: #1e293b;
+      color: #fff;
+      padding: 8px 16px;
+      z-index: 1000;
+      text-decoration: none;
+      font-size: 0.875rem;
+      border-radius: 0 0 4px 0;
+      transition: top 0.3s ease;
+    }
+    .skip-link:focus {
+      top: 0;
+      outline: 2px solid #14b8a6;
+      outline-offset: 2px;
+    }
+
+    /* Reduced motion support for users with vestibular disorders */
+    @media (prefers-reduced-motion: reduce) {
+      .btn-gradient-animate,
+      .btn-gradient-animate:hover,
+      .dark .btn-gradient-animate,
+      .dark .btn-gradient-animate:hover,
+      .swal-btn-gradient-animate,
+      .swal-btn-gradient-animate:hover,
+      .dark .swal-btn-gradient-animate,
+      .dark .swal-btn-gradient-animate:hover,
+      .clear-btn-gradient-hover:hover,
+      .dark .clear-btn-gradient-hover:hover {
+        animation: none;
+      }
+      .result-shimmer,
+      .dark .result-shimmer,
+      .clear-shimmer,
+      .dark .clear-shimmer,
+      .clear-btn-active,
+      .dark .clear-btn-active {
+        animation: none;
+      }
+      .fluid-gradient-bg,
+      .dark .fluid-gradient-bg {
+        animation: none;
+      }
+      details > div {
+        transition: none;
+      }
+    }
+
+    /* Focus visible styles for better keyboard navigation */
+    a:focus-visible,
+    button:focus-visible,
+    summary:focus-visible {
+      outline: 2px solid #14b8a6;
+      outline-offset: 2px;
+    }
+
+    /* Fix focus visibility on readonly inputs - override focus:outline-none */
+    input[readonly]:focus {
+      outline: 2px solid #3b82f6 !important;
+      outline-offset: -2px;
+    }
+    .dark input[readonly]:focus {
+      outline: 2px solid #60a5fa !important;
+    }
+
+    /* Screen reader only - visually hidden but accessible */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
   </style>
 
   <!-- Favicon and Apple Touch Icon -->
@@ -415,8 +496,10 @@
   <link rel="manifest" href="/manifest.webmanifest" />
 </head>
 <body class="min-h-screen fluid-gradient-bg px-4 py-8 text-slate-900 dark:text-slate-100 transition-colors duration-300">
+  <!-- Skip link for keyboard accessibility -->
+  <a href="#calculator-content" class="skip-link">Skip to calculators</a>
 
-  <main class="relative mx-auto w-full max-w-4xl rounded-2xl bg-white/95 dark:bg-slate-800/95 p-6 shadow-xl ring-1 ring-slate-200 dark:ring-slate-700 transition-colors duration-300">
+  <main id="calculator-content" class="relative mx-auto w-full max-w-4xl rounded-2xl bg-white/95 dark:bg-slate-800/95 p-6 shadow-xl ring-1 ring-slate-200 dark:ring-slate-700 transition-colors duration-300">
     <!-- Header -->
     <header class="mb-6 flex flex-col items-center gap-3">
       <!-- Home link (hidden in standalone/installed mode) -->
@@ -1483,7 +1566,10 @@
     </footer>
   </main>
 
+  <!-- ARIA live region for screen reader announcements -->
+  <div id="sr-announcements" aria-live="polite" aria-atomic="true" class="sr-only"></div>
+
   <!-- Calculator logic -->
-  <script src="nuclear.js?v=2"></script>
+  <script src="nuclear.js?v=3"></script>
 </body>
 </html>

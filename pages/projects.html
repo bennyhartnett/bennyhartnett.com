@@ -48,22 +48,40 @@
     padding: 0.5rem;
     text-align: left;
   }
+  /* Screen reader only - visually hidden but accessible */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+  /* Focus styles for links */
+  a:focus-visible {
+    outline: 2px solid var(--wave-color);
+    outline-offset: 2px;
+  }
 </style>
 <h1>Projects</h1>
 <p>This page lists various projects and ideas explored on this site.</p>
 
 <h2>Concepts</h2>
 <table id="concepts-table">
+  <caption class="sr-only">List of concept projects</caption>
   <thead>
     <tr>
-      <th>Year</th>
-      <th>Type</th>
-      <th>Project Name</th>
-      <th>Description</th>
-      <th>Technologies</th>
-      <th>Categories</th>
-      <th>Customer</th>
-      <th>Company</th>
+      <th scope="col">Year</th>
+      <th scope="col">Type</th>
+      <th scope="col">Project Name</th>
+      <th scope="col">Description</th>
+      <th scope="col">Technologies</th>
+      <th scope="col">Categories</th>
+      <th scope="col">Customer</th>
+      <th scope="col">Company</th>
     </tr>
   </thead>
   <tbody></tbody>
@@ -71,16 +89,17 @@
 
 <h2>Active Projects</h2>
 <table id="active-table">
+  <caption class="sr-only">List of active projects</caption>
   <thead>
     <tr>
-      <th>Year</th>
-      <th>Type</th>
-      <th>Project Name</th>
-      <th>Description</th>
-      <th>Technologies</th>
-      <th>Categories</th>
-      <th>Customer</th>
-      <th>Company</th>
+      <th scope="col">Year</th>
+      <th scope="col">Type</th>
+      <th scope="col">Project Name</th>
+      <th scope="col">Description</th>
+      <th scope="col">Technologies</th>
+      <th scope="col">Categories</th>
+      <th scope="col">Customer</th>
+      <th scope="col">Company</th>
     </tr>
   </thead>
   <tbody></tbody>
@@ -88,16 +107,17 @@
 
 <h2>Past Work</h2>
 <table id="past-table">
+  <caption class="sr-only">List of past projects</caption>
   <thead>
     <tr>
-      <th>Year</th>
-      <th>Type</th>
-      <th>Project Name</th>
-      <th>Description</th>
-      <th>Technologies</th>
-      <th>Categories</th>
-      <th>Customer</th>
-      <th>Company</th>
+      <th scope="col">Year</th>
+      <th scope="col">Type</th>
+      <th scope="col">Project Name</th>
+      <th scope="col">Description</th>
+      <th scope="col">Technologies</th>
+      <th scope="col">Categories</th>
+      <th scope="col">Customer</th>
+      <th scope="col">Company</th>
     </tr>
   </thead>
   <tbody></tbody>

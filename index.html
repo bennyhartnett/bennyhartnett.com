@@ -569,6 +569,46 @@
       width: 100%;
       padding: 4px 0;
     }
+
+    /* Skip link for accessibility */
+    .skip-link {
+      position: absolute;
+      top: -40px;
+      left: 0;
+      background: #000;
+      color: #fff;
+      padding: 8px 16px;
+      z-index: 1000;
+      text-decoration: none;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      border-radius: 0 0 4px 0;
+      transition: top 0.3s ease;
+    }
+    .skip-link:focus {
+      top: 0;
+      outline: 2px solid var(--wave-color);
+      outline-offset: 2px;
+    }
+
+    /* Focus styles for keyboard navigation */
+    nav .title:focus {
+      outline: 2px solid var(--wave-color);
+      outline-offset: 2px;
+    }
+    nav .menu a:focus {
+      outline: 2px solid var(--wave-color);
+      outline-offset: 2px;
+      border-radius: 4px;
+    }
+    .content a:focus {
+      outline: 2px solid var(--wave-color);
+      outline-offset: 2px;
+    }
+    footer a:focus {
+      outline: 2px solid var(--wave-color);
+      outline-offset: 2px;
+    }
   </style>
   <script type="module">
     import { initWaveBackground } from "./wave-background.js";
@@ -585,25 +625,28 @@
   </script>
 </head>
 <body>
-  <!-- Invisible navigation bar -->
-  <nav>
-    <div class="nav-header">
-      <div class="title">Benny Hartnett</div>
+  <!-- Skip link for keyboard accessibility -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
 
-      
+  <!-- Invisible navigation bar -->
+  <nav role="navigation" aria-label="Main navigation">
+    <div class="nav-header">
+      <div class="title" tabindex="0" role="button" aria-label="Go to home page">Benny Hartnett</div>
+
+
     </div>
 
   </nav>
 
-  <div class="content">
+  <main id="main-content" class="content" role="main">
     <!-- Loaded content will appear here -->
-  </div>
+  </main>
 
   <script>
     // Initialize background when loaded
     window.addEventListener('DOMContentLoaded', () => {
       window.initWaveBackground();
-      const container = document.querySelector('.content');
+      const container = document.querySelector('#main-content');
       const canonicalTag = document.getElementById('canonical-link');
       const ogUrlTag = document.getElementById('og-url');
       const baseUrl = window.location.origin + window.location.pathname.replace(/[^\/]*$/, '');
@@ -656,6 +699,13 @@
           title.addEventListener('click', (e) => {
             e.preventDefault();
             loadContent('pages/home.html');
+          });
+          // Add keyboard support for accessibility
+          title.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              loadContent('pages/home.html');
+            }
           });
         }
 
