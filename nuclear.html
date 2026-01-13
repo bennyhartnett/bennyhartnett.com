@@ -1788,6 +1788,40 @@
   <div id="sr-announcements" aria-live="polite" aria-atomic="true" class="sr-only"></div>
 
   <!-- Calculator logic -->
-  <script src="nuclear.js?v=4"></script>
+  <script src="nuclear.js?v=5"></script>
+
+  <!-- Service Worker Registration -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').then((registration) => {
+          // Check for updates on page load
+          registration.update();
+
+          // Listen for new service worker installing
+          registration.addEventListener('updatefound', () => {
+            const newWorker = registration.installing;
+            newWorker.addEventListener('statechange', () => {
+              if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                // New version available - activate it immediately
+                newWorker.postMessage('skipWaiting');
+              }
+            });
+          });
+        }).catch((error) => {
+          console.error('Service Worker registration failed:', error);
+        });
+
+        // Reload page when new service worker takes over
+        let refreshing = false;
+        navigator.serviceWorker.addEventListener('controllerchange', () => {
+          if (!refreshing) {
+            refreshing = true;
+            window.location.reload();
+          }
+        });
+      });
+    }
+  </script>
 </body>
 </html>
