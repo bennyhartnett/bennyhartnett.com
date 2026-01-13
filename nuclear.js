@@ -18,6 +18,16 @@
   const SWU_PRECISION = 3;
   const PERCENT_PRECISION = 3;
 
+  /**
+   * Format a number to max precision decimal places, removing trailing zeros
+   * @param {number} value - The number to format
+   * @param {number} precision - Maximum decimal places
+   * @returns {string} Formatted number string
+   */
+  function formatNumber(value, precision) {
+    return parseFloat(value.toFixed(precision)).toString();
+  }
+
   // ============================================================================
   // UNIT CONVERSION CONSTANTS
   // ============================================================================
@@ -153,7 +163,7 @@
   function displayMass(elementId, valueInKg, unitSelectId) {
     const unit = unitSelectId ? getSelectedUnit(unitSelectId) : 'kg';
     const converted = fromBaseUnit(valueInKg, 'mass', unit);
-    byId(elementId).value = converted.toFixed(MASS_PRECISION);
+    byId(elementId).value = formatNumber(converted, MASS_PRECISION);
   }
 
   /**
@@ -162,7 +172,7 @@
   function displayAssay(elementId, valueAsFraction, unitSelectId) {
     const unit = unitSelectId ? getSelectedUnit(unitSelectId) : 'percent';
     const converted = fromBaseUnit(valueAsFraction, 'assay', unit);
-    byId(elementId).value = converted.toFixed(PERCENT_PRECISION);
+    byId(elementId).value = formatNumber(converted, PERCENT_PRECISION);
   }
 
   /**
@@ -171,7 +181,7 @@
   function displaySwu(elementId, valueInSwu, unitSelectId) {
     const unit = unitSelectId ? getSelectedUnit(unitSelectId) : 'swu';
     const converted = fromBaseUnit(valueInSwu, 'swu', unit);
-    byId(elementId).value = converted.toFixed(SWU_PRECISION);
+    byId(elementId).value = formatNumber(converted, SWU_PRECISION);
   }
 
   // ============================================================================
@@ -812,7 +822,7 @@
         displayAssay('xw5', res.xw, 'xw5-unit');
         displayMass('feedPerP5', res.F_per_P, 'feedPerP5-unit');
         displaySwu('swuPerP5', res.swu_per_P, 'swuPerP5-unit');
-        byId('costPerP5').value = res.cost_per_P.toFixed(COST_PRECISION);
+        byId('costPerP5').value = formatNumber(res.cost_per_P, COST_PRECISION);
         console.log('Mode 5 values set:', {
           xw5: byId('xw5').value,
           feedPerP5: byId('feedPerP5').value,
@@ -840,8 +850,8 @@
         displayAssay('xw5', res.xw, 'xw5-unit');
         displayMass('feedPerP5', res.F_per_P, 'feedPerP5-unit');
         displaySwu('swuPerP5', res.swu_per_P, 'swuPerP5-unit');
-        byId('costPerP5').value = res.cost_per_P.toFixed(COST_PRECISION);
-        triggerShimmer(mode5Outputs, `Calculation complete. Optimum tails assay: ${byId('xw5').value} ${ASSAY_UNITS[getSelectedUnit('xw5-unit')].label}, Feed: ${byId('feedPerP5').value} ${MASS_UNITS[getSelectedUnit('feedPerP5-unit')].label}, SWU: ${byId('swuPerP5').value} ${SWU_UNITS[getSelectedUnit('swuPerP5-unit')].label}, Cost: ${res.cost_per_P.toFixed(COST_PRECISION)}`);
+        byId('costPerP5').value = formatNumber(res.cost_per_P, COST_PRECISION);
+        triggerShimmer(mode5Outputs, `Calculation complete. Optimum tails assay: ${byId('xw5').value} ${ASSAY_UNITS[getSelectedUnit('xw5-unit')].label}, Feed: ${byId('feedPerP5').value} ${MASS_UNITS[getSelectedUnit('feedPerP5-unit')].label}, SWU: ${byId('swuPerP5').value} ${SWU_UNITS[getSelectedUnit('swuPerP5-unit')].label}, Cost: ${formatNumber(res.cost_per_P, COST_PRECISION)}`);
       } catch (err) {
         showError(err.message);
       }
