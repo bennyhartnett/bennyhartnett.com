@@ -472,6 +472,7 @@
       opacity: 1;
       padding-top: 1.25rem;
       padding-bottom: 1.25rem;
+      overflow: visible; /* Allow shimmer glow to display beyond element boundaries */
     }
     details > div > * {
       overflow: visible;
@@ -479,6 +480,16 @@
     /* Wrapper for accordion content to enable smooth animation */
     details > div > form {
       min-height: 0;
+    }
+    /* Add padding to input group containers for shimmer glow effect */
+    details > div > form > section > div.space-y-4 {
+      padding: 10px;
+      margin: -10px;
+      overflow: visible;
+    }
+    /* Ensure individual input field wrappers allow shimmer overflow */
+    details > div > form > section > div.space-y-4 > div {
+      overflow: visible;
     }
 
     /* Smooth scroll margin for accordion sections */
