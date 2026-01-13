@@ -15,8 +15,8 @@
   const BINARY_SEARCH_ITERATIONS = 80;
   const GOLDEN_SECTION_ITERATIONS = 80;
   const MASS_PRECISION = 6;
-  const SWU_PRECISION = 3;
-  const PERCENT_PRECISION = 3;
+  const SWU_PRECISION = 6;
+  const PERCENT_PRECISION = 6;
 
   // ============================================================================
   // UNIT CONVERSION CONSTANTS
@@ -795,7 +795,7 @@
   }
 
   function initMode5() {
-    const COST_PRECISION = 2;
+    const COST_PRECISION = 6;
     const mode5Inputs = ['cf5', 'cs5', 'xp5', 'xf5'];
     const mode5Outputs = ['xw5', 'feedPerP5', 'swuPerP5', 'costPerP5'];
     const mode5UnitSelects = ['xp5-unit', 'xf5-unit', 'xw5-unit', 'feedPerP5-unit', 'swuPerP5-unit'];
