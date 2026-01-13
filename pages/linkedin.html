@@ -1,3 +1,23 @@
-<meta http-equiv="refresh" content="0; url=https://www.linkedin.com/in/dev-dc">
-<script>window.location.href = "https://www.linkedin.com/in/dev-dc";</script>
+<script>
+(function() {
+  var webUrl = 'https://www.linkedin.com/in/dev-dc';
+  var appUrl = 'linkedin://in/dev-dc';
+  var isMobile = /iPhone|iPad|iPod|Android|webOS|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+                 (navigator.maxTouchPoints > 0 && window.innerWidth <= 768);
+  if (isMobile) {
+    // Try to open LinkedIn app
+    window.location.href = appUrl;
+    // Fallback to web URL after a short delay if app doesn't open
+    setTimeout(function() {
+      window.location.href = webUrl;
+    }, 1500);
+  } else {
+    // Desktop: go directly to web URL
+    window.location.href = webUrl;
+  }
+})();
+</script>
+<noscript>
+  <meta http-equiv="refresh" content="0; url=https://www.linkedin.com/in/dev-dc">
+</noscript>
 <p>Redirecting to LinkedIn...</p>

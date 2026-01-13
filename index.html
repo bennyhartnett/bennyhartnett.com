@@ -935,6 +935,24 @@
         // Handle external links
         if (link.dataset.external === 'true') {
           e.preventDefault();
+          // Check if this is a LinkedIn link and user is on mobile
+          const isLinkedIn = href.includes('linkedin.com/in/');
+          const isMobile = /iPhone|iPad|iPod|Android|webOS|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+                          (navigator.maxTouchPoints > 0 && window.innerWidth <= 768);
+          if (isLinkedIn && isMobile) {
+            // Extract LinkedIn username and try to open in app
+            const match = href.match(/linkedin\.com\/in\/([^\/\?]+)/);
+            if (match) {
+              const username = match[1];
+              // Use LinkedIn app deep link
+              window.location.href = 'linkedin://in/' + username;
+              // Fallback to web after a short delay if app doesn't open
+              setTimeout(() => {
+                window.open(href, '_blank', 'noopener');
+              }, 1500);
+              return;
+            }
+          }
           window.open(href, '_blank', 'noopener');
           return;
         }
