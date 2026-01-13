@@ -1,6 +1,7 @@
 {
   "name": "SWU Calculator",
   "short_name": "SWU Calc",
+  "version": "1.0.5",
   "start_url": "/nuclear",
   "display": "standalone",
   "background_color": "#0f172a",
