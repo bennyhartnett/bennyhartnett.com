@@ -340,6 +340,8 @@
 
 <script>
 (function() {
+  const BACKEND_URL = 'https://script.google.com/macros/s/AKfycbz0h40oJSvKksAq9KHTxqh1YBHAaJfh6vw8E0kwEy-zXG14noT8-836BWuuxXN2Xar1yg/exec';
+
   const messagesContainer = document.getElementById('chat-messages');
   const chatInput = document.getElementById('chat-input');
   const sendButton = document.getElementById('send-button');
@@ -458,25 +460,19 @@ Be friendly, helpful, and concise. If asked about something you don't know speci
     addTypingIndicator();
 
     try {
-      // Prepare messages for API call
+      // Prepare messages for API call with system message first
       const messages = [
-        { role: 'user', content: bennyContext + '\n\nNow respond to the user\'s message: ' + conversationHistory[0].content }
+        { role: 'system', content: bennyContext },
+        ...conversationHistory
       ];
 
-      // Add conversation history (excluding the first message which we modified)
-      for (let i = 1; i < conversationHistory.length; i++) {
-        messages.push(conversationHistory[i]);
-      }
-
-      // Call Claude API via proxy endpoint
-      const response = await fetch('https://api.bennyhartnett.com/chat', {
+      // Call OpenAI API via Google Apps Script proxy
+      const response = await fetch(BACKEND_URL, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
         body: JSON.stringify({
-          messages: conversationHistory,
-          system: bennyContext
+          messages: messages,
+          model: 'gpt-4o-mini',
+          temperature: 0.7
         })
       });
 
@@ -487,7 +483,7 @@ Be friendly, helpful, and concise. If asked about something you don't know speci
       }
 
       const data = await response.json();
-      const assistantMessage = data.content || data.message || data.response;
+      const assistantMessage = data.choices[0].message.content;
 
       addMessage(assistantMessage, 'assistant');
       conversationHistory.push({ role: 'assistant', content: assistantMessage });
