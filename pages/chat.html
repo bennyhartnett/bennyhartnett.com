@@ -48,7 +48,12 @@
   .message {
     display: flex;
     gap: 0.75rem;
-    animation: fadeIn 0.3s ease;
+    animation: slideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .message.user {
+    flex-direction: row-reverse;
+    animation: slideInRight 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   @keyframes fadeIn {
@@ -62,8 +67,64 @@
     }
   }
 
-  .message.user {
-    flex-direction: row-reverse;
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: translateX(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes slideInRight {
+    from {
+      opacity: 0;
+      transform: translateX(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes blink {
+    0%, 50% {
+      opacity: 1;
+    }
+    51%, 100% {
+      opacity: 0;
+    }
+  }
+
+  .streaming-cursor {
+    display: inline-block;
+    width: 2px;
+    height: 1.1em;
+    background: var(--wave-color, #6366f1);
+    margin-left: 2px;
+    vertical-align: text-bottom;
+    animation: blink 0.8s infinite;
+  }
+
+  .message.assistant .message-content.streaming {
+    min-height: 1.5em;
+  }
+
+  .char-animate {
+    display: inline;
+    opacity: 0;
+    animation: charFadeIn 0.1s ease forwards;
+  }
+
+  @keyframes charFadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
   }
 
   .message-avatar {
@@ -232,6 +293,22 @@
     text-align: center;
     padding: 2rem;
     color: rgba(255, 255, 255, 0.7);
+    animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .welcome-message.hiding {
+    animation: fadeOut 0.3s ease forwards;
+  }
+
+  @keyframes fadeOut {
+    from {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    to {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
   }
 
   .welcome-message h2 {
@@ -258,7 +335,13 @@
     color: rgba(255, 255, 255, 0.8);
     cursor: pointer;
     transition: all 0.2s ease;
+    animation: fadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) backwards;
   }
+
+  .suggestion-chip:nth-child(1) { animation-delay: 0.1s; }
+  .suggestion-chip:nth-child(2) { animation-delay: 0.2s; }
+  .suggestion-chip:nth-child(3) { animation-delay: 0.3s; }
+  .suggestion-chip:nth-child(4) { animation-delay: 0.4s; }
 
   .suggestion-chip:hover {
     background: rgba(255, 255, 255, 0.12);
@@ -381,11 +464,16 @@
 
 Be friendly, helpful, and concise. If asked about something you don't know specifically about Benny, you can suggest they reach out via the contact page.`;
 
-  function addMessage(content, role) {
+  function removeWelcomeMessage() {
     const welcomeMsg = messagesContainer.querySelector('.welcome-message');
     if (welcomeMsg) {
-      welcomeMsg.remove();
+      welcomeMsg.classList.add('hiding');
+      setTimeout(() => welcomeMsg.remove(), 300);
     }
+  }
+
+  function addMessage(content, role) {
+    removeWelcomeMessage();
 
     const messageDiv = document.createElement('div');
     messageDiv.className = `message ${role}`;
@@ -403,6 +491,67 @@ Be friendly, helpful, and concise. If asked about something you don't know speci
     messagesContainer.appendChild(messageDiv);
 
     messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+    return messageDiv;
+  }
+
+  async function streamMessage(content) {
+    removeWelcomeMessage();
+
+    const messageDiv = document.createElement('div');
+    messageDiv.className = 'message assistant';
+
+    const avatar = document.createElement('div');
+    avatar.className = 'message-avatar';
+    avatar.textContent = 'AI';
+
+    const contentDiv = document.createElement('div');
+    contentDiv.className = 'message-content streaming';
+
+    const textSpan = document.createElement('span');
+    textSpan.className = 'streamed-text';
+
+    const cursor = document.createElement('span');
+    cursor.className = 'streaming-cursor';
+
+    contentDiv.appendChild(textSpan);
+    contentDiv.appendChild(cursor);
+    messageDiv.appendChild(avatar);
+    messageDiv.appendChild(contentDiv);
+    messagesContainer.appendChild(messageDiv);
+
+    // Stream characters with variable speed for natural feel
+    let currentText = '';
+    const baseDelay = 15; // Base delay in ms
+
+    for (let i = 0; i < content.length; i++) {
+      currentText += content[i];
+      textSpan.innerHTML = formatMessage(currentText);
+
+      // Scroll to bottom smoothly
+      messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+      // Variable delay for natural typing feel
+      let delay = baseDelay;
+      const char = content[i];
+
+      // Longer pause after punctuation
+      if (['.', '!', '?'].includes(char)) {
+        delay = 100;
+      } else if ([',', ':', ';'].includes(char)) {
+        delay = 50;
+      } else if (char === '\n') {
+        delay = 80;
+      } else if (char === ' ') {
+        delay = 10;
+      }
+
+      await new Promise(resolve => setTimeout(resolve, delay));
+    }
+
+    // Remove cursor and streaming class when done
+    cursor.remove();
+    contentDiv.classList.remove('streaming');
 
     return messageDiv;
   }
@@ -485,7 +634,7 @@ Be friendly, helpful, and concise. If asked about something you don't know speci
       const data = await response.json();
       const assistantMessage = data.choices[0].message.content;
 
-      addMessage(assistantMessage, 'assistant');
+      await streamMessage(assistantMessage);
       conversationHistory.push({ role: 'assistant', content: assistantMessage });
 
     } catch (error) {
@@ -514,7 +663,7 @@ Be friendly, helpful, and concise. If asked about something you don't know speci
       }
 
       const fallbackMessage = fallbackResponses[responseKey];
-      addMessage(fallbackMessage, 'assistant');
+      await streamMessage(fallbackMessage);
       conversationHistory.push({ role: 'assistant', content: fallbackMessage });
     }
 
