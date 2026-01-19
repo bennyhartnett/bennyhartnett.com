@@ -128,8 +128,8 @@
   }
 
   .message-avatar {
-    width: 36px;
-    height: 36px;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -139,7 +139,7 @@
   }
 
   .message.assistant .message-avatar {
-    background: linear-gradient(135deg, rgba(99, 102, 241, 0.8), rgba(168, 85, 247, 0.8));
+    background: var(--wave-color, #6366f1);
     padding: 0;
     overflow: hidden;
   }
@@ -151,7 +151,7 @@
   }
 
   .message.user .message-avatar {
-    background: rgba(255, 255, 255, 0.15);
+    background: color-mix(in srgb, var(--wave-color, #6366f1) 30%, transparent);
   }
 
   .message-content {
