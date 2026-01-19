@@ -76,6 +76,75 @@
     outline-offset: 4px;
     border-radius: 4px;
   }
+
+  /* Floating Chat Button - Glassmorphic */
+  .chat-fab {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    z-index: 99;
+
+    /* Glassmorphic effect */
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+
+    /* Color transition */
+    color: var(--wave-color, #6366f1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+  }
+
+  .chat-fab svg {
+    width: 28px;
+    height: 28px;
+    transition: transform 0.3s ease;
+  }
+
+  .chat-fab:hover {
+    transform: scale(1.1);
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow:
+      0 12px 40px rgba(0, 0, 0, 0.4),
+      inset 0 1px 0 rgba(255, 255, 255, 0.15),
+      0 0 20px color-mix(in srgb, var(--wave-color, #6366f1) 30%, transparent);
+  }
+
+  .chat-fab:hover svg {
+    transform: scale(1.05);
+  }
+
+  .chat-fab:active {
+    transform: scale(0.95);
+  }
+
+  .chat-fab:focus-visible {
+    outline: 2px solid var(--wave-color);
+    outline-offset: 4px;
+  }
+
+  @media (max-width: 600px) {
+    .chat-fab {
+      bottom: 1.5rem;
+      right: 1.5rem;
+      width: 52px;
+      height: 52px;
+    }
+    .chat-fab svg {
+      width: 24px;
+      height: 24px;
+    }
+  }
 </style>
 <div class="home-container">
 <ul class="link-list">
@@ -86,3 +155,10 @@
   <li><a data-href="/contact">Contact</a></li>
 </ul>
   </div>
+
+<!-- Floating Chat Button -->
+<a href="/chat" class="chat-fab" aria-label="Chat with Benny AI">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+  </svg>
+</a>
