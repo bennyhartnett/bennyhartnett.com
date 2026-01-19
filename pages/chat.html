@@ -433,6 +433,10 @@
 (function() {
   const BACKEND_URL = 'https://script.google.com/macros/s/AKfycbz0h40oJSvKksAq9KHTxqh1YBHAaJfh6vw8E0kwEy-zXG14noT8-836BWuuxXN2Xar1yg/exec';
 
+  // Email obfuscation - assembled at runtime to prevent scraping
+  const _e = ['m','e','@','b','e','n','n','y','h','a','r','t','n','e','t','t','.','c','o','m'];
+  const getEmail = () => _e.join('');
+
   const messagesContainer = document.getElementById('chat-messages');
   const chatInput = document.getElementById('chat-input');
   const sendButton = document.getElementById('send-button');
@@ -466,7 +470,7 @@
 **About Benny Hartnett:**
 - Software developer based in Washington, D.C.
 - Specializes in generative AI, GIS (Geographic Information Systems), government contracting, and nuclear technology
-- Email: me@bennyhartnett.com
+- Email: ${getEmail()}
 
 **Technical Skills:**
 - Languages: JavaScript, Python, C#, HTML, CSS
@@ -687,7 +691,7 @@ Be friendly, helpful, and concise. If asked about something you don't know speci
         default: "I'm currently in demo mode. Benny Hartnett is a software developer based in Washington, D.C., specializing in **generative AI**, **GIS**, **government contracting**, and **nuclear technology**.\n\nYou can learn more by exploring the site or reaching out via the [contact page](/contact).",
         skills: "Benny's technical skills include:\n\n- **Languages:** JavaScript, Python, C#, HTML, CSS\n- **Cloud:** AWS\n- **Specialties:** IoT, Machine Learning, Computer Vision, LLMs, Edge Computing\n\nHe has experience with Raspberry Pi, NVIDIA Jetson, and various AI/ML frameworks.",
         projects: "Some of Benny's notable projects include:\n\n1. **Uranium Enrichment Calculator** - Built for Centrus Energy for SWU calculations\n2. **IoT Wildfire Detection System** - Real-time monitoring on remote fire towers\n3. **Edge Vehicle Detection** - Using NVIDIA Jetson for make/model recognition\n\nCheck out the [Nuclear calculator](/nuclear) to see one in action!",
-        contact: "You can reach Benny at:\n\n- **Email:** me@bennyhartnett.com\n- **LinkedIn:** [linkedin.com/in/dev-dc](https://linkedin.com/in/dev-dc)\n- **GitHub:** [github.com/bennyhartnett](https://github.com/bennyhartnett)\n\nOr use the [contact form](/contact) on this site.",
+        contact: `You can reach Benny at:\n\n- **Email:** ${getEmail()}\n- **LinkedIn:** [linkedin.com/in/dev-dc](https://linkedin.com/in/dev-dc)\n- **GitHub:** [github.com/bennyhartnett](https://github.com/bennyhartnett)\n\nOr use the [contact form](/contact) on this site.`,
         specialize: "Benny specializes in four main areas:\n\n1. **Generative AI** - LLM integration, RAG systems, AI automation\n2. **GIS** - Mapping solutions and geospatial analysis\n3. **Government Contracting** - Custom software for federal clients\n4. **Nuclear Technology** - Including the SWU calculator for Centrus Energy"
       };
 

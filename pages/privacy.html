@@ -47,7 +47,7 @@
   <ul>
     <li>
       <strong>Email communications:</strong> If you contact us at
-      <a href="#" class="copy-email" data-email="me@bennyhartnett.com">me@bennyhartnett.com</a>, we will use the
+      <a href="#" class="copy-email protected-email">[click to reveal email]</a>, we will use the
       details you provide solely to respond to your request.
     </li>
     <li>
@@ -83,7 +83,7 @@
   <h2>Your Rights and Choices</h2>
   <p>
     You may request that we update or delete your personal information at any
-    time by emailing <a href="#" class="copy-email" data-email="me@bennyhartnett.com">me@bennyhartnett.com</a>.
+    time by emailing <a href="#" class="copy-email protected-email">[click to reveal email]</a>.
     We will honor such requests unless we are legally required to keep the
     information.
   </p>
@@ -119,11 +119,19 @@
 
   <p>
     For questions about this policy, contact us at
-    <a href="#" class="copy-email" data-email="me@bennyhartnett.com">me@bennyhartnett.com</a>.
+    <a href="#" class="copy-email protected-email">[click to reveal email]</a>.
   </p>
 
   <a href="/">Back to Home</a>
 
   <script>
     document.getElementById('policy-year').textContent = new Date().getFullYear();
+    // Populate protected email fields at runtime to prevent scraping
+    document.querySelectorAll('.protected-email').forEach(function(el) {
+      if (window.getProtectedEmail) {
+        var email = window.getProtectedEmail();
+        el.textContent = email;
+        el.dataset.email = email;
+      }
+    });
   </script>

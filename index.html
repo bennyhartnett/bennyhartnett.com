@@ -89,7 +89,6 @@
       "image": "https://bennyhartnett.com/assets/profile.jpg",
       "jobTitle": "Software Developer",
       "description": "Software developer specializing in generative AI, GIS, government contracting, and nuclear technology based in Washington, D.C.",
-      "email": "me@bennyhartnett.com",
       "address": {
         "@type": "PostalAddress",
         "addressLocality": "Washington",
@@ -204,7 +203,7 @@
         "name": "How can I contact Benny Hartnett?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "You can reach Benny Hartnett via email at me@bennyhartnett.com or through the contact form at https://bennyhartnett.com/contact."
+          "text": "You can reach Benny Hartnett through the contact form at https://bennyhartnett.com/contact."
         }
       }
     ]
@@ -276,7 +275,7 @@
     },
     "contactPoint": {
       "@type": "ContactPoint",
-      "email": "me@bennyhartnett.com",
+      "url": "https://bennyhartnett.com/contact",
       "contactType": "customer service",
       "availableLanguage": "English"
     },
@@ -853,7 +852,7 @@
                 <h1>Privacy Policy</h1>
                 <p>Last updated: ${new Date().getFullYear()}</p>
                 <p>We may collect personal or non-personal data for any purpose.</p>
-                <p>Contact me@bennyhartnett.com for questions.</p>`;
+                <p>Contact <a href="#" class="copy-email" data-email="">email</a> for questions.</p><script>document.querySelector('.copy-email').dataset.email=window.getProtectedEmail();document.querySelector('.copy-email').textContent=window.getProtectedEmail();</script>`;
             } else {
               container.innerHTML = `
                 <style>
@@ -1011,6 +1010,12 @@
       '\u00A9 ' + new Date().getFullYear() + ' Benny Hartnett';
     document.getElementById('design-credit').textContent =
       ' \u2022 Design by Benny Hartnett';
+
+    // Email obfuscation utility - prevents scraping while allowing JS access
+    window.getProtectedEmail = function() {
+      const p = ['m', 'e', '@', 'b', 'e', 'n', 'n', 'y', 'h', 'a', 'r', 't', 'n', 'e', 't', 't', '.', 'c', 'o', 'm'];
+      return p.join('');
+    };
   </script>
 </body>
 
