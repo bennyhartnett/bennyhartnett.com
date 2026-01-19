@@ -188,16 +188,133 @@
     margin-bottom: 0;
   }
 
-  .message-content a {
+  /* Link badges - styled with wave color */
+  .message-content .link-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    background: color-mix(in srgb, var(--wave-color, #6366f1) 25%, transparent);
+    color: white;
+    padding: 0.2rem 0.6rem;
+    border-radius: 9999px;
+    font-size: 0.85em;
+    font-weight: 500;
+    text-decoration: none;
+    border: 1px solid color-mix(in srgb, var(--wave-color, #6366f1) 50%, rgba(255, 255, 255, 0.2));
+    transition: all 0.2s ease;
+    white-space: nowrap;
+  }
+
+  .message-content .link-badge:hover {
+    background: color-mix(in srgb, var(--wave-color, #6366f1) 45%, transparent);
+    border-color: var(--wave-color, #6366f1);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px color-mix(in srgb, var(--wave-color, #6366f1) 30%, transparent);
+  }
+
+  .message-content .link-badge::after {
+    content: '↗';
+    font-size: 0.75em;
+    opacity: 0.7;
+  }
+
+  /* Legacy link style fallback */
+  .message-content a:not(.link-badge) {
     color: #93c5fd;
     text-decoration: underline;
   }
 
+  /* Inline code */
   .message-content code {
     background: rgba(0, 0, 0, 0.3);
     padding: 0.125rem 0.375rem;
     border-radius: 4px;
     font-size: 0.875em;
+    font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
+  }
+
+  /* Code blocks */
+  .message-content .code-block {
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    margin: 0.5rem 0;
+    overflow-x: auto;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .message-content .code-block code {
+    background: none;
+    padding: 0;
+    font-size: 0.85em;
+    line-height: 1.5;
+    white-space: pre;
+  }
+
+  /* Markdown headers */
+  .message-content .md-h1 {
+    font-size: 1.4em;
+    font-weight: 600;
+    margin: 0.75rem 0 0.5rem 0;
+    color: white;
+  }
+
+  .message-content .md-h2 {
+    font-size: 1.2em;
+    font-weight: 600;
+    margin: 0.6rem 0 0.4rem 0;
+    color: white;
+  }
+
+  .message-content .md-h3 {
+    font-size: 1.1em;
+    font-weight: 600;
+    margin: 0.5rem 0 0.35rem 0;
+    color: white;
+  }
+
+  .message-content .md-h4 {
+    font-size: 1em;
+    font-weight: 600;
+    margin: 0.4rem 0 0.3rem 0;
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  /* Lists */
+  .message-content .md-ul,
+  .message-content .md-ol {
+    margin: 0.5rem 0;
+    padding-left: 1.5rem;
+  }
+
+  .message-content .md-li,
+  .message-content .md-oli {
+    margin: 0.25rem 0;
+    line-height: 1.5;
+  }
+
+  .message-content .md-ul {
+    list-style-type: disc;
+  }
+
+  .message-content .md-ol {
+    list-style-type: decimal;
+  }
+
+  /* Blockquote */
+  .message-content .md-blockquote {
+    border-left: 3px solid var(--wave-color, #6366f1);
+    padding-left: 0.75rem;
+    margin: 0.5rem 0;
+    color: rgba(255, 255, 255, 0.8);
+    font-style: italic;
+  }
+
+  /* Horizontal rule */
+  .message-content .md-hr {
+    border: none;
+    border-top: 1px solid color-mix(in srgb, var(--wave-color, #6366f1) 30%, rgba(255, 255, 255, 0.2));
+    margin: 0.75rem 0;
   }
 
   .chat-input-container {
@@ -855,12 +972,55 @@ END OF SOURCE OF TRUTH
 
   function formatMessage(text) {
     // Convert markdown-style formatting to HTML
-    return text
-      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-      .replace(/\*(.*?)\*/g, '<em>$1</em>')
-      .replace(/`(.*?)`/g, '<code>$1</code>')
-      .replace(/\n/g, '<br>')
-      .replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+    let html = text;
+
+    // Escape HTML entities first (but preserve our markdown)
+    html = html.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+    // Code blocks (triple backticks) - must be processed before inline code
+    html = html.replace(/```(\w*)\n?([\s\S]*?)```/g, (match, lang, code) => {
+      return `<pre class="code-block"><code>${code.trim()}</code></pre>`;
+    });
+
+    // Inline code (single backticks)
+    html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
+
+    // Headers (h1-h4)
+    html = html.replace(/^#### (.+)$/gm, '<h4 class="md-h4">$1</h4>');
+    html = html.replace(/^### (.+)$/gm, '<h3 class="md-h3">$1</h3>');
+    html = html.replace(/^## (.+)$/gm, '<h2 class="md-h2">$1</h2>');
+    html = html.replace(/^# (.+)$/gm, '<h1 class="md-h1">$1</h1>');
+
+    // Horizontal rule
+    html = html.replace(/^---+$/gm, '<hr class="md-hr">');
+
+    // Bold and italic
+    html = html.replace(/\*\*\*(.+?)\*\*\*/g, '<strong><em>$1</em></strong>');
+    html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+    html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
+
+    // Blockquotes
+    html = html.replace(/^&gt; (.+)$/gm, '<blockquote class="md-blockquote">$1</blockquote>');
+
+    // Unordered lists
+    html = html.replace(/^[\-\*] (.+)$/gm, '<li class="md-li">$1</li>');
+    html = html.replace(/(<li class="md-li">.*<\/li>\n?)+/g, '<ul class="md-ul">$&</ul>');
+
+    // Ordered lists
+    html = html.replace(/^\d+\. (.+)$/gm, '<li class="md-oli">$1</li>');
+    html = html.replace(/(<li class="md-oli">.*<\/li>\n?)+/g, '<ol class="md-ol">$&</ol>');
+
+    // Links - rendered as badges with wave color
+    html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener" class="link-badge">$1</a>');
+
+    // Line breaks (only for remaining newlines not in block elements)
+    html = html.replace(/\n/g, '<br>');
+
+    // Clean up extra line breaks around block elements
+    html = html.replace(/<br>\s*(<(?:ul|ol|pre|blockquote|h[1-4]|hr))/g, '$1');
+    html = html.replace(/(<\/(?:ul|ol|pre|blockquote|h[1-4])>)\s*<br>/g, '$1');
+
+    return html;
   }
 
   function addTypingIndicator() {
