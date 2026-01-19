@@ -189,8 +189,30 @@
   }
 
   .message-content a {
-    color: #93c5fd;
-    text-decoration: underline;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    background: rgba(99, 102, 241, 0.2);
+    color: #a5b4fc;
+    text-decoration: none;
+    padding: 0.25rem 0.625rem;
+    border-radius: 9999px;
+    font-size: 0.875em;
+    font-weight: 500;
+    border: 1px solid rgba(99, 102, 241, 0.3);
+    transition: all 0.2s ease;
+  }
+
+  .message-content a:hover {
+    background: rgba(99, 102, 241, 0.35);
+    border-color: rgba(99, 102, 241, 0.5);
+    color: #c7d2fe;
+  }
+
+  .message-content a::after {
+    content: '→';
+    font-size: 0.75em;
+    opacity: 0.7;
   }
 
   .message-content code {
