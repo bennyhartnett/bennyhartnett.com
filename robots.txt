@@ -5,51 +5,56 @@ Allow: /
 Disallow: /assets/d/
 Disallow: /resume-download
 
-# AI/LLM Crawlers - Welcome!
-# For AI assistants and LLM crawlers, see our dedicated files:
-# https://bennyhartnett.com/llms.txt (summary)
-# https://bennyhartnett.com/llms-full.txt (detailed)
-
+# Block AI/LLM Crawlers
 User-agent: GPTBot
-Allow: /
+Disallow: /
 
 User-agent: ChatGPT-User
-Allow: /
+Disallow: /
 
 User-agent: Google-Extended
-Allow: /
+Disallow: /
 
 User-agent: Anthropic-AI
-Allow: /
+Disallow: /
 
 User-agent: Claude-Web
-Allow: /
+Disallow: /
 
 User-agent: ClaudeBot
-Allow: /
+Disallow: /
 
 User-agent: PerplexityBot
-Allow: /
+Disallow: /
 
 User-agent: Cohere-AI
-Allow: /
+Disallow: /
 
 User-agent: Meta-ExternalAgent
-Allow: /
+Disallow: /
 
 User-agent: Meta-ExternalFetcher
-Allow: /
+Disallow: /
 
 User-agent: Bytespider
-Allow: /
+Disallow: /
 
 User-agent: CCBot
-Allow: /
+Disallow: /
 
 User-agent: Omgilibot
-Allow: /
+Disallow: /
 
 User-agent: Diffbot
-Allow: /
+Disallow: /
+
+User-agent: FacebookBot
+Disallow: /
+
+User-agent: Amazonbot
+Disallow: /
+
+User-agent: YouBot
+Disallow: /
 
 Sitemap: https://bennyhartnett.com/sitemap.xml
