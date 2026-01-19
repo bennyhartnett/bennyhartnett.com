@@ -439,6 +439,27 @@
 
   const conversationHistory = [];
 
+  // Smooth scroll helper with throttling for streaming
+  let scrollTimeout = null;
+  let isScrolling = false;
+
+  function smoothScrollToBottom(throttle = false) {
+    if (throttle && isScrolling) return;
+
+    if (throttle) {
+      isScrolling = true;
+      if (scrollTimeout) clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
+        isScrolling = false;
+      }, 100);
+    }
+
+    messagesContainer.scrollTo({
+      top: messagesContainer.scrollHeight,
+      behavior: 'smooth'
+    });
+  }
+
   // System context about Benny Hartnett
   const bennyContext = `You are an AI assistant on Benny Hartnett's personal website. You help visitors learn about Benny. Here's what you know about him:
 
@@ -505,7 +526,7 @@ Be friendly, helpful, and concise. If asked about something you don't know speci
     messageDiv.appendChild(contentDiv);
     messagesContainer.appendChild(messageDiv);
 
-    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    smoothScrollToBottom();
 
     return messageDiv;
   }
@@ -546,8 +567,8 @@ Be friendly, helpful, and concise. If asked about something you don't know speci
       currentText += content[i];
       textSpan.innerHTML = formatMessage(currentText);
 
-      // Scroll to bottom smoothly
-      messagesContainer.scrollTop = messagesContainer.scrollHeight;
+      // Scroll to bottom smoothly (throttled to prevent jank)
+      smoothScrollToBottom(true);
 
       // Variable delay for natural typing feel
       let delay = baseDelay;
@@ -604,7 +625,7 @@ Be friendly, helpful, and concise. If asked about something you don't know speci
     messageDiv.appendChild(contentDiv);
     messagesContainer.appendChild(messageDiv);
 
-    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    smoothScrollToBottom();
   }
 
   function removeTypingIndicator() {
