@@ -892,8 +892,19 @@ END OF SOURCE OF TRUTH
 
     try {
       // Prepare messages for API call with system message first
+      // Include current date/time for temporal context
+      const currentDateTime = new Date().toLocaleString('en-US', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: '2-digit',
+        timeZoneName: 'short'
+      });
+      const contextWithDateTime = `${bennyContext}\n\nCURRENT DATE AND TIME: ${currentDateTime}`;
       const messages = [
-        { role: 'system', content: bennyContext },
+        { role: 'system', content: contextWithDateTime },
         ...conversationHistory
       ];
 
