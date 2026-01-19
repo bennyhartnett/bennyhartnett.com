@@ -77,17 +77,18 @@
     border-radius: 4px;
   }
 
-  /* Floating Chat Button - Glassmorphic */
+  /* Floating Chat Button - Glassmorphic Pill */
   .chat-fab {
     position: fixed;
     bottom: 2rem;
     right: 2rem;
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
+    height: 48px;
+    padding: 0 1.25rem;
+    border-radius: 24px;
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 0.5rem;
     text-decoration: none;
     z-index: 99;
 
@@ -100,19 +101,27 @@
       0 8px 32px rgba(0, 0, 0, 0.3),
       inset 0 1px 0 rgba(255, 255, 255, 0.1);
 
-    /* Color transition */
+    /* Color transition - follows wave color */
     color: var(--wave-color, #6366f1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease, color 0.3s ease;
   }
 
   .chat-fab svg {
-    width: 28px;
-    height: 28px;
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
     transition: transform 0.3s ease;
   }
 
+  .chat-fab-text {
+    font-size: 0.9rem;
+    font-weight: 600;
+    white-space: nowrap;
+    letter-spacing: 0.02em;
+  }
+
   .chat-fab:hover {
-    transform: scale(1.1);
+    transform: scale(1.05);
     background: rgba(255, 255, 255, 0.15);
     box-shadow:
       0 12px 40px rgba(0, 0, 0, 0.4),
@@ -121,7 +130,7 @@
   }
 
   .chat-fab:hover svg {
-    transform: scale(1.05);
+    transform: scale(1.1);
   }
 
   .chat-fab:active {
@@ -137,12 +146,15 @@
     .chat-fab {
       bottom: 1.5rem;
       right: 1.5rem;
-      width: 52px;
-      height: 52px;
+      height: 44px;
+      padding: 0 1rem;
     }
     .chat-fab svg {
-      width: 24px;
-      height: 24px;
+      width: 20px;
+      height: 20px;
+    }
+    .chat-fab-text {
+      font-size: 0.85rem;
     }
   }
 </style>
@@ -161,4 +173,5 @@
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
     <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
   </svg>
+  <span class="chat-fab-text">AI Chat</span>
 </a>
