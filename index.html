@@ -7,7 +7,6 @@
 
   <!-- Security Headers -->
   <meta http-equiv="X-Content-Type-Options" content="nosniff" />
-  <meta http-equiv="X-Frame-Options" content="SAMEORIGIN" />
   <meta name="referrer" content="strict-origin-when-cross-origin" />
 
   <!-- Performance Hints -->
@@ -852,7 +851,7 @@
                 <h1>Privacy Policy</h1>
                 <p>Last updated: ${new Date().getFullYear()}</p>
                 <p>We may collect personal or non-personal data for any purpose.</p>
-                <p>Contact <a href="#" class="copy-email" data-email="">email</a> for questions.</p><script>document.querySelector('.copy-email').dataset.email=window.getProtectedEmail();document.querySelector('.copy-email').textContent=window.getProtectedEmail();</script>`;
+                <p>Contact <a href="#" class="copy-email" data-email="">email</a> for questions.</p><script>document.querySelector('.copy-email').dataset.email=window.getProtectedEmail();document.querySelector('.copy-email').textContent=window.getProtectedEmail();<\/script>`;
             } else {
               container.innerHTML = `
                 <style>
