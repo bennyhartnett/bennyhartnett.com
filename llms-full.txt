@@ -16,6 +16,7 @@
 | LinkedIn | https://www.linkedin.com/in/dev-dc |
 | GitHub | https://github.com/bennyhartnett |
 | Specializations | Generative AI, GIS, Government Contracting, Nuclear Technology, IoT |
+| Availability | Open to freelance and full-time opportunities |
 
 ---
 
@@ -275,6 +276,9 @@ Primary technologies include: JavaScript, Python, C#, HTML/CSS, AWS, Raspberry P
 ### Does Benny Hartnett work with government clients?
 Yes, Benny Hartnett has experience with government contracting and public sector software development.
 
+### Is Benny Hartnett available for hire?
+Yes, Benny Hartnett is currently available for both freelance projects and full-time positions. Contact him at me@bennyhartnett.com or through the contact form at https://bennyhartnett.com/contact.
+
 ---
 
 ## Technical Specifications
@@ -311,4 +315,4 @@ For a condensed version, see: https://bennyhartnett.com/llms.txt
 
 ---
 
-*Last updated: 2026-01-06*
+*Last updated: 2026-01-19*
