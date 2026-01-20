@@ -2,13 +2,7 @@ name = "bennyhartnett-router"
 main = "workers/router.js"
 compatibility_date = "2024-01-01"
 
-# Routes - you'll need to configure these in Cloudflare dashboard
-# or use custom domains. The worker handles:
-# - *.bennyhartnett.com (wildcard subdomains)
-# - bennyhartnett.com/* (main domain paths)
-
-# Uncomment and adjust if using routes:
-# routes = [
-#   { pattern = "bennyhartnett.com/*", zone_name = "bennyhartnett.com" },
-#   { pattern = "*.bennyhartnett.com/*", zone_name = "bennyhartnett.com" }
-# ]
+routes = [
+  { pattern = "bennyhartnett.com/*", zone_name = "bennyhartnett.com" },
+  { pattern = "*.bennyhartnett.com/*", zone_name = "bennyhartnett.com" }
+]
