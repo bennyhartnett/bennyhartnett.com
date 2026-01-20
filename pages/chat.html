@@ -304,6 +304,25 @@
     list-style-type: decimal;
   }
 
+  /* Nested list styles */
+  .message-content .md-ul .md-ul {
+    list-style-type: circle;
+    margin: 0.25rem 0;
+  }
+
+  .message-content .md-ul .md-ul .md-ul {
+    list-style-type: square;
+  }
+
+  .message-content .md-ol .md-ol {
+    list-style-type: lower-alpha;
+    margin: 0.25rem 0;
+  }
+
+  .message-content .md-ol .md-ol .md-ol {
+    list-style-type: lower-roman;
+  }
+
   /* Blockquote */
   .message-content .md-blockquote {
     border-left: 3px solid var(--wave-color, #6366f1);
@@ -973,6 +992,84 @@ END OF SOURCE OF TRUTH
     return messageDiv;
   }
 
+  function parseNestedLists(html) {
+    const lines = html.split('\n');
+    const result = [];
+    let i = 0;
+
+    while (i < lines.length) {
+      const line = lines[i];
+      // Match unordered list item with optional leading spaces/tabs
+      const ulMatch = line.match(/^(\s*)([\-\*])\s+(.+)$/);
+      // Match ordered list item with optional leading spaces/tabs
+      const olMatch = line.match(/^(\s*)(\d+)\.\s+(.+)$/);
+
+      if (ulMatch || olMatch) {
+        // Start of a list - collect all consecutive list items
+        const listLines = [];
+        while (i < lines.length) {
+          const currentLine = lines[i];
+          const currentUl = currentLine.match(/^(\s*)([\-\*])\s+(.+)$/);
+          const currentOl = currentLine.match(/^(\s*)(\d+)\.\s+(.+)$/);
+          if (currentUl || currentOl) {
+            listLines.push({
+              indent: (currentUl || currentOl)[1].length,
+              type: currentUl ? 'ul' : 'ol',
+              content: (currentUl || currentOl)[3]
+            });
+            i++;
+          } else {
+            break;
+          }
+        }
+        result.push(buildNestedList(listLines));
+      } else {
+        result.push(line);
+        i++;
+      }
+    }
+
+    return result.join('\n');
+  }
+
+  function buildNestedList(items) {
+    if (items.length === 0) return '';
+
+    let html = '';
+    let stack = []; // Stack of {type, indent}
+
+    for (let i = 0; i < items.length; i++) {
+      const item = items[i];
+      const indent = item.indent;
+      const type = item.type;
+
+      // Close lists that are deeper than current indent
+      while (stack.length > 0 && stack[stack.length - 1].indent >= indent) {
+        const closed = stack.pop();
+        html += `</${closed.type}>`;
+      }
+
+      // Check if we need to open a new list
+      if (stack.length === 0 || stack[stack.length - 1].indent < indent) {
+        const listClass = type === 'ul' ? 'md-ul' : 'md-ol';
+        html += `<${type} class="${listClass}">`;
+        stack.push({ type, indent });
+      }
+
+      // Add the list item
+      const liClass = type === 'ul' ? 'md-li' : 'md-oli';
+      html += `<li class="${liClass}">${item.content}</li>`;
+    }
+
+    // Close all remaining open lists
+    while (stack.length > 0) {
+      const closed = stack.pop();
+      html += `</${closed.type}>`;
+    }
+
+    return html;
+  }
+
   function formatMessage(text) {
     // Convert markdown-style formatting to HTML
     let html = text;
@@ -1005,13 +1102,8 @@ END OF SOURCE OF TRUTH
     // Blockquotes
     html = html.replace(/^&gt; (.+)$/gm, '<blockquote class="md-blockquote">$1</blockquote>');
 
-    // Unordered lists
-    html = html.replace(/^[\-\*] (.+)$/gm, '<li class="md-li">$1</li>');
-    html = html.replace(/(<li class="md-li">.*<\/li>\n?)+/g, '<ul class="md-ul">$&</ul>');
-
-    // Ordered lists
-    html = html.replace(/^\d+\. (.+)$/gm, '<li class="md-oli">$1</li>');
-    html = html.replace(/(<li class="md-oli">.*<\/li>\n?)+/g, '<ol class="md-ol">$&</ol>');
+    // Lists (with nesting support)
+    html = parseNestedLists(html);
 
     // Links - rendered as badges with wave color
     html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener" class="link-badge">$1</a>');
