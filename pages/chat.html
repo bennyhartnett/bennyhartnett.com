@@ -599,6 +599,7 @@
   const sendButton = document.getElementById('send-button');
 
   const conversationHistory = [];
+  let isProcessing = false;
 
   // Smooth scroll helper with throttling for streaming
   let scrollTimeout = null;
@@ -1149,7 +1150,17 @@ END OF SOURCE OF TRUTH
   }
 
   async function sendMessage(userMessage) {
-    if (!userMessage.trim()) return;
+    if (!userMessage.trim() || isProcessing) return;
+
+    isProcessing = true;
+
+    // Disable all input methods
+    sendButton.disabled = true;
+    chatInput.disabled = true;
+    document.querySelectorAll('.suggestion-chip').forEach(chip => {
+      chip.style.pointerEvents = 'none';
+      chip.style.opacity = '0.5';
+    });
 
     // Add user message to UI
     addMessage(userMessage, 'user');
@@ -1158,7 +1169,6 @@ END OF SOURCE OF TRUTH
     // Clear input
     chatInput.value = '';
     chatInput.style.height = 'auto';
-    sendButton.disabled = true;
 
     // Show typing indicator
     addTypingIndicator();
@@ -1242,7 +1252,15 @@ END OF SOURCE OF TRUTH
       conversationHistory.push({ role: 'assistant', content: fallbackMessage });
     }
 
+    // Re-enable all input methods
     sendButton.disabled = false;
+    chatInput.disabled = false;
+    chatInput.focus();
+    document.querySelectorAll('.suggestion-chip').forEach(chip => {
+      chip.style.pointerEvents = '';
+      chip.style.opacity = '';
+    });
+    isProcessing = false;
   }
 
   // Event listeners
