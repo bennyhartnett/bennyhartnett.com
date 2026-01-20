@@ -1,6 +1,6 @@
 // Service Worker for SWU Calculator PWA
 // Version must be updated when deploying new code to bust cache
-const CACHE_VERSION = 'v27';
+const CACHE_VERSION = 'v28';
 const CACHE_NAME = `swu-calculator-${CACHE_VERSION}`;
 
 // Files to cache for offline use
@@ -49,6 +49,11 @@ self.addEventListener('fetch', (event) => {
 
   // Skip non-GET requests
   if (event.request.method !== 'GET') {
+    return;
+  }
+
+  // Skip navigation requests - let Cloudflare worker handle redirects
+  if (event.request.mode === 'navigate') {
     return;
   }
 
