@@ -7,6 +7,9 @@
 
 const ROOT_DOMAIN = 'bennyhartnett.com';
 
+// Header to mark internal origin fetches (prevents redirect loops)
+const INTERNAL_HEADER = 'X-CF-Worker-Internal';
+
 // Paths that should NOT be treated as subdomains (static assets, etc.)
 const EXCLUDED_PATHS = [
   'index.html',
@@ -22,6 +25,11 @@ const EXCLUDED_PATHS = [
 
 export default {
   async fetch(request, env, ctx) {
+    // Pass through internal origin fetches to prevent redirect loops
+    if (request.headers.get(INTERNAL_HEADER)) {
+      return fetch(request);
+    }
+
     const url = new URL(request.url);
     const hostname = url.hostname;
 
@@ -58,9 +66,13 @@ async function handleSubdomain(request, url, hostname) {
   }
 
   // Fetch from origin with rewritten path
+  // Add internal header to prevent redirect loop
+  const headers = new Headers(request.headers);
+  headers.set(INTERNAL_HEADER, '1');
+
   const response = await fetch(newUrl.toString(), {
     method: request.method,
-    headers: request.headers,
+    headers: headers,
     body: request.body,
   });
 
