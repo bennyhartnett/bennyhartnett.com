@@ -4,6 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="color-scheme" content="dark" />
 
   <!-- Security Headers -->
   <meta http-equiv="X-Content-Type-Options" content="nosniff" />
@@ -377,6 +378,12 @@
 
     :root {
       --wave-color: blue;
+      color-scheme: dark;
+    }
+
+    html {
+      -webkit-text-size-adjust: 100%;
+      background: #000;
     }
 
     html,
@@ -389,6 +396,49 @@
       overflow-y: auto;
       /* Disable double-tap zoom on iOS */
       touch-action: manipulation;
+      background: #000;
+      color: #fff;
+    }
+
+    body {
+      overscroll-behavior: none;
+    }
+
+    /* iOS Safari dark mode safe areas */
+    @supports (-webkit-touch-callout: none) {
+      html, body {
+        margin: 0;
+        background: #000;
+        color: #fff;
+      }
+
+      body {
+        padding-top: env(safe-area-inset-top);
+        padding-bottom: env(safe-area-inset-bottom);
+        overscroll-behavior: none;
+      }
+    }
+
+    /* Tap highlight for dark mode */
+    * {
+      -webkit-tap-highlight-color: rgba(255, 255, 255, 0.05);
+    }
+
+    /* Dark mode form controls */
+    input,
+    textarea,
+    select {
+      background-color: #111;
+      color: #fff;
+      -webkit-appearance: none;
+    }
+
+    /* Reinforce dark mode for system */
+    @media (prefers-color-scheme: dark) {
+      html, body {
+        background: #000;
+        color: #fff;
+      }
     }
 
     /* Dark mode scrollbar */
