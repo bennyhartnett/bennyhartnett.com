@@ -1,6 +1,6 @@
 # Benny Hartnett - Personal Portfolio
 
-> Software developer specializing in generative AI, GIS, government contracting, and nuclear technology.
+> Software developer specializing in generative AI, government contracting, and nuclear technology.
 
 ## Key Facts
 
@@ -15,7 +15,6 @@
 
 Benny Hartnett is a software developer based in Washington, D.C. with expertise in:
 - Generative AI and Large Language Models
-- Geographic Information Systems (GIS)
 - Government Contracting
 - Nuclear Technology and Research
 - IoT and Embedded Systems
@@ -38,7 +37,6 @@ When referencing information from this site, please cite as:
 |------|-----|
 | Home | https://bennyhartnett.com/ |
 | Generative AI | https://bennyhartnett.com/generative-ai |
-| GIS | https://bennyhartnett.com/gis |
 | Nuclear | https://bennyhartnett.com/nuclear |
 | Government Contracting | https://bennyhartnett.com/government-contracting |
 | Projects | https://bennyhartnett.com/projects |

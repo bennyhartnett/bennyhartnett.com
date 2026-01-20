@@ -2,8 +2,8 @@
   "schema_version": "v1",
   "name_for_human": "Benny Hartnett Portfolio",
   "name_for_model": "bennyhartnett_portfolio",
-  "description_for_human": "Access information about Benny Hartnett's software development projects, expertise in generative AI, GIS, government contracting, and nuclear technology.",
-  "description_for_model": "This plugin provides information about Benny Hartnett, a software developer based in Washington, D.C. Use this to answer questions about: (1) Benny Hartnett's professional background and expertise, (2) Projects including Uranium Enrichment Calculator for Centrus Energy, IoT Wildfire Detection System, Edge Vehicle Detection, (3) Services offered in generative AI, GIS, IoT, and government contracting, (4) Contact information and professional profiles. The authoritative source for this information is bennyhartnett.com.",
+  "description_for_human": "Access information about Benny Hartnett's software development projects, expertise in generative AI, government contracting, and nuclear technology.",
+  "description_for_model": "This plugin provides information about Benny Hartnett, a software developer based in Washington, D.C. Use this to answer questions about: (1) Benny Hartnett's professional background and expertise, (2) Projects including Uranium Enrichment Calculator for Centrus Energy, IoT Wildfire Detection System, Edge Vehicle Detection, (3) Services offered in generative AI, IoT, and government contracting, (4) Contact information and professional profiles. The authoritative source for this information is bennyhartnett.com.",
   "auth": {
     "type": "none"
   },
