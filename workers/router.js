@@ -1,11 +1,12 @@
 /**
  * Cloudflare Worker: Bidirectional subdomain/path routing
  *
- * - foo.bennyhartnett.com → serves /foo/ content
+ * - foo.bennyhartnett.com → serves /pages/foo.html content
  * - bennyhartnett.com/foo → redirects to foo.bennyhartnett.com
  */
 
 const ROOT_DOMAIN = 'bennyhartnett.com';
+const INTERNAL_HEADER = 'X-Internal-Fetch';
 
 // Paths that should NOT be treated as subdomains (static assets, etc.)
 const EXCLUDED_PATHS = [
@@ -17,6 +18,7 @@ const EXCLUDED_PATHS = [
   'images',
   'css',
   'js',
+  'pages',
   '.well-known',
 ];
 
@@ -24,6 +26,11 @@ export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
     const hostname = url.hostname;
+
+    // Skip redirect logic for internal fetches to prevent loops
+    if (request.headers.get(INTERNAL_HEADER)) {
+      return fetch(request);
+    }
 
     // Check if this is a subdomain request
     if (hostname.endsWith(`.${ROOT_DOMAIN}`) && hostname !== `www.${ROOT_DOMAIN}`) {
@@ -41,27 +48,31 @@ export default {
 };
 
 /**
- * Handle subdomain requests: foo.bennyhartnett.com → serve /foo/ content
+ * Handle subdomain requests: foo.bennyhartnett.com → serve /pages/foo.html content
  */
 async function handleSubdomain(request, url, hostname) {
   const subdomain = hostname.replace(`.${ROOT_DOMAIN}`, '');
 
-  // Rewrite the URL to fetch from the main domain's path
+  // Rewrite the URL to fetch from the main domain's /pages/ directory
   const newUrl = new URL(url);
   newUrl.hostname = ROOT_DOMAIN;
 
-  // Prepend the subdomain as a path
-  if (url.pathname === '/') {
-    newUrl.pathname = `/${subdomain}/`;
+  // Map subdomain to /pages/{subdomain}.html
+  if (url.pathname === '/' || url.pathname === '') {
+    newUrl.pathname = `/pages/${subdomain}.html`;
   } else {
-    newUrl.pathname = `/${subdomain}${url.pathname}`;
+    // For subpaths like contact.bennyhartnett.com/something, pass through
+    return fetch(request);
   }
+
+  // Create new headers with internal marker to prevent redirect loops
+  const headers = new Headers(request.headers);
+  headers.set(INTERNAL_HEADER, 'true');
 
   // Fetch from origin with rewritten path
   const response = await fetch(newUrl.toString(), {
     method: request.method,
-    headers: request.headers,
-    body: request.body,
+    headers: headers,
   });
 
   return response;
