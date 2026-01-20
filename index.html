@@ -663,6 +663,8 @@
   <script type="module">
     import { initWaveBackground } from "./wave-background.js";
     window.initWaveBackground = initWaveBackground;
+    // Initialize immediately since modules execute after DOM is ready
+    initWaveBackground();
   </script>
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-GGGPH0X4LN"></script>
@@ -693,9 +695,8 @@
   </main>
 
   <script>
-    // Initialize background when loaded
+    // Initialize SPA router when DOM is ready
     window.addEventListener('DOMContentLoaded', () => {
-      window.initWaveBackground();
       const container = document.querySelector('#main-content');
       const canonicalTag = document.getElementById('canonical-link');
       const ogUrlTag = document.getElementById('og-url');
