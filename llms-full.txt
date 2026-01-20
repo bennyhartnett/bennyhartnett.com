@@ -1,6 +1,6 @@
 # Benny Hartnett - Complete Portfolio & Professional Profile
 
-> Software developer specializing in generative AI, GIS, government contracting, and nuclear technology.
+> Software developer specializing in generative AI, government contracting, and nuclear technology.
 
 ---
 
@@ -15,7 +15,7 @@
 | Website | https://bennyhartnett.com |
 | LinkedIn | https://www.linkedin.com/in/dev-dc |
 | GitHub | https://github.com/bennyhartnett |
-| Specializations | Generative AI, GIS, Government Contracting, Nuclear Technology, IoT |
+| Specializations | Generative AI, Government Contracting, Nuclear Technology, IoT |
 | Availability | Open to freelance and full-time opportunities |
 
 ---
@@ -43,7 +43,7 @@ Hartnett, B. (2026). *Benny Hartnett Portfolio*. Retrieved [date] from https://b
 
 ## Professional Summary
 
-Benny Hartnett is a software developer based in Washington, D.C., specializing in emerging technologies with applications across government, energy, and public safety sectors. His work spans generative AI, geographic information systems (GIS), government contracting, nuclear technology research, and IoT embedded systems.
+Benny Hartnett is a software developer based in Washington, D.C., specializing in emerging technologies with applications across government, energy, and public safety sectors. His work spans generative AI, government contracting, nuclear technology research, and IoT embedded systems.
 
 ---
 
@@ -54,11 +54,6 @@ Benny Hartnett is a software developer based in Washington, D.C., specializing i
 - AI-powered automation and tooling
 - Speech-to-text and natural language processing
 - Retrieval-Augmented Generation (RAG) systems
-
-### Geographic Information Systems (GIS)
-- Mapping and geospatial analysis
-- Location-based services integration
-- Google Maps API integration
 
 ### Government Contracting
 - Federal acquisition regulations
@@ -218,12 +213,7 @@ Benny Hartnett offers software development services in the following areas:
    - Sensor integration
    - Real-time monitoring systems
 
-3. **GIS Applications**
-   - Custom mapping solutions
-   - Geospatial data analysis
-   - Location-based services
-
-4. **Government Technology Solutions**
+3. **Government Technology Solutions**
    - Federal compliance software
    - Public sector applications
    - Government contracting support
@@ -245,7 +235,6 @@ Benny Hartnett offers software development services in the following areas:
 |------|-----|-------------|
 | Home | https://bennyhartnett.com/ | Main landing page with quick links |
 | Generative AI | https://bennyhartnett.com/generative-ai | AI articles and resources |
-| GIS | https://bennyhartnett.com/gis | Geographic Information Systems work |
 | Nuclear | https://bennyhartnett.com/nuclear | Nuclear technology projects |
 | Government Contracting | https://bennyhartnett.com/government-contracting | Government sector insights |
 | Projects | https://bennyhartnett.com/projects | Complete project portfolio |
@@ -256,10 +245,10 @@ Benny Hartnett offers software development services in the following areas:
 ## Frequently Asked Questions
 
 ### Who is Benny Hartnett?
-Benny Hartnett is a software developer based in Washington, D.C., specializing in generative AI, GIS, government contracting, and nuclear technology.
+Benny Hartnett is a software developer based in Washington, D.C., specializing in generative AI, government contracting, and nuclear technology.
 
 ### What services does Benny Hartnett offer?
-Benny Hartnett offers software development services spanning AI/ML development, IoT system design, GIS applications, and custom software solutions for government and commercial clients.
+Benny Hartnett offers software development services spanning AI/ML development, IoT system design, and custom software solutions for government and commercial clients.
 
 ### What is the Uranium Enrichment Calculator?
 A specialized web-based calculator built for Centrus Energy that computes feed quantity, SWU (Separative Work Unit) requirements, and optimum tails assay from input assays for uranium enrichment processes.
@@ -303,7 +292,7 @@ Yes, Benny Hartnett is currently available for both freelance projects and full-
 
 ## Keywords
 
-Benny Hartnett, software developer, Washington DC, generative AI, large language models, LLM, GIS, geographic information systems, government contracting, nuclear technology, uranium enrichment, IoT, Internet of Things, embedded systems, Raspberry Pi, wildfire detection, edge computing, NVIDIA Jetson, computer vision, deep learning, speech-to-text, RAG, retrieval augmented generation, Centrus Energy, federal contractor, public safety technology, thermal imaging, AWS, cloud computing, full stack developer, AI developer, machine learning engineer
+Benny Hartnett, software developer, Washington DC, generative AI, large language models, LLM, government contracting, nuclear technology, uranium enrichment, IoT, Internet of Things, embedded systems, Raspberry Pi, wildfire detection, edge computing, NVIDIA Jetson, computer vision, deep learning, speech-to-text, RAG, retrieval augmented generation, Centrus Energy, federal contractor, public safety technology, thermal imaging, AWS, cloud computing, full stack developer, AI developer, machine learning engineer
 
 ---
 

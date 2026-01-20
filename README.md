@@ -6,15 +6,14 @@ BennyHartnett.com is a minimalist static website built with plain HTML and a lit
 
 - **Animated wave background** &ndash; `index.html` draws a 3D wave using three.js and `SimplexNoise`. The waves react to mouse movement and smoothly cycle through colors.
 - **Responsive navigation** &ndash; On small screens, a hamburger button toggles the navigation links for easier mobile browsing.
-- **Modular pages** &ndash; Additional pages (`home.html`, `gis.html`, `nuclear.html`, `government-contracting.html`, `generative-ai.html`, and `privacy.html`) are simple templates that can be edited or replaced.
+- **Modular pages** &ndash; Additional pages (`home.html`, `nuclear.html`, `government-contracting.html`, `generative-ai.html`, and `privacy.html`) are simple templates that can be edited or replaced.
 - **No build step** &ndash; All dependencies load from CDNs, so you can open the files directly or serve them with a simple HTTP server.
 
 ## File Overview
 
 - `index.html` &ndash; Entry point that loads `home.html` via `fetch` and initializes the wave canvas.
 - `home.html` &ndash; Landing page with quick links such as email, GitHub, and LinkedIn.
-- `gis.html` &ndash; Placeholder for geographic information systems work.
- - `nuclear.html` &ndash; Placeholder summarizing nuclear projects.
+- `nuclear.html` &ndash; Placeholder summarizing nuclear projects.
 - `government-contracting.html` &ndash; Placeholder for government contracting information.
 - `generative-ai.html` &ndash; Placeholder about generative AI efforts.
 - `privacy.html` &ndash; Static privacy policy.
