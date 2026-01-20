@@ -49,31 +49,42 @@ export default {
 };
 
 /**
- * Handle subdomain requests: foo.bennyhartnett.com → serve /foo/ content
+ * Handle subdomain requests: foo.bennyhartnett.com → serve index.html
+ * The SPA will detect the subdomain and load the correct page content
  */
 async function handleSubdomain(request, url, hostname) {
   const subdomain = hostname.replace(`.${ROOT_DOMAIN}`, '');
 
-  // Rewrite the URL to fetch from the main domain's path
-  const newUrl = new URL(url);
-  newUrl.hostname = ROOT_DOMAIN;
+  // For static assets on subdomain, try to fetch from main domain
+  const isStaticAsset = url.pathname.match(/\.(js|css|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot|json|pdf|webp)$/i);
 
-  // Prepend the subdomain as a path
-  if (url.pathname === '/') {
-    newUrl.pathname = `/${subdomain}/`;
-  } else {
-    newUrl.pathname = `/${subdomain}${url.pathname}`;
+  if (isStaticAsset) {
+    // Fetch static asset from main domain
+    const assetUrl = new URL(url);
+    assetUrl.hostname = ROOT_DOMAIN;
+
+    const headers = new Headers(request.headers);
+    headers.set(INTERNAL_HEADER, '1');
+
+    return fetch(assetUrl.toString(), {
+      method: request.method,
+      headers: headers,
+    });
   }
 
-  // Fetch from origin with rewritten path
-  // Add internal header to prevent redirect loop
+  // For all other requests (HTML pages), serve index.html from main domain
+  // The SPA will detect the subdomain via window.location.hostname and load correct content
+  const indexUrl = new URL(url);
+  indexUrl.hostname = ROOT_DOMAIN;
+  indexUrl.pathname = '/';
+  indexUrl.search = '';
+
   const headers = new Headers(request.headers);
   headers.set(INTERNAL_HEADER, '1');
 
-  const response = await fetch(newUrl.toString(), {
+  const response = await fetch(indexUrl.toString(), {
     method: request.method,
     headers: headers,
-    body: request.body,
   });
 
   return response;

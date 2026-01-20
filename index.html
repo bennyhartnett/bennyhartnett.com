@@ -972,7 +972,13 @@
         // Skip SPA handling for nuclear page - do full page navigation
         if (href === 'nuclear.html' || href === '/nuclear.html' || href === '/nuclear') {
           e.preventDefault();
-          window.location.href = '/nuclear';
+          window.location.href = 'https://nuclear.bennyhartnett.com';
+          return;
+        }
+        // Handle home link - redirect to main domain
+        if (href === '/' || href === '/home' || href === 'home.html' || href === '/home.html') {
+          e.preventDefault();
+          window.location.href = 'https://bennyhartnett.com';
           return;
         }
         // Handle clean URLs (e.g., /resume, /contact) and .html URLs
@@ -980,16 +986,16 @@
         const isHtmlUrl = href && href.endsWith('.html') && !href.startsWith('http');
         if (isCleanUrl || isHtmlUrl) {
           e.preventDefault();
-          let pagePath;
+          let pageName;
           if (isCleanUrl) {
-            // Convert /resume to pages/resume.html
-            const pageName = href.substring(1); // Remove leading slash
-            pagePath = 'pages/' + pageName + '.html';
+            pageName = href.substring(1); // Remove leading slash
           } else {
-            // Handle .html URLs for backward compatibility
-            pagePath = href === 'nuclear.html' ? href : 'pages/' + href.replace(/^pages\//, '');
+            // Handle .html URLs - extract page name
+            pageName = href.replace(/^pages\//, '').replace(/\.html$/, '');
           }
-          loadContent(pagePath);
+          // Redirect to subdomain instead of SPA navigation
+          const targetUrl = 'https://' + pageName + '.bennyhartnett.com';
+          window.location.href = targetUrl;
         }
       });
 
@@ -1000,28 +1006,40 @@
         }
       });
 
-      // Determine initial page from pathname, sessionStorage redirect, or hash (legacy)
+      // Determine initial page from subdomain, pathname, sessionStorage redirect, or hash (legacy)
       let initial = 'pages/home.html';
 
-      // Check for SPA redirect from 404.html
-      const redirectPath = sessionStorage.getItem('spa-redirect');
-      if (redirectPath) {
-        sessionStorage.removeItem('spa-redirect');
-        // Convert redirect path to pages/ path (unless it's nuclear.html)
-        let pageName = redirectPath.endsWith('.html') ? redirectPath : redirectPath + '.html';
-        initial = pageName === 'nuclear.html' ? pageName : 'pages/' + pageName.replace(/^pages\//, '');
+      // Check for subdomain (e.g., contact.bennyhartnett.com → load contact page)
+      const hostname = location.hostname;
+      const rootDomain = 'bennyhartnett.com';
+      const isSubdomain = hostname.endsWith('.' + rootDomain) && hostname !== 'www.' + rootDomain;
+
+      if (isSubdomain) {
+        const subdomain = hostname.replace('.' + rootDomain, '');
+        initial = subdomain === 'nuclear' ? 'nuclear.html' : 'pages/' + subdomain + '.html';
       } else {
-        const path = location.pathname.replace(/^\//, '').replace(/\/$/, '');
-        if (path && path !== 'index.html' && path !== '') {
-          let pageName = path.endsWith('.html') ? path : path + '.html';
+        // Check for SPA redirect from 404.html
+        const redirectPath = sessionStorage.getItem('spa-redirect');
+        if (redirectPath) {
+          sessionStorage.removeItem('spa-redirect');
+          // Convert redirect path to pages/ path (unless it's nuclear.html)
+          let pageName = redirectPath.endsWith('.html') ? redirectPath : redirectPath + '.html';
           initial = pageName === 'nuclear.html' ? pageName : 'pages/' + pageName.replace(/^pages\//, '');
-        } else if (location.hash) {
-          let pageName = location.hash.substring(1);
-          initial = pageName === 'nuclear.html' ? pageName : 'pages/' + pageName.replace(/^pages\//, '');
+        } else {
+          const path = location.pathname.replace(/^\//, '').replace(/\/$/, '');
+          if (path && path !== 'index.html' && path !== '') {
+            let pageName = path.endsWith('.html') ? path : path + '.html';
+            initial = pageName === 'nuclear.html' ? pageName : 'pages/' + pageName.replace(/^pages\//, '');
+          } else if (location.hash) {
+            let pageName = location.hash.substring(1);
+            initial = pageName === 'nuclear.html' ? pageName : 'pages/' + pageName.replace(/^pages\//, '');
+          }
         }
       }
 
-      const cleanUrl = initial === 'pages/home.html' ? '/' : '/' + initial.replace('pages/', '').replace('.html', '');
+      // On subdomains, keep URL clean (just /) since subdomain implies the page
+      // On main domain, use path-based URL
+      const cleanUrl = isSubdomain ? '/' : (initial === 'pages/home.html' ? '/' : '/' + initial.replace('pages/', '').replace('.html', ''));
       history.replaceState({ url: initial }, '', cleanUrl);
       loadContent(initial, false);
     });
