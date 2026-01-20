@@ -6,6 +6,7 @@
  */
 
 const ROOT_DOMAIN = 'bennyhartnett.com';
+const ORIGIN = 'bennyhartnett.github.io'; // GitHub Pages origin - bypasses worker
 
 // Paths that should NOT be treated as subdomains (static assets, etc.)
 const EXCLUDED_PATHS = [
@@ -46,9 +47,9 @@ export default {
 async function handleSubdomain(request, url, hostname) {
   const subdomain = hostname.replace(`.${ROOT_DOMAIN}`, '');
 
-  // Rewrite the URL to fetch from the main domain's path
+  // Rewrite the URL to fetch directly from GitHub Pages origin (bypasses worker)
   const newUrl = new URL(url);
-  newUrl.hostname = ROOT_DOMAIN;
+  newUrl.hostname = ORIGIN;
 
   // Prepend the subdomain as a path
   if (url.pathname === '/') {
@@ -57,11 +58,10 @@ async function handleSubdomain(request, url, hostname) {
     newUrl.pathname = `/${subdomain}${url.pathname}`;
   }
 
-  // Fetch from origin with rewritten path
+  // Fetch directly from origin
   const response = await fetch(newUrl.toString(), {
     method: request.method,
     headers: request.headers,
-    body: request.body,
   });
 
   return response;
