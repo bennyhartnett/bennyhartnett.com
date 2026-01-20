@@ -8,10 +8,11 @@
   }
 
   .chat-container {
-    height: calc(100vh - 56px - 2rem);
+    height: calc(100vh - 56px - 2rem - 28px - env(safe-area-inset-bottom, 0px));
     display: flex;
     flex-direction: column;
     padding: 1rem;
+    padding-bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
     max-width: 800px;
     margin: 0 auto;
     overflow: hidden;
@@ -22,6 +23,7 @@
     margin-bottom: 1.5rem;
     padding-bottom: 1rem;
     border-bottom: 1px solid color-mix(in srgb, var(--wave-color, #6366f1) 30%, rgba(255, 255, 255, 0.1));
+    flex-shrink: 0;
   }
 
   .chat-header h1 {
@@ -38,6 +40,7 @@
 
   .chat-messages {
     flex: 1;
+    min-height: 0;
     overflow-y: auto;
     overflow-x: hidden;
     padding: 1rem 0;
@@ -318,8 +321,7 @@
   }
 
   .chat-input-container {
-    position: sticky;
-    bottom: 1rem;
+    flex-shrink: 0;
     background: color-mix(in srgb, var(--wave-color, #6366f1) 15%, rgba(0, 0, 0, 0.6));
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
@@ -509,7 +511,8 @@
   @media (max-width: 600px) {
     .chat-container {
       padding: 0.5rem;
-      height: calc(100vh - 56px - 1rem);
+      padding-bottom: calc(0.5rem + env(safe-area-inset-bottom, 0px));
+      height: calc(100vh - 56px - 1rem - 28px - env(safe-area-inset-bottom, 0px));
     }
 
     .chat-header h1 {
