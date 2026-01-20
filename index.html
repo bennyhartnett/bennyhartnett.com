@@ -380,7 +380,9 @@
       overflow-y: auto;
       /* Disable double-tap zoom on iOS */
       touch-action: manipulation;
-      background: #000;
+      /* Body is transparent to let canvas (z-index: -1) show through */
+      /* html provides fallback black background */
+      background: transparent;
       color: #fff;
     }
 
@@ -390,13 +392,16 @@
 
     /* iOS Safari dark mode safe areas */
     @supports (-webkit-touch-callout: none) {
-      html, body {
+      html {
         margin: 0;
         background: #000;
         color: #fff;
       }
 
       body {
+        margin: 0;
+        background: transparent;
+        color: #fff;
         padding-top: env(safe-area-inset-top);
         padding-bottom: env(safe-area-inset-bottom);
         overscroll-behavior: none;
@@ -419,8 +424,12 @@
 
     /* Reinforce dark mode for system */
     @media (prefers-color-scheme: dark) {
-      html, body {
+      html {
         background: #000;
+        color: #fff;
+      }
+      body {
+        background: transparent;
         color: #fff;
       }
     }
