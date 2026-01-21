@@ -673,7 +673,12 @@
     import { initWaveBackground } from "./wave-background.js";
     window.initWaveBackground = initWaveBackground;
     // Initialize immediately since modules execute after DOM is ready
-    initWaveBackground();
+    // Skip wave background on nuclear subdomain (it has its own gradient background)
+    const hostname = location.hostname;
+    const isNuclearSubdomain = hostname === 'nuclear.bennyhartnett.com';
+    if (!isNuclearSubdomain) {
+      initWaveBackground();
+    }
   </script>
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-GGGPH0X4LN"></script>
