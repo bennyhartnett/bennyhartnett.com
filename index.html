@@ -693,10 +693,10 @@
   <nav role="navigation" aria-label="Main navigation">
     <div class="nav-header">
       <div class="title" tabindex="0" role="button" aria-label="Go to home page">Benny Hartnett</div>
-
-
+      <div class="menu">
+        <a data-href="/contact">Contact</a>
+      </div>
     </div>
-
   </nav>
 
   <main id="main-content" class="content" role="main">
@@ -779,13 +779,13 @@
         if (title) {
           title.addEventListener('click', (e) => {
             e.preventDefault();
-            loadContent('pages/home.html');
+            window.location.href = 'https://bennyhartnett.com';
           });
           // Add keyboard support for accessibility
           title.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' || e.key === ' ') {
               e.preventDefault();
-              loadContent('pages/home.html');
+              window.location.href = 'https://bennyhartnett.com';
             }
           });
         }
