@@ -20,6 +20,7 @@ const EXCLUDED_PATHS = [
   'images',
   'css',
   'js',
+  'pages',
   '.well-known',
 ];
 
@@ -56,7 +57,8 @@ async function handleSubdomain(request, url, hostname) {
   const subdomain = hostname.replace(`.${ROOT_DOMAIN}`, '');
 
   // For static assets on subdomain, try to fetch from main domain
-  const isStaticAsset = url.pathname.match(/\.(js|css|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot|json|pdf|webp)$/i);
+  // NOTE: .html is included to allow SPA to fetch page fragments (e.g., pages/contact.html)
+  const isStaticAsset = url.pathname.match(/\.(js|css|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot|json|pdf|webp|html)$/i);
 
   if (isStaticAsset) {
     // Fetch static asset from main domain
