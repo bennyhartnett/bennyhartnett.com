@@ -30,50 +30,53 @@
   <div class="pdf-loading" id="pdf-loading">Loading resume...</div>
   <div class="pdf-pages" id="pdf-pages"></div>
 </div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script>
 (function() {
-  pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+  var script = document.createElement('script');
+  script.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
+  script.onload = function() {
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
-  var p = ['https://', 'benny', 'hartnett', '.com', '/assets', '/d/', 'r-', '8f3a', '2c9e', '7b1d', '.pdf'];
-  var url = p[0] + p[1] + p[2] + p[3] + p[4] + p[5] + p[6] + p[7] + p[8] + p[9] + p[10];
+    var p = ['https://', 'benny', 'hartnett', '.com', '/assets', '/d/', 'r-', '8f3a', '2c9e', '7b1d', '.pdf'];
+    var url = p[0] + p[1] + p[2] + p[3] + p[4] + p[5] + p[6] + p[7] + p[8] + p[9] + p[10];
 
-  var container = document.getElementById('pdf-pages');
-  var loading = document.getElementById('pdf-loading');
+    var container = document.getElementById('pdf-pages');
+    var loading = document.getElementById('pdf-loading');
 
-  pdfjsLib.getDocument(url).promise.then(function(pdf) {
-    loading.style.display = 'none';
+    pdfjsLib.getDocument(url).promise.then(function(pdf) {
+      loading.style.display = 'none';
 
-    var scale = Math.min(window.innerWidth * 0.95, 850) / 612; // 612 is standard PDF width in points
+      var scale = Math.min(window.innerWidth * 0.95, 850) / 612;
 
-    function renderPage(pageNum) {
-      return pdf.getPage(pageNum).then(function(page) {
-        var viewport = page.getViewport({ scale: scale });
-        var canvas = document.createElement('canvas');
-        var context = canvas.getContext('2d');
-        canvas.height = viewport.height;
-        canvas.width = viewport.width;
-        container.appendChild(canvas);
+      function renderPage(pageNum) {
+        return pdf.getPage(pageNum).then(function(page) {
+          var viewport = page.getViewport({ scale: scale });
+          var canvas = document.createElement('canvas');
+          var context = canvas.getContext('2d');
+          canvas.height = viewport.height;
+          canvas.width = viewport.width;
+          container.appendChild(canvas);
 
-        return page.render({
-          canvasContext: context,
-          viewport: viewport
-        }).promise;
-      });
-    }
-
-    // Render all pages sequentially
-    var renderPromise = Promise.resolve();
-    for (var i = 1; i <= pdf.numPages; i++) {
-      (function(pageNum) {
-        renderPromise = renderPromise.then(function() {
-          return renderPage(pageNum);
+          return page.render({
+            canvasContext: context,
+            viewport: viewport
+          }).promise;
         });
-      })(i);
-    }
-  }).catch(function(error) {
-    loading.textContent = 'Error loading PDF';
-    console.error('PDF load error:', error);
-  });
+      }
+
+      var renderPromise = Promise.resolve();
+      for (var i = 1; i <= pdf.numPages; i++) {
+        (function(pageNum) {
+          renderPromise = renderPromise.then(function() {
+            return renderPage(pageNum);
+          });
+        })(i);
+      }
+    }).catch(function(error) {
+      loading.textContent = 'Error loading PDF';
+      console.error('PDF load error:', error);
+    });
+  };
+  document.head.appendChild(script);
 })();
 </script>
