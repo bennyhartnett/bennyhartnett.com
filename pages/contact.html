@@ -218,12 +218,26 @@
     }
   }
 </style>
-<div class="contact-container">
+<div class="contact-container" itemscope itemtype="https://schema.org/ContactPage">
+  <!-- Hidden microdata for scrapers and search engines -->
+  <div class="h-card" itemscope itemtype="https://schema.org/Person" style="display:none;">
+    <span itemprop="name" class="p-name">Benny Hartnett</span>
+    <span itemprop="jobTitle" class="p-job-title">Software Developer & AI Engineer</span>
+    <a itemprop="email" class="u-email" href="mailto:me@bennyhartnett.com">me@bennyhartnett.com</a>
+    <a itemprop="url" class="u-url" href="https://bennyhartnett.com">https://bennyhartnett.com</a>
+    <span itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
+      <span itemprop="addressLocality" class="p-locality">Washington</span>,
+      <span itemprop="addressRegion" class="p-region">DC</span>,
+      <span itemprop="addressCountry" class="p-country-name">USA</span>
+    </span>
+    <a itemprop="sameAs" rel="me" href="https://github.com/bennyhartnett">GitHub</a>
+    <a itemprop="sameAs" rel="me" href="https://www.linkedin.com/in/dev-dc">LinkedIn</a>
+  </div>
   <form class="contact-form" action="https://formly.email/submit" method="POST">
     <input type="hidden" name="access_key" value="385292dab4c64964b1cd656cbc86fba1">
     <input type="hidden" name="redirect" value="https://bennyhartnett.com/thank-you">
-    <h1>Get in Touch</h1>
-    <p>Have a question or want to work together? Send me a message.</p>
+    <h1 itemprop="name">Get in Touch</h1>
+    <p itemprop="description">Have a question or want to work together? Send me a message.</p>
 
     <div class="form-group">
       <label for="name">Name</label>

@@ -169,13 +169,34 @@
     }
   }
 </style>
-<div class="home-container">
-<ul class="link-list">
-      <li><a data-href="https://github.com/bennyhartnett" data-external="true">GitHub</a></li>
-  <li><a data-href="https://www.linkedin.com/in/dev-dc" data-external="true">LinkedIn</a></li>
-  <li><a data-href="/resume">Resume</a></li>
-  <li><a data-href="/nuclear">Nuclear</a></li>
-  <li><a data-href="/contact">Contact</a></li>
+<div class="home-container" itemscope itemtype="https://schema.org/WebPage">
+  <!-- Hidden microdata for scrapers and search engines -->
+  <div class="h-card" itemscope itemtype="https://schema.org/Person" itemprop="mainEntity" style="display:none;">
+    <span itemprop="name" class="p-name">Benny Hartnett</span>
+    <span itemprop="jobTitle" class="p-job-title">Software Developer & AI Engineer</span>
+    <span itemprop="description">Software Developer & AI Engineer based in Washington D.C. Metropolitan Area specializing in generative AI, government contracting, and nuclear technology.</span>
+    <a itemprop="url" class="u-url" href="https://bennyhartnett.com">https://bennyhartnett.com</a>
+    <a itemprop="email" class="u-email" href="mailto:me@bennyhartnett.com">me@bennyhartnett.com</a>
+    <span itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
+      <span itemprop="addressLocality" class="p-locality">Washington</span>,
+      <span itemprop="addressRegion" class="p-region">DC</span>,
+      <span itemprop="addressCountry" class="p-country-name">USA</span>
+    </span>
+    <span itemprop="knowsAbout">Generative AI</span>
+    <span itemprop="knowsAbout">Large Language Models</span>
+    <span itemprop="knowsAbout">Government Contracting</span>
+    <span itemprop="knowsAbout">Nuclear Technology</span>
+    <span itemprop="knowsAbout">IoT</span>
+    <span itemprop="knowsAbout">Edge Computing</span>
+    <a itemprop="sameAs" rel="me" href="https://github.com/bennyhartnett">GitHub</a>
+    <a itemprop="sameAs" rel="me" href="https://www.linkedin.com/in/dev-dc">LinkedIn</a>
+  </div>
+<ul class="link-list" itemprop="mainContentOfPage">
+      <li><a data-href="https://github.com/bennyhartnett" data-external="true" itemprop="relatedLink">GitHub</a></li>
+  <li><a data-href="https://www.linkedin.com/in/dev-dc" data-external="true" itemprop="relatedLink">LinkedIn</a></li>
+  <li><a data-href="/resume" itemprop="relatedLink">Resume</a></li>
+  <li><a data-href="/nuclear" itemprop="relatedLink">Nuclear</a></li>
+  <li><a data-href="/contact" itemprop="relatedLink">Contact</a></li>
 </ul>
   </div>
 

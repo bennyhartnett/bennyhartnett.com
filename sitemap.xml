@@ -124,4 +124,17 @@
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
+  <!-- API and Feed files -->
+  <url>
+    <loc>https://bennyhartnett.com/openapi.yaml</loc>
+    <lastmod>2026-01-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://bennyhartnett.com/feed.xml</loc>
+    <lastmod>2026-01-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
 </urlset>

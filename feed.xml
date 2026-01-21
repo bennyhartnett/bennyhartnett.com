@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+     xmlns:atom="http://www.w3.org/2005/Atom"
+     xmlns:dc="http://purl.org/dc/elements/1.1/"
+     xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Benny Hartnett - Projects &amp; Updates</title>
+    <link>https://bennyhartnett.com</link>
+    <description>Software Developer &amp; AI Engineer based in Washington D.C. Metropolitan Area. Projects in generative AI, nuclear technology, IoT, and government contracting.</description>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 21 Jan 2026 00:00:00 GMT</lastBuildDate>
+    <pubDate>Tue, 21 Jan 2026 00:00:00 GMT</pubDate>
+    <managingEditor>me@bennyhartnett.com (Benny Hartnett)</managingEditor>
+    <webMaster>me@bennyhartnett.com (Benny Hartnett)</webMaster>
+    <generator>bennyhartnett.com</generator>
+    <docs>https://www.rssboard.org/rss-specification</docs>
+    <ttl>1440</ttl>
+    <image>
+      <url>https://bennyhartnett.com/assets/og-image.png</url>
+      <title>Benny Hartnett</title>
+      <link>https://bennyhartnett.com</link>
+      <width>144</width>
+      <height>144</height>
+    </image>
+    <atom:link href="https://bennyhartnett.com/feed.xml" rel="self" type="application/rss+xml"/>
+
+    <!-- Projects -->
+    <item>
+      <title>Uranium Enrichment Calculator</title>
+      <link>https://nuclear.bennyhartnett.com/</link>
+      <guid isPermaLink="true">https://nuclear.bennyhartnett.com/</guid>
+      <pubDate>Wed, 01 Jan 2025 00:00:00 GMT</pubDate>
+      <dc:creator>Benny Hartnett</dc:creator>
+      <category>Nuclear</category>
+      <category>Web Development</category>
+      <description>Built for Centrus Energy to compute feed quantity, SWU requirements, and optimum tails assay from input assays for uranium enrichment processes.</description>
+      <content:encoded><![CDATA[
+        <p>A specialized web-based calculator built for Centrus Energy that computes:</p>
+        <ul>
+          <li>Feed quantity requirements</li>
+          <li>SWU (Separative Work Unit) calculations</li>
+          <li>Optimum tails assay from input assays</li>
+        </ul>
+        <p><strong>Technologies:</strong> HTML, JavaScript</p>
+        <p><strong>Customer:</strong> Centrus Energy</p>
+      ]]></content:encoded>
+    </item>
+
+    <item>
+      <title>Edge Vehicle Make/Model Detection</title>
+      <link>https://projects.bennyhartnett.com/</link>
+      <guid isPermaLink="false">project-edge-vehicle-detection-2024</guid>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 GMT</pubDate>
+      <dc:creator>Benny Hartnett</dc:creator>
+      <category>AI</category>
+      <category>Edge Computing</category>
+      <category>Computer Vision</category>
+      <description>Using NVIDIA Jetson to detect vehicle make and model at the edge with computer vision and deep learning.</description>
+      <content:encoded><![CDATA[
+        <p>Edge computing project leveraging NVIDIA Jetson hardware for real-time vehicle identification.</p>
+        <p><strong>Technologies:</strong> NVIDIA Jetson, Computer Vision, Deep Learning</p>
+        <p><strong>Status:</strong> Concept</p>
+      ]]></content:encoded>
+    </item>
+
+    <item>
+      <title>Trunk Radio Speech Intelligence</title>
+      <link>https://projects.bennyhartnett.com/</link>
+      <guid isPermaLink="false">project-trunk-radio-2024</guid>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 GMT</pubDate>
+      <dc:creator>Benny Hartnett</dc:creator>
+      <category>AI</category>
+      <category>Emergency Services</category>
+      <category>Data Processing</category>
+      <description>Converts trunk radio audio to text with speech-to-text models, uses LLM with RAG for local code definitions and jargon, generates news feed and activity map.</description>
+      <content:encoded><![CDATA[
+        <p>Intelligent processing of emergency services radio communications:</p>
+        <ul>
+          <li>Speech-to-text conversion</li>
+          <li>LLM with RAG for local codes and jargon</li>
+          <li>Automated news feed generation</li>
+          <li>Activity mapping with camera feed integration</li>
+        </ul>
+        <p><strong>Technologies:</strong> Speech-to-Text, LLM, RAG, Mapping, Camera Feeds</p>
+        <p><strong>Status:</strong> Concept</p>
+      ]]></content:encoded>
+    </item>
+
+    <item>
+      <title>Subterranean Autonomous Vehicle</title>
+      <link>https://projects.bennyhartnett.com/</link>
+      <guid isPermaLink="false">project-subterranean-vehicle-2024</guid>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 GMT</pubDate>
+      <dc:creator>Benny Hartnett</dc:creator>
+      <category>Robotics</category>
+      <category>Underground</category>
+      <category>Autonomy</category>
+      <description>Concept for an underground autonomous vehicle capable of tunnel boring, seismic surveillance, and payload delivery.</description>
+      <content:encoded><![CDATA[
+        <p>Conceptual design for a subterranean autonomous platform with capabilities including:</p>
+        <ul>
+          <li>Tunnel boring</li>
+          <li>Seismic surveillance</li>
+          <li>Payload delivery</li>
+        </ul>
+        <p><strong>Technologies:</strong> LIDAR, ROS, Seismic Sensors, Autonomous Navigation</p>
+        <p><strong>Status:</strong> Concept</p>
+      ]]></content:encoded>
+    </item>
+
+    <item>
+      <title>IoT-based Wildfire Detection System</title>
+      <link>https://projects.bennyhartnett.com/</link>
+      <guid isPermaLink="false">project-wildfire-detection-2021</guid>
+      <pubDate>Fri, 01 Jan 2021 00:00:00 GMT</pubDate>
+      <dc:creator>Benny Hartnett</dc:creator>
+      <category>IoT</category>
+      <category>System Design</category>
+      <category>Embedded Programming</category>
+      <description>Designed and developed an IoT system for real-time wildfire detection and prevention, deployed on fire towers in remote high-risk areas.</description>
+      <content:encoded><![CDATA[
+        <p>IoT system for real-time wildfire detection and prevention:</p>
+        <ul>
+          <li>Deployed on fire towers in remote high-risk areas</li>
+          <li>Integrated AWS S3 image storage</li>
+          <li>Google Maps geolocation</li>
+          <li>Durable waterproof enclosure</li>
+        </ul>
+        <p><strong>Technologies:</strong> Raspberry Pi, FLIR Thermal Camera, GSM Chip, Servo Motors, AWS S3, Google Maps</p>
+        <p><strong>Customer:</strong> Perimeter</p>
+        <p><strong>Status:</strong> Active</p>
+      ]]></content:encoded>
+    </item>
+
+    <item>
+      <title>Frisbee Game in Unity</title>
+      <link>https://projects.bennyhartnett.com/</link>
+      <guid isPermaLink="false">project-frisbee-game-2017</guid>
+      <pubDate>Sun, 01 Jan 2017 00:00:00 GMT</pubDate>
+      <dc:creator>Benny Hartnett</dc:creator>
+      <category>3D Modeling</category>
+      <category>Game Design</category>
+      <category>Programming</category>
+      <description>A 3D frisbee game built using Unity targeting Oculus headsets, including 3D modeling in Trimble SketchUp.</description>
+      <content:encoded><![CDATA[
+        <p>VR frisbee game developed for Oculus headsets:</p>
+        <ul>
+          <li>Built with Unity game engine</li>
+          <li>3D modeling in Trimble SketchUp</li>
+          <li>VR optimized controls</li>
+        </ul>
+        <p><strong>Technologies:</strong> C#, Oculus, Trimble SketchUp</p>
+        <p><strong>Customer:</strong> Virginia TSA</p>
+        <p><strong>Type:</strong> Academic</p>
+      ]]></content:encoded>
+    </item>
+  </channel>
+</rss>

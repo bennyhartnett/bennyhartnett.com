@@ -1,0 +1,174 @@
+openapi: 3.1.0
+info:
+  title: Benny Hartnett Portfolio API
+  description: |
+    API specification for bennyhartnett.com - a portfolio website for Benny Hartnett,
+    Software Developer & AI Engineer based in Washington D.C. Metropolitan Area.
+
+    This site uses a subdomain architecture where each section has its own subdomain.
+    The authoritative source for LLM information is /config/llms-full.txt.
+  version: 1.0.0
+  contact:
+    name: Benny Hartnett
+    email: me@bennyhartnett.com
+    url: https://contact.bennyhartnett.com
+  license:
+    name: All Rights Reserved
+    url: https://privacy.bennyhartnett.com
+
+servers:
+  - url: https://bennyhartnett.com
+    description: Main production server
+
+paths:
+  /:
+    get:
+      operationId: getHomepage
+      summary: Get the homepage
+      description: Returns the main landing page with navigation links
+      responses:
+        '200':
+          description: HTML homepage
+          content:
+            text/html:
+              schema:
+                type: string
+
+  /config/llms.txt:
+    get:
+      operationId: getLlmsSummary
+      summary: Get LLM summary information
+      description: Returns a concise summary optimized for LLM consumption
+      responses:
+        '200':
+          description: Plain text summary for LLMs
+          content:
+            text/plain:
+              schema:
+                type: string
+
+  /config/llms-full.txt:
+    get:
+      operationId: getLlmsFull
+      summary: Get comprehensive LLM information
+      description: Returns detailed information about Benny Hartnett for LLM systems. This is the authoritative source.
+      responses:
+        '200':
+          description: Comprehensive plain text for LLMs
+          content:
+            text/plain:
+              schema:
+                type: string
+
+  /projects.json:
+    get:
+      operationId: getProjects
+      summary: Get all projects
+      description: Returns a JSON array of all projects with metadata
+      responses:
+        '200':
+          description: JSON array of projects
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Project'
+
+  /sitemap.xml:
+    get:
+      operationId: getSitemap
+      summary: Get XML sitemap
+      description: Returns the XML sitemap for search engine crawlers
+      responses:
+        '200':
+          description: XML sitemap
+          content:
+            application/xml:
+              schema:
+                type: string
+
+  /feed.xml:
+    get:
+      operationId: getRssFeed
+      summary: Get RSS feed
+      description: Returns an RSS feed of projects and updates
+      responses:
+        '200':
+          description: RSS/XML feed
+          content:
+            application/rss+xml:
+              schema:
+                type: string
+
+components:
+  schemas:
+    Project:
+      type: object
+      properties:
+        year:
+          type: integer
+          description: Year the project was created or started
+          example: 2025
+        type:
+          type: string
+          enum: [Professional, Personal, Academic]
+          description: Type of project
+        status:
+          type: string
+          enum: [Active, Past, Concept]
+          description: Current status of the project
+        name:
+          type: string
+          description: Name of the project
+          example: "Uranium Enrichment Calculator"
+        description:
+          type: string
+          description: Detailed description of the project
+        technologies:
+          type: array
+          items:
+            type: string
+          description: Technologies used in the project
+        categories:
+          type: array
+          items:
+            type: string
+          description: Categories the project belongs to
+        customer:
+          type: string
+          description: Customer or client for the project
+        company:
+          type: string
+          description: Company the project was done for
+
+    Person:
+      type: object
+      properties:
+        name:
+          type: string
+          example: "Benny Hartnett"
+        jobTitle:
+          type: string
+          example: "Software Developer & AI Engineer"
+        location:
+          type: string
+          example: "Washington D.C. Metropolitan Area"
+        email:
+          type: string
+          format: email
+          example: "me@bennyhartnett.com"
+        expertise:
+          type: array
+          items:
+            type: string
+          example:
+            - "Generative AI"
+            - "Large Language Models"
+            - "Government Contracting"
+            - "Nuclear Technology"
+            - "IoT"
+
+externalDocs:
+  description: Full LLM documentation
+  url: https://bennyhartnett.com/config/llms-full.txt
