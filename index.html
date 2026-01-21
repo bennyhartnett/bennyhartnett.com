@@ -668,6 +668,20 @@
       outline: 2px solid var(--wave-color);
       outline-offset: 2px;
     }
+
+    /* Nuclear subdomain gradient background */
+    .nuclear-gradient-bg {
+      background: linear-gradient(-45deg, #0ea5e9, #14b8a6, #06b6d4, #10b981, #0284c7, #0d9488) !important;
+      background-size: 400% 400% !important;
+      animation: nuclear-gradient 15s ease infinite;
+    }
+    @keyframes nuclear-gradient {
+      0% { background-position: 0% 50%; }
+      25% { background-position: 50% 100%; }
+      50% { background-position: 100% 50%; }
+      75% { background-position: 50% 0%; }
+      100% { background-position: 0% 50%; }
+    }
   </style>
   <script type="module">
     import { initWaveBackground } from "./wave-background.js";
@@ -676,7 +690,10 @@
     // Skip wave background on nuclear subdomain (it has its own gradient background)
     const hostname = location.hostname;
     const isNuclearSubdomain = hostname === 'nuclear.bennyhartnett.com';
-    if (!isNuclearSubdomain) {
+    if (isNuclearSubdomain) {
+      // Apply gradient background for nuclear subdomain
+      document.body.classList.add('nuclear-gradient-bg');
+    } else {
       initWaveBackground();
     }
   </script>
