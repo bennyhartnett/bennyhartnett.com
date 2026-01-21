@@ -34,5 +34,5 @@ LinkedIn: https://linkedin.bennyhartnett.com
 
 /* AI/LLM INFORMATION */
 This site is optimized for AI and LLM search engines.
-See /llms.txt for a summary or /llms-full.txt for comprehensive information.
+See /config/llms.txt for a summary or /config/llms-full.txt for comprehensive information.
 AI crawlers are welcome - see robots.txt for details.
