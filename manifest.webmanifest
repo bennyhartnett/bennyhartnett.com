@@ -1,14 +1,15 @@
 {
   "name": "SWU Calculator",
   "short_name": "SWU Calc",
-  "version": "1.0.5",
-  "start_url": "/nuclear",
+  "version": "1.0.6",
+  "start_url": "https://nuclear.bennyhartnett.com/",
+  "scope": "https://nuclear.bennyhartnett.com/",
   "display": "standalone",
   "background_color": "#0f172a",
   "theme_color": "#0f172a",
   "icons": [
     {
-      "src": "/centrus_icon.png",
+      "src": "https://bennyhartnett.com/centrus_icon.png",
       "sizes": "512x512",
       "type": "image/png"
     }

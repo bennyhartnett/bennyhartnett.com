@@ -1854,30 +1854,18 @@
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('/sw.js').then((registration) => {
-          // Check for updates on page load
-          registration.update();
-
-          // Listen for new service worker installing
+          // Listen for new service worker installing (browser handles update checks automatically)
           registration.addEventListener('updatefound', () => {
             const newWorker = registration.installing;
             newWorker.addEventListener('statechange', () => {
               if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                // New version available - activate it immediately
-                newWorker.postMessage('skipWaiting');
+                // New version available - show a subtle notification instead of auto-reloading
+                console.log('New version available. Refresh to update.');
               }
             });
           });
         }).catch((error) => {
           console.error('Service Worker registration failed:', error);
-        });
-
-        // Reload page when new service worker takes over
-        let refreshing = false;
-        navigator.serviceWorker.addEventListener('controllerchange', () => {
-          if (!refreshing) {
-            refreshing = true;
-            window.location.reload();
-          }
         });
       });
     }
