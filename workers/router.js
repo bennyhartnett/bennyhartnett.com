@@ -125,15 +125,19 @@ async function handleMainDomain(request, url) {
     return fetch(request);
   }
 
-  const firstSegment = pathParts[0];
+  let firstSegment = pathParts[0];
 
   // Check if this path should be excluded from subdomain redirect
   if (isExcludedPath(firstSegment)) {
     return fetch(request);
   }
 
-  // Check if the path looks like a file (has extension)
-  if (firstSegment.includes('.')) {
+  // Handle .html extension: strip it and redirect to subdomain
+  // e.g., /nuclear.html → nuclear.bennyhartnett.com
+  if (firstSegment.endsWith('.html')) {
+    firstSegment = firstSegment.slice(0, -5); // Remove '.html'
+  } else if (firstSegment.includes('.')) {
+    // Other file extensions (non-.html) should pass through
     return fetch(request);
   }
 
