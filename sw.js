@@ -1,6 +1,6 @@
 // Service Worker for SWU Calculator PWA
 // Version must be updated when deploying new code to bust cache
-const CACHE_VERSION = 'v46';
+const CACHE_VERSION = 'v47';
 const CACHE_NAME = `swu-calculator-${CACHE_VERSION}`;
 
 // Files to cache for offline use
@@ -11,11 +11,25 @@ const STATIC_ASSETS = [
   '/pages/home.html',
   '/nuclear',
   '/nuclear.html',
-  '/nuclear.js',
+  '/nuclear/nuclear.js',
+  '/nuclear/nuclear-math.js',
   '/centrus_icon.png',
-  '/manifest.webmanifest',
+  '/config/manifest.webmanifest',
   '/pages/chat.html',
-  '/assets/benny%20clear.png'
+  '/assets/benny%20clear.png',
+  // CSS files
+  '/css/main.css',
+  '/css/components.css',
+  '/css/animations.css',
+  // JS modules
+  '/js/spa-router.js',
+  '/js/meta-manager.js',
+  '/js/analytics.js',
+  '/wave-background.js',
+  // Config files
+  '/config/llms.txt',
+  '/config/llms-full.txt',
+  '/config/humans.txt'
 ];
 
 // Install event - cache static assets
@@ -46,7 +60,7 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// Fetch event - network-first strategy for JS/HTML, cache-first for assets
+// Fetch event - network-first strategy for JS/HTML/CSS, cache-first for assets
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
 
@@ -60,9 +74,10 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Network-first for HTML and JS files (ensures fresh code)
+  // Network-first for HTML, JS, and CSS files (ensures fresh code)
   if (url.pathname.endsWith('.html') ||
       url.pathname.endsWith('.js') ||
+      url.pathname.endsWith('.css') ||
       url.pathname === '/nuclear') {
     event.respondWith(
       fetch(event.request)

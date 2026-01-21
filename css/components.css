@@ -1,0 +1,133 @@
+/**
+ * Components Stylesheet
+ * Navigation, buttons, cards, and reusable UI components
+ */
+
+/* Navigation Bar */
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 8px 12px;
+  background: rgba(0, 0, 0, 0);
+  z-index: 100;
+}
+
+nav .nav-header {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+nav .title {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: -0.5px;
+  color: white;
+  font-size: 1.1em;
+  flex: 0 0 auto;
+  margin-right: 12px;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+nav .title:hover {
+  color: var(--wave-color);
+}
+
+nav .title:focus {
+  outline: 2px solid var(--wave-color);
+  outline-offset: 2px;
+}
+
+nav .search-bar {
+  display: block;
+  padding: 4px 8px;
+  font-size: 0.95em;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  margin-left: auto;
+}
+
+nav .menu {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  flex: 1 1 auto;
+  justify-content: flex-end;
+}
+
+nav .menu a {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  color: white;
+  text-decoration: none;
+  font-size: 0.95em;
+  white-space: nowrap;
+  padding: 4px 8px;
+  transition: color 0.3s ease;
+}
+
+nav .menu a i {
+  font-size: 1.1em;
+}
+
+nav .menu a:hover {
+  color: var(--wave-color);
+}
+
+nav .menu a:focus {
+  outline: 2px solid var(--wave-color);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.search-icon {
+  position: absolute;
+  right: 1rem;
+  top: 0.5rem;
+  color: white;
+  text-decoration: none;
+  font-size: 1.2em;
+}
+
+/* Responsive Navigation - Tablet and smaller */
+@media (max-width: 700px) {
+  nav {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  nav .title {
+    margin-bottom: 0;
+  }
+
+  nav .search-bar {
+    display: block;
+    margin-left: 12px;
+  }
+
+  nav .menu {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 8px;
+  }
+
+  nav .menu.open {
+    display: flex;
+  }
+}
+
+/* Responsive Navigation - Mobile */
+@media (max-width: 500px) {
+  nav .menu a {
+    font-size: 0.8em;
+    padding: 2px 4px;
+  }
+}
