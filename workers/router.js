@@ -80,8 +80,8 @@ async function handleSubdomain(request, url, hostname) {
     return Response.redirect(`https://sent.${ROOT_DOMAIN}/`, 301);
   }
 
-  // Nuclear subdomain: serve nuclear.html directly (it's a standalone page, not an SPA fragment)
-  if (subdomain === 'nuclear') {
+  // Nuclear subdomain (and centrus alias): serve nuclear.html directly (it's a standalone page, not an SPA fragment)
+  if (subdomain === 'nuclear' || subdomain === 'centrus') {
     const nuclearUrl = new URL(url);
     nuclearUrl.hostname = ROOT_DOMAIN;
     nuclearUrl.pathname = '/nuclear.html';
