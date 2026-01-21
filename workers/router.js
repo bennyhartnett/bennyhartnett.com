@@ -58,9 +58,11 @@ async function handleSubdomain(request, url, hostname) {
 
   // For static assets on subdomain, try to fetch from main domain
   // NOTE: .html is included to allow SPA to fetch page fragments (e.g., pages/contact.html)
+  // Also explicitly handle /pages/ directory requests to ensure page content loads
   const isStaticAsset = url.pathname.match(/\.(js|css|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot|json|pdf|webp|html)$/i);
+  const isPagesRequest = url.pathname.startsWith('/pages/');
 
-  if (isStaticAsset) {
+  if (isStaticAsset || isPagesRequest) {
     // Fetch static asset from main domain
     const assetUrl = new URL(url);
     assetUrl.hostname = ROOT_DOMAIN;
