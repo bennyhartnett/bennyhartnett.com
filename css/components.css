@@ -131,3 +131,30 @@ nav .menu a:focus {
     padding: 2px 4px;
   }
 }
+
+/* Mobile touch target sizes (WCAG 2.5.5 - minimum 44x44px) */
+@media (pointer: coarse) {
+  nav .menu a,
+  nav .title,
+  footer a {
+    min-height: var(--min-touch-target, 44px);
+    min-width: var(--min-touch-target, 44px);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Ensure buttons and links have adequate touch targets */
+  button,
+  [role="button"],
+  input[type="submit"],
+  input[type="button"] {
+    min-height: var(--min-touch-target, 44px);
+    min-width: var(--min-touch-target, 44px);
+  }
+
+  /* Add spacing between interactive elements */
+  nav .menu {
+    gap: 8px;
+  }
+}

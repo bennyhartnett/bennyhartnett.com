@@ -3,13 +3,25 @@
  * Base styles, typography, layout, and core visual elements
  */
 
-/* Import fonts */
+/* Import fonts with font-display: swap for better mobile performance */
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@600&family=Inter:wght@400;600&display=swap');
 
 /* CSS Variables */
 :root {
   --wave-color: blue;
   color-scheme: dark;
+  /* Mobile viewport height fix - svh accounts for browser chrome */
+  --vh-fallback: 1vh;
+  --vh: 1svh;
+  /* Minimum touch target size (WCAG 2.5.5) */
+  --min-touch-target: 44px;
+}
+
+/* Support check for small viewport units */
+@supports (height: 100svh) {
+  :root {
+    --vh: 1svh;
+  }
 }
 
 /* Base Reset and Typography */
@@ -126,6 +138,7 @@ select {
   display: block;
   width: 100%;
   height: 100vh;
+  height: 100svh; /* Mobile-friendly viewport height */
   position: fixed;
   top: 0;
   left: 0;
