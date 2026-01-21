@@ -594,6 +594,64 @@
       setTimeout(setMobileVh, 100);
     });
   </script>
+
+  <!-- Design Protection -->
+  <script>
+    (function() {
+      // Disable right-click context menu
+      document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        return false;
+      });
+
+      // Disable keyboard shortcuts for DevTools and View Source
+      document.addEventListener('keydown', function(e) {
+        // F12
+        if (e.key === 'F12' || e.keyCode === 123) {
+          e.preventDefault();
+          return false;
+        }
+        // Ctrl+Shift+I (DevTools)
+        if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.keyCode === 73)) {
+          e.preventDefault();
+          return false;
+        }
+        // Ctrl+Shift+J (Console)
+        if (e.ctrlKey && e.shiftKey && (e.key === 'J' || e.key === 'j' || e.keyCode === 74)) {
+          e.preventDefault();
+          return false;
+        }
+        // Ctrl+Shift+C (Inspect Element)
+        if (e.ctrlKey && e.shiftKey && (e.key === 'C' || e.key === 'c' || e.keyCode === 67)) {
+          e.preventDefault();
+          return false;
+        }
+        // Ctrl+U (View Source)
+        if (e.ctrlKey && (e.key === 'U' || e.key === 'u' || e.keyCode === 85)) {
+          e.preventDefault();
+          return false;
+        }
+        // Ctrl+S (Save Page)
+        if (e.ctrlKey && (e.key === 'S' || e.key === 's' || e.keyCode === 83)) {
+          e.preventDefault();
+          return false;
+        }
+      });
+
+      // Disable drag on images
+      document.addEventListener('dragstart', function(e) {
+        if (e.target.tagName === 'IMG') {
+          e.preventDefault();
+          return false;
+        }
+      });
+
+      // Disable text selection via CSS injection
+      var style = document.createElement('style');
+      style.textContent = 'body, .content, nav, footer, h1, h2, h3, h4, h5, h6, p, span, div, a, li { -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; } input, textarea, [contenteditable="true"] { -webkit-user-select: text; -moz-user-select: text; -ms-user-select: text; user-select: text; }';
+      document.head.appendChild(style);
+    })();
+  </script>
 </body>
 
 </html>
