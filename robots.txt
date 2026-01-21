@@ -3,7 +3,7 @@
 User-agent: *
 Allow: /
 Disallow: /assets/d/
-Disallow: /resume-download
+Disallow: /download
 
 # AI/LLM Crawlers - Welcome!
 # For AI assistants and LLM crawlers, see our dedicated files:
