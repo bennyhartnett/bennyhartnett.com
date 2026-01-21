@@ -596,6 +596,26 @@
       /* only horizontal padding to avoid extra height */
       font-family: 'Inter', sans-serif;
       color: white;
+      /* Page transition styles */
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    /* Page transition states */
+    .content.page-exit {
+      opacity: 0;
+      transform: translateY(-8px);
+    }
+
+    .content.page-enter {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+
+    .content.page-enter-active {
+      opacity: 1;
+      transform: translateY(0);
     }
 
 
@@ -811,146 +831,170 @@
           });
         }
 
-      function loadContent(url, push = true) {
-        fetch(url)
-          .then(r => {
-            if (!r.ok) throw new Error('Page not found');
-            return r.text();
-          })
-          .then(html => {
-            container.innerHTML = html;
-            // Execute any inline scripts from the loaded fragment
-            container.querySelectorAll('script').forEach(oldScript => {
-              const newScript = document.createElement('script');
-              if (oldScript.type) newScript.type = oldScript.type;
-              if (oldScript.src) {
-                newScript.src = oldScript.src;
-              } else {
-                newScript.textContent = oldScript.textContent;
-              }
-              oldScript.replaceWith(newScript);
-            });
-            const meta = metaMap[url] || metaMap['pages/home.html'];
-            document.title = meta.title;
-            const descTag = document.querySelector('meta[name="description"]');
-            if (descTag) descTag.setAttribute('content', meta.desc);
-            const canonical = document.querySelector('link[rel="canonical"]');
-            const ogUrl = document.querySelector('meta[property="og:url"]');
-            const fullUrl = (url === 'pages/home.html') ? baseUrl : baseUrl + url.replace('pages/', '').replace('.html', '');
-            if (canonical) canonical.setAttribute('href', fullUrl);
-            const ogTitle = document.querySelector('meta[property="og:title"]');
-            if (ogTitle) ogTitle.setAttribute('content', meta.title);
-            const ogDesc = document.querySelector('meta[property="og:description"]');
-            if (ogDesc) ogDesc.setAttribute('content', meta.desc);
-            if (ogUrl) ogUrl.setAttribute('content', fullUrl);
-            // Update OG image tags
-            const ogImage = document.getElementById('og-image');
-            const ogImageAlt = document.getElementById('og-image-alt');
-            if (ogImage) ogImage.setAttribute('content', meta.ogImage || baseOgImage);
-            if (ogImageAlt) ogImageAlt.setAttribute('content', meta.ogImageAlt || 'Benny Hartnett');
-            // Update Twitter Card meta tags
-            const twitterTitle = document.querySelector('meta[name="twitter:title"]');
-            if (twitterTitle) twitterTitle.setAttribute('content', meta.title);
-            const twitterDesc = document.querySelector('meta[name="twitter:description"]');
-            if (twitterDesc) twitterDesc.setAttribute('content', meta.desc);
-            const twitterImage = document.getElementById('twitter-image');
-            const twitterImageAlt = document.getElementById('twitter-image-alt');
-            if (twitterImage) twitterImage.setAttribute('content', meta.ogImage || baseOgImage);
-            if (twitterImageAlt) twitterImageAlt.setAttribute('content', meta.ogImageAlt || 'Benny Hartnett');
-            // Track page view in Google Analytics
-            if (typeof gtag === 'function') {
-              gtag('event', 'page_view', {
-                page_path: '/' + url.replace('.html', ''),
-                page_title: meta.title,
-                page_location: fullUrl
+      // Helper function to animate content entry
+      function animateContentEntry() {
+        container.classList.remove('page-exit');
+        container.classList.add('page-enter');
+        // Trigger reflow to ensure transition starts from enter state
+        container.offsetHeight;
+        container.classList.add('page-enter-active');
+        container.classList.remove('page-enter');
+        // Cleanup classes after animation
+        setTimeout(() => {
+          container.classList.remove('page-enter-active');
+        }, 300);
+      }
+
+      function loadContent(url, push = true, skipExitAnimation = false) {
+        // Start exit animation (skip on initial page load)
+        if (!skipExitAnimation) {
+          container.classList.add('page-exit');
+        }
+
+        // Wait for exit animation (or proceed immediately if skipped), then fetch and load new content
+        setTimeout(() => {
+          fetch(url)
+            .then(r => {
+              if (!r.ok) throw new Error('Page not found');
+              return r.text();
+            })
+            .then(html => {
+              container.innerHTML = html;
+              animateContentEntry();
+              // Execute any inline scripts from the loaded fragment
+              container.querySelectorAll('script').forEach(oldScript => {
+                const newScript = document.createElement('script');
+                if (oldScript.type) newScript.type = oldScript.type;
+                if (oldScript.src) {
+                  newScript.src = oldScript.src;
+                } else {
+                  newScript.textContent = oldScript.textContent;
+                }
+                oldScript.replaceWith(newScript);
               });
-            }
-            if (push) {
-              const cleanUrl = url === 'pages/home.html' ? '/' : '/' + url.replace('pages/', '').replace('.html', '');
-              history.pushState({ url }, '', cleanUrl);
-            }
-          })
-          .catch(() => {
-            if (url === 'pages/home.html') {
-              container.innerHTML = `\
-                <style>\
-                  .home-container { min-height: calc(100vh - 56px - 2rem); display: flex; justify-content: center; align-items: center; padding: 1rem; }\
-                  .link-list { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: center; }\
-                  .link-list li { margin: 0; }\
-                  .link-list a { display: block; color: white; text-decoration: none; font-size: 1.5rem; font-family: 'Inter', sans-serif; padding: 0.75rem; transition: color 0.3s ease; cursor: pointer; }\
-                  .link-list a:hover { color: var(--wave-color); }\
-                  @keyframes colorCycle { 0% { color: #6366f1; } 20% { color: #8b5cf6; } 40% { color: #ec4899; } 60% { color: #f59e0b; } 80% { color: #10b981; } 100% { color: #6366f1; } }\
-                  .chat-fab { position: fixed; bottom: 2rem; right: 2rem; height: 48px; padding: 0 1.25rem; border-radius: 24px; display: flex; align-items: center; justify-content: center; gap: 0.5rem; text-decoration: none; z-index: 99; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.2); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1); animation: colorCycle 8s ease-in-out infinite; transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease; }\
-                  .chat-fab svg { width: 22px; height: 22px; flex-shrink: 0; }\
-                  .chat-fab-text { font-size: 0.9rem; font-weight: 600; white-space: nowrap; letter-spacing: 0.02em; }\
-                  .chat-fab:hover { transform: scale(1.05); background: rgba(255, 255, 255, 0.15); }\
-                </style>\
-                <div class="home-container">\
-                <ul class="link-list">\
-                  <li><a data-href="https://www.linkedin.com/in/dev-dc" data-external="true">LinkedIn</a></li>\
-                  <li><a data-href="https://github.com/bennyhartnett" data-external="true">GitHub</a></li>\
-                  <li><a data-action="download-resume">Resume</a></li>\
-                  <li><a data-href="/nuclear">Nuclear</a></li>\
-                  <li><a data-href="/contact">Contact</a></li>\
-                </ul>\
-                </div>\
-                <a href="/chat" class="chat-fab" aria-label="Chat with Benny AI"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg><span class="chat-fab-text">Ask AI Benny</span></a>`;
-            } else if (url === 'pages/privacy.html') {
-              container.innerHTML = `
-                <style>
-                  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
-                  body { font-family: 'Inter', sans-serif; color: white; padding: 1rem; }
-                  a { color: white; text-decoration: none; transition: color 0.3s ease; }
-                  a:hover { color: var(--wave-color); }
-                </style>
-                <h1>Privacy Policy</h1>
-                <p>Last updated: ${new Date().getFullYear()}</p>
-                <p>We may collect personal or non-personal data for any purpose.</p>
-                <p>Contact <a href="#" class="copy-email" data-email="">email</a> for questions.</p><script>document.querySelector('.copy-email').dataset.email=window.getProtectedEmail();document.querySelector('.copy-email').textContent=window.getProtectedEmail();<\/script>`;
-            } else {
-              container.innerHTML = `
-                <style>
-                  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
-                  body { font-family: 'Inter', sans-serif; color: white; margin: 0; }
-                  .error-container {
-                    min-height: calc(100vh - 56px - 2rem);
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: center;
-                    align-items: center;
-                    padding: 1rem;
-                    text-align: center;
-                  }
-                  .error-code {
-                    font-size: 6rem;
-                    font-weight: 600;
-                    margin: 0;
-                    opacity: 0.3;
-                  }
-                  .error-message {
-                    font-size: 1.5rem;
-                    margin: 0.5rem 0 1.5rem 0;
-                  }
-                  .error-link {
-                    color: white;
-                    text-decoration: none;
-                    padding: 0.75rem 1.5rem;
-                    border: 1px solid rgba(255, 255, 255, 0.3);
-                    border-radius: 6px;
-                    transition: all 0.3s ease;
-                  }
-                  .error-link:hover {
-                    background: var(--wave-color);
-                    border-color: var(--wave-color);
-                  }
-                </style>
-                <div class="error-container">
-                  <p class="error-code">404</p>
-                  <p class="error-message">Page not found</p>
-                  <a href="/" class="error-link">Go Home</a>
-                </div>`;
-            }
-          });
+              const meta = metaMap[url] || metaMap['pages/home.html'];
+              document.title = meta.title;
+              const descTag = document.querySelector('meta[name="description"]');
+              if (descTag) descTag.setAttribute('content', meta.desc);
+              const canonical = document.querySelector('link[rel="canonical"]');
+              const ogUrl = document.querySelector('meta[property="og:url"]');
+              const fullUrl = (url === 'pages/home.html') ? baseUrl : baseUrl + url.replace('pages/', '').replace('.html', '');
+              if (canonical) canonical.setAttribute('href', fullUrl);
+              const ogTitle = document.querySelector('meta[property="og:title"]');
+              if (ogTitle) ogTitle.setAttribute('content', meta.title);
+              const ogDesc = document.querySelector('meta[property="og:description"]');
+              if (ogDesc) ogDesc.setAttribute('content', meta.desc);
+              if (ogUrl) ogUrl.setAttribute('content', fullUrl);
+              // Update OG image tags
+              const ogImage = document.getElementById('og-image');
+              const ogImageAlt = document.getElementById('og-image-alt');
+              if (ogImage) ogImage.setAttribute('content', meta.ogImage || baseOgImage);
+              if (ogImageAlt) ogImageAlt.setAttribute('content', meta.ogImageAlt || 'Benny Hartnett');
+              // Update Twitter Card meta tags
+              const twitterTitle = document.querySelector('meta[name="twitter:title"]');
+              if (twitterTitle) twitterTitle.setAttribute('content', meta.title);
+              const twitterDesc = document.querySelector('meta[name="twitter:description"]');
+              if (twitterDesc) twitterDesc.setAttribute('content', meta.desc);
+              const twitterImage = document.getElementById('twitter-image');
+              const twitterImageAlt = document.getElementById('twitter-image-alt');
+              if (twitterImage) twitterImage.setAttribute('content', meta.ogImage || baseOgImage);
+              if (twitterImageAlt) twitterImageAlt.setAttribute('content', meta.ogImageAlt || 'Benny Hartnett');
+              // Track page view in Google Analytics
+              if (typeof gtag === 'function') {
+                gtag('event', 'page_view', {
+                  page_path: '/' + url.replace('.html', ''),
+                  page_title: meta.title,
+                  page_location: fullUrl
+                });
+              }
+              if (push) {
+                const cleanUrl = url === 'pages/home.html' ? '/' : '/' + url.replace('pages/', '').replace('.html', '');
+                history.pushState({ url }, '', cleanUrl);
+              }
+            })
+            .catch(() => {
+              if (url === 'pages/home.html') {
+                container.innerHTML = `\
+                  <style>\
+                    .home-container { min-height: calc(100vh - 56px - 2rem); display: flex; justify-content: center; align-items: center; padding: 1rem; }\
+                    .link-list { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: center; }\
+                    .link-list li { margin: 0; }\
+                    .link-list a { display: block; color: white; text-decoration: none; font-size: 1.5rem; font-family: 'Inter', sans-serif; padding: 0.75rem; transition: color 0.3s ease; cursor: pointer; }\
+                    .link-list a:hover { color: var(--wave-color); }\
+                    @keyframes colorCycle { 0% { color: #6366f1; } 20% { color: #8b5cf6; } 40% { color: #ec4899; } 60% { color: #f59e0b; } 80% { color: #10b981; } 100% { color: #6366f1; } }\
+                    .chat-fab { position: fixed; bottom: 2rem; right: 2rem; height: 48px; padding: 0 1.25rem; border-radius: 24px; display: flex; align-items: center; justify-content: center; gap: 0.5rem; text-decoration: none; z-index: 99; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.2); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1); animation: colorCycle 8s ease-in-out infinite; transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease; }\
+                    .chat-fab svg { width: 22px; height: 22px; flex-shrink: 0; }\
+                    .chat-fab-text { font-size: 0.9rem; font-weight: 600; white-space: nowrap; letter-spacing: 0.02em; }\
+                    .chat-fab:hover { transform: scale(1.05); background: rgba(255, 255, 255, 0.15); }\
+                  </style>\
+                  <div class="home-container">\
+                  <ul class="link-list">\
+                    <li><a data-href="https://www.linkedin.com/in/dev-dc" data-external="true">LinkedIn</a></li>\
+                    <li><a data-href="https://github.com/bennyhartnett" data-external="true">GitHub</a></li>\
+                    <li><a data-action="download-resume">Resume</a></li>\
+                    <li><a data-href="/nuclear">Nuclear</a></li>\
+                    <li><a data-href="/contact">Contact</a></li>\
+                  </ul>\
+                  </div>\
+                  <a href="/chat" class="chat-fab" aria-label="Chat with Benny AI"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg><span class="chat-fab-text">Ask AI Benny</span></a>`;
+              } else if (url === 'pages/privacy.html') {
+                container.innerHTML = `
+                  <style>
+                    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+                    body { font-family: 'Inter', sans-serif; color: white; padding: 1rem; }
+                    a { color: white; text-decoration: none; transition: color 0.3s ease; }
+                    a:hover { color: var(--wave-color); }
+                  </style>
+                  <h1>Privacy Policy</h1>
+                  <p>Last updated: ${new Date().getFullYear()}</p>
+                  <p>We may collect personal or non-personal data for any purpose.</p>
+                  <p>Contact <a href="#" class="copy-email" data-email="">email</a> for questions.</p><script>document.querySelector('.copy-email').dataset.email=window.getProtectedEmail();document.querySelector('.copy-email').textContent=window.getProtectedEmail();<\/script>`;
+              } else {
+                container.innerHTML = `
+                  <style>
+                    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+                    body { font-family: 'Inter', sans-serif; color: white; margin: 0; }
+                    .error-container {
+                      min-height: calc(100vh - 56px - 2rem);
+                      display: flex;
+                      flex-direction: column;
+                      justify-content: center;
+                      align-items: center;
+                      padding: 1rem;
+                      text-align: center;
+                    }
+                    .error-code {
+                      font-size: 6rem;
+                      font-weight: 600;
+                      margin: 0;
+                      opacity: 0.3;
+                    }
+                    .error-message {
+                      font-size: 1.5rem;
+                      margin: 0.5rem 0 1.5rem 0;
+                    }
+                    .error-link {
+                      color: white;
+                      text-decoration: none;
+                      padding: 0.75rem 1.5rem;
+                      border: 1px solid rgba(255, 255, 255, 0.3);
+                      border-radius: 6px;
+                      transition: all 0.3s ease;
+                    }
+                    .error-link:hover {
+                      background: var(--wave-color);
+                      border-color: var(--wave-color);
+                    }
+                  </style>
+                  <div class="error-container">
+                    <p class="error-code">404</p>
+                    <p class="error-message">Page not found</p>
+                    <a href="/" class="error-link">Go Home</a>
+                  </div>`;
+              }
+              animateContentEntry();
+            });
+        }, skipExitAnimation ? 0 : 300); // Wait for exit animation (matches CSS transition duration)
       }
 
       document.body.addEventListener('click', (e) => {
@@ -1072,7 +1116,7 @@
       // On main domain, use path-based URL
       const cleanUrl = isSubdomain ? '/' : (initial === 'pages/home.html' ? '/' : '/' + initial.replace('pages/', '').replace('.html', ''));
       history.replaceState({ url: initial }, '', cleanUrl);
-      loadContent(initial, false);
+      loadContent(initial, false, true); // Skip exit animation on initial load
     });
   </script>
   <footer>
