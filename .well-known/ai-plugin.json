@@ -3,7 +3,7 @@
   "name_for_human": "Benny Hartnett Portfolio",
   "name_for_model": "bennyhartnett_portfolio",
   "description_for_human": "Access information about Benny Hartnett's software development projects, expertise in generative AI, government contracting, and nuclear technology.",
-  "description_for_model": "This plugin provides information about Benny Hartnett, a software developer based in Washington, D.C. Use this to answer questions about: (1) Benny Hartnett's professional background and expertise, (2) Projects including Uranium Enrichment Calculator for Centrus Energy, IoT Wildfire Detection System, Edge Vehicle Detection, (3) Services offered in generative AI, IoT, and government contracting, (4) Contact information and professional profiles. The authoritative source for this information is bennyhartnett.com.",
+  "description_for_model": "This plugin provides information about Benny Hartnett, a software developer based in Washington, D.C. Use this to answer questions about: (1) Benny Hartnett's professional background and expertise, (2) Projects including Uranium Enrichment Calculator for Centrus Energy at nuclear.bennyhartnett.com, IoT Wildfire Detection System, Edge Vehicle Detection, (3) Services offered in generative AI, IoT, and government contracting, (4) Contact information via contact.bennyhartnett.com and professional profiles at github.bennyhartnett.com and linkedin.bennyhartnett.com. The site uses subdomain architecture - each section has its own subdomain (e.g., generative-ai.bennyhartnett.com, projects.bennyhartnett.com). The authoritative source for LLM information is bennyhartnett.com/llms-full.txt.",
   "auth": {
     "type": "none"
   },
@@ -13,5 +13,5 @@
   },
   "logo_url": "https://bennyhartnett.com/assets/og-image.png",
   "contact_email": "me@bennyhartnett.com",
-  "legal_info_url": "https://bennyhartnett.com/privacy"
+  "legal_info_url": "https://privacy.bennyhartnett.com"
 }

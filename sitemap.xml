@@ -1,76 +1,126 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <!-- Main domain - Homepage -->
   <url>
     <loc>https://bennyhartnett.com/</loc>
-    <lastmod>2026-01-10</lastmod>
-    <changefreq>monthly</changefreq>
+    <lastmod>2026-01-21</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://bennyhartnett.com/assets/og-image.png</image:loc>
+      <image:title>Benny Hartnett - Software Developer</image:title>
+    </image:image>
+  </url>
+  <!-- Content subdomains -->
+  <url>
+    <loc>https://generative-ai.bennyhartnett.com/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://generative-ai.bennyhartnett.com/"/>
+    <lastmod>2026-01-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://bennyhartnett.com/assets/og-generative-ai.png</image:loc>
+      <image:title>Generative AI - Large Language Models and AI Development</image:title>
+    </image:image>
   </url>
   <url>
-    <loc>https://bennyhartnett.com/generative-ai</loc>
-    <lastmod>2026-01-06</lastmod>
+    <loc>https://nuclear.bennyhartnett.com/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nuclear.bennyhartnett.com/"/>
+    <lastmod>2026-01-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://bennyhartnett.com/assets/og-nuclear.png</image:loc>
+      <image:title>Nuclear Technology - Uranium Enrichment Calculator</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://government-contracting.bennyhartnett.com/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://government-contracting.bennyhartnett.com/"/>
+    <lastmod>2026-01-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://bennyhartnett.com/assets/og-government-contracting.png</image:loc>
+      <image:title>Government Contracting - Federal Technology Solutions</image:title>
+    </image:image>
   </url>
   <url>
-    <loc>https://bennyhartnett.com/nuclear</loc>
-    <lastmod>2026-01-10</lastmod>
+    <loc>https://projects.bennyhartnett.com/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://projects.bennyhartnett.com/"/>
+    <lastmod>2026-01-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://bennyhartnett.com/assets/og-projects.png</image:loc>
+      <image:title>Projects Portfolio - AI, IoT, Government Tech, and Nuclear</image:title>
+    </image:image>
   </url>
   <url>
-    <loc>https://bennyhartnett.com/government-contracting</loc>
-    <lastmod>2026-01-06</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://bennyhartnett.com/projects</loc>
-    <lastmod>2026-01-06</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://bennyhartnett.com/contact</loc>
-    <lastmod>2026-01-06</lastmod>
+    <loc>https://contact.bennyhartnett.com/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://contact.bennyhartnett.com/"/>
+    <lastmod>2026-01-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://bennyhartnett.com/privacy</loc>
-    <lastmod>2026-01-06</lastmod>
+    <loc>https://chat.bennyhartnett.com/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://chat.bennyhartnett.com/"/>
+    <lastmod>2026-01-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://privacy.bennyhartnett.com/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://privacy.bennyhartnett.com/"/>
+    <lastmod>2026-01-21</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
-  <!-- LLM-specific content files -->
+  <!-- External profile redirect subdomains -->
+  <url>
+    <loc>https://github.bennyhartnett.com/</loc>
+    <lastmod>2026-01-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://linkedin.bennyhartnett.com/</loc>
+    <lastmod>2026-01-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <!-- LLM-specific content files (served from main domain) -->
   <url>
     <loc>https://bennyhartnett.com/llms.txt</loc>
-    <lastmod>2026-01-06</lastmod>
-    <changefreq>monthly</changefreq>
+    <lastmod>2026-01-21</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://bennyhartnett.com/llms-full.txt</loc>
-    <lastmod>2026-01-06</lastmod>
-    <changefreq>monthly</changefreq>
+    <lastmod>2026-01-21</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <!-- Discovery files for crawlers and AI systems -->
   <url>
     <loc>https://bennyhartnett.com/humans.txt</loc>
-    <lastmod>2026-01-06</lastmod>
+    <lastmod>2026-01-21</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://bennyhartnett.com/.well-known/ai-plugin.json</loc>
-    <lastmod>2026-01-06</lastmod>
+    <lastmod>2026-01-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://bennyhartnett.com/.well-known/security.txt</loc>
-    <lastmod>2026-01-10</lastmod>
+    <lastmod>2026-01-21</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
