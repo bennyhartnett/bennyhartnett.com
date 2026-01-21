@@ -10,20 +10,14 @@ import { trackPageView } from './analytics.js';
 let container = null;
 
 /**
- * Move chat fab outside of content container for proper fixed positioning
- * (transform on .content breaks position:fixed)
+ * Remove any duplicate chat fab elements from loaded content
+ * (The global chat fab is in index.html, so we remove any from page fragments)
  */
-function moveChatFabOutsideContent() {
-  // Remove any existing chat fab from body (not in content)
-  const existingFab = document.body.querySelector(':scope > .chat-fab');
-  if (existingFab) {
-    existingFab.remove();
-  }
-
-  // Find chat fab in content and move it to body
-  const chatFab = container.querySelector('.chat-fab');
-  if (chatFab) {
-    document.body.appendChild(chatFab);
+function removeDuplicateChatFab() {
+  // Remove any chat fab from content (the global one in index.html is the canonical one)
+  const contentFab = container.querySelector('.chat-fab');
+  if (contentFab) {
+    contentFab.remove();
   }
 }
 
@@ -68,7 +62,7 @@ export function loadContent(url, push = true, skipExitAnimation = false) {
       })
       .then(html => {
         container.innerHTML = html;
-        moveChatFabOutsideContent();
+        removeDuplicateChatFab();
         animateContentEntry();
         // Execute any inline scripts from the loaded fragment
         container.querySelectorAll('script').forEach(oldScript => {
@@ -98,7 +92,7 @@ export function loadContent(url, push = true, skipExitAnimation = false) {
       })
       .catch(() => {
         renderFallbackContent(url);
-        moveChatFabOutsideContent();
+        removeDuplicateChatFab();
         animateContentEntry();
       });
   }, skipExitAnimation ? 0 : 300);
@@ -117,11 +111,6 @@ function renderFallbackContent(url) {
         .link-list li { margin: 0; }\
         .link-list a { display: block; color: white; text-decoration: none; font-size: 1.5rem; font-family: 'Inter', sans-serif; padding: 0.75rem; transition: color 0.3s ease; cursor: pointer; }\
         .link-list a:hover { color: var(--wave-color); }\
-        @keyframes colorCycle { 0% { color: #6366f1; } 20% { color: #8b5cf6; } 40% { color: #ec4899; } 60% { color: #f59e0b; } 80% { color: #10b981; } 100% { color: #6366f1; } }\
-        .chat-fab { position: fixed; bottom: 2rem; right: 2rem; height: 48px; padding: 0 1.25rem; border-radius: 24px; display: flex; align-items: center; justify-content: center; gap: 0.5rem; text-decoration: none; z-index: 99; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.2); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1); animation: colorCycle 8s ease-in-out infinite; transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease; }\
-        .chat-fab svg { width: 22px; height: 22px; flex-shrink: 0; }\
-        .chat-fab-text { font-size: 0.9rem; font-weight: 600; white-space: nowrap; letter-spacing: 0.02em; }\
-        .chat-fab:hover { transform: scale(1.05); background: rgba(255, 255, 255, 0.15); }\
       </style>\
       <div class="home-container">\
       <ul class="link-list">\
@@ -131,8 +120,7 @@ function renderFallbackContent(url) {
         <li><a data-href="/nuclear">Nuclear</a></li>\
         <li><a data-href="/contact">Contact</a></li>\
       </ul>\
-      </div>\
-      <a href="/chat" class="chat-fab" aria-label="Chat with Benny AI"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg><span class="chat-fab-text">Ask AI Benny</span></a>`;
+      </div>`;
   } else if (url === 'pages/privacy.html') {
     container.innerHTML = `
       <style>
