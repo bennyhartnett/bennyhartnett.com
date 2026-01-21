@@ -14,12 +14,18 @@
     min-height: calc(100svh - 56px); /* Mobile-friendly viewport height */
     padding: 20px 0;
   }
-  a.download-btn {
+  .resume-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+  a.download-btn,
+  button.theme-toggle-btn {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
     padding: 0.75rem 1.25rem;
-    margin-bottom: 1rem;
     border-radius: 24px;
     text-decoration: none;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -32,23 +38,51 @@
     border: 1px solid rgba(255, 255, 255, 0.2);
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
     transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+    cursor: pointer;
   }
-  a.download-btn:hover {
+  a.download-btn:hover,
+  button.theme-toggle-btn:hover {
     transform: scale(1.05);
     background: rgba(255, 255, 255, 0.15);
     box-shadow: 0 6px 24px rgba(0, 0, 0, 0.3);
+  }
+  a.download-btn:hover {
     animation: colorCycle 8s ease-in-out infinite;
   }
-  .download-btn:active {
+  .download-btn:active,
+  .theme-toggle-btn:active {
     transform: scale(0.95);
   }
-  .download-btn svg {
+  .download-btn svg,
+  .theme-toggle-btn svg {
     width: 18px;
     height: 18px;
+  }
+  .theme-toggle-btn .icon-sun,
+  .theme-toggle-btn .icon-moon {
+    display: none;
+  }
+  .theme-toggle-btn .icon-sun {
+    display: inline;
+  }
+  [data-resume-theme="dark"] .theme-toggle-btn .icon-sun {
+    display: none;
+  }
+  [data-resume-theme="dark"] .theme-toggle-btn .icon-moon {
+    display: inline;
   }
   .pdf-pages {
     box-shadow: 0 2px 10px rgba(0,0,0,0.3);
     background: white;
+    transition: filter 0.3s ease, background 0.3s ease;
+  }
+  /* Dark mode for resume */
+  [data-resume-theme="dark"] .pdf-pages {
+    background: #1a1a1a;
+    filter: invert(1) hue-rotate(180deg);
+  }
+  [data-resume-theme="dark"] .pdf-pages canvas {
+    filter: invert(1) hue-rotate(180deg);
   }
   .pdf-page {
     position: relative;
@@ -192,14 +226,33 @@
   }
 </style>
 <div class="pdf-container">
-  <a data-href="https://download.bennyhartnett.com" data-external="true" class="download-btn">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-      <polyline points="7 10 12 15 17 10"></polyline>
-      <line x1="12" y1="15" x2="12" y2="3"></line>
-    </svg>
-    Download My Resume
-  </a>
+  <div class="resume-actions">
+    <a data-href="https://download.bennyhartnett.com" data-external="true" class="download-btn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+        <polyline points="7 10 12 15 17 10"></polyline>
+        <line x1="12" y1="15" x2="12" y2="3"></line>
+      </svg>
+      Download My Resume
+    </a>
+    <button class="theme-toggle-btn" id="resume-theme-toggle" aria-label="Toggle dark mode">
+      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="5"></circle>
+        <line x1="12" y1="1" x2="12" y2="3"></line>
+        <line x1="12" y1="21" x2="12" y2="23"></line>
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+        <line x1="1" y1="12" x2="3" y2="12"></line>
+        <line x1="21" y1="12" x2="23" y2="12"></line>
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+      </svg>
+      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+      </svg>
+      <span class="theme-label">Dark</span>
+    </button>
+  </div>
   <div class="pdf-loading" id="pdf-loading">Loading resume...</div>
   <div class="pdf-pages" id="pdf-pages"></div>
 </div>
@@ -292,6 +345,31 @@
     });
   };
   document.head.appendChild(script);
+})();
+
+// Theme toggle functionality
+(function() {
+  var STORAGE_KEY = 'resume-theme';
+  var container = document.querySelector('.pdf-container');
+  var toggleBtn = document.getElementById('resume-theme-toggle');
+  var label = toggleBtn.querySelector('.theme-label');
+
+  function setTheme(theme) {
+    container.setAttribute('data-resume-theme', theme);
+    label.textContent = theme === 'dark' ? 'Light' : 'Dark';
+    localStorage.setItem(STORAGE_KEY, theme);
+  }
+
+  // Load saved preference (default to light)
+  var savedTheme = localStorage.getItem(STORAGE_KEY) || 'light';
+  if (savedTheme === 'dark') {
+    setTheme('dark');
+  }
+
+  toggleBtn.addEventListener('click', function() {
+    var currentTheme = container.getAttribute('data-resume-theme') || 'light';
+    setTheme(currentTheme === 'dark' ? 'light' : 'dark');
+  });
 })();
 </script>
 
