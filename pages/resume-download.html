@@ -48,10 +48,15 @@
     var p = ['/', 'assets', '/d/', 'r-', '8f3a', '2c9e', '7b1d', '.pdf'];
     var url = p[0] + p[1] + p[2] + p[3] + p[4] + p[5] + p[6] + p[7];
 
-    // Create download link
+    // Create download link with dynamic filename
+    var months = ['January', 'February', 'March', 'April', 'May', 'June',
+                  'July', 'August', 'September', 'October', 'November', 'December'];
+    var now = new Date();
+    var filename = 'Benny Hartnett - ' + months[now.getMonth()] + ' ' + now.getFullYear() + '.pdf';
+
     var a = document.createElement('a');
     a.href = url;
-    a.download = 'resume_benny_hartnett.pdf';
+    a.download = filename;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
