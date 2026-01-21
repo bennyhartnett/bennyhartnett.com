@@ -52,6 +52,7 @@ export default {
 /**
  * Handle subdomain requests: foo.bennyhartnett.com → serve index.html
  * The SPA will detect the subdomain and load the correct page content
+ * Exception: nuclear.bennyhartnett.com → serve nuclear.html directly (standalone page)
  */
 async function handleSubdomain(request, url, hostname) {
   const subdomain = hostname.replace(`.${ROOT_DOMAIN}`, '');
@@ -69,6 +70,22 @@ async function handleSubdomain(request, url, hostname) {
     headers.set(INTERNAL_HEADER, '1');
 
     return fetch(assetUrl.toString(), {
+      method: request.method,
+      headers: headers,
+    });
+  }
+
+  // Nuclear subdomain: serve nuclear.html directly (it's a standalone page, not an SPA fragment)
+  if (subdomain === 'nuclear') {
+    const nuclearUrl = new URL(url);
+    nuclearUrl.hostname = ROOT_DOMAIN;
+    nuclearUrl.pathname = '/nuclear.html';
+    nuclearUrl.search = '';
+
+    const headers = new Headers(request.headers);
+    headers.set(INTERNAL_HEADER, '1');
+
+    return fetch(nuclearUrl.toString(), {
       method: request.method,
       headers: headers,
     });
