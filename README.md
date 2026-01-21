@@ -62,7 +62,7 @@ The pages load the following libraries from public CDNs:
 
 - GitHub: [bennyhartnett](https://github.com/bennyhartnett)
 - LinkedIn: [dev-dc](https://www.linkedin.com/in/dev-dc)
-- Email: me@bennyhartnett.com
+ 
 
 ## License
 
