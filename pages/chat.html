@@ -9,6 +9,7 @@
 
   .chat-container {
     height: calc(100vh - 56px - 2rem - 28px - env(safe-area-inset-bottom, 0px));
+    height: calc(100svh - 56px - 2rem - 28px - env(safe-area-inset-bottom, 0px)); /* Mobile-friendly viewport height */
     display: flex;
     flex-direction: column;
     padding: 1rem;
@@ -558,6 +559,7 @@
       padding: 0.5rem;
       padding-bottom: calc(0.5rem + env(safe-area-inset-bottom, 0px));
       height: calc(100vh - 56px - 1rem - 28px - env(safe-area-inset-bottom, 0px));
+      height: calc(100svh - 56px - 1rem - 28px - env(safe-area-inset-bottom, 0px)); /* Mobile-friendly */
     }
 
     .chat-header {

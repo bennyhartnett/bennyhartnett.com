@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="color-scheme" content="dark" />
 
   <!-- Security Headers -->
@@ -18,6 +18,11 @@
   <link rel="preconnect" href="https://cdn.jsdelivr.net" />
   <link rel="preconnect" href="https://www.googletagmanager.com" />
   <link rel="dns-prefetch" href="https://ga.jspm.io" />
+
+  <!-- Preload critical CSS for faster mobile rendering -->
+  <link rel="preload" href="css/main.css" as="style" />
+  <link rel="preload" href="css/components.css" as="style" />
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" as="style" crossorigin />
 
   <title>Benny Hartnett</title>
   <meta name="description"
@@ -577,6 +582,17 @@
       const p = ['m', 'e', '@', 'b', 'e', 'n', 'n', 'y', 'h', 'a', 'r', 't', 'n', 'e', 't', 't', '.', 'c', 'o', 'm'];
       return p.join('');
     };
+
+    // Mobile viewport height fix - accounts for browser chrome
+    function setMobileVh() {
+      const vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh-fallback', vh + 'px');
+    }
+    setMobileVh();
+    window.addEventListener('resize', setMobileVh);
+    window.addEventListener('orientationchange', function() {
+      setTimeout(setMobileVh, 100);
+    });
   </script>
 </body>
 

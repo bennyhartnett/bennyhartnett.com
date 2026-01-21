@@ -7,6 +7,7 @@
   }
   .app-container {
     min-height: calc(100vh - 56px - 2rem);
+    min-height: calc(100svh - 56px - 2rem); /* Mobile-friendly viewport height */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -119,7 +120,7 @@
 
 <div class="app-container">
   <div class="app-card">
-    <img src="/centrus_icon.png" alt="SWU Calculator" class="app-icon">
+    <img src="/centrus_icon.png" alt="SWU Calculator" class="app-icon" loading="lazy" decoding="async">
     <h1 class="app-title">SWU Calculator</h1>
     <p class="app-subtitle">Uranium enrichment calculator for iOS</p>
 
