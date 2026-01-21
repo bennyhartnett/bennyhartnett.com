@@ -49,9 +49,37 @@
     box-shadow: 0 2px 10px rgba(0,0,0,0.3);
     background: white;
   }
-  .pdf-pages canvas {
+  .pdf-page {
+    position: relative;
+  }
+  .pdf-page canvas {
     display: block;
     background: transparent;
+  }
+  /* Text layer for selectable/searchable text */
+  .pdf-page .textLayer {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+    opacity: 0.2;
+    line-height: 1.0;
+    pointer-events: auto;
+  }
+  .pdf-page .textLayer > span {
+    color: transparent;
+    position: absolute;
+    white-space: pre;
+    transform-origin: 0% 0%;
+    cursor: text;
+  }
+  .pdf-page .textLayer ::selection {
+    background: rgba(0, 100, 200, 0.4);
+  }
+  .pdf-page .textLayer ::-moz-selection {
+    background: rgba(0, 100, 200, 0.4);
   }
   .pdf-loading {
     color: white;
@@ -179,21 +207,62 @@
     pdfjsLib.getDocument(url).promise.then(function(pdf) {
       loading.style.display = 'none';
 
-      var scale = Math.min(window.innerWidth * 0.95, 850) / 612;
+      // Calculate CSS width (max 850px or 95% of viewport)
+      var cssWidth = Math.min(window.innerWidth * 0.95, 850);
+      var baseScale = cssWidth / 612; // 612 is standard PDF width in points
+
+      // High-DPI rendering: use devicePixelRatio for crisp rendering
+      var pixelRatio = window.devicePixelRatio || 1;
+      var renderScale = baseScale * pixelRatio;
 
       function renderPage(pageNum) {
         return pdf.getPage(pageNum).then(function(page) {
-          var viewport = page.getViewport({ scale: scale });
+          // Get viewport at render scale (high DPI)
+          var viewport = page.getViewport({ scale: renderScale });
+          // Get viewport at CSS scale (for text layer positioning)
+          var cssViewport = page.getViewport({ scale: baseScale });
+
+          // Create page wrapper
+          var pageDiv = document.createElement('div');
+          pageDiv.className = 'pdf-page';
+          pageDiv.style.width = cssViewport.width + 'px';
+          pageDiv.style.height = cssViewport.height + 'px';
+
+          // Create and configure canvas (high resolution)
           var canvas = document.createElement('canvas');
           var context = canvas.getContext('2d');
-          canvas.height = viewport.height;
           canvas.width = viewport.width;
-          container.appendChild(canvas);
+          canvas.height = viewport.height;
+          // Scale canvas down via CSS for crisp display
+          canvas.style.width = cssViewport.width + 'px';
+          canvas.style.height = cssViewport.height + 'px';
+          pageDiv.appendChild(canvas);
 
-          return page.render({
+          // Create text layer div
+          var textLayerDiv = document.createElement('div');
+          textLayerDiv.className = 'textLayer';
+          pageDiv.appendChild(textLayerDiv);
+
+          container.appendChild(pageDiv);
+
+          // Render canvas
+          var renderTask = page.render({
             canvasContext: context,
             viewport: viewport
-          }).promise;
+          });
+
+          // Render text layer for selectable/searchable text
+          return renderTask.promise.then(function() {
+            return page.getTextContent();
+          }).then(function(textContent) {
+            // Use PDF.js text layer rendering
+            pdfjsLib.renderTextLayer({
+              textContentSource: textContent,
+              container: textLayerDiv,
+              viewport: cssViewport,
+              textDivs: []
+            });
+          });
         });
       }
 
