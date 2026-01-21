@@ -75,6 +75,11 @@ async function handleSubdomain(request, url, hostname) {
     });
   }
 
+  // Redirect thank-you subdomain to sent subdomain (at root)
+  if (subdomain === 'thank-you') {
+    return Response.redirect(`https://sent.${ROOT_DOMAIN}/`, 301);
+  }
+
   // Nuclear subdomain: serve nuclear.html directly (it's a standalone page, not an SPA fragment)
   if (subdomain === 'nuclear') {
     const nuclearUrl = new URL(url);
