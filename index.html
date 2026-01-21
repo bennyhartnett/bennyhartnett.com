@@ -355,6 +355,7 @@
   </script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@5/dark.min.css" />
+  <link rel="stylesheet" href="/css/shared-components.css" />
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
   <style>
     /* Import fonts */
@@ -434,24 +435,7 @@
       }
     }
 
-    /* Dark mode scrollbar */
-    ::-webkit-scrollbar {
-      width: 12px;
-    }
-    ::-webkit-scrollbar-track {
-      background: #111;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #444;
-      border-radius: 6px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: #555;
-    }
-    * {
-      scrollbar-width: thin;
-      scrollbar-color: #444 #111;
-    }
+    /* Dark mode scrollbar - moved to /css/shared-components.css */
 
     /* Invisible nav bar with responsive behavior */
     nav {
@@ -831,32 +815,33 @@
               oldScript.replaceWith(newScript);
             });
             const meta = metaMap[url] || metaMap['pages/home.html'];
-            document.title = meta.title;
-            const descTag = document.querySelector('meta[name="description"]');
-            if (descTag) descTag.setAttribute('content', meta.desc);
-            const canonical = document.querySelector('link[rel="canonical"]');
-            const ogUrl = document.querySelector('meta[property="og:url"]');
             const fullUrl = (url === 'pages/home.html') ? baseUrl : baseUrl + url.replace('pages/', '').replace('.html', '');
-            if (canonical) canonical.setAttribute('href', fullUrl);
-            const ogTitle = document.querySelector('meta[property="og:title"]');
-            if (ogTitle) ogTitle.setAttribute('content', meta.title);
-            const ogDesc = document.querySelector('meta[property="og:description"]');
-            if (ogDesc) ogDesc.setAttribute('content', meta.desc);
-            if (ogUrl) ogUrl.setAttribute('content', fullUrl);
-            // Update OG image tags
-            const ogImage = document.getElementById('og-image');
-            const ogImageAlt = document.getElementById('og-image-alt');
-            if (ogImage) ogImage.setAttribute('content', meta.ogImage || baseOgImage);
-            if (ogImageAlt) ogImageAlt.setAttribute('content', meta.ogImageAlt || 'Benny Hartnett');
-            // Update Twitter Card meta tags
-            const twitterTitle = document.querySelector('meta[name="twitter:title"]');
-            if (twitterTitle) twitterTitle.setAttribute('content', meta.title);
-            const twitterDesc = document.querySelector('meta[name="twitter:description"]');
-            if (twitterDesc) twitterDesc.setAttribute('content', meta.desc);
-            const twitterImage = document.getElementById('twitter-image');
-            const twitterImageAlt = document.getElementById('twitter-image-alt');
-            if (twitterImage) twitterImage.setAttribute('content', meta.ogImage || baseOgImage);
-            if (twitterImageAlt) twitterImageAlt.setAttribute('content', meta.ogImageAlt || 'Benny Hartnett');
+
+            // Helper to update meta tags by selector or id
+            const updateMeta = (selectorOrId, attr, value) => {
+              const el = selectorOrId.startsWith('#')
+                ? document.getElementById(selectorOrId.slice(1))
+                : document.querySelector(selectorOrId);
+              if (el) el.setAttribute(attr, value);
+            };
+
+            document.title = meta.title;
+
+            // Update all meta tags using mapping
+            const metaUpdates = [
+              ['meta[name="description"]', 'content', meta.desc],
+              ['link[rel="canonical"]', 'href', fullUrl],
+              ['meta[property="og:url"]', 'content', fullUrl],
+              ['meta[property="og:title"]', 'content', meta.title],
+              ['meta[property="og:description"]', 'content', meta.desc],
+              ['#og-image', 'content', meta.ogImage || baseOgImage],
+              ['#og-image-alt', 'content', meta.ogImageAlt || 'Benny Hartnett'],
+              ['meta[name="twitter:title"]', 'content', meta.title],
+              ['meta[name="twitter:description"]', 'content', meta.desc],
+              ['#twitter-image', 'content', meta.ogImage || baseOgImage],
+              ['#twitter-image-alt', 'content', meta.ogImageAlt || 'Benny Hartnett']
+            ];
+            metaUpdates.forEach(([sel, attr, val]) => updateMeta(sel, attr, val));
             // Track page view in Google Analytics
             if (typeof gtag === 'function') {
               gtag('event', 'page_view', {
