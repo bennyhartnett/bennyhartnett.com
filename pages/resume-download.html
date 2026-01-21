@@ -56,9 +56,12 @@
     a.click();
     document.body.removeChild(a);
 
-    // Redirect back after download starts
+    // Close this tab/window after download starts (for new tab flow)
+    // If window.close() fails (not opened by script), redirect to resume page
     setTimeout(function() {
-      window.location.href = '/resume';
+      window.close();
+      // Fallback: redirect to full URL to avoid loop on same subdomain
+      window.location.href = 'https://resume.bennyhartnett.com';
     }, 500);
   }, 300);
 })();
