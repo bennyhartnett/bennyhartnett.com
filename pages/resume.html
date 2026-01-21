@@ -12,7 +12,7 @@
     min-height: calc(100vh - 56px);
     padding: 20px 0;
   }
-  .download-btn {
+  a.download-btn {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
@@ -31,10 +31,11 @@
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
     transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
   }
-  .download-btn:hover {
+  a.download-btn:hover {
     transform: scale(1.05);
     background: rgba(255, 255, 255, 0.15);
     box-shadow: 0 6px 24px rgba(0, 0, 0, 0.3);
+    animation: colorCycle 8s ease-in-out infinite;
   }
   .download-btn:active {
     transform: scale(0.95);
@@ -156,7 +157,7 @@
       <polyline points="7 10 12 15 17 10"></polyline>
       <line x1="12" y1="15" x2="12" y2="3"></line>
     </svg>
-    Download PDF
+    Download My Resume
   </a>
   <div class="pdf-loading" id="pdf-loading">Loading resume...</div>
   <div class="pdf-pages" id="pdf-pages"></div>
