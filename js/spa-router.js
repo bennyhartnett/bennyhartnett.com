@@ -10,6 +10,24 @@ import { trackPageView } from './analytics.js';
 let container = null;
 
 /**
+ * Move chat fab outside of content container for proper fixed positioning
+ * (transform on .content breaks position:fixed)
+ */
+function moveChatFabOutsideContent() {
+  // Remove any existing chat fab from body (not in content)
+  const existingFab = document.body.querySelector(':scope > .chat-fab');
+  if (existingFab) {
+    existingFab.remove();
+  }
+
+  // Find chat fab in content and move it to body
+  const chatFab = container.querySelector('.chat-fab');
+  if (chatFab) {
+    document.body.appendChild(chatFab);
+  }
+}
+
+/**
  * Animate content entry after page load
  */
 function animateContentEntry() {
@@ -50,6 +68,7 @@ export function loadContent(url, push = true, skipExitAnimation = false) {
       })
       .then(html => {
         container.innerHTML = html;
+        moveChatFabOutsideContent();
         animateContentEntry();
         // Execute any inline scripts from the loaded fragment
         container.querySelectorAll('script').forEach(oldScript => {
@@ -79,6 +98,7 @@ export function loadContent(url, push = true, skipExitAnimation = false) {
       })
       .catch(() => {
         renderFallbackContent(url);
+        moveChatFabOutsideContent();
         animateContentEntry();
       });
   }, skipExitAnimation ? 0 : 300);
