@@ -1150,6 +1150,7 @@ END OF SOURCE OF TRUTH
 
   async function sendMessage(userMessage) {
     if (!userMessage.trim()) return;
+    if (sendButton.disabled) return; // Prevent sending while AI is responding
 
     // Add user message to UI
     addMessage(userMessage, 'user');
