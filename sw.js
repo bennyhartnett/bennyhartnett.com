@@ -6,6 +6,9 @@ const CACHE_NAME = `swu-calculator-${CACHE_VERSION}`;
 // Files to cache for offline use
 // Note: Only include actual files, not SPA routes (like /chat which redirects)
 const STATIC_ASSETS = [
+  '/',
+  '/index.html',
+  '/pages/home.html',
   '/nuclear',
   '/nuclear.html',
   '/nuclear.js',
