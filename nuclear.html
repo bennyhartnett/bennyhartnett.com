@@ -131,12 +131,39 @@
       .standalone-hide {
         display: none !important;
       }
-      /* Add safe area padding for notched devices */
+      /* Native app styling - remove card appearance, go full-width */
       body {
-        padding-top: env(safe-area-inset-top);
-        padding-bottom: env(safe-area-inset-bottom);
-        padding-left: env(safe-area-inset-left);
-        padding-right: env(safe-area-inset-right);
+        padding: 0 !important;
+        background: #f8fafc !important; /* slate-50 */
+      }
+      .dark body {
+        background: #1e293b !important; /* slate-800 */
+      }
+      /* Make main content full-width and native-feeling */
+      main {
+        max-width: 100% !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        --tw-ring-shadow: none !important;
+        --tw-ring-offset-shadow: none !important;
+        padding-top: calc(env(safe-area-inset-top) + 1rem) !important;
+        padding-bottom: calc(env(safe-area-inset-bottom) + 1.5rem) !important;
+        padding-left: calc(env(safe-area-inset-left) + 1rem) !important;
+        padding-right: calc(env(safe-area-inset-right) + 1rem) !important;
+        min-height: 100vh;
+        background: #f8fafc !important; /* slate-50 */
+      }
+      .dark main {
+        background: #1e293b !important; /* slate-800 */
+      }
+      /* Adjust header positioning for safe areas */
+      header {
+        padding-top: 0.5rem;
+      }
+      /* Dark mode toggle positioning for standalone */
+      #darkModeToggle {
+        top: calc(env(safe-area-inset-top) + 0.5rem) !important;
+        right: calc(env(safe-area-inset-right) + 0.5rem) !important;
       }
     }
     /* JS-based standalone class (for Safari iOS which doesn't support display-mode) */
@@ -144,10 +171,31 @@
       display: none !important;
     }
     .standalone body {
-      padding-top: env(safe-area-inset-top);
-      padding-bottom: env(safe-area-inset-bottom);
-      padding-left: env(safe-area-inset-left);
-      padding-right: env(safe-area-inset-right);
+      padding: 0 !important;
+      background: #f8fafc !important;
+    }
+    .standalone.dark body {
+      background: #1e293b !important;
+    }
+    .standalone main {
+      max-width: 100% !important;
+      border-radius: 0 !important;
+      box-shadow: none !important;
+      --tw-ring-shadow: none !important;
+      --tw-ring-offset-shadow: none !important;
+      padding-top: calc(env(safe-area-inset-top) + 1rem) !important;
+      padding-bottom: calc(env(safe-area-inset-bottom) + 1.5rem) !important;
+      padding-left: calc(env(safe-area-inset-left) + 1rem) !important;
+      padding-right: calc(env(safe-area-inset-right) + 1rem) !important;
+      min-height: 100vh;
+      background: #f8fafc !important;
+    }
+    .standalone.dark main {
+      background: #1e293b !important;
+    }
+    .standalone #darkModeToggle {
+      top: calc(env(safe-area-inset-top) + 0.5rem) !important;
+      right: calc(env(safe-area-inset-right) + 0.5rem) !important;
     }
     /* Disable double-tap zoom on iOS */
     html, body {
