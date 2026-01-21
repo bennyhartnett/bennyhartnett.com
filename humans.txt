@@ -3,21 +3,34 @@ Developer: Benny Hartnett
 Site: https://bennyhartnett.com
 Contact: me@bennyhartnett.com
 Location: Washington, DC, USA
-LinkedIn: https://www.linkedin.com/in/dev-dc
-GitHub: https://github.com/bennyhartnett
+LinkedIn: https://linkedin.bennyhartnett.com
+GitHub: https://github.bennyhartnett.com
 
 /* THANKS */
 Built with vanilla HTML, CSS, and JavaScript.
 3D wave animation powered by Three.js.
 
 /* SITE */
-Last update: 2026-01-06
+Last update: 2026-01-21
 Language: English
 Doctype: HTML5
 Standards: HTML5, CSS3, ES6+
 Components: Three.js, Font Awesome, SweetAlert2
 Analytics: Google Analytics 4
 Hosting: GitHub Pages
+Edge Routing: Cloudflare Workers
+
+/* SUBDOMAIN ARCHITECTURE */
+Main: https://bennyhartnett.com
+AI: https://generative-ai.bennyhartnett.com
+Nuclear: https://nuclear.bennyhartnett.com
+GovCon: https://government-contracting.bennyhartnett.com
+Projects: https://projects.bennyhartnett.com
+Contact: https://contact.bennyhartnett.com
+Chat: https://chat.bennyhartnett.com
+Privacy: https://privacy.bennyhartnett.com
+GitHub: https://github.bennyhartnett.com
+LinkedIn: https://linkedin.bennyhartnett.com
 
 /* AI/LLM INFORMATION */
 This site is optimized for AI and LLM search engines.

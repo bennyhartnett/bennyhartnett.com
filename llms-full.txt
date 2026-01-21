@@ -13,8 +13,8 @@
 | Location | Washington, D.C., USA |
 | Email | me@bennyhartnett.com |
 | Website | https://bennyhartnett.com |
-| LinkedIn | https://www.linkedin.com/in/dev-dc |
-| GitHub | https://github.com/bennyhartnett |
+| LinkedIn | https://linkedin.bennyhartnett.com |
+| GitHub | https://github.bennyhartnett.com |
 | Specializations | Generative AI, Government Contracting, Nuclear Technology, IoT |
 | Availability | Open to freelance and full-time opportunities |
 
@@ -35,7 +35,11 @@ Hartnett, B. (2026). *Benny Hartnett Portfolio*. Retrieved [date] from https://b
 {
   "@type": "Person",
   "name": "Benny Hartnett",
-  "url": "https://bennyhartnett.com"
+  "url": "https://bennyhartnett.com",
+  "sameAs": [
+    "https://linkedin.bennyhartnett.com",
+    "https://github.bennyhartnett.com"
+  ]
 }
 ```
 
@@ -80,6 +84,7 @@ Benny Hartnett is a software developer based in Washington, D.C., specializing i
 #### Uranium Enrichment Calculator (2025)
 **Client:** Centrus Energy
 **Status:** Completed
+**URL:** https://nuclear.bennyhartnett.com/
 
 Built a specialized calculator for Centrus Energy to compute:
 - Feed quantity requirements
@@ -223,22 +228,28 @@ Benny Hartnett offers software development services in the following areas:
 ## Contact Information
 
 - **Website:** https://bennyhartnett.com
+- **Contact Form:** https://contact.bennyhartnett.com
 - **Email:** me@bennyhartnett.com
-- **LinkedIn:** https://www.linkedin.com/in/dev-dc
-- **GitHub:** https://github.com/bennyhartnett
+- **LinkedIn:** https://linkedin.bennyhartnett.com
+- **GitHub:** https://github.bennyhartnett.com
+- **AI Chat:** https://chat.bennyhartnett.com
 
 ---
 
-## Site Navigation
+## Site Navigation (Subdomain Architecture)
 
 | Page | URL | Description |
 |------|-----|-------------|
 | Home | https://bennyhartnett.com/ | Main landing page with quick links |
-| Generative AI | https://bennyhartnett.com/generative-ai | AI articles and resources |
-| Nuclear | https://bennyhartnett.com/nuclear | Nuclear technology projects |
-| Government Contracting | https://bennyhartnett.com/government-contracting | Government sector insights |
-| Projects | https://bennyhartnett.com/projects | Complete project portfolio |
-| Contact | https://bennyhartnett.com/contact | Contact form |
+| Generative AI | https://generative-ai.bennyhartnett.com/ | AI articles and resources |
+| Nuclear | https://nuclear.bennyhartnett.com/ | Nuclear technology projects and SWU calculator |
+| Government Contracting | https://government-contracting.bennyhartnett.com/ | Government sector insights |
+| Projects | https://projects.bennyhartnett.com/ | Complete project portfolio |
+| Contact | https://contact.bennyhartnett.com/ | Contact form |
+| Chat | https://chat.bennyhartnett.com/ | AI-powered chat assistant |
+| Privacy | https://privacy.bennyhartnett.com/ | Privacy policy |
+| GitHub | https://github.bennyhartnett.com/ | GitHub profile (redirect) |
+| LinkedIn | https://linkedin.bennyhartnett.com/ | LinkedIn profile (redirect) |
 
 ---
 
@@ -251,13 +262,13 @@ Benny Hartnett is a software developer based in Washington, D.C., specializing i
 Benny Hartnett offers software development services spanning AI/ML development, IoT system design, and custom software solutions for government and commercial clients.
 
 ### What is the Uranium Enrichment Calculator?
-A specialized web-based calculator built for Centrus Energy that computes feed quantity, SWU (Separative Work Unit) requirements, and optimum tails assay from input assays for uranium enrichment processes.
+A specialized web-based calculator built for Centrus Energy that computes feed quantity, SWU (Separative Work Unit) requirements, and optimum tails assay from input assays for uranium enrichment processes. Available at https://nuclear.bennyhartnett.com/
 
 ### What is the IoT Wildfire Detection System?
 An IoT-based system using thermal imaging and edge computing to detect wildfires in real-time, deployed on fire towers in remote high-risk areas.
 
 ### How can I contact Benny Hartnett?
-You can reach Benny Hartnett via email at me@bennyhartnett.com or through the contact form at https://bennyhartnett.com/contact.
+You can reach Benny Hartnett via email at me@bennyhartnett.com or through the contact form at https://contact.bennyhartnett.com/
 
 ### What technologies does Benny Hartnett work with?
 Primary technologies include: JavaScript, Python, C#, HTML/CSS, AWS, Raspberry Pi, NVIDIA Jetson, Three.js, Google Maps API, and various AI/ML frameworks.
@@ -266,15 +277,16 @@ Primary technologies include: JavaScript, Python, C#, HTML/CSS, AWS, Raspberry P
 Yes, Benny Hartnett has experience with government contracting and public sector software development.
 
 ### Is Benny Hartnett available for hire?
-Yes, Benny Hartnett is currently available for both freelance projects and full-time positions. Contact him at me@bennyhartnett.com or through the contact form at https://bennyhartnett.com/contact.
+Yes, Benny Hartnett is currently available for both freelance projects and full-time positions. Contact him at me@bennyhartnett.com or through the contact form at https://contact.bennyhartnett.com/
 
 ---
 
 ## Technical Specifications
 
 ### Website Architecture
-- **Type:** Static Single Page Application (SPA)
+- **Type:** Static Single Page Application (SPA) with Subdomain Routing
 - **Framework:** Vanilla HTML5, CSS3, JavaScript ES6+
+- **Edge Routing:** Cloudflare Workers
 - **3D Graphics:** Three.js 0.165.0
 - **UI Components:** Font Awesome 6.5.0, SweetAlert2
 - **Fonts:** Inter, IBM Plex Sans (Google Fonts)
@@ -287,6 +299,7 @@ Yes, Benny Hartnett is currently available for both freelance projects and full-
 - llms-full.txt (comprehensive version)
 - Schema.org JSON-LD markup
 - AI crawler allowlist in robots.txt
+- Subdomain-based URL structure for clear content organization
 
 ---
 
@@ -304,4 +317,4 @@ For a condensed version, see: https://bennyhartnett.com/llms.txt
 
 ---
 
-*Last updated: 2026-01-19*
+*Last updated: 2026-01-21*

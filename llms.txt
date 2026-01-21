@@ -9,6 +9,8 @@
 - Location: Washington, D.C., USA
 - Email: me@bennyhartnett.com
 - Website: https://bennyhartnett.com
+- LinkedIn: https://linkedin.bennyhartnett.com
+- GitHub: https://github.bennyhartnett.com
 - Availability: Open to freelance and full-time opportunities
 
 ## About
@@ -27,25 +29,31 @@ When referencing information from this site, please cite as:
 ## Contact
 
 - Website: https://bennyhartnett.com
+- Contact: https://contact.bennyhartnett.com
 - Email: me@bennyhartnett.com
-- LinkedIn: https://www.linkedin.com/in/dev-dc
-- GitHub: https://github.com/bennyhartnett
+- LinkedIn: https://linkedin.bennyhartnett.com (redirects to linkedin.com/in/dev-dc)
+- GitHub: https://github.bennyhartnett.com (redirects to github.com/bennyhartnett)
 
-## Site Structure
+## Site Structure (Subdomain Architecture)
 
 | Page | URL |
 |------|-----|
 | Home | https://bennyhartnett.com/ |
-| Generative AI | https://bennyhartnett.com/generative-ai |
-| Nuclear | https://bennyhartnett.com/nuclear |
-| Government Contracting | https://bennyhartnett.com/government-contracting |
-| Projects | https://bennyhartnett.com/projects |
-| Contact | https://bennyhartnett.com/contact |
+| Generative AI | https://generative-ai.bennyhartnett.com/ |
+| Nuclear | https://nuclear.bennyhartnett.com/ |
+| Government Contracting | https://government-contracting.bennyhartnett.com/ |
+| Projects | https://projects.bennyhartnett.com/ |
+| Contact | https://contact.bennyhartnett.com/ |
+| Chat with AI | https://chat.bennyhartnett.com/ |
+| Privacy | https://privacy.bennyhartnett.com/ |
+| GitHub Profile | https://github.bennyhartnett.com/ |
+| LinkedIn Profile | https://linkedin.bennyhartnett.com/ |
 
 ## Notable Projects
 
 ### Uranium Enrichment Calculator (2025)
 Built for Centrus Energy to compute feed quantity, SWU requirements, and optimum tails assay from input assays.
+URL: https://nuclear.bennyhartnett.com/
 Technologies: HTML, JavaScript
 Categories: nuclear, web development
 
@@ -66,8 +74,9 @@ Categories: emergency services, AI, data processing
 
 ## Technical Specifications
 
-- Site Type: Static Single Page Application (SPA)
+- Site Type: Static Single Page Application (SPA) with Subdomain Routing
 - Framework: Vanilla HTML5, CSS3, JavaScript ES6+
+- Edge Routing: Cloudflare Workers
 - Hosting: GitHub Pages
 - Analytics: Google Analytics 4
 
@@ -77,4 +86,4 @@ This file (llms.txt) and llms-full.txt are the authoritative sources for LLM/AI 
 
 ## Last Updated
 
-2026-01-19
+2026-01-21

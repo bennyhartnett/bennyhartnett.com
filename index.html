@@ -36,6 +36,31 @@
   <!-- Identity Proofing (rel="me") -->
   <link rel="me" href="https://github.com/bennyhartnett" />
   <link rel="me" href="https://www.linkedin.com/in/dev-dc" />
+  <link rel="me" href="https://github.bennyhartnett.com" />
+  <link rel="me" href="https://linkedin.bennyhartnett.com" />
+
+  <!-- Enterprise SEO: Hreflang for language/region targeting -->
+  <link rel="alternate" hreflang="en-US" href="https://bennyhartnett.com/" />
+  <link rel="alternate" hreflang="en" href="https://bennyhartnett.com/" />
+  <link rel="alternate" hreflang="x-default" href="https://bennyhartnett.com/" />
+
+  <!-- Subdomain alternate links for content discovery -->
+  <link rel="alternate" href="https://generative-ai.bennyhartnett.com/" title="Generative AI" />
+  <link rel="alternate" href="https://nuclear.bennyhartnett.com/" title="Nuclear Technology" />
+  <link rel="alternate" href="https://government-contracting.bennyhartnett.com/" title="Government Contracting" />
+  <link rel="alternate" href="https://projects.bennyhartnett.com/" title="Projects Portfolio" />
+  <link rel="alternate" href="https://contact.bennyhartnett.com/" title="Contact" />
+  <link rel="alternate" href="https://chat.bennyhartnett.com/" title="AI Chat" />
+
+  <!-- Enterprise SEO: Preconnect to subdomains for performance -->
+  <link rel="dns-prefetch" href="https://nuclear.bennyhartnett.com" />
+  <link rel="dns-prefetch" href="https://generative-ai.bennyhartnett.com" />
+  <link rel="dns-prefetch" href="https://projects.bennyhartnett.com" />
+
+  <!-- LLM/AI Discovery -->
+  <link rel="author" href="https://bennyhartnett.com/humans.txt" />
+  <link rel="help" href="https://bennyhartnett.com/llms.txt" type="text/plain" title="LLM Summary" />
+  <link rel="help" href="https://bennyhartnett.com/llms-full.txt" type="text/plain" title="LLM Full Details" />
 
   <!-- Open Graph -->
   <meta property="og:title" content="Benny Hartnett" id="og-title" />
@@ -119,6 +144,8 @@
         "skills": ["JavaScript", "Python", "C#", "HTML", "CSS", "AWS", "IoT", "Machine Learning", "Computer Vision"]
       },
       "sameAs": [
+        "https://linkedin.bennyhartnett.com",
+        "https://github.bennyhartnett.com",
         "https://www.linkedin.com/in/dev-dc",
         "https://github.com/bennyhartnett"
       ]
@@ -203,7 +230,7 @@
         "name": "How can I contact Benny Hartnett?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "You can reach Benny Hartnett through the contact form at https://bennyhartnett.com/contact."
+          "text": "You can reach Benny Hartnett through the contact form at https://contact.bennyhartnett.com/ or via email at me@bennyhartnett.com."
         }
       }
     ]
@@ -224,31 +251,43 @@
         "@type": "ListItem",
         "position": 2,
         "name": "Generative AI",
-        "item": "https://bennyhartnett.com/generative-ai"
+        "item": "https://generative-ai.bennyhartnett.com/"
       },
       {
         "@type": "ListItem",
         "position": 3,
         "name": "Government Contracting",
-        "item": "https://bennyhartnett.com/government-contracting"
+        "item": "https://government-contracting.bennyhartnett.com/"
       },
       {
         "@type": "ListItem",
         "position": 4,
         "name": "Nuclear",
-        "item": "https://bennyhartnett.com/nuclear"
+        "item": "https://nuclear.bennyhartnett.com/"
       },
       {
         "@type": "ListItem",
         "position": 5,
         "name": "Projects",
-        "item": "https://bennyhartnett.com/projects"
+        "item": "https://projects.bennyhartnett.com/"
       },
       {
         "@type": "ListItem",
         "position": 6,
         "name": "Contact",
-        "item": "https://bennyhartnett.com/contact"
+        "item": "https://contact.bennyhartnett.com/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 7,
+        "name": "GitHub",
+        "item": "https://github.bennyhartnett.com/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 8,
+        "name": "LinkedIn",
+        "item": "https://linkedin.bennyhartnett.com/"
       }
     ]
   }
@@ -269,11 +308,14 @@
     },
     "contactPoint": {
       "@type": "ContactPoint",
-      "url": "https://bennyhartnett.com/contact",
+      "url": "https://contact.bennyhartnett.com/",
+      "email": "me@bennyhartnett.com",
       "contactType": "customer service",
       "availableLanguage": "English"
     },
     "sameAs": [
+      "https://linkedin.bennyhartnett.com",
+      "https://github.bennyhartnett.com",
       "https://www.linkedin.com/in/dev-dc",
       "https://github.com/bennyhartnett"
     ],
@@ -338,6 +380,107 @@
       "@type": "SpeakableSpecification",
       "cssSelector": [".content h1", ".content h2", ".content p:first-of-type"]
     },
+    "mainEntity": {
+      "@type": "Person",
+      "@id": "https://bennyhartnett.com/#person"
+    }
+  }
+  </script>
+  <!-- SiteNavigationElement Schema for subdomain architecture -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SiteNavigationElement",
+    "name": "Main Navigation",
+    "hasPart": [
+      {
+        "@type": "WebPage",
+        "name": "Home",
+        "url": "https://bennyhartnett.com/"
+      },
+      {
+        "@type": "WebPage",
+        "name": "Generative AI",
+        "description": "Articles and resources on generative AI and large language models",
+        "url": "https://generative-ai.bennyhartnett.com/"
+      },
+      {
+        "@type": "WebPage",
+        "name": "Nuclear Technology",
+        "description": "Nuclear research projects including Uranium Enrichment Calculator",
+        "url": "https://nuclear.bennyhartnett.com/"
+      },
+      {
+        "@type": "WebPage",
+        "name": "Government Contracting",
+        "description": "Government contracting insights and federal technology solutions",
+        "url": "https://government-contracting.bennyhartnett.com/"
+      },
+      {
+        "@type": "WebPage",
+        "name": "Projects",
+        "description": "Complete portfolio of software development projects",
+        "url": "https://projects.bennyhartnett.com/"
+      },
+      {
+        "@type": "WebPage",
+        "name": "Contact",
+        "description": "Contact form for inquiries",
+        "url": "https://contact.bennyhartnett.com/"
+      },
+      {
+        "@type": "WebPage",
+        "name": "AI Chat",
+        "description": "AI-powered chat assistant",
+        "url": "https://chat.bennyhartnett.com/"
+      },
+      {
+        "@type": "ProfilePage",
+        "name": "GitHub Profile",
+        "description": "GitHub profile for Benny Hartnett",
+        "url": "https://github.bennyhartnett.com/"
+      },
+      {
+        "@type": "ProfilePage",
+        "name": "LinkedIn Profile",
+        "description": "LinkedIn profile for Benny Hartnett",
+        "url": "https://linkedin.bennyhartnett.com/"
+      }
+    ]
+  }
+  </script>
+  <!-- KnowledgeGraph enhancement for AI systems -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": "https://bennyhartnett.com/#website",
+    "name": "Benny Hartnett",
+    "alternateName": ["Benny Hartnett Portfolio", "bennyhartnett.com"],
+    "url": "https://bennyhartnett.com",
+    "description": "Software developer specializing in generative AI, government contracting, and nuclear technology",
+    "inLanguage": "en-US",
+    "publisher": {
+      "@type": "Person",
+      "@id": "https://bennyhartnett.com/#person"
+    },
+    "potentialAction": [
+      {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://bennyhartnett.com/?q={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      },
+      {
+        "@type": "ReadAction",
+        "target": [
+          "https://bennyhartnett.com/llms.txt",
+          "https://bennyhartnett.com/llms-full.txt"
+        ]
+      }
+    ],
     "mainEntity": {
       "@type": "Person",
       "@id": "https://bennyhartnett.com/#person"
