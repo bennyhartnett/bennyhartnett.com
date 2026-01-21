@@ -41,6 +41,23 @@ User Request
 - **nuclear.bennyhartnett.com**: Serves `nuclear.html` directly (standalone, not SPA fragment)
 - **Excluded paths**: `/assets`, `/css`, `/js`, `/pages`, `/.well-known` bypass subdomain logic
 
+### Nuclear Page Architecture (DO NOT REFACTOR)
+
+The nuclear page (`nuclear.html`, `nuclear.js`, `nuclear-math.js`) is **intentionally siloed** as a completely separate application. This is by design:
+
+- Uses Tailwind CSS (different from main site's custom CSS)
+- Self-contained with its own JS modules
+- Not integrated into the SPA framework
+- Has its own test file (`nuclear-math.test.js`)
+
+**Do not attempt to:**
+- Migrate it into the SPA fragment system
+- Consolidate its CSS with the main site
+- Merge its JS into shared modules
+- "Unify" its architecture with the rest of the site
+
+This separation allows the calculator to be developed and maintained independently without risk of breaking the main site.
+
 ### Adding a New Page
 
 1. Create `pages/newpage.html` (content fragment)
