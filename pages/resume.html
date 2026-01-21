@@ -56,6 +56,8 @@
   .pdf-page canvas {
     display: block;
     background: transparent;
+    position: relative;
+    z-index: 1;
   }
   /* Text layer for selectable/searchable text */
   .pdf-page .textLayer {
@@ -65,9 +67,14 @@
     right: 0;
     bottom: 0;
     overflow: hidden;
-    opacity: 0.2;
+    opacity: 1;
     line-height: 1.0;
     pointer-events: auto;
+    z-index: 2;
+    user-select: text;
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
   }
   .pdf-page .textLayer > span {
     color: transparent;
@@ -75,12 +82,16 @@
     white-space: pre;
     transform-origin: 0% 0%;
     cursor: text;
+    user-select: text;
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
   }
   .pdf-page .textLayer ::selection {
-    background: rgba(0, 100, 200, 0.4);
+    background: rgba(0, 100, 200, 0.5);
   }
   .pdf-page .textLayer ::-moz-selection {
-    background: rgba(0, 100, 200, 0.4);
+    background: rgba(0, 100, 200, 0.5);
   }
   .pdf-loading {
     color: white;
