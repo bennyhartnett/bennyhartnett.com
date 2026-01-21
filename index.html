@@ -987,8 +987,11 @@
           return;
         }
         // Handle clean URLs (e.g., /resume, /contact) and .html URLs
-        const isCleanUrl = href && href.startsWith('/') && !href.startsWith('http') && href !== '/';
-        const isHtmlUrl = href && href.endsWith('.html') && !href.startsWith('http');
+        // Exclude asset paths from subdomain redirect (same as worker EXCLUDED_PATHS)
+        const excludedPrefixes = ['/assets', '/images', '/css', '/js', '/pages', '/.well-known'];
+        const isExcludedPath = excludedPrefixes.some(prefix => href.startsWith(prefix));
+        const isCleanUrl = href && href.startsWith('/') && !href.startsWith('http') && href !== '/' && !isExcludedPath;
+        const isHtmlUrl = href && href.endsWith('.html') && !href.startsWith('http') && !isExcludedPath;
         if (isCleanUrl || isHtmlUrl) {
           e.preventDefault();
           let pageName;

@@ -14,8 +14,9 @@
 <script>
 (function() {
   // Set iframe src via JS to prevent static scraping
-  var p = ['/', 'assets', '/d/', 'r-', '8f3a', '2c9e', '7b1d', '.pdf'];
-  var url = p[0] + p[1] + p[2] + p[3] + p[4] + p[5] + p[6] + p[7];
+  // Use absolute URL to main domain to avoid subdomain routing issues
+  var p = ['https://', 'benny', 'hartnett', '.com', '/assets', '/d/', 'r-', '8f3a', '2c9e', '7b1d', '.pdf'];
+  var url = p[0] + p[1] + p[2] + p[3] + p[4] + p[5] + p[6] + p[7] + p[8] + p[9] + p[10];
   document.getElementById('resume-iframe').src = url;
 })();
 </script>
