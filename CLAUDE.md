@@ -30,6 +30,40 @@ User Request
 | `pages/*.html` | Content fragments loaded by the SPA |
 | `nuclear.html` | **Standalone page** (not an SPA fragment) |
 
+### Directory Structure
+
+```
+bennyhartnett.com/
+├── index.html           # SPA entry point
+├── nuclear.html         # Standalone nuclear calculator
+├── 404.html             # GitHub Pages fallback
+├── sw.js                # Service Worker
+├── js/                  # JavaScript modules
+│   ├── spa-router.js    # SPA routing and page loading
+│   ├── meta-manager.js  # Dynamic meta tag management
+│   ├── analytics.js     # Google Analytics helpers
+│   ├── utilities.js     # Common utilities (email obfuscation)
+│   └── wave-background.js  # Three.js wave animation
+├── css/                 # Stylesheets
+│   ├── main.css         # Base styles, typography, dark mode
+│   ├── components.css   # Navigation, footer, content
+│   └── animations.css   # Page transitions, gradients
+├── pages/               # SPA page fragments
+├── config/              # Configuration files
+│   ├── manifest.webmanifest
+│   ├── robots.txt
+│   ├── sitemap.xml
+│   ├── llms.txt
+│   └── humans.txt
+├── nuclear/             # Nuclear calculator modules (siloed)
+│   ├── nuclear.js       # Calculator logic
+│   ├── nuclear-math.js  # Math functions
+│   └── nuclear-math.test.js  # Tests
+├── workers/             # Cloudflare Workers
+│   └── router.js
+└── assets/              # Static assets (images, PDFs)
+```
+
 ### Bidirectional Routing Rules
 
 1. **Subdomain → Serves content**: `contact.bennyhartnett.com` serves `pages/contact.html` via SPA
@@ -39,16 +73,16 @@ User Request
 ### Special Cases
 
 - **nuclear.bennyhartnett.com**: Serves `nuclear.html` directly (standalone, not SPA fragment)
-- **Excluded paths**: `/assets`, `/css`, `/js`, `/pages`, `/.well-known` bypass subdomain logic
+- **Excluded paths**: `/assets`, `/css`, `/js`, `/pages`, `/config`, `/nuclear`, `/.well-known` bypass subdomain logic
 
 ### Nuclear Page Architecture (DO NOT REFACTOR)
 
-The nuclear page (`nuclear.html`, `nuclear.js`, `nuclear-math.js`) is **intentionally siloed** as a completely separate application. This is by design:
+The nuclear page (`nuclear.html`, `nuclear/nuclear.js`, `nuclear/nuclear-math.js`) is **intentionally siloed** as a completely separate application. This is by design:
 
 - Uses Tailwind CSS (different from main site's custom CSS)
-- Self-contained with its own JS modules
+- Self-contained with its own JS modules in `nuclear/` directory
 - Not integrated into the SPA framework
-- Has its own test file (`nuclear-math.test.js`)
+- Has its own test file (`nuclear/nuclear-math.test.js`)
 
 **Do not attempt to:**
 - Migrate it into the SPA fragment system

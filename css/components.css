@@ -1,0 +1,206 @@
+/**
+ * Components CSS - Navigation, footer, content, links
+ */
+
+/* Navigation bar */
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 8px 12px;
+  background: rgba(0, 0, 0, 0);
+  z-index: 100;
+}
+
+nav .title {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: -0.5px;
+  color: white;
+  font-size: 1.1em;
+  flex: 0 0 auto;
+  margin-right: 12px;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+nav .title:hover {
+  color: var(--wave-color);
+}
+
+nav .nav-header {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+nav .search-bar {
+  display: block;
+  padding: 4px 8px;
+  font-size: 0.95em;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  margin-left: auto;
+}
+
+nav .menu {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  flex: 1 1 auto;
+  justify-content: flex-end;
+}
+
+nav .menu a {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  color: white;
+  text-decoration: none;
+  font-size: 0.95em;
+  white-space: nowrap;
+  padding: 4px 8px;
+  transition: color 0.3s ease;
+}
+
+nav .menu a i {
+  font-size: 1.1em;
+}
+
+nav .menu a:hover {
+  color: var(--wave-color);
+}
+
+.search-icon {
+  position: absolute;
+  right: 1rem;
+  top: 0.5rem;
+  color: white;
+  text-decoration: none;
+  font-size: 1.2em;
+}
+
+/* Responsive navigation */
+@media (max-width: 700px) {
+  nav {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  nav .title {
+    margin-bottom: 0;
+  }
+
+  nav .search-bar {
+    display: block;
+    margin-left: 12px;
+  }
+
+  nav .menu {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 8px;
+  }
+
+  nav .menu.open {
+    display: flex;
+  }
+}
+
+@media (max-width: 500px) {
+  nav .menu a {
+    font-size: 0.8em;
+    padding: 2px 4px;
+  }
+}
+
+/* Content area */
+.content {
+  margin-top: 56px;
+  padding: 0 1rem;
+  font-family: 'Inter', sans-serif;
+  color: white;
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.content a {
+  color: white;
+  transition: color 0.3s ease;
+}
+
+.content a:hover {
+  color: var(--wave-color);
+}
+
+/* Footer */
+footer {
+  font-family: 'Inter', sans-serif;
+  text-align: center;
+  font-size: 0.7em;
+  color: rgba(255, 255, 255, 0.3);
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  padding: 4px 0;
+}
+
+footer a {
+  color: white;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+footer a:hover {
+  color: var(--wave-color);
+}
+
+/* Skip link for accessibility */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: #000;
+  color: #fff;
+  padding: 8px 16px;
+  z-index: 1000;
+  text-decoration: none;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  border-radius: 0 0 4px 0;
+  transition: top 0.3s ease;
+}
+
+.skip-link:focus {
+  top: 0;
+  outline: 2px solid var(--wave-color);
+  outline-offset: 2px;
+}
+
+/* Focus styles for keyboard navigation */
+nav .title:focus {
+  outline: 2px solid var(--wave-color);
+  outline-offset: 2px;
+}
+
+nav .menu a:focus {
+  outline: 2px solid var(--wave-color);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.content a:focus {
+  outline: 2px solid var(--wave-color);
+  outline-offset: 2px;
+}
+
+footer a:focus {
+  outline: 2px solid var(--wave-color);
+  outline-offset: 2px;
+}

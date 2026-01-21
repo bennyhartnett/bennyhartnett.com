@@ -21,6 +21,8 @@ const EXCLUDED_PATHS = [
   'css',
   'js',
   'pages',
+  'config',
+  'nuclear',
   '.well-known',
 ];
 
