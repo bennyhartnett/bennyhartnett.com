@@ -1,3 +1,137 @@
-<meta http-equiv="refresh" content="0; url=/privacy">
-<script>window.location.href = "/privacy";</script>
-<p>Redirecting to Privacy Policy...</p>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+  body {
+    font-family: 'Inter', sans-serif;
+    color: white;
+    padding: 1rem;
+  }
+  a {
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  a:hover {
+    color: var(--wave-color);
+  }
+  /* Dark mode scrollbar */
+  ::-webkit-scrollbar {
+    width: 12px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #111;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #444;
+    border-radius: 6px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #444 #111;
+  }
+</style>
+  <h1>Privacy Policy</h1>
+  <p>Last updated: <span id="policy-year"></span></p>
+
+  <p>
+    This page outlines how we collect, use and share information through
+    <strong>bennyhartnett.com</strong>. While the site is largely static, we may
+    gather personal and non-personal data that you provide or that is
+    automatically logged when you access the site.
+  </p>
+
+  <h2>Information We Collect</h2>
+  <ul>
+    <li>
+      <strong>Email communications:</strong> If you contact us at
+      <a href="#" class="copy-email protected-email">[click to reveal email]</a>, we will use the
+      details you provide solely to respond to your request.
+    </li>
+    <li>
+      <strong>Server logs:</strong> Basic connection data such as IP address and
+      browser type may be temporarily logged for security and troubleshooting
+      purposes. These logs are not used to identify individuals and are typically
+      deleted within 30 days.
+    </li>
+    <li>
+      <strong>Other data:</strong> Additional details that you submit through
+      forms or that we collect automatically using cookies or similar
+      technologies.
+    </li>
+  </ul>
+
+  <h2>Cookies and Tracking</h2>
+  <p>We may use cookies, analytics scripts or other tracking technologies to
+    collect information about your visit.</p>
+
+  <h2>Data Sharing</h2>
+  <p>
+    We may share personal or aggregated data with service providers or third
+    parties for any purpose, including analytics, marketing or improving our
+    services.
+  </p>
+
+  <h2>How We Use Data</h2>
+  <p>
+    We may use any information we collect for any purpose, such as analyzing
+    site usage, marketing our services or responding to your requests.
+  </p>
+
+  <h2>Your Rights and Choices</h2>
+  <p>
+    You may request that we update or delete your personal information at any
+    time by emailing <a href="#" class="copy-email protected-email">[click to reveal email]</a>.
+    We will honor such requests unless we are legally required to keep the
+    information.
+  </p>
+
+  <h2>Data Security</h2>
+  <p>
+    We use reasonable administrative and technical safeguards to protect any
+    information you provide. However, no website can guarantee complete security
+    of transmitted data.
+  </p>
+
+  <h2>External Links</h2>
+  <p>
+    Our pages may link to external websites that are not operated by us.
+    Please review the privacy practices of those sites as we have no control
+    over their content or policies.
+  </p>
+
+  <h2>Policy Updates</h2>
+  <p>
+    We may update this policy periodically. The revision date at the top of the
+    page reflects the latest version.
+  </p>
+
+  <h2>Disclaimer of Liability</h2>
+  <p>
+    This policy is provided for general information only and does not create any
+    warranties or legal obligations. By using this site, you agree that
+    <strong>bennyhartnett.com</strong> and its administrators are not
+    responsible for any damages or losses resulting from your use of the site or
+    from reliance on the information presented here.
+  </p>
+
+  <p>
+    For questions about this policy, contact us at
+    <a href="#" class="copy-email protected-email">[click to reveal email]</a>.
+  </p>
+
+  <a href="/">Back to Home</a>
+
+  <script>
+    document.getElementById('policy-year').textContent = new Date().getFullYear();
+    // Populate protected email fields at runtime to prevent scraping
+    document.querySelectorAll('.protected-email').forEach(function(el) {
+      if (window.getProtectedEmail) {
+        var email = window.getProtectedEmail();
+        el.textContent = email;
+        el.dataset.email = email;
+      }
+    });
+  </script>
