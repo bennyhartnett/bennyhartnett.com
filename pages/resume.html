@@ -53,8 +53,18 @@
           var viewport = page.getViewport({ scale: scale });
           var canvas = document.createElement('canvas');
           var context = canvas.getContext('2d');
-          canvas.height = viewport.height;
+
+          // Crop header from page 2 (remove top ~85 points at 612x792 PDF)
+          var cropTop = (pageNum === 2) ? Math.round(85 * scale) : 0;
+
           canvas.width = viewport.width;
+          canvas.height = viewport.height - cropTop;
+
+          // Shift rendering up to hide cropped area
+          if (cropTop > 0) {
+            context.translate(0, -cropTop);
+          }
+
           container.appendChild(canvas);
 
           return page.render({
