@@ -2060,7 +2060,7 @@
 
 <script type="module">
   // Import Trystero for serverless WebRTC
-  import { joinRoom } from 'https://esm.sh/trystero@0.20.0/torrent';
+  import { joinRoom } from 'https://esm.sh/trystero@0.21.8/torrent';
 
   // App state
   const state = {
@@ -2317,14 +2317,32 @@
         <rect width="14" height="12" x="2" y="6" rx="2" ry="2"/>
       </svg> Join Call`;
       joinBtn.disabled = false;
-      alert('Failed to join the meeting. Please try again.');
+      // Provide more helpful error message based on error type
+      let errorMsg = 'Failed to join the meeting. ';
+      if (err.message?.includes('network') || err.message?.includes('fetch')) {
+        errorMsg += 'Network error - please check your internet connection.';
+      } else if (err.message?.includes('tracker') || err.message?.includes('WebSocket')) {
+        errorMsg += 'Connection servers are unreachable. Please try again in a moment.';
+      } else {
+        errorMsg += 'Please try again.';
+      }
+      alert(errorMsg);
     }
   });
 
   // Join meeting using Trystero
   async function joinMeeting() {
     // Use torrent strategy for signaling (no server needed)
-    const config = { appId: 'benny-meet-v1' };
+    // Provide multiple reliable WebSocket trackers for redundancy
+    const config = {
+      appId: 'benny-meet-v1',
+      relayUrls: [
+        'wss://tracker.webtorrent.dev',
+        'wss://tracker.openwebtorrent.com',
+        'wss://tracker.btorrent.xyz',
+        'wss://tracker.files.fm:7073/announce'
+      ]
+    };
     state.room = joinRoom(config, 'benny-meet-open-room');
 
     // Set up actions for data exchange
