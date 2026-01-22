@@ -2435,6 +2435,14 @@
       sendName(state.userName, peerId);
       sendMediaState({ mic: state.micEnabled, camera: state.cameraEnabled }, peerId);
 
+      // Send our current stream to the new peer
+      // This ensures late joiners receive video/screen share
+      if (state.screenSharing && state.screenStream) {
+        state.room.addStream(state.screenStream, peerId);
+      } else if (state.localStream) {
+        state.room.addStream(state.localStream, peerId);
+      }
+
       // Send hand raise state if raised
       if (state.handRaised) {
         sendHandRaise({ raised: true, peerId: state.peerId, name: state.userName, time: Date.now() }, peerId);
@@ -2802,6 +2810,10 @@
       const audioTracks = state.localStream?.getAudioTracks();
       if (audioTracks && audioTracks.length > 0) {
         audioTracks.forEach(t => t.enabled = true);
+        // Re-add stream to ensure track state is propagated to peers
+        if (state.localStream) {
+          state.room?.addStream(state.localStream);
+        }
       } else {
         // Need to get new audio stream
         const newStream = await requestMedia(true, state.cameraEnabled);
@@ -2838,6 +2850,10 @@
       const videoTracks = state.localStream?.getVideoTracks();
       if (videoTracks && videoTracks.length > 0) {
         videoTracks.forEach(t => t.enabled = true);
+        // Re-add stream to ensure track state is propagated to peers
+        if (state.localStream) {
+          state.room?.addStream(state.localStream);
+        }
       } else {
         // Need to get new video stream
         const newStream = await requestMedia(state.micEnabled, true);
