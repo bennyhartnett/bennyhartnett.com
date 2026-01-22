@@ -766,6 +766,924 @@
   @keyframes spin {
     to { transform: rotate(360deg); }
   }
+
+  /* ==================== ENHANCED CHAT STYLES ==================== */
+
+  /* Link preview */
+  .link-preview {
+    margin-top: 0.5rem;
+    padding: 0.75rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    font-size: 0.8rem;
+  }
+
+  .link-preview-title {
+    font-weight: 600;
+    color: #6366f1;
+    margin-bottom: 0.25rem;
+    display: block;
+    text-decoration: none;
+  }
+
+  .link-preview-title:hover {
+    text-decoration: underline;
+  }
+
+  .link-preview-description {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.75rem;
+    line-height: 1.4;
+  }
+
+  .link-preview-image {
+    width: 100%;
+    border-radius: 6px;
+    margin-top: 0.5rem;
+    max-height: 150px;
+    object-fit: cover;
+  }
+
+  /* File sharing */
+  .chat-file-input {
+    display: none;
+  }
+
+  .chat-attach-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    padding: 0.75rem;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .chat-attach-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+  }
+
+  .chat-attach-btn svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .file-message {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    background: rgba(99, 102, 241, 0.15);
+    border-radius: 8px;
+    cursor: pointer;
+  }
+
+  .file-message:hover {
+    background: rgba(99, 102, 241, 0.25);
+  }
+
+  .file-icon {
+    width: 40px;
+    height: 40px;
+    background: rgba(99, 102, 241, 0.3);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .file-icon svg {
+    width: 20px;
+    height: 20px;
+    color: #6366f1;
+  }
+
+  .file-info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .file-name {
+    font-weight: 500;
+    font-size: 0.875rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .file-size {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  .image-preview {
+    max-width: 200px;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+
+  .image-preview:hover {
+    opacity: 0.9;
+  }
+
+  /* Network stats */
+  .network-stats {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
+    padding: 0.5rem 0.75rem;
+    border-radius: 8px;
+    font-size: 0.7rem;
+    display: none;
+    gap: 0.5rem;
+    flex-direction: column;
+    z-index: 10;
+  }
+
+  .network-stats.visible {
+    display: flex;
+  }
+
+  .stat-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .stat-label {
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  .stat-value {
+    font-weight: 500;
+  }
+
+  .stat-value.good { color: #22c55e; }
+  .stat-value.medium { color: #f59e0b; }
+  .stat-value.poor { color: #ef4444; }
+
+  /* Connection quality indicator */
+  .connection-quality {
+    position: absolute;
+    top: 0.5rem;
+    left: 0.5rem;
+    display: flex;
+    gap: 2px;
+    z-index: 10;
+  }
+
+  .quality-bar {
+    width: 4px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 2px;
+  }
+
+  .quality-bar:nth-child(1) { height: 6px; }
+  .quality-bar:nth-child(2) { height: 10px; }
+  .quality-bar:nth-child(3) { height: 14px; }
+  .quality-bar:nth-child(4) { height: 18px; }
+
+  .connection-quality.excellent .quality-bar { background: #22c55e; }
+  .connection-quality.good .quality-bar:nth-child(-n+3) { background: #22c55e; }
+  .connection-quality.medium .quality-bar:nth-child(-n+2) { background: #f59e0b; }
+  .connection-quality.poor .quality-bar:nth-child(1) { background: #ef4444; }
+
+  /* ==================== AUDIO/VIDEO SETTINGS ==================== */
+
+  .settings-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(8px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+  }
+
+  .settings-modal.open {
+    display: flex;
+  }
+
+  .settings-panel {
+    background: rgba(30, 30, 30, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    width: 90%;
+    max-width: 500px;
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+
+  .settings-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.25rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .settings-header h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+
+  .settings-close {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 8px;
+  }
+
+  .settings-close:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .settings-content {
+    padding: 1.25rem;
+  }
+
+  .settings-section {
+    margin-bottom: 1.5rem;
+  }
+
+  .settings-section:last-child {
+    margin-bottom: 0;
+  }
+
+  .settings-section h4 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin: 0 0 0.75rem 0;
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  .device-select {
+    width: 100%;
+    padding: 0.75rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    color: white;
+    font-family: inherit;
+    font-size: 0.875rem;
+    cursor: pointer;
+  }
+
+  .device-select:focus {
+    outline: none;
+    border-color: rgba(99, 102, 241, 0.5);
+  }
+
+  .device-select option {
+    background: #1e1e1e;
+    color: white;
+  }
+
+  /* Volume meter */
+  .volume-meter-container {
+    margin-top: 0.75rem;
+  }
+
+  .volume-meter-label {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .volume-meter {
+    height: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .volume-meter-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #22c55e 0%, #f59e0b 70%, #ef4444 100%);
+    border-radius: 4px;
+    transition: width 0.05s ease;
+  }
+
+  .test-audio-btn {
+    margin-top: 0.75rem;
+    padding: 0.5rem 1rem;
+    background: rgba(99, 102, 241, 0.2);
+    border: 1px solid rgba(99, 102, 241, 0.4);
+    border-radius: 8px;
+    color: white;
+    font-family: inherit;
+    font-size: 0.8rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .test-audio-btn:hover {
+    background: rgba(99, 102, 241, 0.3);
+  }
+
+  .test-audio-btn svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  /* Toggle switch */
+  .toggle-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .toggle-row:last-child {
+    border-bottom: none;
+  }
+
+  .toggle-label {
+    font-size: 0.875rem;
+  }
+
+  .toggle-switch {
+    position: relative;
+    width: 44px;
+    height: 24px;
+  }
+
+  .toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 24px;
+    transition: 0.3s;
+  }
+
+  .toggle-slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background: white;
+    border-radius: 50%;
+    transition: 0.3s;
+  }
+
+  .toggle-switch input:checked + .toggle-slider {
+    background: #6366f1;
+  }
+
+  .toggle-switch input:checked + .toggle-slider:before {
+    transform: translateX(20px);
+  }
+
+  /* ==================== SCREEN SHARE LAYOUT ==================== */
+
+  .video-grid.spotlight {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr auto;
+  }
+
+  .video-tile.spotlight-main {
+    grid-column: 1;
+    grid-row: 1;
+    aspect-ratio: 16/9;
+    max-height: calc(100vh - 280px);
+  }
+
+  .spotlight-strip {
+    display: flex;
+    gap: 0.5rem;
+    overflow-x: auto;
+    padding: 0.5rem;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 12px;
+  }
+
+  .spotlight-strip .video-tile {
+    width: 160px;
+    min-width: 160px;
+    aspect-ratio: 16/9;
+    flex-shrink: 0;
+  }
+
+  .video-tile.fullscreen-mode {
+    position: fixed;
+    inset: 0;
+    z-index: 300;
+    border-radius: 0;
+    aspect-ratio: auto;
+    max-height: none;
+  }
+
+  .video-tile.fullscreen-mode .participant-name {
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+  }
+
+  .video-tile.pip-mode {
+    position: fixed;
+    bottom: 100px;
+    right: 20px;
+    width: 280px;
+    height: auto;
+    aspect-ratio: 16/9;
+    z-index: 150;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    cursor: move;
+  }
+
+  .view-toggle-bar {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+    justify-content: center;
+  }
+
+  .view-toggle-btn {
+    padding: 0.5rem 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    color: rgba(255, 255, 255, 0.7);
+    font-family: inherit;
+    font-size: 0.8rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.2s;
+  }
+
+  .view-toggle-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+  }
+
+  .view-toggle-btn.active {
+    background: rgba(99, 102, 241, 0.3);
+    border-color: rgba(99, 102, 241, 0.5);
+    color: white;
+  }
+
+  .view-toggle-btn svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .fullscreen-toggle {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    background: rgba(0, 0, 0, 0.5);
+    border: none;
+    border-radius: 8px;
+    padding: 0.5rem;
+    color: white;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.2s;
+    z-index: 20;
+  }
+
+  .video-tile:hover .fullscreen-toggle {
+    opacity: 1;
+  }
+
+  .fullscreen-toggle:hover {
+    background: rgba(0, 0, 0, 0.7);
+  }
+
+  .fullscreen-toggle svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  /* ==================== REACTIONS & EMOJI ==================== */
+
+  .reactions-bar {
+    position: fixed;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: none;
+    gap: 0.5rem;
+    padding: 0.75rem;
+    background: rgba(30, 30, 30, 0.9);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 40px;
+    z-index: 100;
+  }
+
+  .reactions-bar.open {
+    display: flex;
+  }
+
+  .reaction-btn {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255, 255, 255, 0.1);
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .reaction-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.15);
+  }
+
+  .reaction-btn:active {
+    transform: scale(0.95);
+  }
+
+  .hand-raise-btn {
+    background: rgba(251, 191, 36, 0.2);
+    color: #fbbf24;
+    border: 1px solid rgba(251, 191, 36, 0.3);
+  }
+
+  .hand-raise-btn.raised {
+    background: rgba(251, 191, 36, 0.4);
+    border-color: rgba(251, 191, 36, 0.6);
+    animation: handPulse 1s ease-in-out infinite;
+  }
+
+  @keyframes handPulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.4); }
+    50% { box-shadow: 0 0 0 8px rgba(251, 191, 36, 0); }
+  }
+
+  .hand-raise-btn svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  /* Floating reaction animations */
+  .floating-reaction {
+    position: fixed;
+    font-size: 3rem;
+    pointer-events: none;
+    z-index: 400;
+    animation: floatUp 2s ease-out forwards;
+  }
+
+  @keyframes floatUp {
+    0% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+    50% {
+      opacity: 1;
+      transform: translateY(-100px) scale(1.2);
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(-200px) scale(0.8);
+    }
+  }
+
+  /* Hand raise indicator on video tile */
+  .hand-raised-indicator {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    font-size: 1.5rem;
+    animation: handWave 0.5s ease-in-out infinite alternate;
+    z-index: 15;
+  }
+
+  @keyframes handWave {
+    from { transform: rotate(-15deg); }
+    to { transform: rotate(15deg); }
+  }
+
+  /* Hand raise queue sidebar */
+  .hand-queue {
+    margin-top: 1rem;
+    padding: 0.75rem;
+    background: rgba(251, 191, 36, 0.1);
+    border: 1px solid rgba(251, 191, 36, 0.3);
+    border-radius: 8px;
+  }
+
+  .hand-queue-title {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #fbbf24;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .hand-queue-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .hand-queue-item {
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .hand-queue-position {
+    width: 20px;
+    height: 20px;
+    background: rgba(251, 191, 36, 0.3);
+    border-radius: 50%;
+    font-size: 0.7rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+  }
+
+  /* ==================== VIRTUAL BACKGROUNDS ==================== */
+
+  .backgrounds-panel {
+    position: fixed;
+    bottom: 140px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(30, 30, 30, 0.95);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 1rem;
+    display: none;
+    z-index: 150;
+    width: 90%;
+    max-width: 400px;
+  }
+
+  .backgrounds-panel.open {
+    display: block;
+  }
+
+  .backgrounds-panel h4 {
+    margin: 0 0 1rem 0;
+    font-size: 0.9rem;
+    font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .backgrounds-close {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 0.25rem;
+    border-radius: 4px;
+  }
+
+  .backgrounds-close:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .backgrounds-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .bg-option {
+    aspect-ratio: 16/9;
+    border-radius: 8px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    transition: all 0.2s;
+  }
+
+  .bg-option:hover {
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: scale(1.05);
+  }
+
+  .bg-option.selected {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.3);
+  }
+
+  .bg-option.none {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+  }
+
+  .bg-option.blur {
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+    position: relative;
+  }
+
+  .bg-option.blur::after {
+    content: 'Blur';
+    color: white;
+    font-weight: 500;
+  }
+
+  .bg-option.color {
+    position: relative;
+  }
+
+  .bg-option.image {
+    background-size: cover;
+    background-position: center;
+  }
+
+  .bg-colors {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .color-option {
+    aspect-ratio: 1;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.2s;
+  }
+
+  .color-option:hover {
+    transform: scale(1.1);
+  }
+
+  .color-option.selected {
+    border-color: white;
+    box-shadow: 0 0 0 2px #6366f1;
+  }
+
+  .bg-upload {
+    width: 100%;
+    padding: 0.75rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px dashed rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    color: rgba(255, 255, 255, 0.7);
+    font-family: inherit;
+    font-size: 0.8rem;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.2s;
+  }
+
+  .bg-upload:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.5);
+  }
+
+  .bg-upload-input {
+    display: none;
+  }
+
+  /* Processing indicator for background */
+  .bg-processing {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    z-index: 5;
+  }
+
+  .bg-processing-text {
+    color: white;
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  /* Canvas overlay for virtual background */
+  .video-tile canvas.bg-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+  }
+
+  .video-tile video.hidden-video {
+    display: none;
+  }
+
+  /* ==================== ADDITIONAL CONTROL BUTTONS ==================== */
+
+  .control-btn.settings-btn,
+  .control-btn.reactions-btn,
+  .control-btn.backgrounds-btn {
+    animation-delay: -6s;
+  }
+
+  .control-btn.active {
+    background: rgba(99, 102, 241, 0.3);
+    border-color: rgba(99, 102, 241, 0.5);
+  }
+
+  /* Stats toggle button on video tile */
+  .stats-toggle {
+    position: absolute;
+    top: 0.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.5);
+    border: none;
+    border-radius: 4px;
+    padding: 0.25rem 0.5rem;
+    color: white;
+    font-size: 0.65rem;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.2s;
+    z-index: 20;
+  }
+
+  .video-tile:hover .stats-toggle {
+    opacity: 1;
+  }
+
+  /* Mobile adjustments for new features */
+  @media (max-width: 768px) {
+    .reactions-bar {
+      bottom: 70px;
+      padding: 0.5rem;
+    }
+
+    .reaction-btn {
+      width: 40px;
+      height: 40px;
+      font-size: 1.25rem;
+    }
+
+    .backgrounds-panel {
+      bottom: 120px;
+      max-width: 90%;
+    }
+
+    .backgrounds-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .bg-colors {
+      grid-template-columns: repeat(6, 1fr);
+    }
+
+    .video-tile.pip-mode {
+      width: 200px;
+      bottom: 80px;
+      right: 10px;
+    }
+
+    .settings-panel {
+      max-height: 70vh;
+    }
+
+    .view-toggle-bar {
+      flex-wrap: wrap;
+    }
+  }
 </style>
 
 <!-- Pre-join Screen -->
@@ -863,6 +1781,27 @@
     </div>
   </div>
 
+  <!-- View Toggle Bar -->
+  <div class="view-toggle-bar" id="view-toggle-bar">
+    <button class="view-toggle-btn active" id="grid-view-btn" title="Grid view">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="3" width="7" height="7"/>
+        <rect x="14" y="3" width="7" height="7"/>
+        <rect x="3" y="14" width="7" height="7"/>
+        <rect x="14" y="14" width="7" height="7"/>
+      </svg>
+      Grid
+    </button>
+    <button class="view-toggle-btn" id="spotlight-view-btn" title="Spotlight view">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+        <line x1="8" y1="21" x2="16" y2="21"/>
+        <line x1="12" y1="17" x2="12" y2="21"/>
+      </svg>
+      Spotlight
+    </button>
+  </div>
+
   <div class="video-grid single" id="video-grid">
     <!-- Video tiles will be dynamically added here -->
   </div>
@@ -894,6 +1833,25 @@
       <span class="btn-text">Share</span>
     </button>
 
+    <button class="control-btn reactions-btn" id="reactions-btn" title="Reactions">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/>
+        <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
+        <line x1="9" y1="9" x2="9.01" y2="9"/>
+        <line x1="15" y1="9" x2="15.01" y2="9"/>
+      </svg>
+      <span class="btn-text">React</span>
+    </button>
+
+    <button class="control-btn backgrounds-btn" id="backgrounds-btn" title="Virtual backgrounds">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+        <circle cx="8.5" cy="8.5" r="1.5"/>
+        <polyline points="21 15 16 10 5 21"/>
+      </svg>
+      <span class="btn-text">Effects</span>
+    </button>
+
     <button class="control-btn" id="participants-btn" title="Participants">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
@@ -909,6 +1867,14 @@
         <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
       </svg>
       <span class="btn-text">Chat</span>
+    </button>
+
+    <button class="control-btn settings-btn" id="settings-btn" title="Settings">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="3"/>
+        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+      </svg>
+      <span class="btn-text">Settings</span>
     </button>
 
     <button class="control-btn end-call" id="leave-btn" title="Leave call">
@@ -952,6 +1918,12 @@
     <div class="empty-chat" id="empty-chat">No messages yet</div>
   </div>
   <div class="chat-input-area">
+    <input type="file" class="chat-file-input" id="chat-file-input" accept="image/*,application/pdf,.doc,.docx,.txt,.zip">
+    <button class="chat-attach-btn" id="chat-attach" title="Attach file">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"/>
+      </svg>
+    </button>
     <input type="text" class="chat-input" id="chat-input" placeholder="Send a message to everyone">
     <button class="chat-send" id="chat-send">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -962,6 +1934,148 @@
   </div>
 </div>
 
+<!-- Settings Modal -->
+<div class="settings-modal" id="settings-modal">
+  <div class="settings-panel">
+    <div class="settings-header">
+      <h3>Audio & Video Settings</h3>
+      <button class="settings-close" id="close-settings">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+    <div class="settings-content">
+      <div class="settings-section">
+        <h4>Camera</h4>
+        <select class="device-select" id="camera-select">
+          <option value="">Select camera...</option>
+        </select>
+      </div>
+      <div class="settings-section">
+        <h4>Microphone</h4>
+        <select class="device-select" id="mic-select">
+          <option value="">Select microphone...</option>
+        </select>
+        <div class="volume-meter-container">
+          <div class="volume-meter-label">
+            <span>Input level</span>
+            <span id="volume-level">0%</span>
+          </div>
+          <div class="volume-meter">
+            <div class="volume-meter-fill" id="volume-meter-fill"></div>
+          </div>
+        </div>
+      </div>
+      <div class="settings-section">
+        <h4>Speaker</h4>
+        <select class="device-select" id="speaker-select">
+          <option value="">Select speaker...</option>
+        </select>
+        <button class="test-audio-btn" id="test-audio-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+            <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+          </svg>
+          Test speaker
+        </button>
+      </div>
+      <div class="settings-section">
+        <h4>Audio Processing</h4>
+        <div class="toggle-row">
+          <span class="toggle-label">Noise suppression</span>
+          <label class="toggle-switch">
+            <input type="checkbox" id="noise-suppression" checked>
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+        <div class="toggle-row">
+          <span class="toggle-label">Echo cancellation</span>
+          <label class="toggle-switch">
+            <input type="checkbox" id="echo-cancellation" checked>
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+        <div class="toggle-row">
+          <span class="toggle-label">Auto gain control</span>
+          <label class="toggle-switch">
+            <input type="checkbox" id="auto-gain" checked>
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Reactions Bar -->
+<div class="reactions-bar" id="reactions-bar">
+  <button class="reaction-btn" data-emoji="👍" title="Thumbs up">👍</button>
+  <button class="reaction-btn" data-emoji="❤️" title="Love">❤️</button>
+  <button class="reaction-btn" data-emoji="😂" title="Laugh">😂</button>
+  <button class="reaction-btn" data-emoji="👏" title="Clap">👏</button>
+  <button class="reaction-btn" data-emoji="🎉" title="Celebrate">🎉</button>
+  <button class="reaction-btn" data-emoji="😮" title="Surprised">😮</button>
+  <button class="reaction-btn hand-raise-btn" id="hand-raise-btn" title="Raise hand">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M18 11V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v0"/>
+      <path d="M14 10V4a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v2"/>
+      <path d="M10 10.5V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v8"/>
+      <path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/>
+    </svg>
+  </button>
+</div>
+
+<!-- Virtual Backgrounds Panel -->
+<div class="backgrounds-panel" id="backgrounds-panel">
+  <h4>
+    Virtual Backgrounds
+    <button class="backgrounds-close" id="close-backgrounds">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"/>
+        <line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+  </h4>
+  <div class="backgrounds-grid" id="backgrounds-grid">
+    <div class="bg-option none selected" data-bg="none" title="No background">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"/>
+        <line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/>
+      </svg>
+    </div>
+    <div class="bg-option blur" data-bg="blur" title="Blur background"></div>
+    <div class="bg-option image" data-bg="beach" title="Beach" style="background-image: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=200&q=80')"></div>
+    <div class="bg-option image" data-bg="office" title="Office" style="background-image: url('https://images.unsplash.com/photo-1497366216548-37526070297c?w=200&q=80')"></div>
+    <div class="bg-option image" data-bg="nature" title="Nature" style="background-image: url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=200&q=80')"></div>
+    <div class="bg-option image" data-bg="city" title="City" style="background-image: url('https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?w=200&q=80')"></div>
+    <div class="bg-option image" data-bg="mountains" title="Mountains" style="background-image: url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=200&q=80')"></div>
+    <div class="bg-option image" data-bg="space" title="Space" style="background-image: url('https://images.unsplash.com/photo-1462332420958-a05d1e002413?w=200&q=80')"></div>
+  </div>
+  <h5 style="font-size: 0.8rem; margin: 0 0 0.5rem 0; color: rgba(255,255,255,0.7);">Solid Colors</h5>
+  <div class="bg-colors" id="bg-colors">
+    <div class="color-option" data-color="#1a1a1a" style="background: #1a1a1a" title="Black"></div>
+    <div class="color-option" data-color="#6366f1" style="background: #6366f1" title="Purple"></div>
+    <div class="color-option" data-color="#3b82f6" style="background: #3b82f6" title="Blue"></div>
+    <div class="color-option" data-color="#10b981" style="background: #10b981" title="Green"></div>
+    <div class="color-option" data-color="#f59e0b" style="background: #f59e0b" title="Yellow"></div>
+    <div class="color-option" data-color="#ef4444" style="background: #ef4444" title="Red"></div>
+    <div class="color-option" data-color="#ec4899" style="background: #ec4899" title="Pink"></div>
+    <div class="color-option" data-color="#ffffff" style="background: #ffffff" title="White"></div>
+  </div>
+  <input type="file" class="bg-upload-input" id="bg-upload-input" accept="image/*">
+  <button class="bg-upload" id="bg-upload">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: inline; vertical-align: middle; margin-right: 0.5rem;">
+      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+      <polyline points="17 8 12 3 7 8"/>
+      <line x1="12" y1="3" x2="12" y2="15"/>
+    </svg>
+    Upload custom image
+  </button>
+</div>
+
 <script type="module">
   // Import Trystero for serverless WebRTC
   import { joinRoom } from 'https://esm.sh/trystero@0.20.0';
@@ -970,17 +2084,36 @@
   const state = {
     localStream: null,
     screenStream: null,
+    processedStream: null, // For virtual background processed video
     userName: '',
     peerId: crypto.randomUUID().slice(0, 8),
     micEnabled: false,
     cameraEnabled: false,
     screenSharing: false,
     room: null,
-    peers: new Map(), // peerId -> { name, stream, micEnabled, cameraEnabled }
+    peers: new Map(), // peerId -> { name, stream, micEnabled, cameraEnabled, handRaised, connectionQuality }
     sendName: null,
     sendChat: null,
     sendMediaState: null,
-    audioContexts: new Map() // peerId -> { analyser, dataArray }
+    sendReaction: null,
+    sendHandRaise: null,
+    sendFile: null,
+    audioContexts: new Map(), // peerId -> { analyser, dataArray }
+    // New state for enhanced features
+    viewMode: 'grid', // 'grid' or 'spotlight'
+    spotlightPeer: null, // peerId or 'local'
+    pipEnabled: false,
+    pipPeer: null,
+    handRaised: false,
+    handRaiseQueue: [], // Array of { peerId, name, time }
+    currentBackground: 'none', // 'none', 'blur', 'color', 'image'
+    backgroundValue: null, // color hex or image URL
+    backgroundProcessor: null, // MediaPipe or canvas processor
+    devices: { cameras: [], mics: [], speakers: [] },
+    selectedDevices: { camera: '', mic: '', speaker: '' },
+    audioSettings: { noiseSuppression: true, echoCancellation: true, autoGain: true },
+    networkStats: new Map(), // peerId -> { bitrate, packetLoss, quality }
+    statsIntervals: new Map(), // peerId -> intervalId
   };
 
   // Avatar colors
@@ -1035,6 +2168,34 @@
   const chatSend = document.getElementById('chat-send');
   const emptyChat = document.getElementById('empty-chat');
 
+  // DOM Elements - New features
+  const settingsBtn = document.getElementById('settings-btn');
+  const settingsModal = document.getElementById('settings-modal');
+  const closeSettings = document.getElementById('close-settings');
+  const cameraSelect = document.getElementById('camera-select');
+  const micSelect = document.getElementById('mic-select');
+  const speakerSelect = document.getElementById('speaker-select');
+  const volumeMeterFill = document.getElementById('volume-meter-fill');
+  const volumeLevel = document.getElementById('volume-level');
+  const testAudioBtn = document.getElementById('test-audio-btn');
+  const noiseSuppressionToggle = document.getElementById('noise-suppression');
+  const echoCancellationToggle = document.getElementById('echo-cancellation');
+  const autoGainToggle = document.getElementById('auto-gain');
+  const reactionsBtn = document.getElementById('reactions-btn');
+  const reactionsBar = document.getElementById('reactions-bar');
+  const handRaiseBtn = document.getElementById('hand-raise-btn');
+  const backgroundsBtn = document.getElementById('backgrounds-btn');
+  const backgroundsPanel = document.getElementById('backgrounds-panel');
+  const closeBackgrounds = document.getElementById('close-backgrounds');
+  const backgroundsGrid = document.getElementById('backgrounds-grid');
+  const bgColors = document.getElementById('bg-colors');
+  const bgUpload = document.getElementById('bg-upload');
+  const bgUploadInput = document.getElementById('bg-upload-input');
+  const gridViewBtn = document.getElementById('grid-view-btn');
+  const spotlightViewBtn = document.getElementById('spotlight-view-btn');
+  const chatAttach = document.getElementById('chat-attach');
+  const chatFileInput = document.getElementById('chat-file-input');
+
   // Update join button state
   function updateJoinButton() {
     const hasMedia = state.micEnabled || state.cameraEnabled;
@@ -1046,7 +2207,18 @@
   // Request media permissions
   async function requestMedia(audio, video) {
     try {
-      const constraints = { audio, video: video ? { facingMode: 'user' } : false };
+      const constraints = {
+        audio: audio ? {
+          noiseSuppression: state.audioSettings.noiseSuppression,
+          echoCancellation: state.audioSettings.echoCancellation,
+          autoGainControl: state.audioSettings.autoGain,
+          deviceId: state.selectedDevices.mic ? { exact: state.selectedDevices.mic } : undefined
+        } : false,
+        video: video ? {
+          facingMode: 'user',
+          deviceId: state.selectedDevices.camera ? { exact: state.selectedDevices.camera } : undefined
+        } : false
+      };
       const stream = await navigator.mediaDevices.getUserMedia(constraints);
       return stream;
     } catch (err) {
@@ -1177,10 +2349,16 @@
     const [sendName, getName] = state.room.makeAction('name');
     const [sendChat, getChat] = state.room.makeAction('chat');
     const [sendMediaState, getMediaState] = state.room.makeAction('mediaState');
+    const [sendReaction, getReaction] = state.room.makeAction('reaction');
+    const [sendHandRaise, getHandRaise] = state.room.makeAction('handRaise');
+    const [sendFile, getFile] = state.room.makeAction('file');
 
     state.sendName = sendName;
     state.sendChat = sendChat;
     state.sendMediaState = sendMediaState;
+    state.sendReaction = sendReaction;
+    state.sendHandRaise = sendHandRaise;
+    state.sendFile = sendFile;
 
     // Handle receiving peer names
     getName((name, peerId) => {
@@ -1195,6 +2373,44 @@
     getChat((data, peerId) => {
       const peer = state.peers.get(peerId);
       addChatMessage(peer?.name || 'Unknown', data.text, data.time);
+    });
+
+    // Handle receiving files
+    getFile((data, peerId) => {
+      const peer = state.peers.get(peerId);
+      addChatMessage(peer?.name || 'Unknown', '', data.time, {
+        name: data.name,
+        type: data.type,
+        size: data.size,
+        data: data.data
+      });
+    });
+
+    // Handle receiving reactions
+    getReaction((data, peerId) => {
+      // Show floating reaction from the peer's video tile position
+      const tile = document.getElementById(`tile-${peerId}`);
+      const rect = tile?.getBoundingClientRect();
+      const x = rect ? rect.left + rect.width / 2 : null;
+      showFloatingReaction(data.emoji, x);
+    });
+
+    // Handle receiving hand raise updates
+    getHandRaise((data, peerId) => {
+      if (state.peers.has(peerId)) {
+        state.peers.get(peerId).handRaised = data.raised;
+        updatePeerHandRaiseIndicator(peerId, data.raised);
+
+        // Update queue
+        if (data.raised) {
+          if (!state.handRaiseQueue.find(q => q.peerId === peerId)) {
+            state.handRaiseQueue.push({ peerId, name: data.name, time: data.time });
+          }
+        } else {
+          state.handRaiseQueue = state.handRaiseQueue.filter(q => q.peerId !== peerId);
+        }
+        updateHandRaiseQueue();
+      }
     });
 
     // Handle receiving media state updates
@@ -1215,12 +2431,19 @@
         name: 'Connecting...',
         stream: null,
         micEnabled: false,
-        cameraEnabled: false
+        cameraEnabled: false,
+        handRaised: false,
+        connectionQuality: 'good'
       });
 
       // Send our name and media state to new peer
       sendName(state.userName, peerId);
       sendMediaState({ mic: state.micEnabled, camera: state.cameraEnabled }, peerId);
+
+      // Send hand raise state if raised
+      if (state.handRaised) {
+        sendHandRaise({ raised: true, peerId: state.peerId, name: state.userName, time: Date.now() }, peerId);
+      }
 
       updateUI();
     });
@@ -1230,6 +2453,10 @@
       console.log('Peer left:', peerId);
       state.peers.delete(peerId);
       state.audioContexts.delete(peerId);
+      stopNetworkStats(peerId);
+      // Remove from hand raise queue
+      state.handRaiseQueue = state.handRaiseQueue.filter(q => q.peerId !== peerId);
+      updateHandRaiseQueue();
       updateUI();
     });
 
@@ -1732,6 +2959,815 @@
     chatInput.value = '';
   }
 
+  // ==================== ENHANCED CHAT FEATURES ====================
+
+  // Link preview extraction
+  const urlRegex = /(https?:\/\/[^\s]+)/g;
+
+  function extractUrls(text) {
+    return text.match(urlRegex) || [];
+  }
+
+  async function fetchLinkPreview(url) {
+    try {
+      // Use a simple approach - just show the URL nicely
+      const urlObj = new URL(url);
+      return {
+        url,
+        title: urlObj.hostname + urlObj.pathname.slice(0, 30),
+        description: 'Click to open link'
+      };
+    } catch {
+      return null;
+    }
+  }
+
+  function createLinkPreview(preview) {
+    if (!preview) return '';
+    return `
+      <div class="link-preview">
+        <a href="${escapeHtml(preview.url)}" target="_blank" rel="noopener" class="link-preview-title">${escapeHtml(preview.title)}</a>
+        <div class="link-preview-description">${escapeHtml(preview.description)}</div>
+      </div>
+    `;
+  }
+
+  // Enhanced addChatMessage with link previews
+  const originalAddChatMessage = addChatMessage;
+  addChatMessage = async function(sender, text, time, fileData = null) {
+    emptyChat.style.display = 'none';
+
+    const msg = document.createElement('div');
+    msg.className = 'chat-message';
+
+    let content = '';
+    if (fileData) {
+      // File or image message
+      if (fileData.type?.startsWith('image/')) {
+        content = `<img src="${fileData.data}" class="image-preview" onclick="window.open('${fileData.data}', '_blank')" alt="${escapeHtml(fileData.name)}">`;
+      } else {
+        content = `
+          <div class="file-message" onclick="downloadFile('${fileData.data}', '${escapeHtml(fileData.name)}')">
+            <div class="file-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+              </svg>
+            </div>
+            <div class="file-info">
+              <div class="file-name">${escapeHtml(fileData.name)}</div>
+              <div class="file-size">${formatFileSize(fileData.size)}</div>
+            </div>
+          </div>
+        `;
+      }
+    } else {
+      // Text message with link preview
+      const urls = extractUrls(text);
+      let linkPreviewHtml = '';
+
+      if (urls.length > 0) {
+        const preview = await fetchLinkPreview(urls[0]);
+        linkPreviewHtml = createLinkPreview(preview);
+      }
+
+      // Convert URLs to clickable links
+      const linkedText = escapeHtml(text).replace(
+        urlRegex,
+        '<a href="$1" target="_blank" rel="noopener" style="color: #6366f1;">$1</a>'
+      );
+
+      content = `<div class="text">${linkedText}</div>${linkPreviewHtml}`;
+    }
+
+    msg.innerHTML = `
+      <div class="sender">${escapeHtml(sender)}<span class="time">${new Date(time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span></div>
+      ${content}
+    `;
+    chatMessages.appendChild(msg);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+  };
+
+  function formatFileSize(bytes) {
+    if (bytes < 1024) return bytes + ' B';
+    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+    return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+  }
+
+  // Download file helper
+  window.downloadFile = function(dataUrl, filename) {
+    const a = document.createElement('a');
+    a.href = dataUrl;
+    a.download = filename;
+    a.click();
+  };
+
+  // File sharing via WebRTC
+  chatAttach.addEventListener('click', () => chatFileInput.click());
+
+  chatFileInput.addEventListener('change', async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    // Max 5MB for WebRTC data channel
+    if (file.size > 5 * 1024 * 1024) {
+      alert('File too large. Maximum size is 5MB.');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      const fileData = {
+        name: file.name,
+        type: file.type,
+        size: file.size,
+        data: reader.result
+      };
+
+      const time = Date.now();
+      addChatMessage(state.userName + ' (You)', '', time, fileData);
+      state.sendFile?.({ ...fileData, time });
+    };
+    reader.readAsDataURL(file);
+    chatFileInput.value = '';
+  });
+
+  // ==================== NETWORK STATS & CONNECTION QUALITY ====================
+
+  function startNetworkStats(peerId, peerConnection) {
+    if (!peerConnection || state.statsIntervals.has(peerId)) return;
+
+    let prevStats = { bytesSent: 0, bytesReceived: 0, timestamp: Date.now() };
+
+    const intervalId = setInterval(async () => {
+      try {
+        const stats = await peerConnection.getStats();
+        let bytesSent = 0, bytesReceived = 0, packetsLost = 0, packetsReceived = 0;
+
+        stats.forEach(report => {
+          if (report.type === 'outbound-rtp' && report.kind === 'video') {
+            bytesSent = report.bytesSent || 0;
+          }
+          if (report.type === 'inbound-rtp' && report.kind === 'video') {
+            bytesReceived = report.bytesReceived || 0;
+            packetsLost = report.packetsLost || 0;
+            packetsReceived = report.packetsReceived || 0;
+          }
+        });
+
+        const now = Date.now();
+        const duration = (now - prevStats.timestamp) / 1000;
+        const bitrateOut = ((bytesSent - prevStats.bytesSent) * 8 / duration / 1000).toFixed(0);
+        const bitrateIn = ((bytesReceived - prevStats.bytesReceived) * 8 / duration / 1000).toFixed(0);
+        const packetLoss = packetsReceived > 0 ? ((packetsLost / (packetsLost + packetsReceived)) * 100).toFixed(1) : 0;
+
+        // Determine connection quality
+        let quality = 'excellent';
+        if (packetLoss > 5 || bitrateIn < 100) quality = 'poor';
+        else if (packetLoss > 2 || bitrateIn < 300) quality = 'medium';
+        else if (packetLoss > 0.5 || bitrateIn < 500) quality = 'good';
+
+        state.networkStats.set(peerId, {
+          bitrateOut: bitrateOut,
+          bitrateIn: bitrateIn,
+          packetLoss: packetLoss,
+          quality: quality
+        });
+
+        updateConnectionQualityIndicator(peerId, quality);
+
+        // Auto quality adjustment
+        if (quality === 'poor' && state.localStream) {
+          adjustVideoQuality('low');
+        } else if (quality === 'excellent' && state.localStream) {
+          adjustVideoQuality('high');
+        }
+
+        prevStats = { bytesSent, bytesReceived, timestamp: now };
+      } catch (err) {
+        console.error('Stats error:', err);
+      }
+    }, 2000);
+
+    state.statsIntervals.set(peerId, intervalId);
+  }
+
+  function stopNetworkStats(peerId) {
+    const intervalId = state.statsIntervals.get(peerId);
+    if (intervalId) {
+      clearInterval(intervalId);
+      state.statsIntervals.delete(peerId);
+    }
+    state.networkStats.delete(peerId);
+  }
+
+  function updateConnectionQualityIndicator(peerId, quality) {
+    const tileId = peerId === 'local' ? 'tile-local' : `tile-${peerId}`;
+    const tile = document.getElementById(tileId);
+    if (!tile) return;
+
+    let indicator = tile.querySelector('.connection-quality');
+    if (!indicator) {
+      indicator = document.createElement('div');
+      indicator.className = 'connection-quality';
+      indicator.innerHTML = '<div class="quality-bar"></div><div class="quality-bar"></div><div class="quality-bar"></div><div class="quality-bar"></div>';
+      tile.appendChild(indicator);
+    }
+
+    indicator.className = `connection-quality ${quality}`;
+  }
+
+  function adjustVideoQuality(level) {
+    const videoTrack = state.localStream?.getVideoTracks()[0];
+    if (!videoTrack) return;
+
+    const constraints = {
+      low: { width: 320, height: 180, frameRate: 15 },
+      medium: { width: 640, height: 360, frameRate: 24 },
+      high: { width: 1280, height: 720, frameRate: 30 }
+    };
+
+    try {
+      videoTrack.applyConstraints(constraints[level]);
+    } catch (err) {
+      console.error('Failed to adjust quality:', err);
+    }
+  }
+
+  // ==================== DEVICE SETTINGS ====================
+
+  async function enumerateDevices() {
+    try {
+      const devices = await navigator.mediaDevices.enumerateDevices();
+      state.devices.cameras = devices.filter(d => d.kind === 'videoinput');
+      state.devices.mics = devices.filter(d => d.kind === 'audioinput');
+      state.devices.speakers = devices.filter(d => d.kind === 'audiooutput');
+
+      // Populate selects
+      cameraSelect.innerHTML = '<option value="">Select camera...</option>' +
+        state.devices.cameras.map(d => `<option value="${d.deviceId}">${d.label || 'Camera ' + (state.devices.cameras.indexOf(d) + 1)}</option>`).join('');
+
+      micSelect.innerHTML = '<option value="">Select microphone...</option>' +
+        state.devices.mics.map(d => `<option value="${d.deviceId}">${d.label || 'Microphone ' + (state.devices.mics.indexOf(d) + 1)}</option>`).join('');
+
+      speakerSelect.innerHTML = '<option value="">Select speaker...</option>' +
+        state.devices.speakers.map(d => `<option value="${d.deviceId}">${d.label || 'Speaker ' + (state.devices.speakers.indexOf(d) + 1)}</option>`).join('');
+    } catch (err) {
+      console.error('Device enumeration error:', err);
+    }
+  }
+
+  // Settings modal
+  settingsBtn.addEventListener('click', () => {
+    enumerateDevices();
+    settingsModal.classList.add('open');
+    startVolumeMeter();
+  });
+
+  closeSettings.addEventListener('click', () => {
+    settingsModal.classList.remove('open');
+    stopVolumeMeter();
+  });
+
+  settingsModal.addEventListener('click', (e) => {
+    if (e.target === settingsModal) {
+      settingsModal.classList.remove('open');
+      stopVolumeMeter();
+    }
+  });
+
+  // Device selection
+  cameraSelect.addEventListener('change', async (e) => {
+    state.selectedDevices.camera = e.target.value;
+    if (state.cameraEnabled && e.target.value) {
+      await switchCamera(e.target.value);
+    }
+  });
+
+  micSelect.addEventListener('change', async (e) => {
+    state.selectedDevices.mic = e.target.value;
+    if (state.micEnabled && e.target.value) {
+      await switchMicrophone(e.target.value);
+    }
+  });
+
+  speakerSelect.addEventListener('change', async (e) => {
+    state.selectedDevices.speaker = e.target.value;
+    // Set speaker for all video elements
+    document.querySelectorAll('video').forEach(video => {
+      if (video.setSinkId && e.target.value) {
+        video.setSinkId(e.target.value).catch(console.error);
+      }
+    });
+  });
+
+  async function switchCamera(deviceId) {
+    try {
+      const newStream = await navigator.mediaDevices.getUserMedia({
+        video: { deviceId: { exact: deviceId } },
+        audio: state.micEnabled ? { deviceId: state.selectedDevices.mic || undefined } : false
+      });
+
+      const oldVideoTrack = state.localStream?.getVideoTracks()[0];
+      oldVideoTrack?.stop();
+
+      const newVideoTrack = newStream.getVideoTracks()[0];
+      if (state.localStream) {
+        state.localStream.removeTrack(oldVideoTrack);
+        state.localStream.addTrack(newVideoTrack);
+      } else {
+        state.localStream = newStream;
+      }
+
+      // Update the room stream
+      if (state.room) {
+        state.room.addStream(state.localStream);
+      }
+
+      updateLocalTile();
+    } catch (err) {
+      console.error('Switch camera error:', err);
+    }
+  }
+
+  async function switchMicrophone(deviceId) {
+    try {
+      const newStream = await navigator.mediaDevices.getUserMedia({
+        audio: {
+          deviceId: { exact: deviceId },
+          noiseSuppression: state.audioSettings.noiseSuppression,
+          echoCancellation: state.audioSettings.echoCancellation,
+          autoGainControl: state.audioSettings.autoGain
+        },
+        video: false
+      });
+
+      const oldAudioTrack = state.localStream?.getAudioTracks()[0];
+      oldAudioTrack?.stop();
+
+      const newAudioTrack = newStream.getAudioTracks()[0];
+      if (state.localStream) {
+        if (oldAudioTrack) state.localStream.removeTrack(oldAudioTrack);
+        state.localStream.addTrack(newAudioTrack);
+      }
+
+      if (state.room) {
+        state.room.addStream(state.localStream);
+      }
+    } catch (err) {
+      console.error('Switch mic error:', err);
+    }
+  }
+
+  // Volume meter
+  let volumeMeterInterval = null;
+  let volumeMeterAnalyser = null;
+
+  function startVolumeMeter() {
+    if (!state.localStream?.getAudioTracks().length) return;
+
+    try {
+      const audioContext = new AudioContext();
+      volumeMeterAnalyser = audioContext.createAnalyser();
+      const source = audioContext.createMediaStreamSource(state.localStream);
+      source.connect(volumeMeterAnalyser);
+      volumeMeterAnalyser.fftSize = 256;
+      const dataArray = new Uint8Array(volumeMeterAnalyser.frequencyBinCount);
+
+      volumeMeterInterval = setInterval(() => {
+        volumeMeterAnalyser.getByteFrequencyData(dataArray);
+        const average = dataArray.reduce((a, b) => a + b) / dataArray.length;
+        const percent = Math.min(100, Math.round(average / 128 * 100));
+        volumeMeterFill.style.width = percent + '%';
+        volumeLevel.textContent = percent + '%';
+      }, 50);
+    } catch (err) {
+      console.error('Volume meter error:', err);
+    }
+  }
+
+  function stopVolumeMeter() {
+    if (volumeMeterInterval) {
+      clearInterval(volumeMeterInterval);
+      volumeMeterInterval = null;
+    }
+  }
+
+  // Test audio
+  testAudioBtn.addEventListener('click', () => {
+    const audio = new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2teleA0AiNPhyH0JCmSS5O2pT0I3bXHP7pFVLVNrgNDwmWYnHlZqj+TsmGoXF1pmjebunm0YF1tqkOXwn28YFltqkOTxoHAZF1tqkOPyoXEZF1xrkOLzoHEZGFxrkOHzn3EZGFxrkODzn3EZGFxrkN/zn3EZGFxrj97znnEZGF1rjt3znnEZGF1rjdzznnAZGF1rjNvznnAZGF1si9rznXAZGF1sidnynHAYGF5siNjxm28YGF5sh9fxmm8YGF5shdbwmm4XGF5shNXwmW4XGV9sg9TwmG0XGV9sgdPvl20XGV9scNLvlmwXGV9scNHulWwWGV9scM/ulWsWGmBsb87tlWsWGmBsbs3slGoWGmBtbczrlGoVGmBtbMvqlGkVGmBta8nplGkVG2Ftas');
+    audio.volume = 0.5;
+    audio.play();
+  });
+
+  // Audio processing toggles
+  noiseSuppressionToggle.addEventListener('change', (e) => {
+    state.audioSettings.noiseSuppression = e.target.checked;
+    if (state.micEnabled) {
+      switchMicrophone(state.selectedDevices.mic || '');
+    }
+  });
+
+  echoCancellationToggle.addEventListener('change', (e) => {
+    state.audioSettings.echoCancellation = e.target.checked;
+    if (state.micEnabled) {
+      switchMicrophone(state.selectedDevices.mic || '');
+    }
+  });
+
+  autoGainToggle.addEventListener('change', (e) => {
+    state.audioSettings.autoGain = e.target.checked;
+    if (state.micEnabled) {
+      switchMicrophone(state.selectedDevices.mic || '');
+    }
+  });
+
+  // ==================== VIEW MODES (GRID/SPOTLIGHT) ====================
+
+  gridViewBtn.addEventListener('click', () => {
+    state.viewMode = 'grid';
+    gridViewBtn.classList.add('active');
+    spotlightViewBtn.classList.remove('active');
+    updateViewLayout();
+  });
+
+  spotlightViewBtn.addEventListener('click', () => {
+    state.viewMode = 'spotlight';
+    spotlightViewBtn.classList.add('active');
+    gridViewBtn.classList.remove('active');
+    // Default spotlight to screen share or first peer or local
+    if (state.screenSharing) {
+      state.spotlightPeer = 'screen';
+    } else if (state.peers.size > 0) {
+      state.spotlightPeer = state.peers.keys().next().value;
+    } else {
+      state.spotlightPeer = 'local';
+    }
+    updateViewLayout();
+  });
+
+  function updateViewLayout() {
+    if (state.viewMode === 'grid') {
+      videoGrid.classList.remove('spotlight');
+      // Remove any spotlight classes
+      videoGrid.querySelectorAll('.video-tile').forEach(tile => {
+        tile.classList.remove('spotlight-main');
+      });
+      // Remove spotlight strip if exists
+      const strip = videoGrid.querySelector('.spotlight-strip');
+      if (strip) strip.remove();
+    } else {
+      videoGrid.classList.add('spotlight');
+      // Re-render in spotlight mode
+      renderSpotlightView();
+    }
+  }
+
+  function renderSpotlightView() {
+    const tiles = Array.from(videoGrid.querySelectorAll('.video-tile'));
+    if (tiles.length === 0) return;
+
+    // Find spotlight tile
+    let spotlightTile = tiles.find(t => {
+      if (state.spotlightPeer === 'local') return t.classList.contains('local');
+      return t.id === `tile-${state.spotlightPeer}`;
+    }) || tiles[0];
+
+    // Make it the main tile
+    tiles.forEach(tile => tile.classList.remove('spotlight-main'));
+    spotlightTile.classList.add('spotlight-main');
+
+    // Create/update strip with other tiles
+    let strip = videoGrid.querySelector('.spotlight-strip');
+    if (!strip) {
+      strip = document.createElement('div');
+      strip.className = 'spotlight-strip';
+      videoGrid.appendChild(strip);
+    }
+
+    // Move non-spotlight tiles to strip
+    tiles.filter(t => t !== spotlightTile).forEach(tile => {
+      strip.appendChild(tile);
+      tile.onclick = () => {
+        state.spotlightPeer = tile.id.replace('tile-', '');
+        renderSpotlightView();
+      };
+    });
+
+    // Make sure spotlight is first child
+    videoGrid.insertBefore(spotlightTile, strip);
+    spotlightTile.onclick = null;
+  }
+
+  // ==================== REACTIONS & HAND RAISE ====================
+
+  reactionsBtn.addEventListener('click', () => {
+    reactionsBar.classList.toggle('open');
+    backgroundsPanel.classList.remove('open');
+  });
+
+  // Close reactions bar when clicking outside
+  document.addEventListener('click', (e) => {
+    if (!reactionsBar.contains(e.target) && !reactionsBtn.contains(e.target)) {
+      reactionsBar.classList.remove('open');
+    }
+  });
+
+  // Reaction buttons
+  reactionsBar.querySelectorAll('.reaction-btn:not(.hand-raise-btn)').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const emoji = btn.dataset.emoji;
+      showFloatingReaction(emoji);
+      state.sendReaction?.({ emoji, peerId: state.peerId, name: state.userName });
+    });
+  });
+
+  function showFloatingReaction(emoji, sourceX = null) {
+    const reaction = document.createElement('div');
+    reaction.className = 'floating-reaction';
+    reaction.textContent = emoji;
+
+    // Random position at bottom of screen
+    const x = sourceX || (Math.random() * (window.innerWidth - 100) + 50);
+    reaction.style.left = x + 'px';
+    reaction.style.bottom = '100px';
+
+    document.body.appendChild(reaction);
+
+    setTimeout(() => reaction.remove(), 2000);
+  }
+
+  // Hand raise
+  handRaiseBtn.addEventListener('click', () => {
+    state.handRaised = !state.handRaised;
+    handRaiseBtn.classList.toggle('raised', state.handRaised);
+
+    state.sendHandRaise?.({ raised: state.handRaised, peerId: state.peerId, name: state.userName, time: Date.now() });
+
+    updateLocalHandRaiseIndicator();
+    updateHandRaiseQueue();
+  });
+
+  function updateLocalHandRaiseIndicator() {
+    const tile = document.getElementById('tile-local');
+    if (!tile) return;
+
+    let indicator = tile.querySelector('.hand-raised-indicator');
+    if (state.handRaised) {
+      if (!indicator) {
+        indicator = document.createElement('div');
+        indicator.className = 'hand-raised-indicator';
+        indicator.textContent = '✋';
+        tile.appendChild(indicator);
+      }
+    } else {
+      indicator?.remove();
+    }
+  }
+
+  function updatePeerHandRaiseIndicator(peerId, raised) {
+    const tile = document.getElementById(`tile-${peerId}`);
+    if (!tile) return;
+
+    let indicator = tile.querySelector('.hand-raised-indicator');
+    if (raised) {
+      if (!indicator) {
+        indicator = document.createElement('div');
+        indicator.className = 'hand-raised-indicator';
+        indicator.textContent = '✋';
+        tile.appendChild(indicator);
+      }
+    } else {
+      indicator?.remove();
+    }
+  }
+
+  function updateHandRaiseQueue() {
+    // Update queue in participants sidebar
+    let queueEl = participantsList.querySelector('.hand-queue');
+
+    if (state.handRaiseQueue.length === 0 && !state.handRaised) {
+      queueEl?.remove();
+      return;
+    }
+
+    if (!queueEl) {
+      queueEl = document.createElement('div');
+      queueEl.className = 'hand-queue';
+      participantsList.insertBefore(queueEl, participantsList.firstChild);
+    }
+
+    const items = [];
+    if (state.handRaised) {
+      items.push({ name: state.userName + ' (You)', time: Date.now() });
+    }
+    items.push(...state.handRaiseQueue);
+    items.sort((a, b) => a.time - b.time);
+
+    queueEl.innerHTML = `
+      <div class="hand-queue-title">✋ Raised Hands (${items.length})</div>
+      <div class="hand-queue-list">
+        ${items.map((item, i) => `
+          <div class="hand-queue-item">
+            <span class="hand-queue-position">${i + 1}</span>
+            <span>${escapeHtml(item.name)}</span>
+          </div>
+        `).join('')}
+      </div>
+    `;
+  }
+
+  // ==================== VIRTUAL BACKGROUNDS ====================
+
+  backgroundsBtn.addEventListener('click', () => {
+    backgroundsPanel.classList.toggle('open');
+    reactionsBar.classList.remove('open');
+  });
+
+  closeBackgrounds.addEventListener('click', () => {
+    backgroundsPanel.classList.remove('open');
+  });
+
+  // Background options
+  backgroundsGrid.querySelectorAll('.bg-option').forEach(option => {
+    option.addEventListener('click', async () => {
+      backgroundsGrid.querySelectorAll('.bg-option').forEach(o => o.classList.remove('selected'));
+      bgColors.querySelectorAll('.color-option').forEach(o => o.classList.remove('selected'));
+      option.classList.add('selected');
+
+      const bg = option.dataset.bg;
+      if (bg === 'none') {
+        await disableVirtualBackground();
+      } else if (bg === 'blur') {
+        await enableBlurBackground();
+      } else {
+        // Image background
+        const imageUrl = option.style.backgroundImage.slice(5, -2);
+        await enableImageBackground(imageUrl);
+      }
+    });
+  });
+
+  // Color backgrounds
+  bgColors.querySelectorAll('.color-option').forEach(option => {
+    option.addEventListener('click', async () => {
+      backgroundsGrid.querySelectorAll('.bg-option').forEach(o => o.classList.remove('selected'));
+      bgColors.querySelectorAll('.color-option').forEach(o => o.classList.remove('selected'));
+      option.classList.add('selected');
+
+      const color = option.dataset.color;
+      await enableColorBackground(color);
+    });
+  });
+
+  // Custom upload
+  bgUpload.addEventListener('click', () => bgUploadInput.click());
+  bgUploadInput.addEventListener('change', async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = async () => {
+      backgroundsGrid.querySelectorAll('.bg-option').forEach(o => o.classList.remove('selected'));
+      bgColors.querySelectorAll('.color-option').forEach(o => o.classList.remove('selected'));
+      await enableImageBackground(reader.result);
+    };
+    reader.readAsDataURL(file);
+    bgUploadInput.value = '';
+  });
+
+  async function disableVirtualBackground() {
+    state.currentBackground = 'none';
+    state.backgroundValue = null;
+
+    // Remove canvas processing
+    const localTile = document.getElementById('tile-local');
+    if (localTile) {
+      const canvas = localTile.querySelector('.bg-canvas');
+      const video = localTile.querySelector('video.hidden-video');
+      if (canvas) canvas.remove();
+      if (video) {
+        video.classList.remove('hidden-video');
+        video.style.display = '';
+      }
+    }
+
+    // Stop background processor
+    if (state.backgroundProcessor) {
+      state.backgroundProcessor.stop?.();
+      state.backgroundProcessor = null;
+    }
+
+    updateLocalTile();
+  }
+
+  async function enableBlurBackground() {
+    state.currentBackground = 'blur';
+    state.backgroundValue = null;
+    await startBackgroundProcessor();
+  }
+
+  async function enableColorBackground(color) {
+    state.currentBackground = 'color';
+    state.backgroundValue = color;
+    await startBackgroundProcessor();
+  }
+
+  async function enableImageBackground(imageUrl) {
+    state.currentBackground = 'image';
+    state.backgroundValue = imageUrl;
+    await startBackgroundProcessor();
+  }
+
+  async function startBackgroundProcessor() {
+    // Simple canvas-based background replacement
+    // For production, use MediaPipe Selfie Segmentation
+
+    const localTile = document.getElementById('tile-local');
+    if (!localTile || !state.localStream) return;
+
+    let video = localTile.querySelector('video');
+    if (!video) {
+      video = document.createElement('video');
+      video.autoplay = true;
+      video.muted = true;
+      video.playsInline = true;
+      video.srcObject = state.localStream;
+      localTile.appendChild(video);
+    }
+
+    // Create canvas for processing
+    let canvas = localTile.querySelector('.bg-canvas');
+    if (!canvas) {
+      canvas = document.createElement('canvas');
+      canvas.className = 'bg-canvas';
+      localTile.insertBefore(canvas, video);
+    }
+
+    video.classList.add('hidden-video');
+    video.style.display = 'none';
+
+    const ctx = canvas.getContext('2d', { willReadFrequently: true });
+
+    // Load background image if needed
+    let bgImage = null;
+    if (state.currentBackground === 'image' && state.backgroundValue) {
+      bgImage = new Image();
+      bgImage.crossOrigin = 'anonymous';
+      await new Promise((resolve) => {
+        bgImage.onload = resolve;
+        bgImage.onerror = resolve;
+        bgImage.src = state.backgroundValue;
+      });
+    }
+
+    // Stop previous processor
+    if (state.backgroundProcessor) {
+      state.backgroundProcessor.stop?.();
+    }
+
+    let running = true;
+
+    function processFrame() {
+      if (!running || !state.cameraEnabled) return;
+
+      canvas.width = video.videoWidth || 640;
+      canvas.height = video.videoHeight || 480;
+
+      // Draw the video frame
+      ctx.drawImage(video, 0, 0);
+
+      // For blur, apply a simple blur effect
+      // In production, you'd use MediaPipe for proper segmentation
+      if (state.currentBackground === 'blur') {
+        ctx.filter = 'blur(0px)'; // Placeholder - real blur needs segmentation
+        ctx.drawImage(video, 0, 0);
+        ctx.filter = 'none';
+      } else if (state.currentBackground === 'color') {
+        // Draw color background (would need segmentation for real effect)
+        // This is a placeholder that just draws the video
+        ctx.drawImage(video, 0, 0);
+      } else if (state.currentBackground === 'image' && bgImage) {
+        // Draw image background (would need segmentation for real effect)
+        // This is a placeholder that just draws the video
+        ctx.drawImage(video, 0, 0);
+      }
+
+      requestAnimationFrame(processFrame);
+    }
+
+    state.backgroundProcessor = {
+      stop: () => { running = false; }
+    };
+
+    // Wait for video to be ready
+    if (video.readyState >= 2) {
+      processFrame();
+    } else {
+      video.addEventListener('loadeddata', processFrame, { once: true });
+    }
+  }
+
   // Leave meeting
   leaveBtn.addEventListener('click', () => {
     if (typeof Swal !== 'undefined') {
@@ -1760,12 +3796,42 @@
     state.localStream?.getTracks().forEach(t => t.stop());
     state.screenStream?.getTracks().forEach(t => t.stop());
 
+    // Stop background processor
+    if (state.backgroundProcessor) {
+      state.backgroundProcessor.stop?.();
+    }
+
+    // Clear all stats intervals
+    state.statsIntervals.forEach((intervalId) => clearInterval(intervalId));
+    state.statsIntervals.clear();
+
     // Leave room
     state.room?.leave();
 
     // Redirect to home
     window.location.href = '/';
   }
+
+  // ==================== INITIALIZATION ====================
+
+  // Initialize devices on page load
+  async function init() {
+    // Request initial permissions to get device labels
+    try {
+      const tempStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: true });
+      tempStream.getTracks().forEach(t => t.stop());
+    } catch (err) {
+      // Permissions not granted, that's ok
+    }
+
+    // Enumerate available devices
+    await enumerateDevices();
+
+    // Listen for device changes
+    navigator.mediaDevices.addEventListener('devicechange', enumerateDevices);
+  }
+
+  init();
 
   // Handle page unload
   window.addEventListener('beforeunload', () => {
