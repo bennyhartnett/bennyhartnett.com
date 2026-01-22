@@ -93,407 +93,252 @@
   <meta name="twitter:image" content="https://bennyhartnett.com/assets/og-image.png" id="twitter-image" />
   <meta name="twitter:image:alt" content="Benny Hartnett - Software Developer & AI Engineer" id="twitter-image-alt" />
 
-  <!-- JSON-LD Structured Data for LLM Search Optimization -->
+  <!-- JSON-LD Structured Data - Person Schema with @graph -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "Benny Hartnett",
-    "url": "https://bennyhartnett.com",
-    "description": "Software Developer & AI Engineer based in Washington D.C. Metropolitan Area",
-    "inLanguage": "en-US",
-    "potentialAction": {
-      "@type": "SearchAction",
-      "target": "https://bennyhartnett.com/?q={search_term_string}",
-      "query-input": "required name=search_term_string"
-    },
-    "author": {
-      "@type": "Person",
-      "name": "Benny Hartnett"
-    }
-  }
-  </script>
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "ProfilePage",
-    "mainEntity": {
-      "@type": "Person",
-      "@id": "https://bennyhartnett.com/#person",
-      "name": "Benny Hartnett",
-      "url": "https://bennyhartnett.com",
-      "image": "https://bennyhartnett.com/assets/profile.jpg",
-      "jobTitle": "Software Developer & AI Engineer",
-      "description": "Software Developer & AI Engineer based in Washington D.C. Metropolitan Area",
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Washington",
-        "addressRegion": "DC",
-        "addressCountry": "US"
-      },
-      "knowsAbout": [
-        "Generative AI",
-        "Large Language Models",
-        "Government Contracting",
-        "Nuclear Technology",
-        "Uranium Enrichment",
-        "IoT",
-        "Internet of Things",
-        "Embedded Systems",
-        "Edge Computing",
-        "Computer Vision",
-        "Deep Learning",
-        "Raspberry Pi",
-        "NVIDIA Jetson"
-      ],
-      "hasOccupation": {
-        "@type": "Occupation",
-        "name": "Software Developer & AI Engineer",
-        "occupationalCategory": "15-1252.00",
-        "skills": ["JavaScript", "Python", "C#", "HTML", "CSS", "AWS", "IoT", "Machine Learning", "Computer Vision"]
-      },
-      "sameAs": [
-        "https://linkedin.bennyhartnett.com",
-        "https://github.bennyhartnett.com",
-        "https://www.linkedin.com/in/dev-dc",
-        "https://github.com/bennyhartnett"
-      ]
-    }
-  }
-  </script>
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "ItemList",
-    "name": "Benny Hartnett's Projects",
-    "description": "Portfolio of software development projects",
-    "itemListElement": [
+    "@graph": [
       {
-        "@type": "ListItem",
-        "position": 1,
-        "item": {
-          "@type": "SoftwareApplication",
-          "name": "Uranium Enrichment Calculator",
-          "description": "Built for Centrus Energy to compute feed quantity, SWU requirements, and optimum tails assay from input assays",
-          "applicationCategory": "BusinessApplication",
-          "operatingSystem": "Web Browser",
-          "datePublished": "2025"
-        }
-      },
-      {
-        "@type": "ListItem",
-        "position": 2,
-        "item": {
-          "@type": "Product",
-          "name": "IoT-based Wildfire Detection System",
-          "description": "IoT system for real-time wildfire detection and prevention deployed on fire towers in remote high-risk areas",
-          "category": "IoT System",
-          "datePublished": "2021"
-        }
-      },
-      {
-        "@type": "ListItem",
-        "position": 3,
-        "item": {
-          "@type": "SoftwareApplication",
-          "name": "Edge Vehicle Make/Model Detection",
-          "description": "Using NVIDIA Jetson to detect vehicle make and model at the edge",
-          "applicationCategory": "AI/ML Application",
-          "datePublished": "2024"
-        }
-      }
-    ]
-  }
-  </script>
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "Who is Benny Hartnett?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Benny Hartnett is a Software Developer & AI Engineer based in the Washington D.C. Metropolitan Area, specializing in generative AI, government contracting, and nuclear technology."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "What is the Uranium Enrichment Calculator?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "A specialized web-based calculator built for Centrus Energy that computes feed quantity, SWU (Separative Work Unit) requirements, and optimum tails assay from input assays for uranium enrichment processes."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "What services does Benny Hartnett offer?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Benny Hartnett offers software development services spanning AI/ML development, IoT system design, and custom software solutions for government and commercial clients."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "How can I contact Benny Hartnett?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "You can reach Benny Hartnett through the contact form at https://contact.bennyhartnett.com/ or via email at me@bennyhartnett.com."
-        }
-      }
-    ]
-  }
-  </script>
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-      {
-        "@type": "ListItem",
-        "position": 1,
-        "name": "Home",
-        "item": "https://bennyhartnett.com/"
-      },
-      {
-        "@type": "ListItem",
-        "position": 2,
-        "name": "Generative AI",
-        "item": "https://generative-ai.bennyhartnett.com/"
-      },
-      {
-        "@type": "ListItem",
-        "position": 3,
-        "name": "Government Contracting",
-        "item": "https://government-contracting.bennyhartnett.com/"
-      },
-      {
-        "@type": "ListItem",
-        "position": 4,
-        "name": "Nuclear",
-        "item": "https://nuclear.bennyhartnett.com/"
-      },
-      {
-        "@type": "ListItem",
-        "position": 5,
-        "name": "Projects",
-        "item": "https://projects.bennyhartnett.com/"
-      },
-      {
-        "@type": "ListItem",
-        "position": 6,
-        "name": "Contact",
-        "item": "https://contact.bennyhartnett.com/"
-      },
-      {
-        "@type": "ListItem",
-        "position": 7,
-        "name": "GitHub",
-        "item": "https://github.bennyhartnett.com/"
-      },
-      {
-        "@type": "ListItem",
-        "position": 8,
-        "name": "LinkedIn",
-        "item": "https://linkedin.bennyhartnett.com/"
-      }
-    ]
-  }
-  </script>
-  <!-- Organization Schema for business/brand identity -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "@id": "https://bennyhartnett.com/#organization",
-    "name": "Benny Hartnett",
-    "url": "https://bennyhartnett.com",
-    "logo": "https://bennyhartnett.com/assets/og-image.png",
-    "description": "Software Developer & AI Engineer based in Washington D.C. Metropolitan Area",
-    "founder": {
-      "@type": "Person",
-      "@id": "https://bennyhartnett.com/#person"
-    },
-    "contactPoint": {
-      "@type": "ContactPoint",
-      "url": "https://contact.bennyhartnett.com/",
-      "email": "me@bennyhartnett.com",
-      "contactType": "customer service",
-      "availableLanguage": "English"
-    },
-    "sameAs": [
-      "https://linkedin.bennyhartnett.com",
-      "https://github.bennyhartnett.com",
-      "https://www.linkedin.com/in/dev-dc",
-      "https://github.com/bennyhartnett"
-    ],
-    "areaServed": {
-      "@type": "Country",
-      "name": "United States"
-    }
-  }
-  </script>
-  <!-- Service Schema for offerings -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Service",
-    "serviceType": "Software Development",
-    "provider": {
-      "@type": "Person",
-      "@id": "https://bennyhartnett.com/#person"
-    },
-    "areaServed": {
-      "@type": "Country",
-      "name": "United States"
-    },
-    "hasOfferCatalog": {
-      "@type": "OfferCatalog",
-      "name": "Software Development Services",
-      "itemListElement": [
-        {
-          "@type": "Offer",
-          "itemOffered": {
-            "@type": "Service",
-            "name": "Generative AI Development",
-            "description": "Large Language Model integration, AI-powered automation, RAG systems, and speech-to-text solutions"
-          }
+        "@type": "Person",
+        "@id": "https://bennyhartnett.com/#person",
+        "name": "Benny Hartnett",
+        "alternateName": [
+          "bennyhartnett"
+        ],
+        "url": "https://bennyhartnett.com/",
+        "image": {
+          "@type": "ImageObject",
+          "url": "https://avatars.githubusercontent.com/u/80306702?v=4",
+          "caption": "Benny Hartnett"
         },
-        {
-          "@type": "Offer",
-          "itemOffered": {
-            "@type": "Service",
-            "name": "IoT & Embedded Systems",
-            "description": "Raspberry Pi development, edge computing, sensor integration, and real-time monitoring systems"
-          }
+        "description": "Full-stack developer and generative AI systems engineer. Builds innovative software products and internal systems, publishes writing on AI and national security, and ships browser-based technical tools.",
+        "jobTitle": [
+          "Generative AI Systems Engineer",
+          "Software Developer",
+          "Full-Stack Developer"
+        ],
+        "worksFor": {
+          "@id": "https://www.lionfederal.com/#organization"
         },
-        {
-          "@type": "Offer",
-          "itemOffered": {
-            "@type": "Service",
-            "name": "Government Technology Solutions",
-            "description": "Custom software development for federal and government clients"
+        "affiliation": [
+          {
+            "@id": "https://github.com/lftaf#organization"
           }
+        ],
+        "homeLocation": {
+          "@type": "Place",
+          "name": "DC"
+        },
+        "sameAs": [
+          "https://github.com/bennyhartnett",
+          "https://github.com/lftaf",
+          "https://medium.com/@bennyhartnett",
+          "https://www.linkedin.com/in/dev-dc"
+        ],
+        "identifier": [
+          {
+            "@type": "PropertyValue",
+            "propertyID": "GitHub",
+            "value": "bennyhartnett",
+            "url": "https://github.com/bennyhartnett"
+          },
+          {
+            "@type": "PropertyValue",
+            "propertyID": "GitHub Org",
+            "value": "lftaf",
+            "url": "https://github.com/lftaf"
+          },
+          {
+            "@type": "PropertyValue",
+            "propertyID": "Medium",
+            "value": "@bennyhartnett",
+            "url": "https://medium.com/@bennyhartnett"
+          },
+          {
+            "@type": "PropertyValue",
+            "propertyID": "LinkedIn",
+            "value": "dev-dc",
+            "url": "https://www.linkedin.com/in/dev-dc"
+          }
+        ],
+        "memberOf": [
+          {
+            "@type": "Organization",
+            "name": "GitHub Developer Program",
+            "url": "https://docs.github.com/en/integrations/concepts/github-developer-program"
+          }
+        ],
+        "knowsAbout": [
+          "Generative AI",
+          "Large language models",
+          "Machine learning",
+          "Software engineering",
+          "Full-stack web development",
+          "Data science",
+          "Cloud infrastructure",
+          "GIS",
+          "Government contracting",
+          "Nuclear technology",
+          "Uranium enrichment",
+          "Separative Work Units (SWU)"
+        ],
+        "subjectOf": [
+          {
+            "@id": "https://medium.com/%40bennyhartnett/the-looming-regulatory-challenge-ai-large-language-models-and-national-security-8a692de6989d"
+          },
+          {
+            "@id": "https://medium.com/%40bennyhartnett/the-game-changer-making-calls-from-google-chrome-on-windows-11-via-iphone-and-android-1c89d6538979"
+          }
+        ],
+        "workExample": [
+          {
+            "@id": "https://bennyhartnett.com/nuclear#app"
+          },
+          {
+            "@id": "https://github.com/bennyhartnett/centrus-enrichment-calculator#repo"
+          }
+        ]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://bennyhartnett.com/#website",
+        "url": "https://bennyhartnett.com/",
+        "name": "Benny Hartnett",
+        "description": "Portfolio and project hub covering generative AI, GIS, government contracting, and nuclear work.",
+        "publisher": {
+          "@id": "https://bennyhartnett.com/#person"
+        },
+        "inLanguage": "en-US"
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://bennyhartnett.com/#webpage",
+        "url": "https://bennyhartnett.com/",
+        "name": "Benny Hartnett",
+        "isPartOf": {
+          "@id": "https://bennyhartnett.com/#website"
+        },
+        "about": {
+          "@id": "https://bennyhartnett.com/#person"
+        },
+        "primaryImageOfPage": {
+          "@type": "ImageObject",
+          "url": "https://avatars.githubusercontent.com/u/80306702?v=4"
         }
-      ]
-    }
-  }
-  </script>
-  <!-- Speakable Schema for voice assistant optimization -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    "speakable": {
-      "@type": "SpeakableSpecification",
-      "cssSelector": [".content h1", ".content h2", ".content p:first-of-type"]
-    },
-    "mainEntity": {
-      "@type": "Person",
-      "@id": "https://bennyhartnett.com/#person"
-    }
-  }
-  </script>
-  <!-- SiteNavigationElement Schema for subdomain architecture -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "SiteNavigationElement",
-    "name": "Main Navigation",
-    "hasPart": [
-      {
-        "@type": "WebPage",
-        "name": "Home",
-        "url": "https://bennyhartnett.com/"
       },
       {
-        "@type": "WebPage",
-        "name": "Generative AI",
-        "description": "Articles and resources on generative AI and large language models",
-        "url": "https://generative-ai.bennyhartnett.com/"
-      },
-      {
-        "@type": "WebPage",
-        "name": "Nuclear Technology",
-        "description": "Nuclear research projects including Uranium Enrichment Calculator",
-        "url": "https://nuclear.bennyhartnett.com/"
-      },
-      {
-        "@type": "WebPage",
-        "name": "Government Contracting",
-        "description": "Government contracting insights and federal technology solutions",
-        "url": "https://government-contracting.bennyhartnett.com/"
-      },
-      {
-        "@type": "WebPage",
-        "name": "Projects",
-        "description": "Complete portfolio of software development projects",
-        "url": "https://projects.bennyhartnett.com/"
-      },
-      {
-        "@type": "WebPage",
-        "name": "Contact",
-        "description": "Contact form for inquiries",
-        "url": "https://contact.bennyhartnett.com/"
-      },
-      {
-        "@type": "WebPage",
-        "name": "AI Chat",
-        "description": "AI-powered chat assistant",
-        "url": "https://chat.bennyhartnett.com/"
-      },
-      {
-        "@type": "ProfilePage",
-        "name": "GitHub Profile",
-        "description": "GitHub profile for Benny Hartnett",
-        "url": "https://github.bennyhartnett.com/"
-      },
-      {
-        "@type": "ProfilePage",
-        "name": "LinkedIn Profile",
-        "description": "LinkedIn profile for Benny Hartnett",
-        "url": "https://linkedin.bennyhartnett.com/"
-      }
-    ]
-  }
-  </script>
-  <!-- KnowledgeGraph enhancement for AI systems -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "@id": "https://bennyhartnett.com/#website",
-    "name": "Benny Hartnett",
-    "alternateName": ["Benny Hartnett Portfolio", "bennyhartnett.com"],
-    "url": "https://bennyhartnett.com",
-    "description": "Software Developer & AI Engineer based in Washington D.C. Metropolitan Area",
-    "inLanguage": "en-US",
-    "publisher": {
-      "@type": "Person",
-      "@id": "https://bennyhartnett.com/#person"
-    },
-    "potentialAction": [
-      {
-        "@type": "SearchAction",
-        "target": {
-          "@type": "EntryPoint",
-          "urlTemplate": "https://bennyhartnett.com/?q={search_term_string}"
+        "@type": "Organization",
+        "@id": "https://www.lionfederal.com/#organization",
+        "name": "Lion Federal",
+        "url": "https://www.lionfederal.com/",
+        "description": "Information technology consulting firm delivering custom software development, data science, cloud support services, and facilities design engineering; focuses on GenAI, ML, and Data Science.",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "1521 Westbranch Drive Suite 625",
+          "addressLocality": "McLean",
+          "addressRegion": "VA",
+          "postalCode": "22102",
+          "addressCountry": "US"
         },
-        "query-input": "required name=search_term_string"
+        "contactPoint": [
+          {
+            "@type": "ContactPoint",
+            "contactType": "general inquiries",
+            "telephone": "+1-703-214-8808",
+            "email": "info@lionfederal.com"
+          }
+        ]
       },
       {
-        "@type": "ReadAction",
-        "target": [
-          "https://bennyhartnett.com/config/llms.txt",
-          "https://bennyhartnett.com/config/llms-full.txt"
+        "@type": "Organization",
+        "@id": "https://github.com/lftaf#organization",
+        "name": "Lion Federal Engineering",
+        "url": "https://github.com/lftaf",
+        "sameAs": [
+          "https://lionfederal.com"
+        ]
+      },
+      {
+        "@type": "Organization",
+        "@id": "https://www.centrusenergy.com/#organization",
+        "name": "Centrus Energy Corp.",
+        "url": "https://www.centrusenergy.com/"
+      },
+      {
+        "@type": "SoftwareApplication",
+        "@id": "https://bennyhartnett.com/nuclear#app",
+        "name": "Uranium Enrichment Calculators",
+        "applicationCategory": "CalculatorApplication",
+        "operatingSystem": "Web",
+        "url": "https://bennyhartnett.com/nuclear",
+        "description": "Lightweight browser-based tools for uranium enrichment scenarios: feed requirements, SWU demand, and optimum tails assay.",
+        "creator": {
+          "@id": "https://bennyhartnett.com/#person"
+        },
+        "provider": {
+          "@id": "https://www.centrusenergy.com/#organization"
+        },
+        "isAccessibleForFree": true
+      },
+      {
+        "@type": "SoftwareSourceCode",
+        "@id": "https://github.com/bennyhartnett/centrus-enrichment-calculator#repo",
+        "name": "centrus-enrichment-calculator",
+        "codeRepository": "https://github.com/bennyhartnett/centrus-enrichment-calculator",
+        "programmingLanguage": [
+          "HTML",
+          "JavaScript",
+          "CSS"
+        ],
+        "author": {
+          "@id": "https://bennyhartnett.com/#person"
+        },
+        "description": "Client-side suite of uranium enrichment calculators (SWU, feed, EUP & optimum tails) for Centrus; runs fully in-browser and includes a published live demo."
+      },
+      {
+        "@type": "BlogPosting",
+        "@id": "https://medium.com/%40bennyhartnett/the-looming-regulatory-challenge-ai-large-language-models-and-national-security-8a692de6989d",
+        "headline": "The Looming Regulatory Challenge: AI, Large Language Models, and National Security",
+        "url": "https://medium.com/%40bennyhartnett/the-looming-regulatory-challenge-ai-large-language-models-and-national-security-8a692de6989d",
+        "datePublished": "2023-03-24",
+        "author": {
+          "@id": "https://bennyhartnett.com/#person"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "Medium",
+          "url": "https://medium.com/"
+        },
+        "about": [
+          "AI",
+          "Large language models",
+          "National security",
+          "Export controls"
+        ]
+      },
+      {
+        "@type": "BlogPosting",
+        "@id": "https://medium.com/%40bennyhartnett/the-game-changer-making-calls-from-google-chrome-on-windows-11-via-iphone-and-android-1c89d6538979",
+        "headline": "Make Calls from Google Chrome on Windows 11 via iPhone\u00ae",
+        "url": "https://medium.com/%40bennyhartnett/the-game-changer-making-calls-from-google-chrome-on-windows-11-via-iphone-and-android-1c89d6538979",
+        "datePublished": "2023-05-23",
+        "author": {
+          "@id": "https://bennyhartnett.com/#person"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "Medium",
+          "url": "https://medium.com/"
+        },
+        "about": [
+          "Windows 11",
+          "Google Chrome",
+          "Phone Link",
+          "iPhone",
+          "Android"
         ]
       }
-    ],
-    "mainEntity": {
-      "@type": "Person",
-      "@id": "https://bennyhartnett.com/#person"
-    }
+    ]
   }
   </script>
 
