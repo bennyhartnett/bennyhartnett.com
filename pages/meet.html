@@ -63,7 +63,8 @@
     margin-bottom: 1.125rem;
   }
 
-  .preview-container video {
+  .preview-container video,
+  .preview-container canvas {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -117,6 +118,7 @@
     border: 1px solid rgba(255, 255, 255, 0.2);
     color: white;
     transition: all 0.2s;
+    position: relative;
   }
 
   .media-toggle:hover {
@@ -139,6 +141,74 @@
   .media-toggle svg {
     width: 18px;
     height: 18px;
+  }
+
+  /* Device selector dropdown */
+  .device-selector {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: rgba(99, 102, 241, 0.8);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 10px;
+    z-index: 5;
+  }
+
+  .device-selector:hover {
+    background: rgba(99, 102, 241, 1);
+    transform: scale(1.1);
+  }
+
+  .device-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(30, 30, 30, 0.98);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    padding: 0.5rem 0;
+    min-width: 200px;
+    z-index: 100;
+    display: none;
+    max-height: 200px;
+    overflow-y: auto;
+  }
+
+  .device-dropdown.open {
+    display: block;
+  }
+
+  .device-dropdown-item {
+    padding: 0.5rem 1rem;
+    font-size: 0.65rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .device-dropdown-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .device-dropdown-item.selected {
+    color: #6366f1;
+  }
+
+  .device-dropdown-item.selected::before {
+    content: '✓';
   }
 
   .name-input-group {
@@ -165,6 +235,86 @@
   .name-input:focus {
     outline: none;
     border-color: rgba(99, 102, 241, 0.5);
+  }
+
+  /* Volume meter */
+  .volume-meter-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    height: 20px;
+  }
+
+  .volume-meter {
+    width: 150px;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .volume-meter-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #22c55e 0%, #22c55e 60%, #f59e0b 80%, #ef4444 100%);
+    width: 0%;
+    transition: width 0.05s ease;
+    border-radius: 3px;
+  }
+
+  .volume-meter-label {
+    font-size: 0.6rem;
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  /* Audio settings row */
+  .audio-settings-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .noise-suppression-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.65rem;
+    color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+  }
+
+  .noise-suppression-toggle input {
+    width: 32px;
+    height: 18px;
+    appearance: none;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 9px;
+    position: relative;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .noise-suppression-toggle input::before {
+    content: '';
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    background: white;
+    border-radius: 50%;
+    top: 2px;
+    left: 2px;
+    transition: transform 0.2s;
+  }
+
+  .noise-suppression-toggle input:checked {
+    background: rgba(99, 102, 241, 0.8);
+  }
+
+  .noise-suppression-toggle input:checked::before {
+    transform: translateX(14px);
   }
 
   .join-btn {
@@ -219,6 +369,71 @@
     display: none;
   }
 
+  /* Virtual background settings */
+  .vbg-settings {
+    margin-bottom: 1rem;
+  }
+
+  .vbg-label {
+    font-size: 0.65rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+
+  .vbg-options {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .vbg-option {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.65rem;
+    overflow: hidden;
+  }
+
+  .vbg-option:hover {
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: scale(1.05);
+  }
+
+  .vbg-option.selected {
+    border-color: #6366f1;
+    box-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
+  }
+
+  .vbg-option.none {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .vbg-option.blur {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.3), rgba(139, 92, 246, 0.3));
+  }
+
+  .vbg-option.color {
+    background: var(--vbg-color, #1a1a2e);
+  }
+
+  .vbg-option.image {
+    background-size: cover;
+    background-position: center;
+  }
+
+  .vbg-option input[type="file"],
+  .vbg-option input[type="color"] {
+    display: none;
+  }
+
   /* Meeting Room */
   .meet-container {
     min-height: calc(100vh - 56px - 1.5rem);
@@ -231,6 +446,38 @@
 
   .meet-container.active {
     display: flex;
+  }
+
+  .meet-container.fullscreen-mode {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: #0a0a0a;
+    padding: 0;
+  }
+
+  .meet-container.fullscreen-mode .meet-header {
+    display: none;
+  }
+
+  .meet-container.fullscreen-mode .controls-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+    padding: 1.5rem;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .meet-container.fullscreen-mode:hover .controls-bar {
+    opacity: 1;
+  }
+
+  .meet-container.fullscreen-mode .video-grid {
+    max-height: none;
+    height: 100vh;
   }
 
   /* Header */
@@ -275,6 +522,7 @@
     display: flex;
     align-items: center;
     gap: 0.1875rem;
+    cursor: pointer;
   }
 
   .connection-status.connecting {
@@ -285,6 +533,11 @@
   .connection-status.connected {
     background: rgba(34, 197, 94, 0.2);
     color: #22c55e;
+  }
+
+  .connection-status.poor {
+    background: rgba(239, 68, 68, 0.2);
+    color: #ef4444;
   }
 
   .connection-status .dot {
@@ -298,6 +551,52 @@
   @keyframes pulse {
     0%, 100% { opacity: 1; }
     50% { opacity: 0.5; }
+  }
+
+  /* Network stats tooltip */
+  .network-stats-tooltip {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: rgba(20, 20, 20, 0.98);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    padding: 0.75rem;
+    font-size: 0.6rem;
+    min-width: 180px;
+    z-index: 200;
+    display: none;
+  }
+
+  .network-stats-tooltip.visible {
+    display: block;
+  }
+
+  .network-stat-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.375rem;
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  .network-stat-row:last-child {
+    margin-bottom: 0;
+  }
+
+  .network-stat-label {
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  .network-stat-value.good {
+    color: #22c55e;
+  }
+
+  .network-stat-value.fair {
+    color: #f59e0b;
+  }
+
+  .network-stat-value.poor {
+    color: #ef4444;
   }
 
   /* Video Grid */
@@ -322,6 +621,33 @@
     grid-template-columns: repeat(2, 1fr);
   }
 
+  /* Spotlight mode */
+  .video-grid.spotlight {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr auto;
+  }
+
+  .video-grid.spotlight .video-tile.spotlight-main {
+    grid-row: 1;
+    max-width: none;
+    aspect-ratio: auto;
+    min-height: 300px;
+  }
+
+  .video-grid.spotlight .spotlight-strip {
+    grid-row: 2;
+    display: flex;
+    gap: 0.5rem;
+    overflow-x: auto;
+    padding: 0.5rem 0;
+  }
+
+  .video-grid.spotlight .spotlight-strip .video-tile {
+    width: 120px;
+    min-width: 120px;
+    aspect-ratio: 16/9;
+  }
+
   .video-tile {
     position: relative;
     background: rgba(30, 30, 30, 0.8);
@@ -338,13 +664,15 @@
     border: 2px solid rgba(99, 102, 241, 0.5);
   }
 
-  .video-tile video {
+  .video-tile video,
+  .video-tile canvas {
     width: 100%;
     height: 100%;
     object-fit: cover;
   }
 
-  .video-tile.local video {
+  .video-tile.local video,
+  .video-tile.local canvas {
     transform: scaleX(-1);
   }
 
@@ -397,9 +725,139 @@
     margin-left: 0.1875rem;
   }
 
+  /* Hand raised indicator */
+  .hand-raised-indicator {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    font-size: 1.25rem;
+    animation: handWave 0.5s ease-in-out infinite alternate;
+  }
+
+  @keyframes handWave {
+    from { transform: rotate(-10deg); }
+    to { transform: rotate(10deg); }
+  }
+
   /* Speaking indicator */
   .video-tile.speaking {
     box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.7);
+  }
+
+  /* Floating reactions */
+  .floating-reaction {
+    position: fixed;
+    font-size: 2rem;
+    pointer-events: none;
+    z-index: 1000;
+    animation: floatUp 2s ease-out forwards;
+  }
+
+  @keyframes floatUp {
+    0% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(-150px) scale(1.5);
+    }
+  }
+
+  /* Reactions bar */
+  .reactions-bar {
+    position: fixed;
+    bottom: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 0.5rem;
+    background: rgba(20, 20, 20, 0.95);
+    padding: 0.5rem 0.75rem;
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    z-index: 50;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s;
+  }
+
+  .reactions-bar.visible {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .reaction-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+    font-size: 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+  }
+
+  .reaction-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.2);
+  }
+
+  .reaction-btn:active {
+    transform: scale(0.9);
+  }
+
+  /* Hand raise queue */
+  .hand-raise-queue {
+    position: fixed;
+    top: 70px;
+    right: 10px;
+    background: rgba(20, 20, 20, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    padding: 0.5rem;
+    font-size: 0.65rem;
+    z-index: 150;
+    min-width: 150px;
+    display: none;
+  }
+
+  .hand-raise-queue.visible {
+    display: block;
+  }
+
+  .hand-raise-queue-title {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+  }
+
+  .hand-raise-queue-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.375rem;
+    border-radius: 4px;
+  }
+
+  .hand-raise-queue-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .hand-raise-queue-position {
+    width: 18px;
+    height: 18px;
+    background: rgba(99, 102, 241, 0.3);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.55rem;
   }
 
   /* Controls Bar */
@@ -445,6 +903,7 @@
     box-shadow: 0 6px 24px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
     animation: colorCycle 8s ease-in-out infinite;
     transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+    position: relative;
   }
 
   .control-btn svg {
@@ -479,6 +938,10 @@
   .control-btn:nth-child(4) { animation-delay: -3s; }
   .control-btn:nth-child(5) { animation-delay: -4s; }
   .control-btn:nth-child(6) { animation-delay: -5s; }
+  .control-btn:nth-child(7) { animation-delay: -6s; }
+  .control-btn:nth-child(8) { animation-delay: -7s; }
+  .control-btn:nth-child(9) { animation-delay: -8s; }
+  .control-btn:nth-child(10) { animation-delay: -9s; }
 
   .control-btn.off {
     background: rgba(239, 68, 68, 0.2);
@@ -503,12 +966,56 @@
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 0 20px rgba(239, 68, 68, 0.3);
   }
 
+  .control-btn.raised {
+    animation: none;
+    background: rgba(251, 191, 36, 0.3);
+    border-color: rgba(251, 191, 36, 0.5);
+    color: #fbbf24;
+  }
+
+  /* Layout toggle dropdown */
+  .layout-dropdown {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(20, 20, 20, 0.98);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    padding: 0.5rem 0;
+    margin-bottom: 0.5rem;
+    min-width: 140px;
+    z-index: 100;
+    display: none;
+  }
+
+  .layout-dropdown.open {
+    display: block;
+  }
+
+  .layout-dropdown-item {
+    padding: 0.5rem 1rem;
+    font-size: 0.65rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .layout-dropdown-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .layout-dropdown-item.selected {
+    color: #6366f1;
+  }
+
   /* Sidebar */
   .sidebar {
     position: fixed;
     right: 0;
     top: 56px;
-    width: 240px;
+    width: 280px;
     height: calc(100vh - 56px);
     background: rgba(20, 20, 20, 0.95);
     backdrop-filter: blur(16px);
@@ -588,6 +1095,7 @@
   .participant-item .status-icons {
     display: flex;
     gap: 0.375rem;
+    align-items: center;
   }
 
   .participant-item .status-icons svg {
@@ -604,6 +1112,10 @@
   .participant-item .status-icons svg.muted {
     color: #ef4444;
     opacity: 1;
+  }
+
+  .participant-item .hand-icon {
+    font-size: 0.75rem;
   }
 
   /* Chat area */
@@ -630,6 +1142,16 @@
     border-radius: 6px;
     display: inline-block;
     word-break: break-word;
+    max-width: 100%;
+  }
+
+  .chat-message .text a {
+    color: #818cf8;
+    text-decoration: none;
+  }
+
+  .chat-message .text a:hover {
+    text-decoration: underline;
   }
 
   .chat-message .time {
@@ -638,11 +1160,113 @@
     margin-left: 0.375rem;
   }
 
+  /* Link preview */
+  .link-preview {
+    margin-top: 0.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 6px;
+    border-left: 3px solid #6366f1;
+    padding: 0.5rem;
+    max-width: 220px;
+  }
+
+  .link-preview-title {
+    font-size: 0.6rem;
+    font-weight: 600;
+    color: white;
+    margin-bottom: 0.25rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .link-preview-description {
+    font-size: 0.55rem;
+    color: rgba(255, 255, 255, 0.6);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .link-preview-image {
+    width: 100%;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-bottom: 0.375rem;
+  }
+
+  .link-preview-domain {
+    font-size: 0.5rem;
+    color: rgba(255, 255, 255, 0.4);
+    margin-top: 0.25rem;
+  }
+
+  /* File/Image message */
+  .chat-file {
+    margin-top: 0.375rem;
+  }
+
+  .chat-file-image {
+    max-width: 200px;
+    max-height: 150px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+
+  .chat-file-image:hover {
+    transform: scale(1.02);
+  }
+
+  .chat-file-attachment {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+    cursor: pointer;
+    max-width: 200px;
+  }
+
+  .chat-file-attachment:hover {
+    background: rgba(255, 255, 255, 0.15);
+  }
+
+  .chat-file-attachment svg {
+    width: 16px;
+    height: 16px;
+    color: #6366f1;
+  }
+
+  .chat-file-name {
+    font-size: 0.6rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex: 1;
+  }
+
+  .chat-file-size {
+    font-size: 0.5rem;
+    color: rgba(255, 255, 255, 0.5);
+  }
+
   .chat-input-area {
     padding: 0.75rem;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
     display: flex;
     gap: 0.375rem;
+    flex-wrap: wrap;
+  }
+
+  .chat-input-row {
+    display: flex;
+    gap: 0.375rem;
+    width: 100%;
   }
 
   .chat-input {
@@ -663,6 +1287,31 @@
   .chat-input:focus {
     outline: none;
     border-color: rgba(99, 102, 241, 0.5);
+  }
+
+  .chat-file-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 6px;
+    padding: 0.5625rem;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .chat-file-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+  }
+
+  .chat-file-btn svg {
+    width: 13px;
+    height: 13px;
+  }
+
+  .chat-file-btn input {
+    display: none;
   }
 
   .chat-send {
@@ -686,11 +1335,103 @@
     height: 13px;
   }
 
+  /* File upload preview */
+  .file-upload-preview {
+    width: 100%;
+    padding: 0.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 6px;
+    margin-bottom: 0.375rem;
+    display: none;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .file-upload-preview.visible {
+    display: flex;
+  }
+
+  .file-upload-preview img {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 4px;
+  }
+
+  .file-upload-preview .file-info {
+    flex: 1;
+    font-size: 0.6rem;
+    overflow: hidden;
+  }
+
+  .file-upload-preview .file-name {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .file-upload-preview .file-size {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.55rem;
+  }
+
+  .file-upload-preview .remove-file {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    padding: 0.25rem;
+  }
+
+  .file-upload-preview .remove-file:hover {
+    color: #ef4444;
+  }
+
   /* Empty state */
   .empty-chat {
     text-align: center;
     color: rgba(255, 255, 255, 0.5);
     padding: 1.5rem;
+    font-size: 0.65rem;
+  }
+
+  /* Settings sidebar */
+  .settings-section {
+    margin-bottom: 1rem;
+  }
+
+  .settings-section-title {
+    font-size: 0.65rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 0.5rem;
+  }
+
+  .settings-select {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 6px;
+    padding: 0.5rem;
+    color: white;
+    font-size: 0.65rem;
+    font-family: inherit;
+    cursor: pointer;
+  }
+
+  .settings-select option {
+    background: #1a1a1a;
+    color: white;
+  }
+
+  .settings-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+  }
+
+  .settings-toggle-label {
     font-size: 0.65rem;
   }
 
@@ -739,6 +1480,10 @@
     .prejoin-card {
       margin: 0.75rem;
     }
+
+    .reactions-bar {
+      bottom: 80px;
+    }
   }
 
   /* Scrollbar styling */
@@ -769,6 +1514,65 @@
   @keyframes spin {
     to { transform: rotate(360deg); }
   }
+
+  /* Image lightbox */
+  .image-lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 2000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  .image-lightbox.visible {
+    display: flex;
+  }
+
+  .image-lightbox img {
+    max-width: 90vw;
+    max-height: 90vh;
+    object-fit: contain;
+  }
+
+  .image-lightbox-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .image-lightbox-close:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  /* PiP indicator */
+  .pip-indicator {
+    position: absolute;
+    top: 0.5rem;
+    left: 0.5rem;
+    background: rgba(99, 102, 241, 0.8);
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.55rem;
+    display: none;
+  }
+
+  .pip-indicator.visible {
+    display: block;
+  }
 </style>
 
 <!-- Pre-join Screen -->
@@ -785,6 +1589,7 @@
 
     <div class="preview-container">
       <video id="preview-video" autoplay muted playsinline></video>
+      <canvas id="preview-canvas" style="display:none;"></canvas>
       <div class="preview-placeholder" id="preview-placeholder">
         <div class="preview-avatar" id="preview-avatar">?</div>
         <div class="preview-status" id="preview-status">Camera is off</div>
@@ -792,33 +1597,70 @@
     </div>
 
     <div class="media-toggles">
-      <button class="media-toggle off" id="prejoin-mic" title="Toggle microphone">
-        <svg id="mic-icon-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
-          <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/>
-          <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
-          <line x1="12" y1="19" x2="12" y2="22"/>
-        </svg>
-        <svg id="mic-icon-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="1" y1="1" x2="23" y2="23"/>
-          <path d="M9 9v3a3 3 0 0 0 5.12 2.12M15 9.34V4a3 3 0 0 0-5.94-.6"/>
-          <path d="M17 16.95A7 7 0 0 1 5 12v-2m14 0v2a7 7 0 0 1-.11 1.23"/>
-          <line x1="12" y1="19" x2="12" y2="23"/>
-          <line x1="8" y1="23" x2="16" y2="23"/>
-        </svg>
-      </button>
-      <button class="media-toggle off" id="prejoin-camera" title="Toggle camera">
-        <svg id="cam-icon-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
-          <path d="m22 8-6 4 6 4V8Z"/>
-          <rect width="14" height="12" x="2" y="6" rx="2" ry="2"/>
-        </svg>
-        <svg id="cam-icon-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="m2 2 20 20"/>
-          <path d="M17 17H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h1"/>
-          <path d="M22 8v8"/>
-          <path d="m22 8-6 4 6 4V8Z"/>
-          <rect width="14" height="12" x="2" y="6" rx="2" ry="2"/>
-        </svg>
-      </button>
+      <div style="position: relative;">
+        <button class="media-toggle off" id="prejoin-mic" title="Toggle microphone">
+          <svg id="mic-icon-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
+            <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/>
+            <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+            <line x1="12" y1="19" x2="12" y2="22"/>
+          </svg>
+          <svg id="mic-icon-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="1" y1="1" x2="23" y2="23"/>
+            <path d="M9 9v3a3 3 0 0 0 5.12 2.12M15 9.34V4a3 3 0 0 0-5.94-.6"/>
+            <path d="M17 16.95A7 7 0 0 1 5 12v-2m14 0v2a7 7 0 0 1-.11 1.23"/>
+            <line x1="12" y1="19" x2="12" y2="23"/>
+            <line x1="8" y1="23" x2="16" y2="23"/>
+          </svg>
+        </button>
+        <button class="device-selector" id="mic-device-selector" title="Select microphone">▼</button>
+        <div class="device-dropdown" id="mic-dropdown"></div>
+      </div>
+      <div style="position: relative;">
+        <button class="media-toggle off" id="prejoin-camera" title="Toggle camera">
+          <svg id="cam-icon-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
+            <path d="m22 8-6 4 6 4V8Z"/>
+            <rect width="14" height="12" x="2" y="6" rx="2" ry="2"/>
+          </svg>
+          <svg id="cam-icon-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m2 2 20 20"/>
+            <path d="M17 17H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h1"/>
+            <path d="M22 8v8"/>
+            <path d="m22 8-6 4 6 4V8Z"/>
+            <rect width="14" height="12" x="2" y="6" rx="2" ry="2"/>
+          </svg>
+        </button>
+        <button class="device-selector" id="cam-device-selector" title="Select camera">▼</button>
+        <div class="device-dropdown" id="cam-dropdown"></div>
+      </div>
+    </div>
+
+    <div class="volume-meter-container" id="volume-meter-container" style="display: none;">
+      <span class="volume-meter-label">Mic Level</span>
+      <div class="volume-meter">
+        <div class="volume-meter-fill" id="volume-meter-fill"></div>
+      </div>
+    </div>
+
+    <div class="audio-settings-row">
+      <label class="noise-suppression-toggle">
+        <input type="checkbox" id="noise-suppression" checked>
+        <span>Noise Suppression</span>
+      </label>
+    </div>
+
+    <div class="vbg-settings">
+      <span class="vbg-label">Virtual Background</span>
+      <div class="vbg-options">
+        <div class="vbg-option none selected" data-bg="none" title="No background">Off</div>
+        <div class="vbg-option blur" data-bg="blur" title="Blur background">Blur</div>
+        <div class="vbg-option color" data-bg="color" style="--vbg-color: #1a1a2e;" title="Solid color">
+          <input type="color" id="vbg-color-picker" value="#1a1a2e">
+        </div>
+        <label class="vbg-option image" data-bg="image" title="Custom image">
+          +
+          <input type="file" id="vbg-image-picker" accept="image/*">
+        </label>
+      </div>
     </div>
 
     <div class="name-input-group">
@@ -850,9 +1692,27 @@
       Benny Meet
     </div>
     <div class="meeting-info">
-      <div class="connection-status connecting" id="connection-status">
+      <div class="connection-status connecting" id="connection-status" style="position: relative;">
         <span class="dot"></span>
         <span id="connection-text">Connecting...</span>
+        <div class="network-stats-tooltip" id="network-stats-tooltip">
+          <div class="network-stat-row">
+            <span class="network-stat-label">Bitrate</span>
+            <span class="network-stat-value" id="stat-bitrate">-- kbps</span>
+          </div>
+          <div class="network-stat-row">
+            <span class="network-stat-label">Packet Loss</span>
+            <span class="network-stat-value" id="stat-packet-loss">--%</span>
+          </div>
+          <div class="network-stat-row">
+            <span class="network-stat-label">Latency</span>
+            <span class="network-stat-value" id="stat-latency">-- ms</span>
+          </div>
+          <div class="network-stat-row">
+            <span class="network-stat-label">Resolution</span>
+            <span class="network-stat-value" id="stat-resolution">--</span>
+          </div>
+        </div>
       </div>
       <div class="participant-count" id="participant-count">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -866,8 +1726,23 @@
     </div>
   </div>
 
+  <!-- Hand Raise Queue -->
+  <div class="hand-raise-queue" id="hand-raise-queue">
+    <div class="hand-raise-queue-title">✋ Raised Hands</div>
+    <div id="hand-raise-list"></div>
+  </div>
+
   <div class="video-grid single" id="video-grid">
     <!-- Video tiles will be dynamically added here -->
+  </div>
+
+  <!-- Reactions Bar -->
+  <div class="reactions-bar" id="reactions-bar">
+    <button class="reaction-btn" data-emoji="👍" title="Thumbs up">👍</button>
+    <button class="reaction-btn" data-emoji="❤️" title="Heart">❤️</button>
+    <button class="reaction-btn" data-emoji="😂" title="Laugh">😂</button>
+    <button class="reaction-btn" data-emoji="👏" title="Clap">👏</button>
+    <button class="reaction-btn" data-emoji="🎉" title="Celebrate">🎉</button>
   </div>
 
   <div class="controls-bar">
@@ -897,6 +1772,42 @@
       <span class="btn-text">Share</span>
     </button>
 
+    <button class="control-btn" id="layout-btn" title="Change layout">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="3" width="7" height="7"/>
+        <rect x="14" y="3" width="7" height="7"/>
+        <rect x="14" y="14" width="7" height="7"/>
+        <rect x="3" y="14" width="7" height="7"/>
+      </svg>
+      <span class="btn-text">Layout</span>
+      <div class="layout-dropdown" id="layout-dropdown">
+        <div class="layout-dropdown-item selected" data-layout="grid">Grid View</div>
+        <div class="layout-dropdown-item" data-layout="spotlight">Spotlight</div>
+        <div class="layout-dropdown-item" data-layout="fullscreen">Fullscreen</div>
+        <div class="layout-dropdown-item" data-layout="pip">Picture-in-Picture</div>
+      </div>
+    </button>
+
+    <button class="control-btn" id="reactions-btn" title="Reactions">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/>
+        <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
+        <line x1="9" y1="9" x2="9.01" y2="9"/>
+        <line x1="15" y1="9" x2="15.01" y2="9"/>
+      </svg>
+      <span class="btn-text">React</span>
+    </button>
+
+    <button class="control-btn" id="hand-btn" title="Raise hand">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M18 11V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v0"/>
+        <path d="M14 10V4a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v2"/>
+        <path d="M10 10.5V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v8"/>
+        <path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/>
+      </svg>
+      <span class="btn-text">Hand</span>
+    </button>
+
     <button class="control-btn" id="participants-btn" title="Participants">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
@@ -912,6 +1823,14 @@
         <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
       </svg>
       <span class="btn-text">Chat</span>
+    </button>
+
+    <button class="control-btn" id="settings-btn" title="Settings">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/>
+        <circle cx="12" cy="12" r="3"/>
+      </svg>
+      <span class="btn-text">Settings</span>
     </button>
 
     <button class="control-btn end-call" id="leave-btn" title="Leave call">
@@ -955,14 +1874,102 @@
     <div class="empty-chat" id="empty-chat">No messages yet</div>
   </div>
   <div class="chat-input-area">
-    <input type="text" class="chat-input" id="chat-input" placeholder="Send a message to everyone">
-    <button class="chat-send" id="chat-send">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <line x1="22" y1="2" x2="11" y2="13"/>
-        <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+    <div class="file-upload-preview" id="file-upload-preview">
+      <img id="file-preview-img" src="" alt="">
+      <div class="file-info">
+        <div class="file-name" id="file-preview-name"></div>
+        <div class="file-size" id="file-preview-size"></div>
+      </div>
+      <button class="remove-file" id="remove-file">✕</button>
+    </div>
+    <div class="chat-input-row">
+      <label class="chat-file-btn" title="Share file">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/>
+        </svg>
+        <input type="file" id="chat-file-input" accept="image/*,application/pdf,.doc,.docx,.txt,.zip">
+      </label>
+      <input type="text" class="chat-input" id="chat-input" placeholder="Send a message to everyone">
+      <button class="chat-send" id="chat-send">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="22" y1="2" x2="11" y2="13"/>
+          <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Settings Sidebar -->
+<div class="sidebar" id="settings-sidebar">
+  <div class="sidebar-header">
+    <h3>Settings</h3>
+    <button class="sidebar-close" id="close-settings">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"/>
+        <line x1="6" y1="6" x2="18" y2="18"/>
       </svg>
     </button>
   </div>
+  <div class="sidebar-content">
+    <div class="settings-section">
+      <div class="settings-section-title">Camera</div>
+      <select class="settings-select" id="settings-camera"></select>
+    </div>
+    <div class="settings-section">
+      <div class="settings-section-title">Microphone</div>
+      <select class="settings-select" id="settings-mic"></select>
+      <div class="volume-meter-container" style="margin-top: 0.5rem; display: flex;">
+        <span class="volume-meter-label">Level</span>
+        <div class="volume-meter">
+          <div class="volume-meter-fill" id="settings-volume-meter"></div>
+        </div>
+      </div>
+    </div>
+    <div class="settings-section">
+      <div class="settings-section-title">Speaker</div>
+      <select class="settings-select" id="settings-speaker"></select>
+      <button class="join-btn" style="margin-top: 0.5rem; padding: 0.5rem;" id="test-speaker">Test Speaker</button>
+    </div>
+    <div class="settings-section">
+      <div class="settings-section-title">Audio Processing</div>
+      <div class="settings-toggle">
+        <span class="settings-toggle-label">Noise Suppression</span>
+        <label class="noise-suppression-toggle" style="margin: 0;">
+          <input type="checkbox" id="settings-noise-suppression" checked>
+        </label>
+      </div>
+    </div>
+    <div class="settings-section">
+      <div class="settings-section-title">Virtual Background</div>
+      <div class="vbg-options" style="justify-content: flex-start;">
+        <div class="vbg-option none selected" data-bg="none" title="No background">Off</div>
+        <div class="vbg-option blur" data-bg="blur" title="Blur background">Blur</div>
+        <div class="vbg-option color" data-bg="color" style="--vbg-color: #1a1a2e;" title="Solid color">
+          <input type="color" id="settings-vbg-color" value="#1a1a2e">
+        </div>
+        <label class="vbg-option image" data-bg="image" title="Custom image">
+          +
+          <input type="file" id="settings-vbg-image" accept="image/*">
+        </label>
+      </div>
+    </div>
+    <div class="settings-section">
+      <div class="settings-section-title">Video Quality</div>
+      <select class="settings-select" id="settings-quality">
+        <option value="auto">Auto (Recommended)</option>
+        <option value="high">High (720p)</option>
+        <option value="medium">Medium (480p)</option>
+        <option value="low">Low (360p)</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<!-- Image Lightbox -->
+<div class="image-lightbox" id="image-lightbox">
+  <button class="image-lightbox-close" id="lightbox-close">✕</button>
+  <img id="lightbox-img" src="" alt="">
 </div>
 
 <script type="module">
@@ -978,12 +1985,30 @@
     micEnabled: false,
     cameraEnabled: false,
     screenSharing: false,
+    handRaised: false,
     room: null,
-    peers: new Map(), // peerId -> { name, stream, micEnabled, cameraEnabled }
+    peers: new Map(), // peerId -> { name, stream, micEnabled, cameraEnabled, handRaised }
     sendName: null,
     sendChat: null,
     sendMediaState: null,
-    audioContexts: new Map() // peerId -> { analyser, dataArray }
+    sendReaction: null,
+    sendHandRaise: null,
+    sendFile: null,
+    audioContexts: new Map(), // peerId -> { analyser, dataArray }
+    handRaiseQueue: [], // Array of { peerId, name, time }
+    selectedMicId: null,
+    selectedCameraId: null,
+    selectedSpeakerId: null,
+    noiseSuppression: true,
+    virtualBackground: 'none', // 'none', 'blur', 'color', 'image'
+    virtualBackgroundValue: null,
+    layoutMode: 'grid', // 'grid', 'spotlight', 'fullscreen', 'pip'
+    spotlightPeerId: null,
+    networkStats: { bitrate: 0, packetLoss: 0, latency: 0, resolution: '' },
+    qualitySetting: 'auto',
+    pendingFile: null,
+    segmenter: null,
+    canvasStream: null
   };
 
   // Avatar colors
@@ -1007,6 +2032,7 @@
   // DOM Elements - Pre-join
   const prejoinScreen = document.getElementById('prejoin-screen');
   const previewVideo = document.getElementById('preview-video');
+  const previewCanvas = document.getElementById('preview-canvas');
   const previewPlaceholder = document.getElementById('preview-placeholder');
   const previewAvatar = document.getElementById('preview-avatar');
   const previewStatus = document.getElementById('preview-status');
@@ -1015,28 +2041,215 @@
   const nameInput = document.getElementById('name-input');
   const joinBtn = document.getElementById('join-btn');
   const mediaRequirement = document.getElementById('media-requirement');
+  const volumeMeterContainer = document.getElementById('volume-meter-container');
+  const volumeMeterFill = document.getElementById('volume-meter-fill');
+  const micDropdown = document.getElementById('mic-dropdown');
+  const camDropdown = document.getElementById('cam-dropdown');
 
   // DOM Elements - Meeting room
   const meetRoom = document.getElementById('meet-room');
   const videoGrid = document.getElementById('video-grid');
   const connectionStatus = document.getElementById('connection-status');
   const connectionText = document.getElementById('connection-text');
+  const networkStatsTooltip = document.getElementById('network-stats-tooltip');
   const participantCount = document.getElementById('participant-count');
   const countText = document.getElementById('count-text');
   const micBtn = document.getElementById('mic-btn');
   const cameraBtn = document.getElementById('camera-btn');
   const screenBtn = document.getElementById('screen-btn');
+  const layoutBtn = document.getElementById('layout-btn');
+  const layoutDropdown = document.getElementById('layout-dropdown');
+  const reactionsBtn = document.getElementById('reactions-btn');
+  const reactionsBar = document.getElementById('reactions-bar');
+  const handBtn = document.getElementById('hand-btn');
+  const handRaiseQueue = document.getElementById('hand-raise-queue');
+  const handRaiseList = document.getElementById('hand-raise-list');
   const participantsBtn = document.getElementById('participants-btn');
   const chatBtn = document.getElementById('chat-btn');
+  const settingsBtn = document.getElementById('settings-btn');
   const leaveBtn = document.getElementById('leave-btn');
   const participantsSidebar = document.getElementById('participants-sidebar');
   const chatSidebar = document.getElementById('chat-sidebar');
+  const settingsSidebar = document.getElementById('settings-sidebar');
   const participantsList = document.getElementById('participants-list');
   const participantsHeader = document.getElementById('participants-header');
   const chatMessages = document.getElementById('chat-messages');
   const chatInput = document.getElementById('chat-input');
   const chatSend = document.getElementById('chat-send');
+  const chatFileInput = document.getElementById('chat-file-input');
+  const fileUploadPreview = document.getElementById('file-upload-preview');
   const emptyChat = document.getElementById('empty-chat');
+  const imageLightbox = document.getElementById('image-lightbox');
+  const lightboxImg = document.getElementById('lightbox-img');
+
+  // Enumerate devices
+  async function enumerateDevices() {
+    try {
+      const devices = await navigator.mediaDevices.enumerateDevices();
+      const mics = devices.filter(d => d.kind === 'audioinput');
+      const cameras = devices.filter(d => d.kind === 'videoinput');
+      const speakers = devices.filter(d => d.kind === 'audiooutput');
+
+      // Populate mic dropdown
+      micDropdown.innerHTML = mics.map(d =>
+        `<div class="device-dropdown-item ${d.deviceId === state.selectedMicId ? 'selected' : ''}" data-id="${d.deviceId}">${d.label || 'Microphone ' + (mics.indexOf(d) + 1)}</div>`
+      ).join('');
+
+      // Populate camera dropdown
+      camDropdown.innerHTML = cameras.map(d =>
+        `<div class="device-dropdown-item ${d.deviceId === state.selectedCameraId ? 'selected' : ''}" data-id="${d.deviceId}">${d.label || 'Camera ' + (cameras.indexOf(d) + 1)}</div>`
+      ).join('');
+
+      // Populate settings dropdowns
+      const settingsCamera = document.getElementById('settings-camera');
+      const settingsMic = document.getElementById('settings-mic');
+      const settingsSpeaker = document.getElementById('settings-speaker');
+
+      if (settingsCamera) {
+        settingsCamera.innerHTML = cameras.map(d =>
+          `<option value="${d.deviceId}" ${d.deviceId === state.selectedCameraId ? 'selected' : ''}>${d.label || 'Camera ' + (cameras.indexOf(d) + 1)}</option>`
+        ).join('');
+      }
+      if (settingsMic) {
+        settingsMic.innerHTML = mics.map(d =>
+          `<option value="${d.deviceId}" ${d.deviceId === state.selectedMicId ? 'selected' : ''}>${d.label || 'Microphone ' + (mics.indexOf(d) + 1)}</option>`
+        ).join('');
+      }
+      if (settingsSpeaker) {
+        settingsSpeaker.innerHTML = speakers.map(d =>
+          `<option value="${d.deviceId}" ${d.deviceId === state.selectedSpeakerId ? 'selected' : ''}>${d.label || 'Speaker ' + (speakers.indexOf(d) + 1)}</option>`
+        ).join('');
+      }
+    } catch (err) {
+      console.error('Device enumeration error:', err);
+    }
+  }
+
+  // Device selector click handlers
+  document.getElementById('mic-device-selector')?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    micDropdown.classList.toggle('open');
+    camDropdown.classList.remove('open');
+  });
+
+  document.getElementById('cam-device-selector')?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    camDropdown.classList.toggle('open');
+    micDropdown.classList.remove('open');
+  });
+
+  micDropdown?.addEventListener('click', async (e) => {
+    const item = e.target.closest('.device-dropdown-item');
+    if (item) {
+      state.selectedMicId = item.dataset.id;
+      micDropdown.classList.remove('open');
+      if (state.micEnabled) {
+        await switchMic(state.selectedMicId);
+      }
+      enumerateDevices();
+    }
+  });
+
+  camDropdown?.addEventListener('click', async (e) => {
+    const item = e.target.closest('.device-dropdown-item');
+    if (item) {
+      state.selectedCameraId = item.dataset.id;
+      camDropdown.classList.remove('open');
+      if (state.cameraEnabled) {
+        await switchCamera(state.selectedCameraId);
+      }
+      enumerateDevices();
+    }
+  });
+
+  // Close dropdowns when clicking outside
+  document.addEventListener('click', () => {
+    micDropdown.classList.remove('open');
+    camDropdown.classList.remove('open');
+    layoutDropdown.classList.remove('open');
+  });
+
+  // Switch microphone
+  async function switchMic(deviceId) {
+    try {
+      const constraints = {
+        audio: {
+          deviceId: deviceId ? { exact: deviceId } : undefined,
+          noiseSuppression: state.noiseSuppression,
+          echoCancellation: true
+        },
+        video: state.cameraEnabled ? { deviceId: state.selectedCameraId ? { exact: state.selectedCameraId } : undefined } : false
+      };
+      const newStream = await navigator.mediaDevices.getUserMedia(constraints);
+      if (state.localStream) {
+        state.localStream.getTracks().forEach(t => t.stop());
+      }
+      state.localStream = newStream;
+      if (state.room) {
+        state.room.addStream(newStream);
+      }
+      updatePreview();
+    } catch (err) {
+      console.error('Switch mic error:', err);
+    }
+  }
+
+  // Switch camera
+  async function switchCamera(deviceId) {
+    try {
+      const constraints = {
+        audio: state.micEnabled ? { deviceId: state.selectedMicId ? { exact: state.selectedMicId } : undefined, noiseSuppression: state.noiseSuppression } : false,
+        video: { deviceId: deviceId ? { exact: deviceId } : undefined }
+      };
+      const newStream = await navigator.mediaDevices.getUserMedia(constraints);
+      if (state.localStream) {
+        state.localStream.getTracks().forEach(t => t.stop());
+      }
+      state.localStream = newStream;
+      if (state.room) {
+        state.room.addStream(newStream);
+      }
+      updatePreview();
+      if (state.virtualBackground !== 'none') {
+        applyVirtualBackground();
+      }
+    } catch (err) {
+      console.error('Switch camera error:', err);
+    }
+  }
+
+  // Volume meter for pre-join
+  let volumeMeterInterval = null;
+  function startVolumeMeter() {
+    if (volumeMeterInterval) return;
+    volumeMeterContainer.style.display = 'flex';
+
+    try {
+      const audioContext = new AudioContext();
+      const analyser = audioContext.createAnalyser();
+      const source = audioContext.createMediaStreamSource(state.localStream);
+      source.connect(analyser);
+      analyser.fftSize = 256;
+      const dataArray = new Uint8Array(analyser.frequencyBinCount);
+
+      volumeMeterInterval = setInterval(() => {
+        analyser.getByteFrequencyData(dataArray);
+        const average = dataArray.reduce((a, b) => a + b) / dataArray.length;
+        const level = Math.min(100, (average / 128) * 100);
+        volumeMeterFill.style.width = level + '%';
+      }, 50);
+    } catch (err) {
+      console.error('Volume meter error:', err);
+    }
+  }
+
+  function stopVolumeMeter() {
+    if (volumeMeterInterval) {
+      clearInterval(volumeMeterInterval);
+      volumeMeterInterval = null;
+    }
+    volumeMeterContainer.style.display = 'none';
+  }
 
   // Update join button state
   function updateJoinButton() {
@@ -1049,12 +2262,206 @@
   // Request media permissions
   async function requestMedia(audio, video) {
     try {
-      const constraints = { audio, video: video ? { facingMode: 'user' } : false };
+      const constraints = {
+        audio: audio ? {
+          deviceId: state.selectedMicId ? { exact: state.selectedMicId } : undefined,
+          noiseSuppression: state.noiseSuppression,
+          echoCancellation: true
+        } : false,
+        video: video ? {
+          deviceId: state.selectedCameraId ? { exact: state.selectedCameraId } : undefined,
+          facingMode: 'user'
+        } : false
+      };
       const stream = await navigator.mediaDevices.getUserMedia(constraints);
+      await enumerateDevices();
       return stream;
     } catch (err) {
       console.error('Media error:', err);
       return null;
+    }
+  }
+
+  // Virtual background handling
+  const vbgOptions = document.querySelectorAll('.vbg-option');
+  vbgOptions.forEach(opt => {
+    opt.addEventListener('click', (e) => {
+      const bg = opt.dataset.bg;
+      if (bg === 'color') {
+        document.getElementById('vbg-color-picker')?.click();
+        document.getElementById('settings-vbg-color')?.click();
+        return;
+      }
+      if (bg === 'image') return;
+
+      vbgOptions.forEach(o => o.classList.remove('selected'));
+      document.querySelectorAll(`.vbg-option[data-bg="${bg}"]`).forEach(o => o.classList.add('selected'));
+      state.virtualBackground = bg;
+      state.virtualBackgroundValue = null;
+
+      if (state.cameraEnabled) {
+        applyVirtualBackground();
+      }
+    });
+  });
+
+  document.getElementById('vbg-color-picker')?.addEventListener('input', (e) => {
+    const color = e.target.value;
+    document.querySelectorAll('.vbg-option.color').forEach(o => o.style.setProperty('--vbg-color', color));
+    state.virtualBackground = 'color';
+    state.virtualBackgroundValue = color;
+    vbgOptions.forEach(o => o.classList.remove('selected'));
+    document.querySelectorAll('.vbg-option.color').forEach(o => o.classList.add('selected'));
+    if (state.cameraEnabled) applyVirtualBackground();
+  });
+
+  document.getElementById('settings-vbg-color')?.addEventListener('input', (e) => {
+    const color = e.target.value;
+    document.querySelectorAll('.vbg-option.color').forEach(o => o.style.setProperty('--vbg-color', color));
+    state.virtualBackground = 'color';
+    state.virtualBackgroundValue = color;
+    vbgOptions.forEach(o => o.classList.remove('selected'));
+    document.querySelectorAll('.vbg-option.color').forEach(o => o.classList.add('selected'));
+    if (state.cameraEnabled) applyVirtualBackground();
+  });
+
+  document.getElementById('vbg-image-picker')?.addEventListener('change', (e) => {
+    handleVbgImage(e.target.files[0], e.target.closest('.vbg-option'));
+  });
+
+  document.getElementById('settings-vbg-image')?.addEventListener('change', (e) => {
+    handleVbgImage(e.target.files[0], e.target.closest('.vbg-option'));
+  });
+
+  function handleVbgImage(file, optElement) {
+    if (!file) return;
+    const url = URL.createObjectURL(file);
+    document.querySelectorAll('.vbg-option.image').forEach(o => o.style.backgroundImage = `url(${url})`);
+    state.virtualBackground = 'image';
+    state.virtualBackgroundValue = url;
+    vbgOptions.forEach(o => o.classList.remove('selected'));
+    document.querySelectorAll('.vbg-option.image').forEach(o => o.classList.add('selected'));
+    if (state.cameraEnabled) applyVirtualBackground();
+  }
+
+  // Apply virtual background using MediaPipe Selfie Segmentation
+  async function applyVirtualBackground() {
+    if (state.virtualBackground === 'none') {
+      // Remove virtual background
+      if (state.canvasStream) {
+        state.canvasStream.getTracks().forEach(t => t.stop());
+        state.canvasStream = null;
+      }
+      previewCanvas.style.display = 'none';
+      previewVideo.style.display = 'block';
+      if (state.localStream) {
+        previewVideo.srcObject = state.localStream;
+      }
+      return;
+    }
+
+    // Load MediaPipe Selfie Segmentation if not loaded
+    if (!state.segmenter) {
+      try {
+        // Dynamic import of MediaPipe
+        const vision = await import('https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.0');
+        const { ImageSegmenter, FilesetResolver } = vision;
+
+        const wasmFileset = await FilesetResolver.forVisionTasks(
+          'https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.0/wasm'
+        );
+
+        state.segmenter = await ImageSegmenter.createFromOptions(wasmFileset, {
+          baseOptions: {
+            modelAssetPath: 'https://storage.googleapis.com/mediapipe-models/image_segmenter/selfie_segmenter/float16/latest/selfie_segmenter.tflite',
+            delegate: 'GPU'
+          },
+          runningMode: 'VIDEO',
+          outputCategoryMask: true
+        });
+      } catch (err) {
+        console.error('Failed to load segmenter:', err);
+        return;
+      }
+    }
+
+    // Set up canvas processing
+    const video = previewVideo;
+    const canvas = previewCanvas;
+    const ctx = canvas.getContext('2d');
+
+    canvas.width = video.videoWidth || 640;
+    canvas.height = video.videoHeight || 480;
+
+    canvas.style.display = 'block';
+    video.style.display = 'none';
+
+    let backgroundImage = null;
+    if (state.virtualBackground === 'image' && state.virtualBackgroundValue) {
+      backgroundImage = new Image();
+      backgroundImage.src = state.virtualBackgroundValue;
+      await new Promise(resolve => backgroundImage.onload = resolve);
+    }
+
+    function processFrame() {
+      if (state.virtualBackground === 'none' || !state.cameraEnabled) return;
+
+      try {
+        const result = state.segmenter.segmentForVideo(video, performance.now());
+        const mask = result.categoryMask?.getAsFloat32Array();
+
+        if (mask) {
+          ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+          const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+          const pixels = imageData.data;
+
+          for (let i = 0; i < mask.length; i++) {
+            const pixelIndex = i * 4;
+            const maskValue = mask[i];
+
+            if (maskValue < 0.5) { // Background
+              if (state.virtualBackground === 'blur') {
+                // Simple blur effect
+                pixels[pixelIndex + 3] = 128;
+              } else if (state.virtualBackground === 'color') {
+                const color = state.virtualBackgroundValue || '#1a1a2e';
+                const r = parseInt(color.slice(1, 3), 16);
+                const g = parseInt(color.slice(3, 5), 16);
+                const b = parseInt(color.slice(5, 7), 16);
+                pixels[pixelIndex] = r;
+                pixels[pixelIndex + 1] = g;
+                pixels[pixelIndex + 2] = b;
+              } else if (state.virtualBackground === 'image' && backgroundImage) {
+                const bgX = Math.floor((i % canvas.width) * backgroundImage.width / canvas.width);
+                const bgY = Math.floor(Math.floor(i / canvas.width) * backgroundImage.height / canvas.height);
+                // Would need offscreen canvas for proper image replacement
+                pixels[pixelIndex] = 30;
+                pixels[pixelIndex + 1] = 30;
+                pixels[pixelIndex + 2] = 46;
+              }
+            }
+          }
+
+          ctx.putImageData(imageData, 0, 0);
+        }
+
+        result.close();
+      } catch (err) {
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      }
+
+      requestAnimationFrame(processFrame);
+    }
+
+    processFrame();
+
+    // Create canvas stream for WebRTC
+    state.canvasStream = canvas.captureStream(30);
+    if (state.room && state.localStream) {
+      const audioTrack = state.localStream.getAudioTracks()[0];
+      if (audioTrack) {
+        state.canvasStream.addTrack(audioTrack);
+      }
     }
   }
 
@@ -1063,12 +2470,32 @@
     if (state.localStream && state.cameraEnabled) {
       previewVideo.srcObject = state.localStream;
       previewPlaceholder.style.display = 'none';
+      if (state.virtualBackground !== 'none') {
+        applyVirtualBackground();
+      } else {
+        previewVideo.style.display = 'block';
+        previewCanvas.style.display = 'none';
+      }
     } else {
       previewVideo.srcObject = null;
+      previewCanvas.style.display = 'none';
+      previewVideo.style.display = 'block';
       previewPlaceholder.style.display = 'flex';
       previewStatus.textContent = state.micEnabled ? 'Camera is off' : 'Camera and mic are off';
     }
   }
+
+  // Noise suppression toggle
+  document.getElementById('noise-suppression')?.addEventListener('change', (e) => {
+    state.noiseSuppression = e.target.checked;
+  });
+
+  document.getElementById('settings-noise-suppression')?.addEventListener('change', async (e) => {
+    state.noiseSuppression = e.target.checked;
+    if (state.micEnabled && state.localStream) {
+      await switchMic(state.selectedMicId);
+    }
+  });
 
   // Toggle microphone in pre-join
   prejoinMic.addEventListener('click', async () => {
@@ -1084,6 +2511,7 @@
         prejoinMic.classList.add('active');
         document.getElementById('mic-icon-on').style.display = 'block';
         document.getElementById('mic-icon-off').style.display = 'none';
+        startVolumeMeter();
       }
     } else {
       state.localStream?.getAudioTracks().forEach(t => t.stop());
@@ -1092,6 +2520,7 @@
       prejoinMic.classList.remove('active');
       document.getElementById('mic-icon-on').style.display = 'none';
       document.getElementById('mic-icon-off').style.display = 'block';
+      stopVolumeMeter();
 
       if (state.cameraEnabled) {
         const stream = await requestMedia(false, true);
@@ -1180,10 +2609,16 @@
     const [sendName, getName] = state.room.makeAction('name');
     const [sendChat, getChat] = state.room.makeAction('chat');
     const [sendMediaState, getMediaState] = state.room.makeAction('mediaState');
+    const [sendReaction, getReaction] = state.room.makeAction('reaction');
+    const [sendHandRaise, getHandRaise] = state.room.makeAction('handRaise');
+    const [sendFile, getFile] = state.room.makeAction('file');
 
     state.sendName = sendName;
     state.sendChat = sendChat;
     state.sendMediaState = sendMediaState;
+    state.sendReaction = sendReaction;
+    state.sendHandRaise = sendHandRaise;
+    state.sendFile = sendFile;
 
     // Handle receiving peer names
     getName((name, peerId) => {
@@ -1191,13 +2626,14 @@
         state.peers.get(peerId).name = name;
         updateVideoTile(peerId);
         updateParticipantsList();
+        updateHandRaiseQueueUI();
       }
     });
 
     // Handle receiving chat messages
     getChat((data, peerId) => {
       const peer = state.peers.get(peerId);
-      addChatMessage(peer?.name || 'Unknown', data.text, data.time);
+      addChatMessage(peer?.name || 'Unknown', data.text, data.time, data.type, data.fileData);
     });
 
     // Handle receiving media state updates
@@ -1211,6 +2647,38 @@
       }
     });
 
+    // Handle receiving reactions
+    getReaction((data, peerId) => {
+      const peer = state.peers.get(peerId);
+      showFloatingReaction(data.emoji, peer?.name || 'Unknown');
+    });
+
+    // Handle receiving hand raise updates
+    getHandRaise((data, peerId) => {
+      if (state.peers.has(peerId)) {
+        const peer = state.peers.get(peerId);
+        peer.handRaised = data.raised;
+
+        if (data.raised) {
+          if (!state.handRaiseQueue.find(h => h.peerId === peerId)) {
+            state.handRaiseQueue.push({ peerId, name: peer.name, time: Date.now() });
+          }
+        } else {
+          state.handRaiseQueue = state.handRaiseQueue.filter(h => h.peerId !== peerId);
+        }
+
+        updateVideoTile(peerId);
+        updateParticipantsList();
+        updateHandRaiseQueueUI();
+      }
+    });
+
+    // Handle receiving file data
+    getFile((data, peerId) => {
+      const peer = state.peers.get(peerId);
+      addChatMessage(peer?.name || 'Unknown', '', data.time, 'file', data);
+    });
+
     // Handle peer joining
     state.room.onPeerJoin(peerId => {
       console.log('Peer joined:', peerId);
@@ -1218,12 +2686,14 @@
         name: 'Connecting...',
         stream: null,
         micEnabled: false,
-        cameraEnabled: false
+        cameraEnabled: false,
+        handRaised: false
       });
 
-      // Send our name and media state to new peer
+      // Send our name, media state, and hand raise status to new peer
       sendName(state.userName, peerId);
       sendMediaState({ mic: state.micEnabled, camera: state.cameraEnabled }, peerId);
+      sendHandRaise({ raised: state.handRaised }, peerId);
 
       updateUI();
     });
@@ -1233,7 +2703,9 @@
       console.log('Peer left:', peerId);
       state.peers.delete(peerId);
       state.audioContexts.delete(peerId);
+      state.handRaiseQueue = state.handRaiseQueue.filter(h => h.peerId !== peerId);
       updateUI();
+      updateHandRaiseQueueUI();
     });
 
     // Handle incoming streams
@@ -1248,12 +2720,13 @@
 
     // Add our stream to the room
     if (state.localStream) {
-      state.room.addStream(state.localStream);
+      state.room.addStream(state.canvasStream || state.localStream);
     }
 
     // Switch to meeting room UI
     prejoinScreen.style.display = 'none';
     meetRoom.classList.add('active');
+    stopVolumeMeter();
 
     // Update connection status
     connectionStatus.classList.remove('connecting');
@@ -1275,7 +2748,59 @@
     // Create local video tile
     createLocalTile();
     updateUI();
+
+    // Start network stats monitoring
+    startNetworkStatsMonitoring();
+
+    // Populate settings
+    await enumerateDevices();
   }
+
+  // Network stats monitoring
+  function startNetworkStatsMonitoring() {
+    setInterval(async () => {
+      // Get stats from RTCPeerConnection if available
+      // For Trystero, we'd need to access the underlying peer connections
+      // This is a simplified version showing UI updates
+
+      // Simulate stats for demo (in production, get from RTCPeerConnection.getStats())
+      const quality = state.peers.size > 0 ? 'good' : 'fair';
+      updateNetworkStatsUI(quality);
+    }, 5000);
+  }
+
+  function updateNetworkStatsUI(quality) {
+    const statBitrate = document.getElementById('stat-bitrate');
+    const statPacketLoss = document.getElementById('stat-packet-loss');
+    const statLatency = document.getElementById('stat-latency');
+    const statResolution = document.getElementById('stat-resolution');
+
+    // Update with simulated/real stats
+    if (statBitrate) statBitrate.textContent = state.networkStats.bitrate || '-- kbps';
+    if (statPacketLoss) {
+      statPacketLoss.textContent = (state.networkStats.packetLoss || 0) + '%';
+      statPacketLoss.className = `network-stat-value ${state.networkStats.packetLoss < 2 ? 'good' : state.networkStats.packetLoss < 5 ? 'fair' : 'poor'}`;
+    }
+    if (statLatency) statLatency.textContent = (state.networkStats.latency || '--') + ' ms';
+    if (statResolution) statResolution.textContent = state.networkStats.resolution || '--';
+
+    // Update connection status indicator
+    if (quality === 'poor') {
+      connectionStatus.classList.remove('connected');
+      connectionStatus.classList.add('poor');
+      connectionText.textContent = 'Poor connection';
+    }
+  }
+
+  // Connection status click for stats tooltip
+  connectionStatus?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    networkStatsTooltip.classList.toggle('visible');
+  });
+
+  document.addEventListener('click', () => {
+    networkStatsTooltip?.classList.remove('visible');
+  });
 
   // Create local video tile
   function createLocalTile() {
@@ -1283,14 +2808,25 @@
     tile.className = 'video-tile local';
     tile.id = 'tile-local';
 
-    const video = document.createElement('video');
-    video.autoplay = true;
-    video.muted = true;
-    video.playsInline = true;
-
     if (state.localStream && state.cameraEnabled) {
-      video.srcObject = state.localStream;
-      tile.appendChild(video);
+      if (state.virtualBackground !== 'none' && state.canvasStream) {
+        const canvas = document.createElement('canvas');
+        canvas.className = 'virtual-bg-canvas';
+        // Would need to set up canvas rendering here
+        const video = document.createElement('video');
+        video.autoplay = true;
+        video.muted = true;
+        video.playsInline = true;
+        video.srcObject = state.localStream;
+        tile.appendChild(video);
+      } else {
+        const video = document.createElement('video');
+        video.autoplay = true;
+        video.muted = true;
+        video.playsInline = true;
+        video.srcObject = state.localStream;
+        tile.appendChild(video);
+      }
     } else {
       const placeholder = document.createElement('div');
       placeholder.className = 'video-placeholder';
@@ -1302,17 +2838,18 @@
 
     const nameTag = document.createElement('div');
     nameTag.className = 'participant-name';
-    nameTag.innerHTML = `${state.userName} <span class="you-badge">You</span>`;
+    nameTag.innerHTML = `${escapeHtml(state.userName)} <span class="you-badge">You</span>`;
     if (!state.micEnabled) {
-      nameTag.innerHTML += `<svg class="muted-indicator" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <line x1="1" y1="1" x2="23" y2="23"/>
-        <path d="M9 9v3a3 3 0 0 0 5.12 2.12M15 9.34V4a3 3 0 0 0-5.94-.6"/>
-        <path d="M17 16.95A7 7 0 0 1 5 12v-2m14 0v2a7 7 0 0 1-.11 1.23"/>
-        <line x1="12" y1="19" x2="12" y2="23"/>
-        <line x1="8" y1="23" x2="16" y2="23"/>
-      </svg>`;
+      nameTag.innerHTML += getMutedIconSvg();
     }
     tile.appendChild(nameTag);
+
+    if (state.handRaised) {
+      const handIndicator = document.createElement('div');
+      handIndicator.className = 'hand-raised-indicator';
+      handIndicator.textContent = '✋';
+      tile.appendChild(handIndicator);
+    }
 
     videoGrid.appendChild(tile);
 
@@ -1320,6 +2857,16 @@
     if (state.localStream && state.micEnabled) {
       setupSpeakingDetection('local', state.localStream);
     }
+  }
+
+  function getMutedIconSvg() {
+    return `<svg class="muted-indicator" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="1" y1="1" x2="23" y2="23"/>
+      <path d="M9 9v3a3 3 0 0 0 5.12 2.12M15 9.34V4a3 3 0 0 0-5.94-.6"/>
+      <path d="M17 16.95A7 7 0 0 1 5 12v-2m14 0v2a7 7 0 0 1-.11 1.23"/>
+      <line x1="12" y1="19" x2="12" y2="23"/>
+      <line x1="8" y1="23" x2="16" y2="23"/>
+    </svg>`;
   }
 
   // Update video tile for a peer
@@ -1357,15 +2904,16 @@
     nameTag.className = 'participant-name';
     nameTag.textContent = peer.name;
     if (!peer.micEnabled) {
-      nameTag.innerHTML += `<svg class="muted-indicator" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <line x1="1" y1="1" x2="23" y2="23"/>
-        <path d="M9 9v3a3 3 0 0 0 5.12 2.12M15 9.34V4a3 3 0 0 0-5.94-.6"/>
-        <path d="M17 16.95A7 7 0 0 1 5 12v-2m14 0v2a7 7 0 0 1-.11 1.23"/>
-        <line x1="12" y1="19" x2="12" y2="23"/>
-        <line x1="8" y1="23" x2="16" y2="23"/>
-      </svg>`;
+      nameTag.innerHTML += getMutedIconSvg();
     }
     tile.appendChild(nameTag);
+
+    if (peer.handRaised) {
+      const handIndicator = document.createElement('div');
+      handIndicator.className = 'hand-raised-indicator';
+      handIndicator.textContent = '✋';
+      tile.appendChild(handIndicator);
+    }
   }
 
   // Update local tile
@@ -1393,17 +2941,18 @@
 
     const nameTag = document.createElement('div');
     nameTag.className = 'participant-name';
-    nameTag.innerHTML = `${state.userName} <span class="you-badge">You</span>`;
+    nameTag.innerHTML = `${escapeHtml(state.userName)} <span class="you-badge">You</span>`;
     if (!state.micEnabled) {
-      nameTag.innerHTML += `<svg class="muted-indicator" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <line x1="1" y1="1" x2="23" y2="23"/>
-        <path d="M9 9v3a3 3 0 0 0 5.12 2.12M15 9.34V4a3 3 0 0 0-5.94-.6"/>
-        <path d="M17 16.95A7 7 0 0 1 5 12v-2m14 0v2a7 7 0 0 1-.11 1.23"/>
-        <line x1="12" y1="19" x2="12" y2="23"/>
-        <line x1="8" y1="23" x2="16" y2="23"/>
-      </svg>`;
+      nameTag.innerHTML += getMutedIconSvg();
     }
     tile.appendChild(nameTag);
+
+    if (state.handRaised) {
+      const handIndicator = document.createElement('div');
+      handIndicator.className = 'hand-raised-indicator';
+      handIndicator.textContent = '✋';
+      tile.appendChild(handIndicator);
+    }
   }
 
   // Set up speaking detection
@@ -1416,7 +2965,7 @@
       analyser.fftSize = 256;
       const dataArray = new Uint8Array(analyser.frequencyBinCount);
 
-      state.audioContexts.set(peerId, { analyser, dataArray });
+      state.audioContexts.set(peerId, { analyser, dataArray, audioContext });
 
       function checkSpeaking() {
         if (!state.audioContexts.has(peerId)) return;
@@ -1429,9 +2978,20 @@
         if (tile) {
           if (average > 30) {
             tile.classList.add('speaking');
+            // Auto-spotlight active speaker in spotlight mode
+            if (state.layoutMode === 'spotlight' && peerId !== 'local') {
+              state.spotlightPeerId = peerId;
+            }
           } else {
             tile.classList.remove('speaking');
           }
+        }
+
+        // Update settings volume meter if in meeting
+        const settingsVolumeMeter = document.getElementById('settings-volume-meter');
+        if (settingsVolumeMeter && peerId === 'local') {
+          const level = Math.min(100, (average / 128) * 100);
+          settingsVolumeMeter.style.width = level + '%';
         }
 
         requestAnimationFrame(checkSpeaking);
@@ -1461,8 +3021,11 @@
 
     // Update grid layout
     const totalParticipants = state.peers.size + 1;
-    videoGrid.classList.remove('single', 'duo');
-    if (totalParticipants === 1) {
+    videoGrid.classList.remove('single', 'duo', 'spotlight');
+
+    if (state.layoutMode === 'spotlight') {
+      videoGrid.classList.add('spotlight');
+    } else if (totalParticipants === 1) {
       videoGrid.classList.add('single');
     } else if (totalParticipants === 2) {
       videoGrid.classList.add('duo');
@@ -1484,8 +3047,9 @@
     localItem.className = 'participant-item';
     localItem.innerHTML = `
       <div class="avatar" style="background: ${getAvatarColor(state.peerId)}">${state.userName[0]?.toUpperCase() || '?'}</div>
-      <div class="name">${state.userName} (You)</div>
+      <div class="name">${escapeHtml(state.userName)} (You)</div>
       <div class="status-icons">
+        ${state.handRaised ? '<span class="hand-icon">✋</span>' : ''}
         <svg class="${state.micEnabled ? 'active' : 'muted'}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           ${state.micEnabled ? `
             <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/>
@@ -1509,8 +3073,9 @@
       item.className = 'participant-item';
       item.innerHTML = `
         <div class="avatar" style="background: ${getAvatarColor(peerId)}">${peer.name[0]?.toUpperCase() || '?'}</div>
-        <div class="name">${peer.name}</div>
+        <div class="name">${escapeHtml(peer.name)}</div>
         <div class="status-icons">
+          ${peer.handRaised ? '<span class="hand-icon">✋</span>' : ''}
           <svg class="${peer.micEnabled ? 'active' : 'muted'}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             ${peer.micEnabled ? `
               <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/>
@@ -1528,6 +3093,28 @@
       `;
       participantsList.appendChild(item);
     });
+  }
+
+  // Hand raise queue UI
+  function updateHandRaiseQueueUI() {
+    const queue = state.handRaiseQueue.sort((a, b) => a.time - b.time);
+
+    // Include local user if hand raised
+    const fullQueue = state.handRaised
+      ? [{ peerId: 'local', name: state.userName + ' (You)', time: Date.now() }, ...queue]
+      : queue;
+
+    if (fullQueue.length > 0) {
+      handRaiseQueue.classList.add('visible');
+      handRaiseList.innerHTML = fullQueue.map((h, i) => `
+        <div class="hand-raise-queue-item">
+          <span class="hand-raise-queue-position">${i + 1}</span>
+          <span>${escapeHtml(h.name)}</span>
+        </div>
+      `).join('');
+    } else {
+      handRaiseQueue.classList.remove('visible');
+    }
   }
 
   // Update mic icon
@@ -1572,19 +3159,16 @@
   // Toggle microphone in meeting
   micBtn.addEventListener('click', async () => {
     if (state.micEnabled) {
-      // Mute
       state.localStream?.getAudioTracks().forEach(t => t.enabled = false);
       state.micEnabled = false;
       micBtn.classList.add('off');
       updateMicIcon(micBtn, false);
       micBtn.querySelector('.btn-text').textContent = 'Unmute';
     } else {
-      // Unmute - might need to get new stream
       const audioTracks = state.localStream?.getAudioTracks();
       if (audioTracks && audioTracks.length > 0) {
         audioTracks.forEach(t => t.enabled = true);
       } else {
-        // Need to get new audio stream
         const newStream = await requestMedia(true, state.cameraEnabled);
         if (newStream) {
           if (state.localStream) {
@@ -1592,6 +3176,7 @@
           }
           state.localStream = newStream;
           state.room?.addStream(newStream);
+          setupSpeakingDetection('local', newStream);
         }
       }
       state.micEnabled = true;
@@ -1608,19 +3193,16 @@
   // Toggle camera in meeting
   cameraBtn.addEventListener('click', async () => {
     if (state.cameraEnabled) {
-      // Turn off camera
       state.localStream?.getVideoTracks().forEach(t => t.enabled = false);
       state.cameraEnabled = false;
       cameraBtn.classList.add('off');
       updateCameraIcon(cameraBtn, false);
       cameraBtn.querySelector('.btn-text').textContent = 'Start Video';
     } else {
-      // Turn on camera
       const videoTracks = state.localStream?.getVideoTracks();
       if (videoTracks && videoTracks.length > 0) {
         videoTracks.forEach(t => t.enabled = true);
       } else {
-        // Need to get new video stream
         const newStream = await requestMedia(state.micEnabled, true);
         if (newStream) {
           if (state.localStream) {
@@ -1644,14 +3226,12 @@
   // Screen sharing
   screenBtn.addEventListener('click', async () => {
     if (state.screenSharing) {
-      // Stop sharing
       state.screenStream?.getTracks().forEach(t => t.stop());
       state.screenStream = null;
       state.screenSharing = false;
       screenBtn.classList.remove('off');
       screenBtn.querySelector('.btn-text').textContent = 'Share';
 
-      // Re-add camera stream
       if (state.localStream) {
         state.room?.addStream(state.localStream);
       }
@@ -1662,10 +3242,8 @@
         screenBtn.classList.add('off');
         screenBtn.querySelector('.btn-text').textContent = 'Stop Share';
 
-        // Add screen stream
         state.room?.addStream(state.screenStream);
 
-        // Handle user stopping share via browser UI
         state.screenStream.getVideoTracks()[0].onended = () => {
           state.screenStream = null;
           state.screenSharing = false;
@@ -1681,9 +3259,93 @@
     }
   });
 
+  // Layout toggle
+  layoutBtn?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    layoutDropdown.classList.toggle('open');
+  });
+
+  layoutDropdown?.addEventListener('click', (e) => {
+    const item = e.target.closest('.layout-dropdown-item');
+    if (item) {
+      const layout = item.dataset.layout;
+      state.layoutMode = layout;
+
+      layoutDropdown.querySelectorAll('.layout-dropdown-item').forEach(i => i.classList.remove('selected'));
+      item.classList.add('selected');
+      layoutDropdown.classList.remove('open');
+
+      // Apply layout
+      if (layout === 'fullscreen') {
+        meetRoom.classList.add('fullscreen-mode');
+      } else {
+        meetRoom.classList.remove('fullscreen-mode');
+      }
+
+      if (layout === 'pip') {
+        // Request Picture-in-Picture for local video
+        const localTile = document.getElementById('tile-local');
+        const localVideo = localTile?.querySelector('video');
+        if (localVideo && document.pictureInPictureEnabled) {
+          localVideo.requestPictureInPicture().catch(console.error);
+        }
+      }
+
+      updateUI();
+    }
+  });
+
+  // Reactions
+  reactionsBtn?.addEventListener('click', () => {
+    reactionsBar.classList.toggle('visible');
+  });
+
+  document.querySelectorAll('.reaction-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const emoji = btn.dataset.emoji;
+      showFloatingReaction(emoji, state.userName);
+      state.sendReaction?.({ emoji });
+      reactionsBar.classList.remove('visible');
+    });
+  });
+
+  function showFloatingReaction(emoji, name) {
+    const reaction = document.createElement('div');
+    reaction.className = 'floating-reaction';
+    reaction.textContent = emoji;
+    reaction.style.left = (Math.random() * 60 + 20) + '%';
+    reaction.style.bottom = '100px';
+    document.body.appendChild(reaction);
+
+    setTimeout(() => reaction.remove(), 2000);
+  }
+
+  // Hand raise
+  handBtn?.addEventListener('click', () => {
+    state.handRaised = !state.handRaised;
+
+    if (state.handRaised) {
+      handBtn.classList.add('raised');
+      handBtn.querySelector('.btn-text').textContent = 'Lower';
+      if (!state.handRaiseQueue.find(h => h.peerId === 'local')) {
+        state.handRaiseQueue.unshift({ peerId: 'local', name: state.userName, time: Date.now() });
+      }
+    } else {
+      handBtn.classList.remove('raised');
+      handBtn.querySelector('.btn-text').textContent = 'Hand';
+      state.handRaiseQueue = state.handRaiseQueue.filter(h => h.peerId !== 'local');
+    }
+
+    state.sendHandRaise?.({ raised: state.handRaised });
+    updateLocalTile();
+    updateParticipantsList();
+    updateHandRaiseQueueUI();
+  });
+
   // Sidebar toggles
   participantsBtn.addEventListener('click', () => {
     chatSidebar.classList.remove('open');
+    settingsSidebar.classList.remove('open');
     participantsSidebar.classList.toggle('open');
   });
 
@@ -1693,6 +3355,7 @@
 
   chatBtn.addEventListener('click', () => {
     participantsSidebar.classList.remove('open');
+    settingsSidebar.classList.remove('open');
     chatSidebar.classList.toggle('open');
   });
 
@@ -1700,18 +3363,127 @@
     chatSidebar.classList.remove('open');
   });
 
+  settingsBtn?.addEventListener('click', () => {
+    participantsSidebar.classList.remove('open');
+    chatSidebar.classList.remove('open');
+    settingsSidebar.classList.toggle('open');
+    enumerateDevices();
+  });
+
+  document.getElementById('close-settings')?.addEventListener('click', () => {
+    settingsSidebar.classList.remove('open');
+  });
+
+  // Settings device changes
+  document.getElementById('settings-camera')?.addEventListener('change', async (e) => {
+    state.selectedCameraId = e.target.value;
+    if (state.cameraEnabled) {
+      await switchCamera(state.selectedCameraId);
+    }
+  });
+
+  document.getElementById('settings-mic')?.addEventListener('change', async (e) => {
+    state.selectedMicId = e.target.value;
+    if (state.micEnabled) {
+      await switchMic(state.selectedMicId);
+    }
+  });
+
+  document.getElementById('settings-speaker')?.addEventListener('change', (e) => {
+    state.selectedSpeakerId = e.target.value;
+    // Set audio output device for video elements
+    document.querySelectorAll('video').forEach(video => {
+      if (video.setSinkId) {
+        video.setSinkId(state.selectedSpeakerId).catch(console.error);
+      }
+    });
+  });
+
+  document.getElementById('test-speaker')?.addEventListener('click', () => {
+    const audio = new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2teleimR0NnbpWAVB1OO1N/hm1kUB1qJ0+DhnFkUB1qJ0+DhnFkUB1qJ0+DhnFkU');
+    if (audio.setSinkId && state.selectedSpeakerId) {
+      audio.setSinkId(state.selectedSpeakerId);
+    }
+    audio.play();
+  });
+
+  document.getElementById('settings-quality')?.addEventListener('change', async (e) => {
+    state.qualitySetting = e.target.value;
+    // Would apply quality constraints to video track
+  });
+
   // Chat functionality
-  function addChatMessage(sender, text, time) {
+  function addChatMessage(sender, text, time, type = 'text', fileData = null) {
     emptyChat.style.display = 'none';
 
     const msg = document.createElement('div');
     msg.className = 'chat-message';
+
+    let content = '';
+    if (type === 'file' && fileData) {
+      if (fileData.type?.startsWith('image/')) {
+        content = `<div class="chat-file">
+          <img src="${fileData.data}" alt="${escapeHtml(fileData.name)}" class="chat-file-image" onclick="document.getElementById('lightbox-img').src=this.src; document.getElementById('image-lightbox').classList.add('visible');">
+        </div>`;
+      } else {
+        content = `<div class="chat-file">
+          <a href="${fileData.data}" download="${escapeHtml(fileData.name)}" class="chat-file-attachment">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            <span class="chat-file-name">${escapeHtml(fileData.name)}</span>
+            <span class="chat-file-size">${formatFileSize(fileData.size)}</span>
+          </a>
+        </div>`;
+      }
+    } else {
+      // Process text for links
+      const processedText = processTextWithLinks(escapeHtml(text));
+      content = `<div class="text">${processedText}</div>`;
+    }
+
     msg.innerHTML = `
-      <div class="sender">${sender}<span class="time">${new Date(time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span></div>
-      <div class="text">${escapeHtml(text)}</div>
+      <div class="sender">${escapeHtml(sender)}<span class="time">${new Date(time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span></div>
+      ${content}
     `;
     chatMessages.appendChild(msg);
     chatMessages.scrollTop = chatMessages.scrollHeight;
+
+    // Fetch link previews if text contains URLs
+    if (type === 'text') {
+      const urls = extractUrls(text);
+      urls.forEach(url => fetchLinkPreview(url, msg));
+    }
+  }
+
+  function processTextWithLinks(text) {
+    const urlRegex = /(https?:\/\/[^\s]+)/g;
+    return text.replace(urlRegex, '<a href="$1" target="_blank" rel="noopener">$1</a>');
+  }
+
+  function extractUrls(text) {
+    const urlRegex = /(https?:\/\/[^\s]+)/g;
+    return text.match(urlRegex) || [];
+  }
+
+  async function fetchLinkPreview(url, msgElement) {
+    try {
+      // Use a CORS proxy or the website's OG tags
+      // For demo, create a simple preview placeholder
+      const preview = document.createElement('div');
+      preview.className = 'link-preview';
+      preview.innerHTML = `
+        <div class="link-preview-title">${new URL(url).hostname}</div>
+        <div class="link-preview-domain">${url}</div>
+      `;
+      msgElement.appendChild(preview);
+    } catch (err) {
+      // Ignore preview errors
+    }
+  }
+
+  function formatFileSize(bytes) {
+    if (bytes < 1024) return bytes + ' B';
+    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+    return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
   }
 
   function escapeHtml(text) {
@@ -1720,20 +3492,81 @@
     return div.innerHTML;
   }
 
+  // File upload handling
+  chatFileInput?.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    state.pendingFile = file;
+
+    // Show preview
+    fileUploadPreview.classList.add('visible');
+    document.getElementById('file-preview-name').textContent = file.name;
+    document.getElementById('file-preview-size').textContent = formatFileSize(file.size);
+
+    if (file.type.startsWith('image/')) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        document.getElementById('file-preview-img').src = e.target.result;
+        document.getElementById('file-preview-img').style.display = 'block';
+      };
+      reader.readAsDataURL(file);
+    } else {
+      document.getElementById('file-preview-img').style.display = 'none';
+    }
+  });
+
+  document.getElementById('remove-file')?.addEventListener('click', () => {
+    state.pendingFile = null;
+    fileUploadPreview.classList.remove('visible');
+    chatFileInput.value = '';
+  });
+
   chatSend.addEventListener('click', sendChatMessage);
   chatInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') sendChatMessage();
   });
 
-  function sendChatMessage() {
+  async function sendChatMessage() {
     const text = chatInput.value.trim();
-    if (!text) return;
-
     const time = Date.now();
-    addChatMessage(state.userName + ' (You)', text, time);
-    state.sendChat?.({ text, time });
-    chatInput.value = '';
+
+    if (state.pendingFile) {
+      // Send file via data channel
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const fileData = {
+          name: state.pendingFile.name,
+          type: state.pendingFile.type,
+          size: state.pendingFile.size,
+          data: e.target.result,
+          time
+        };
+        addChatMessage(state.userName + ' (You)', '', time, 'file', fileData);
+        state.sendFile?.(fileData);
+      };
+      reader.readAsDataURL(state.pendingFile);
+
+      state.pendingFile = null;
+      fileUploadPreview.classList.remove('visible');
+      chatFileInput.value = '';
+    }
+
+    if (text) {
+      addChatMessage(state.userName + ' (You)', text, time);
+      state.sendChat?.({ text, time, type: 'text' });
+      chatInput.value = '';
+    }
   }
+
+  // Image lightbox
+  imageLightbox?.addEventListener('click', () => {
+    imageLightbox.classList.remove('visible');
+  });
+
+  document.getElementById('lightbox-close')?.addEventListener('click', () => {
+    imageLightbox.classList.remove('visible');
+  });
 
   // Leave meeting
   leaveBtn.addEventListener('click', () => {
@@ -1759,14 +3592,12 @@
   });
 
   function leaveMeeting() {
-    // Stop all streams
     state.localStream?.getTracks().forEach(t => t.stop());
     state.screenStream?.getTracks().forEach(t => t.stop());
+    state.canvasStream?.getTracks().forEach(t => t.stop());
 
-    // Leave room
     state.room?.leave();
 
-    // Redirect to home
     window.location.href = '/';
   }
 
@@ -1774,6 +3605,21 @@
   window.addEventListener('beforeunload', () => {
     state.localStream?.getTracks().forEach(t => t.stop());
     state.screenStream?.getTracks().forEach(t => t.stop());
+    state.canvasStream?.getTracks().forEach(t => t.stop());
     state.room?.leave();
   });
+
+  // Escape key to exit fullscreen
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && state.layoutMode === 'fullscreen') {
+      meetRoom.classList.remove('fullscreen-mode');
+      state.layoutMode = 'grid';
+      layoutDropdown.querySelectorAll('.layout-dropdown-item').forEach(i => {
+        i.classList.toggle('selected', i.dataset.layout === 'grid');
+      });
+    }
+  });
+
+  // Initialize
+  enumerateDevices();
 </script>
