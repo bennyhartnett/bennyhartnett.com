@@ -8,8 +8,8 @@
   }
 
   .chat-container {
-    height: calc(100vh - 56px - 2rem - 28px - env(safe-area-inset-bottom, 0px));
-    height: calc(100svh - 56px - 2rem - 28px - env(safe-area-inset-bottom, 0px)); /* Mobile-friendly viewport height */
+    height: calc((100vh - 56px - 2rem - 28px - env(safe-area-inset-bottom, 0px)) / 0.75);
+    height: calc((100svh - 56px - 2rem - 28px - env(safe-area-inset-bottom, 0px)) / 0.75); /* Mobile-friendly viewport height */
     display: flex;
     flex-direction: column;
     padding: 1rem;
@@ -17,6 +17,8 @@
     max-width: 800px;
     margin: 0 auto;
     overflow: hidden;
+    transform: scale(0.75);
+    transform-origin: top center;
   }
 
   .chat-header {
