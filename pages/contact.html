@@ -6,13 +6,15 @@
     margin: 0;
   }
   .contact-container {
-    min-height: calc(100vh - 56px - 2rem);
-    min-height: calc(100svh - 56px - 2rem); /* Mobile-friendly viewport height */
+    min-height: calc((100vh - 56px - 2rem) / 0.9);
+    min-height: calc((100svh - 56px - 2rem) / 0.9); /* Mobile-friendly viewport height */
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     padding: 1rem;
+    transform: scale(0.9);
+    transform-origin: top center;
   }
   .contact-form {
     width: 100%;
