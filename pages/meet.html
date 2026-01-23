@@ -2636,6 +2636,11 @@
   // Set up speaking detection
   function setupSpeakingDetection(peerId, stream) {
     try {
+      // Check if stream has audio tracks before setting up detection
+      if (!stream || !stream.getAudioTracks().length) {
+        return; // No audio track, skip speaking detection
+      }
+
       const audioContext = new AudioContext();
       const analyser = audioContext.createAnalyser();
       const source = audioContext.createMediaStreamSource(stream);
