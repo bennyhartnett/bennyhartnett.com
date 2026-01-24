@@ -127,7 +127,7 @@ function renderFallbackContent(url) {
       <ul class="link-list">\
         <li><a data-href="https://www.linkedin.com/in/dev-dc" data-external="true">LinkedIn</a></li>\
         <li><a data-href="https://github.com/bennyhartnett" data-external="true">GitHub</a></li>\
-        <li><a data-action="download-resume">Resume</a></li>\
+        <li><a href="https://resume.bennyhartnett.com">Resume</a></li>\
         <li><a data-href="/nuclear">Nuclear</a></li>\
         <li><a data-href="/contact">Contact</a></li>\
       </ul>\
