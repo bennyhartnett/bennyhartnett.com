@@ -1,0 +1,167 @@
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+  body {
+    font-family: 'Inter', sans-serif;
+    color: white;
+    margin: 0;
+  }
+  .tools-container {
+    min-height: calc(100vh - 56px - 2rem);
+    min-height: calc(100svh - 56px - 2rem);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 1rem;
+  }
+  .tools-header {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  .tools-header h1 {
+    font-size: 2rem;
+    margin: 0 0 0.5rem 0;
+  }
+  .tools-header p {
+    color: rgba(255, 255, 255, 0.7);
+    margin: 0;
+  }
+  .tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    width: 100%;
+    max-width: 900px;
+  }
+  .tool-card {
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    text-decoration: none;
+    color: white;
+    transition: all 0.3s ease;
+  }
+  .tool-card:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: var(--wave-color, rgba(255, 255, 255, 0.3));
+    transform: translateY(-2px);
+  }
+  .tool-card:focus-visible {
+    outline: 2px solid var(--wave-color);
+    outline-offset: 4px;
+  }
+  .tool-icon {
+    font-size: 2rem;
+    margin-bottom: 0.75rem;
+  }
+  .tool-card h2 {
+    font-size: 1.25rem;
+    margin: 0 0 0.5rem 0;
+  }
+  .tool-card p {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin: 0;
+    flex-grow: 1;
+  }
+  .tool-card .tool-tag {
+    display: inline-block;
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    margin-top: 1rem;
+    align-self: flex-start;
+  }
+  .tool-card.coming-soon {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+  .tool-card.coming-soon .tool-tag {
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  /* Dark mode scrollbar */
+  ::-webkit-scrollbar {
+    width: 12px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #111;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #444;
+    border-radius: 6px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #444 #111;
+  }
+
+  @media (max-width: 600px) {
+    .tools-container {
+      padding: 1.5rem 1rem;
+    }
+    .tools-header h1 {
+      font-size: 1.5rem;
+    }
+    .tools-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<div class="tools-container">
+  <div class="tools-header">
+    <h1>Tools</h1>
+    <p>Apps and utilities I've built</p>
+  </div>
+
+  <div class="tools-grid">
+    <a href="/meet" class="tool-card">
+      <span class="tool-icon">📹</span>
+      <h2>Meet</h2>
+      <p>Video conferencing with screen sharing, real-time collaboration, and no sign-up required.</p>
+      <span class="tool-tag">Video</span>
+    </a>
+
+    <a href="/nuclear" class="tool-card">
+      <span class="tool-icon">⚛️</span>
+      <h2>Nuclear Calculator</h2>
+      <p>SWU calculator for uranium enrichment economics. Compute separative work units and costs.</p>
+      <span class="tool-tag">Calculator</span>
+    </a>
+
+    <a href="/chat" class="tool-card">
+      <span class="tool-icon">💬</span>
+      <h2>AI Chat</h2>
+      <p>Chat with an AI assistant trained on my background, projects, and experience.</p>
+      <span class="tool-tag">AI</span>
+    </a>
+
+    <div class="tool-card coming-soon">
+      <span class="tool-icon">🔧</span>
+      <h2>Coming Soon</h2>
+      <p>More tools are on the way. Check back for updates.</p>
+      <span class="tool-tag">Coming Soon</span>
+    </div>
+
+    <div class="tool-card coming-soon">
+      <span class="tool-icon">🔧</span>
+      <h2>Coming Soon</h2>
+      <p>More tools are on the way. Check back for updates.</p>
+      <span class="tool-tag">Coming Soon</span>
+    </div>
+
+    <div class="tool-card coming-soon">
+      <span class="tool-icon">🔧</span>
+      <h2>Coming Soon</h2>
+      <p>More tools are on the way. Check back for updates.</p>
+      <span class="tool-tag">Coming Soon</span>
+    </div>
+  </div>
+</div>

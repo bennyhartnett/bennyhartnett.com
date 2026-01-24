@@ -18,6 +18,7 @@ const STATIC_ASSETS = [
   '/config/manifest.webmanifest',
   '/pages/chat.html',
   '/pages/meet.html',
+  '/pages/tools.html',
   '/assets/benny%20clear.png',
   // CSS files
   '/css/main.css',
