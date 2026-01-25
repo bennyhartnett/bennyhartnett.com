@@ -1,6 +1,6 @@
 // Service Worker for SWU Calculator PWA
 // Version must be updated when deploying new code to bust cache
-const CACHE_VERSION = 'v66';
+const CACHE_VERSION = 'v67';
 const CACHE_NAME = `swu-calculator-${CACHE_VERSION}`;
 
 // Files to cache for offline use
@@ -19,6 +19,7 @@ const STATIC_ASSETS = [
   '/pages/chat.html',
   '/pages/meet.html',
   '/pages/tools.html',
+  '/pages/clipboard.html',
   '/assets/benny%20clear.png',
   // CSS files
   '/css/main.css',

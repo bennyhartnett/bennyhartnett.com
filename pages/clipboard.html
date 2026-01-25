@@ -1,0 +1,917 @@
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+  body {
+    font-family: 'Inter', sans-serif;
+    color: white;
+    margin: 0;
+  }
+
+  .clipboard-container {
+    min-height: calc(100vh - 56px);
+    min-height: calc(100svh - 56px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1.5rem;
+    gap: 1.5rem;
+  }
+
+  .clipboard-card {
+    background: rgba(30, 30, 30, 0.8);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 14px;
+    padding: 1.5rem;
+    max-width: 500px;
+    width: 100%;
+  }
+
+  .clipboard-header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .clipboard-header h1 {
+    font-size: 1.5rem;
+    margin: 0 0 0.5rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  .clipboard-header h1 svg {
+    width: 28px;
+    height: 28px;
+    color: #6366f1;
+  }
+
+  .clipboard-header p {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.875rem;
+    margin: 0;
+  }
+
+  /* Connection UI */
+  .connection-section {
+    margin-bottom: 1.5rem;
+  }
+
+  .room-code-display {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    padding: 1rem;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+
+  .room-code-label {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 0.5rem;
+  }
+
+  .room-code {
+    font-size: 2rem;
+    font-weight: 600;
+    letter-spacing: 0.25rem;
+    font-family: monospace;
+    color: #6366f1;
+    user-select: all;
+  }
+
+  .room-code-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+    justify-content: center;
+  }
+
+  .btn {
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    border: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+  }
+
+  .btn svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .btn-primary {
+    background: #6366f1;
+    color: white;
+  }
+
+  .btn-primary:hover {
+    background: #5558e3;
+  }
+
+  .btn-secondary {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.15);
+  }
+
+  .join-form {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .join-input {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(0, 0, 0, 0.3);
+    color: white;
+    font-size: 1rem;
+    font-family: monospace;
+    letter-spacing: 0.1rem;
+    text-transform: uppercase;
+    text-align: center;
+  }
+
+  .join-input::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+    letter-spacing: normal;
+    text-transform: none;
+  }
+
+  .join-input:focus {
+    outline: none;
+    border-color: #6366f1;
+  }
+
+  /* Status */
+  .status-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    margin-bottom: 1rem;
+  }
+
+  .status-bar.waiting {
+    background: rgba(251, 191, 36, 0.1);
+    color: #fbbf24;
+  }
+
+  .status-bar.connected {
+    background: rgba(34, 197, 94, 0.1);
+    color: #22c55e;
+  }
+
+  .status-bar.error {
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+  }
+
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: currentColor;
+  }
+
+  .status-bar.waiting .status-dot {
+    animation: pulse 1.5s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  /* Share section */
+  .share-section {
+    display: none;
+  }
+
+  .share-section.active {
+    display: block;
+  }
+
+  .share-tabs {
+    display: flex;
+    gap: 0.25rem;
+    margin-bottom: 1rem;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 0.25rem;
+    border-radius: 8px;
+  }
+
+  .share-tab {
+    flex: 1;
+    padding: 0.5rem;
+    border: none;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.8rem;
+    font-weight: 500;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .share-tab:hover {
+    color: white;
+  }
+
+  .share-tab.active {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+  }
+
+  .tab-content {
+    display: none;
+  }
+
+  .tab-content.active {
+    display: block;
+  }
+
+  /* Text sharing */
+  .text-input {
+    width: 100%;
+    min-height: 120px;
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(0, 0, 0, 0.3);
+    color: white;
+    font-size: 0.875rem;
+    font-family: inherit;
+    resize: vertical;
+    box-sizing: border-box;
+  }
+
+  .text-input::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+  }
+
+  .text-input:focus {
+    outline: none;
+    border-color: #6366f1;
+  }
+
+  .send-btn {
+    width: 100%;
+    margin-top: 0.75rem;
+    padding: 0.75rem;
+  }
+
+  /* File sharing */
+  .drop-zone {
+    border: 2px dashed rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    padding: 2rem;
+    text-align: center;
+    transition: all 0.2s ease;
+    cursor: pointer;
+  }
+
+  .drop-zone:hover,
+  .drop-zone.dragover {
+    border-color: #6366f1;
+    background: rgba(99, 102, 241, 0.1);
+  }
+
+  .drop-zone svg {
+    width: 48px;
+    height: 48px;
+    color: rgba(255, 255, 255, 0.4);
+    margin-bottom: 1rem;
+  }
+
+  .drop-zone p {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.875rem;
+  }
+
+  .drop-zone input {
+    display: none;
+  }
+
+  /* Received items */
+  .received-section {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    display: none;
+  }
+
+  .received-section.has-items {
+    display: block;
+  }
+
+  .received-header {
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  .received-items {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    max-height: 300px;
+    overflow-y: auto;
+  }
+
+  .received-item {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .received-item-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  .received-item-type {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+  }
+
+  .received-item-type svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .received-text {
+    font-size: 0.875rem;
+    word-break: break-word;
+    white-space: pre-wrap;
+  }
+
+  .received-image {
+    max-width: 100%;
+    border-radius: 4px;
+  }
+
+  .received-file {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .received-file-icon {
+    width: 40px;
+    height: 40px;
+    background: rgba(99, 102, 241, 0.2);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .received-file-icon svg {
+    width: 20px;
+    height: 20px;
+    color: #6366f1;
+  }
+
+  .received-file-info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .received-file-name {
+    font-size: 0.875rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .received-file-size {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  .copy-btn, .download-btn {
+    padding: 0.375rem 0.75rem;
+    font-size: 0.75rem;
+  }
+
+  /* Transfer progress */
+  .transfer-progress {
+    display: none;
+    margin-top: 1rem;
+  }
+
+  .transfer-progress.active {
+    display: block;
+  }
+
+  .progress-bar {
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: #6366f1;
+    border-radius: 2px;
+    transition: width 0.2s ease;
+    width: 0%;
+  }
+
+  .progress-text {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.6);
+    margin-top: 0.5rem;
+    text-align: center;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.3);
+  }
+
+  @media (max-width: 600px) {
+    .clipboard-container {
+      padding: 1rem;
+    }
+    .clipboard-card {
+      padding: 1rem;
+    }
+    .room-code {
+      font-size: 1.5rem;
+    }
+  }
+</style>
+
+<div class="clipboard-container">
+  <div class="clipboard-card">
+    <div class="clipboard-header">
+      <h1>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0 0 13.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 0 1-.75.75H9.75a.75.75 0 0 1-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 0 1-2.25 2.25H6.75A2.25 2.25 0 0 1 4.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 0 1 1.927-.184" />
+        </svg>
+        Clipboard
+      </h1>
+      <p>Instant peer-to-peer sharing via WebRTC</p>
+    </div>
+
+    <div class="connection-section">
+      <div class="room-code-display" id="roomCodeDisplay">
+        <div class="room-code-label">Your Room Code</div>
+        <div class="room-code" id="roomCode">----</div>
+        <div class="room-code-actions">
+          <button class="btn btn-secondary" id="copyCodeBtn">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0 0 13.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 0 1-.75.75H9.75a.75.75 0 0 1-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 0 1-2.25 2.25H6.75A2.25 2.25 0 0 1 4.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 0 1 1.927-.184" />
+            </svg>
+            Copy
+          </button>
+          <button class="btn btn-secondary" id="newRoomBtn">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
+            </svg>
+            New
+          </button>
+        </div>
+      </div>
+
+      <div class="join-form">
+        <input type="text" class="join-input" id="joinInput" placeholder="Enter code to connect" maxlength="4" autocomplete="off" spellcheck="false">
+        <button class="btn btn-primary" id="joinBtn">Connect</button>
+      </div>
+    </div>
+
+    <div class="status-bar waiting" id="statusBar">
+      <span class="status-dot"></span>
+      <span id="statusText">Waiting for peer...</span>
+    </div>
+
+    <div class="share-section" id="shareSection">
+      <div class="share-tabs">
+        <button class="share-tab active" data-tab="text">Text</button>
+        <button class="share-tab" data-tab="file">Files</button>
+      </div>
+
+      <div class="tab-content active" id="textTab">
+        <textarea class="text-input" id="textInput" placeholder="Type or paste text to share..."></textarea>
+        <button class="btn btn-primary send-btn" id="sendTextBtn">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" />
+          </svg>
+          Send Text
+        </button>
+      </div>
+
+      <div class="tab-content" id="fileTab">
+        <div class="drop-zone" id="dropZone">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" />
+          </svg>
+          <p>Drop files here or click to select</p>
+          <p style="font-size: 0.75rem; margin-top: 0.5rem; opacity: 0.6;">Images, documents, any file type</p>
+          <input type="file" id="fileInput" multiple>
+        </div>
+        <div class="transfer-progress" id="transferProgress">
+          <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+          </div>
+          <div class="progress-text" id="progressText">Sending...</div>
+        </div>
+      </div>
+
+      <div class="received-section" id="receivedSection">
+        <div class="received-header">Received</div>
+        <div class="received-items" id="receivedItems"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+<script>
+(function() {
+  // Elements
+  const roomCodeEl = document.getElementById('roomCode');
+  const copyCodeBtn = document.getElementById('copyCodeBtn');
+  const newRoomBtn = document.getElementById('newRoomBtn');
+  const joinInput = document.getElementById('joinInput');
+  const joinBtn = document.getElementById('joinBtn');
+  const statusBar = document.getElementById('statusBar');
+  const statusText = document.getElementById('statusText');
+  const shareSection = document.getElementById('shareSection');
+  const textInput = document.getElementById('textInput');
+  const sendTextBtn = document.getElementById('sendTextBtn');
+  const dropZone = document.getElementById('dropZone');
+  const fileInput = document.getElementById('fileInput');
+  const transferProgress = document.getElementById('transferProgress');
+  const progressFill = document.getElementById('progressFill');
+  const progressText = document.getElementById('progressText');
+  const receivedSection = document.getElementById('receivedSection');
+  const receivedItems = document.getElementById('receivedItems');
+  const shareTabs = document.querySelectorAll('.share-tab');
+
+  let peer = null;
+  let conn = null;
+  let myCode = '';
+
+  // Generate a 4-character room code
+  function generateCode() {
+    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+    let code = '';
+    for (let i = 0; i < 4; i++) {
+      code += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return code;
+  }
+
+  // Initialize PeerJS
+  function initPeer() {
+    myCode = generateCode();
+    roomCodeEl.textContent = myCode;
+
+    peer = new Peer(myCode, {
+      debug: 0,
+      config: {
+        iceServers: [
+          { urls: 'stun:stun.l.google.com:19302' },
+          { urls: 'stun:stun1.l.google.com:19302' }
+        ]
+      }
+    });
+
+    peer.on('open', (id) => {
+      roomCodeEl.textContent = id;
+      myCode = id;
+    });
+
+    peer.on('connection', (connection) => {
+      conn = connection;
+      setupConnection();
+    });
+
+    peer.on('error', (err) => {
+      if (err.type === 'unavailable-id') {
+        // Code already taken, generate new one
+        peer.destroy();
+        initPeer();
+      } else if (err.type === 'peer-unavailable') {
+        setStatus('error', 'Peer not found. Check the code.');
+      } else {
+        console.error('PeerJS error:', err);
+        setStatus('error', 'Connection error. Try again.');
+      }
+    });
+  }
+
+  // Connect to a peer
+  function connectToPeer(code) {
+    if (!code || code.length !== 4) {
+      setStatus('error', 'Enter a valid 4-character code');
+      return;
+    }
+
+    code = code.toUpperCase();
+    if (code === myCode) {
+      setStatus('error', 'Cannot connect to yourself');
+      return;
+    }
+
+    setStatus('waiting', 'Connecting...');
+    conn = peer.connect(code, { reliable: true });
+    setupConnection();
+  }
+
+  // Setup connection handlers
+  function setupConnection() {
+    conn.on('open', () => {
+      setStatus('connected', 'Connected to peer');
+      shareSection.classList.add('active');
+    });
+
+    conn.on('data', (data) => {
+      handleReceivedData(data);
+    });
+
+    conn.on('close', () => {
+      setStatus('waiting', 'Peer disconnected');
+      shareSection.classList.remove('active');
+      conn = null;
+    });
+
+    conn.on('error', (err) => {
+      console.error('Connection error:', err);
+      setStatus('error', 'Connection lost');
+    });
+  }
+
+  // Set status
+  function setStatus(type, text) {
+    statusBar.className = 'status-bar ' + type;
+    statusText.textContent = text;
+  }
+
+  // Handle received data
+  function handleReceivedData(data) {
+    receivedSection.classList.add('has-items');
+
+    const item = document.createElement('div');
+    item.className = 'received-item';
+
+    const header = document.createElement('div');
+    header.className = 'received-item-header';
+
+    const typeEl = document.createElement('span');
+    typeEl.className = 'received-item-type';
+
+    const time = new Date().toLocaleTimeString();
+
+    if (data.type === 'text') {
+      typeEl.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 0 1 .865-.501 48.172 48.172 0 0 0 3.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" /></svg> Text`;
+      header.appendChild(typeEl);
+      header.innerHTML += `<span>${time}</span>`;
+      item.appendChild(header);
+
+      const content = document.createElement('div');
+      content.className = 'received-text';
+      content.textContent = data.content;
+      item.appendChild(content);
+
+      const copyBtn = document.createElement('button');
+      copyBtn.className = 'btn btn-secondary copy-btn';
+      copyBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0 0 13.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 0 1-.75.75H9.75a.75.75 0 0 1-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 0 1-2.25 2.25H6.75A2.25 2.25 0 0 1 4.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 0 1 1.927-.184" /></svg> Copy';
+      copyBtn.onclick = () => {
+        navigator.clipboard.writeText(data.content);
+        copyBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg> Copied!';
+        setTimeout(() => {
+          copyBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0 0 13.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 0 1-.75.75H9.75a.75.75 0 0 1-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 0 1-2.25 2.25H6.75A2.25 2.25 0 0 1 4.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 0 1 1.927-.184" /></svg> Copy';
+        }, 2000);
+      };
+      item.appendChild(copyBtn);
+
+    } else if (data.type === 'image') {
+      typeEl.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" /></svg> Image`;
+      header.appendChild(typeEl);
+      header.innerHTML += `<span>${time}</span>`;
+      item.appendChild(header);
+
+      const img = document.createElement('img');
+      img.className = 'received-image';
+      img.src = data.content;
+      item.appendChild(img);
+
+      const downloadBtn = document.createElement('button');
+      downloadBtn.className = 'btn btn-secondary download-btn';
+      downloadBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" /></svg> Download';
+      downloadBtn.onclick = () => {
+        const a = document.createElement('a');
+        a.href = data.content;
+        a.download = data.name || 'image.png';
+        a.click();
+      };
+      item.appendChild(downloadBtn);
+
+    } else if (data.type === 'file') {
+      typeEl.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" /></svg> File`;
+      header.appendChild(typeEl);
+      header.innerHTML += `<span>${time}</span>`;
+      item.appendChild(header);
+
+      const fileDiv = document.createElement('div');
+      fileDiv.className = 'received-file';
+
+      const iconDiv = document.createElement('div');
+      iconDiv.className = 'received-file-icon';
+      iconDiv.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" /></svg>';
+      fileDiv.appendChild(iconDiv);
+
+      const infoDiv = document.createElement('div');
+      infoDiv.className = 'received-file-info';
+      infoDiv.innerHTML = `<div class="received-file-name">${data.name}</div><div class="received-file-size">${formatFileSize(data.size)}</div>`;
+      fileDiv.appendChild(infoDiv);
+
+      const downloadBtn = document.createElement('button');
+      downloadBtn.className = 'btn btn-secondary download-btn';
+      downloadBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" /></svg>';
+      downloadBtn.onclick = () => {
+        const a = document.createElement('a');
+        a.href = data.content;
+        a.download = data.name;
+        a.click();
+      };
+      fileDiv.appendChild(downloadBtn);
+
+      item.appendChild(fileDiv);
+    }
+
+    receivedItems.insertBefore(item, receivedItems.firstChild);
+  }
+
+  // Format file size
+  function formatFileSize(bytes) {
+    if (bytes < 1024) return bytes + ' B';
+    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+    return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+  }
+
+  // Send text
+  function sendText() {
+    const text = textInput.value.trim();
+    if (!text || !conn) return;
+
+    conn.send({ type: 'text', content: text });
+    textInput.value = '';
+  }
+
+  // Send file
+  function sendFile(file) {
+    if (!conn) return;
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      const isImage = file.type.startsWith('image/');
+      conn.send({
+        type: isImage ? 'image' : 'file',
+        name: file.name,
+        size: file.size,
+        content: reader.result
+      });
+      transferProgress.classList.remove('active');
+    };
+
+    reader.onprogress = (e) => {
+      if (e.lengthComputable) {
+        const percent = (e.loaded / e.total) * 100;
+        progressFill.style.width = percent + '%';
+        progressText.textContent = `Sending ${file.name}... ${Math.round(percent)}%`;
+      }
+    };
+
+    transferProgress.classList.add('active');
+    progressFill.style.width = '0%';
+    progressText.textContent = `Reading ${file.name}...`;
+    reader.readAsDataURL(file);
+  }
+
+  // Event listeners
+  copyCodeBtn.onclick = () => {
+    navigator.clipboard.writeText(myCode);
+    copyCodeBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg> Copied!';
+    setTimeout(() => {
+      copyCodeBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0 0 13.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 0 1-.75.75H9.75a.75.75 0 0 1-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 0 1-2.25 2.25H6.75A2.25 2.25 0 0 1 4.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 0 1 1.927-.184" /></svg> Copy';
+    }, 2000);
+  };
+
+  newRoomBtn.onclick = () => {
+    if (conn) conn.close();
+    peer.destroy();
+    shareSection.classList.remove('active');
+    receivedSection.classList.remove('has-items');
+    receivedItems.innerHTML = '';
+    setStatus('waiting', 'Waiting for peer...');
+    initPeer();
+  };
+
+  joinInput.oninput = () => {
+    joinInput.value = joinInput.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+  };
+
+  joinBtn.onclick = () => connectToPeer(joinInput.value);
+
+  joinInput.onkeydown = (e) => {
+    if (e.key === 'Enter') connectToPeer(joinInput.value);
+  };
+
+  sendTextBtn.onclick = sendText;
+
+  textInput.onkeydown = (e) => {
+    if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
+      sendText();
+    }
+  };
+
+  // Tab switching
+  shareTabs.forEach(tab => {
+    tab.onclick = () => {
+      shareTabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+      document.getElementById(tab.dataset.tab + 'Tab').classList.add('active');
+    };
+  });
+
+  // File handling
+  dropZone.onclick = () => fileInput.click();
+
+  fileInput.onchange = () => {
+    Array.from(fileInput.files).forEach(sendFile);
+    fileInput.value = '';
+  };
+
+  dropZone.ondragover = (e) => {
+    e.preventDefault();
+    dropZone.classList.add('dragover');
+  };
+
+  dropZone.ondragleave = () => {
+    dropZone.classList.remove('dragover');
+  };
+
+  dropZone.ondrop = (e) => {
+    e.preventDefault();
+    dropZone.classList.remove('dragover');
+    Array.from(e.dataTransfer.files).forEach(sendFile);
+  };
+
+  // Paste handling
+  document.onpaste = (e) => {
+    if (!conn) return;
+
+    const items = e.clipboardData.items;
+    for (const item of items) {
+      if (item.type.startsWith('image/')) {
+        const file = item.getAsFile();
+        sendFile(file);
+      }
+    }
+  };
+
+  // Initialize
+  initPeer();
+})();
+</script>
