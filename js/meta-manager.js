@@ -68,6 +68,42 @@ const META_MAP = {
     desc: 'AI-powered chat to learn more about Benny Hartnett.',
     ogImage: BASE_OG_IMAGE,
     ogImageAlt: 'Chat with AI about Benny Hartnett'
+  },
+  'pages/app.html': {
+    title: 'Install App - Benny Hartnett',
+    desc: 'Install the SWU Calculator app for uranium enrichment calculations on iPhone and iPad.',
+    ogImage: 'https://bennyhartnett.com/assets/og-nuclear.png',
+    ogImageAlt: 'SWU Calculator - Uranium Enrichment App for iOS'
+  },
+  'pages/meet.html': {
+    title: 'Meet - Benny Hartnett',
+    desc: 'Video conferencing with screen sharing and real-time collaboration. No sign-up required.',
+    ogImage: BASE_OG_IMAGE,
+    ogImageAlt: 'Meet - Video Conferencing Tool'
+  },
+  'pages/clipboard.html': {
+    title: 'Clipboard - Benny Hartnett',
+    desc: 'Instant peer-to-peer sharing of text, images, and files using WebRTC. No server storage.',
+    ogImage: BASE_OG_IMAGE,
+    ogImageAlt: 'Clipboard - Peer-to-Peer File Sharing'
+  },
+  'pages/tools.html': {
+    title: 'Tools - Benny Hartnett',
+    desc: 'Apps and utilities including video conferencing, clipboard sharing, and calculators.',
+    ogImage: BASE_OG_IMAGE,
+    ogImageAlt: 'Tools - Apps and Utilities by Benny Hartnett'
+  },
+  'pages/resume.html': {
+    title: 'Resume - Benny Hartnett',
+    desc: 'Professional resume and background in software development, AI, and nuclear technology.',
+    ogImage: BASE_OG_IMAGE,
+    ogImageAlt: 'Resume - Benny Hartnett Professional Background'
+  },
+  'pages/terms.html': {
+    title: 'Terms - Benny Hartnett',
+    desc: 'Terms and privacy practices for bennyhartnett.com.',
+    ogImage: BASE_OG_IMAGE,
+    ogImageAlt: 'Terms and Privacy - Benny Hartnett'
   }
 };
 
