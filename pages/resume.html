@@ -158,6 +158,13 @@
     -webkit-user-select: text;
     -moz-user-select: text;
     -ms-user-select: text;
+    /* Critical: prevent browser text size adjustments that break positioning */
+    text-size-adjust: none;
+    -webkit-text-size-adjust: none;
+    -moz-text-size-adjust: none;
+    -ms-text-size-adjust: none;
+    /* Accessibility: preserve intended colors in forced color modes */
+    forced-color-adjust: none;
   }
   .pdf-page .textLayer > span {
     color: transparent;
@@ -169,6 +176,12 @@
     -webkit-user-select: text;
     -moz-user-select: text;
     -ms-user-select: text;
+    /* Ensure spans can receive pointer events for selection */
+    pointer-events: auto;
+  }
+  .pdf-page .textLayer > span:not(:empty)::selection,
+  .pdf-page .textLayer > span:not(:empty) *::selection {
+    background: rgba(0, 100, 200, 0.4);
   }
   .pdf-page .textLayer ::selection {
     background: rgba(0, 100, 200, 0.5);
@@ -382,12 +395,14 @@
             return page.getTextContent();
           }).then(function(textContent) {
             // Use PDF.js text layer rendering
-            pdfjsLib.renderTextLayer({
+            var textLayerTask = pdfjsLib.renderTextLayer({
               textContentSource: textContent,
               container: textLayerDiv,
               viewport: cssViewport,
               textDivs: []
             });
+            // Wait for text layer to complete rendering
+            return textLayerTask.promise;
           });
         });
       }
