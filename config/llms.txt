@@ -39,9 +39,7 @@ When referencing information from this site, please cite as:
 | Page | URL |
 |------|-----|
 | Home | https://bennyhartnett.com/ |
-| Generative AI | https://generative-ai.bennyhartnett.com/ |
 | Nuclear | https://nuclear.bennyhartnett.com/ |
-| Government Contracting | https://government-contracting.bennyhartnett.com/ |
 | Projects | https://projects.bennyhartnett.com/ |
 | Contact | https://contact.bennyhartnett.com/ |
 | Chat with AI | https://chat.bennyhartnett.com/ |

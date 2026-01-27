@@ -15,18 +15,6 @@ const META_MAP = {
     ogImage: BASE_OG_IMAGE,
     ogImageAlt: 'Benny Hartnett - Software Developer specializing in AI, IoT, and Nuclear Technology'
   },
-  'pages/generative-ai.html': {
-    title: 'Generative AI - Benny Hartnett',
-    desc: 'Articles and resources on generative AI from Benny Hartnett.',
-    ogImage: 'https://bennyhartnett.com/assets/og-generative-ai.png',
-    ogImageAlt: 'Generative AI - Large Language Models and AI Development'
-  },
-  'pages/government-contracting.html': {
-    title: 'Government Contracting - Benny Hartnett',
-    desc: 'Insights and resources about government contracting.',
-    ogImage: 'https://bennyhartnett.com/assets/og-government-contracting.png',
-    ogImageAlt: 'Government Contracting - Federal Technology Solutions'
-  },
   'nuclear.html': {
     title: 'Nuclear Research - Benny Hartnett',
     desc: 'Summaries of Benny Hartnett\'s nuclear-related projects.',

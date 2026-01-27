@@ -241,9 +241,7 @@ Benny Hartnett offers software development services in the following areas:
 | Page | URL | Description |
 |------|-----|-------------|
 | Home | https://bennyhartnett.com/ | Main landing page with quick links |
-| Generative AI | https://generative-ai.bennyhartnett.com/ | AI articles and resources |
 | Nuclear | https://nuclear.bennyhartnett.com/ | Nuclear technology projects and SWU calculator |
-| Government Contracting | https://government-contracting.bennyhartnett.com/ | Government sector insights |
 | Projects | https://projects.bennyhartnett.com/ | Complete project portfolio |
 | Contact | https://contact.bennyhartnett.com/ | Contact form |
 | Chat | https://chat.bennyhartnett.com/ | AI-powered chat assistant |

@@ -22,9 +22,7 @@ Edge Routing: Cloudflare Workers
 
 /* SUBDOMAIN ARCHITECTURE */
 Main: https://bennyhartnett.com
-AI: https://generative-ai.bennyhartnett.com
 Nuclear: https://nuclear.bennyhartnett.com
-GovCon: https://government-contracting.bennyhartnett.com
 Projects: https://projects.bennyhartnett.com
 Contact: https://contact.bennyhartnett.com
 Chat: https://chat.bennyhartnett.com
