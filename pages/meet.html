@@ -1438,190 +1438,10 @@
     font-weight: 600;
   }
 
-  /* ==================== VIRTUAL BACKGROUNDS ==================== */
-
-  .backgrounds-panel {
-    position: fixed;
-    bottom: 140px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(30, 30, 30, 0.95);
-    backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 16px;
-    padding: 1rem;
-    display: none;
-    z-index: 150;
-    width: 90%;
-    max-width: 400px;
-  }
-
-  .backgrounds-panel.open {
-    display: block;
-  }
-
-  .backgrounds-panel h4 {
-    margin: 0 0 1rem 0;
-    font-size: 0.9rem;
-    font-weight: 600;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .backgrounds-close {
-    background: none;
-    border: none;
-    color: white;
-    cursor: pointer;
-    padding: 0.25rem;
-    border-radius: 4px;
-  }
-
-  .backgrounds-close:hover {
-    background: rgba(255, 255, 255, 0.1);
-  }
-
-  .backgrounds-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 0.5rem;
-    margin-bottom: 1rem;
-  }
-
-  .bg-option {
-    aspect-ratio: 16/9;
-    border-radius: 8px;
-    cursor: pointer;
-    border: 2px solid transparent;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.7rem;
-    transition: all 0.2s;
-  }
-
-  .bg-option:hover {
-    border-color: rgba(255, 255, 255, 0.3);
-    transform: scale(1.05);
-  }
-
-  .bg-option.selected {
-    border-color: #6366f1;
-    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.3);
-  }
-
-  .bg-option.none {
-    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-  }
-
-  .bg-option.blur {
-    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-    position: relative;
-  }
-
-  .bg-option.blur::after {
-    content: 'Blur';
-    color: white;
-    font-weight: 500;
-  }
-
-  .bg-option.color {
-    position: relative;
-  }
-
-  .bg-option.image {
-    background-size: cover;
-    background-position: center;
-  }
-
-  .bg-colors {
-    display: grid;
-    grid-template-columns: repeat(8, 1fr);
-    gap: 0.5rem;
-    margin-bottom: 1rem;
-  }
-
-  .color-option {
-    aspect-ratio: 1;
-    border-radius: 50%;
-    cursor: pointer;
-    border: 2px solid transparent;
-    transition: all 0.2s;
-  }
-
-  .color-option:hover {
-    transform: scale(1.1);
-  }
-
-  .color-option.selected {
-    border-color: white;
-    box-shadow: 0 0 0 2px #6366f1;
-  }
-
-  .bg-upload {
-    width: 100%;
-    padding: 0.75rem;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px dashed rgba(255, 255, 255, 0.3);
-    border-radius: 8px;
-    color: rgba(255, 255, 255, 0.7);
-    font-family: inherit;
-    font-size: 0.8rem;
-    cursor: pointer;
-    text-align: center;
-    transition: all 0.2s;
-  }
-
-  .bg-upload:hover {
-    background: rgba(255, 255, 255, 0.15);
-    border-color: rgba(255, 255, 255, 0.5);
-  }
-
-  .bg-upload-input {
-    display: none;
-  }
-
-  /* Processing indicator for background */
-  .bg-processing {
-    position: absolute;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.7);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 8px;
-    z-index: 5;
-  }
-
-  .bg-processing-text {
-    color: white;
-    font-size: 0.8rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-
-  /* Canvas overlay for virtual background */
-  .video-tile canvas.bg-canvas {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: 1;
-  }
-
-  .video-tile video.hidden-video {
-    display: none;
-  }
-
   /* ==================== ADDITIONAL CONTROL BUTTONS ==================== */
 
   .control-btn.settings-btn,
-  .control-btn.reactions-btn,
-  .control-btn.backgrounds-btn {
+  .control-btn.reactions-btn {
     animation-delay: -6s;
   }
 
@@ -1663,19 +1483,6 @@
       width: 40px;
       height: 40px;
       font-size: 1.25rem;
-    }
-
-    .backgrounds-panel {
-      bottom: 120px;
-      max-width: 90%;
-    }
-
-    .backgrounds-grid {
-      grid-template-columns: repeat(3, 1fr);
-    }
-
-    .bg-colors {
-      grid-template-columns: repeat(6, 1fr);
     }
 
     .video-tile.pip-mode {
@@ -1863,15 +1670,6 @@
       <span class="btn-text">Settings</span>
     </button>
 
-    <button class="control-btn backgrounds-btn" id="backgrounds-btn" title="Virtual backgrounds">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-        <circle cx="8.5" cy="8.5" r="1.5"/>
-        <polyline points="21 15 16 10 5 21"/>
-      </svg>
-      <span class="btn-text">Effects</span>
-    </button>
-
     <button class="control-btn end-call" id="leave-btn" title="Leave call">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M10.68 13.31a16 16 0 0 0 3.41 2.6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7 2 2 0 0 1 1.72 2v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.42 19.42 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.63A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91"/>
@@ -2023,54 +1821,6 @@
   </button>
 </div>
 
-<!-- Virtual Backgrounds Panel -->
-<div class="backgrounds-panel" id="backgrounds-panel">
-  <h4>
-    Virtual Backgrounds
-    <button class="backgrounds-close" id="close-backgrounds">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <line x1="18" y1="6" x2="6" y2="18"/>
-        <line x1="6" y1="6" x2="18" y2="18"/>
-      </svg>
-    </button>
-  </h4>
-  <div class="backgrounds-grid" id="backgrounds-grid">
-    <div class="bg-option none selected" data-bg="none" title="No background">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <circle cx="12" cy="12" r="10"/>
-        <line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/>
-      </svg>
-    </div>
-    <div class="bg-option blur" data-bg="blur" title="Blur background"></div>
-    <div class="bg-option image" data-bg="beach" title="Beach" style="background-image: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=200&q=80')"></div>
-    <div class="bg-option image" data-bg="office" title="Office" style="background-image: url('https://images.unsplash.com/photo-1497366216548-37526070297c?w=200&q=80')"></div>
-    <div class="bg-option image" data-bg="nature" title="Nature" style="background-image: url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=200&q=80')"></div>
-    <div class="bg-option image" data-bg="city" title="City" style="background-image: url('https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?w=200&q=80')"></div>
-    <div class="bg-option image" data-bg="mountains" title="Mountains" style="background-image: url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=200&q=80')"></div>
-    <div class="bg-option image" data-bg="space" title="Space" style="background-image: url('https://images.unsplash.com/photo-1462332420958-a05d1e002413?w=200&q=80')"></div>
-  </div>
-  <h5 style="font-size: 0.8rem; margin: 0 0 0.5rem 0; color: rgba(255,255,255,0.7);">Solid Colors</h5>
-  <div class="bg-colors" id="bg-colors">
-    <div class="color-option" data-color="#1a1a1a" style="background: #1a1a1a" title="Black"></div>
-    <div class="color-option" data-color="#6366f1" style="background: #6366f1" title="Purple"></div>
-    <div class="color-option" data-color="#3b82f6" style="background: #3b82f6" title="Blue"></div>
-    <div class="color-option" data-color="#10b981" style="background: #10b981" title="Green"></div>
-    <div class="color-option" data-color="#f59e0b" style="background: #f59e0b" title="Yellow"></div>
-    <div class="color-option" data-color="#ef4444" style="background: #ef4444" title="Red"></div>
-    <div class="color-option" data-color="#ec4899" style="background: #ec4899" title="Pink"></div>
-    <div class="color-option" data-color="#ffffff" style="background: #ffffff" title="White"></div>
-  </div>
-  <input type="file" class="bg-upload-input" id="bg-upload-input" accept="image/*">
-  <button class="bg-upload" id="bg-upload">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: inline; vertical-align: middle; margin-right: 0.5rem;">
-      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-      <polyline points="17 8 12 3 7 8"/>
-      <line x1="12" y1="3" x2="12" y2="15"/>
-    </svg>
-    Upload custom image
-  </button>
-</div>
-
 <script type="module">
   // Import Trystero for serverless WebRTC
   import { joinRoom } from 'https://esm.sh/trystero@0.20.0/torrent';
@@ -2079,7 +1829,6 @@
   const state = {
     localStream: null,
     screenStream: null,
-    processedStream: null, // For virtual background processed video
     userName: '',
     peerId: crypto.randomUUID().slice(0, 8),
     micEnabled: false,
@@ -2101,9 +1850,6 @@
     pipPeer: null,
     handRaised: false,
     handRaiseQueue: [], // Array of { peerId, name, time }
-    currentBackground: 'none', // 'none', 'blur', 'color', 'image'
-    backgroundValue: null, // color hex or image URL
-    backgroundProcessor: null, // MediaPipe or canvas processor
     devices: { cameras: [], mics: [], speakers: [] },
     selectedDevices: { camera: '', mic: '', speaker: '' },
     audioSettings: { noiseSuppression: true, echoCancellation: true, autoGain: true },
@@ -2179,13 +1925,6 @@
   const reactionsBtn = document.getElementById('reactions-btn');
   const reactionsBar = document.getElementById('reactions-bar');
   const handRaiseBtn = document.getElementById('hand-raise-btn');
-  const backgroundsBtn = document.getElementById('backgrounds-btn');
-  const backgroundsPanel = document.getElementById('backgrounds-panel');
-  const closeBackgrounds = document.getElementById('close-backgrounds');
-  const backgroundsGrid = document.getElementById('backgrounds-grid');
-  const bgColors = document.getElementById('bg-colors');
-  const bgUpload = document.getElementById('bg-upload');
-  const bgUploadInput = document.getElementById('bg-upload-input');
   const gridViewBtn = document.getElementById('grid-view-btn');
   const spotlightViewBtn = document.getElementById('spotlight-view-btn');
   const chatAttach = document.getElementById('chat-attach');
@@ -3479,7 +3218,6 @@
 
   reactionsBtn.addEventListener('click', () => {
     reactionsBar.classList.toggle('open');
-    backgroundsPanel.classList.remove('open');
   });
 
   // Close reactions bar when clicking outside
@@ -3593,197 +3331,6 @@
     `;
   }
 
-  // ==================== VIRTUAL BACKGROUNDS ====================
-
-  backgroundsBtn.addEventListener('click', () => {
-    backgroundsPanel.classList.toggle('open');
-    reactionsBar.classList.remove('open');
-  });
-
-  closeBackgrounds.addEventListener('click', () => {
-    backgroundsPanel.classList.remove('open');
-  });
-
-  // Background options
-  backgroundsGrid.querySelectorAll('.bg-option').forEach(option => {
-    option.addEventListener('click', async () => {
-      backgroundsGrid.querySelectorAll('.bg-option').forEach(o => o.classList.remove('selected'));
-      bgColors.querySelectorAll('.color-option').forEach(o => o.classList.remove('selected'));
-      option.classList.add('selected');
-
-      const bg = option.dataset.bg;
-      if (bg === 'none') {
-        await disableVirtualBackground();
-      } else if (bg === 'blur') {
-        await enableBlurBackground();
-      } else {
-        // Image background
-        const imageUrl = option.style.backgroundImage.slice(5, -2);
-        await enableImageBackground(imageUrl);
-      }
-    });
-  });
-
-  // Color backgrounds
-  bgColors.querySelectorAll('.color-option').forEach(option => {
-    option.addEventListener('click', async () => {
-      backgroundsGrid.querySelectorAll('.bg-option').forEach(o => o.classList.remove('selected'));
-      bgColors.querySelectorAll('.color-option').forEach(o => o.classList.remove('selected'));
-      option.classList.add('selected');
-
-      const color = option.dataset.color;
-      await enableColorBackground(color);
-    });
-  });
-
-  // Custom upload
-  bgUpload.addEventListener('click', () => bgUploadInput.click());
-  bgUploadInput.addEventListener('change', async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = async () => {
-      backgroundsGrid.querySelectorAll('.bg-option').forEach(o => o.classList.remove('selected'));
-      bgColors.querySelectorAll('.color-option').forEach(o => o.classList.remove('selected'));
-      await enableImageBackground(reader.result);
-    };
-    reader.readAsDataURL(file);
-    bgUploadInput.value = '';
-  });
-
-  async function disableVirtualBackground() {
-    state.currentBackground = 'none';
-    state.backgroundValue = null;
-
-    // Remove canvas processing
-    const localTile = document.getElementById('tile-local');
-    if (localTile) {
-      const canvas = localTile.querySelector('.bg-canvas');
-      const video = localTile.querySelector('video.hidden-video');
-      if (canvas) canvas.remove();
-      if (video) {
-        video.classList.remove('hidden-video');
-        video.style.display = '';
-      }
-    }
-
-    // Stop background processor
-    if (state.backgroundProcessor) {
-      state.backgroundProcessor.stop?.();
-      state.backgroundProcessor = null;
-    }
-
-    updateLocalTile();
-  }
-
-  async function enableBlurBackground() {
-    state.currentBackground = 'blur';
-    state.backgroundValue = null;
-    await startBackgroundProcessor();
-  }
-
-  async function enableColorBackground(color) {
-    state.currentBackground = 'color';
-    state.backgroundValue = color;
-    await startBackgroundProcessor();
-  }
-
-  async function enableImageBackground(imageUrl) {
-    state.currentBackground = 'image';
-    state.backgroundValue = imageUrl;
-    await startBackgroundProcessor();
-  }
-
-  async function startBackgroundProcessor() {
-    // Simple canvas-based background replacement
-    // For production, use MediaPipe Selfie Segmentation
-
-    const localTile = document.getElementById('tile-local');
-    if (!localTile || !state.localStream) return;
-
-    let video = localTile.querySelector('video');
-    if (!video) {
-      video = document.createElement('video');
-      video.autoplay = true;
-      video.muted = true;
-      video.playsInline = true;
-      video.srcObject = state.localStream;
-      localTile.appendChild(video);
-    }
-
-    // Create canvas for processing
-    let canvas = localTile.querySelector('.bg-canvas');
-    if (!canvas) {
-      canvas = document.createElement('canvas');
-      canvas.className = 'bg-canvas';
-      localTile.insertBefore(canvas, video);
-    }
-
-    video.classList.add('hidden-video');
-    video.style.display = 'none';
-
-    const ctx = canvas.getContext('2d', { willReadFrequently: true });
-
-    // Load background image if needed
-    let bgImage = null;
-    if (state.currentBackground === 'image' && state.backgroundValue) {
-      bgImage = new Image();
-      bgImage.crossOrigin = 'anonymous';
-      await new Promise((resolve) => {
-        bgImage.onload = resolve;
-        bgImage.onerror = resolve;
-        bgImage.src = state.backgroundValue;
-      });
-    }
-
-    // Stop previous processor
-    if (state.backgroundProcessor) {
-      state.backgroundProcessor.stop?.();
-    }
-
-    let running = true;
-
-    function processFrame() {
-      if (!running || !state.cameraEnabled) return;
-
-      canvas.width = video.videoWidth || 640;
-      canvas.height = video.videoHeight || 480;
-
-      // Draw the video frame
-      ctx.drawImage(video, 0, 0);
-
-      // For blur, apply a simple blur effect
-      // In production, you'd use MediaPipe for proper segmentation
-      if (state.currentBackground === 'blur') {
-        ctx.filter = 'blur(0px)'; // Placeholder - real blur needs segmentation
-        ctx.drawImage(video, 0, 0);
-        ctx.filter = 'none';
-      } else if (state.currentBackground === 'color') {
-        // Draw color background (would need segmentation for real effect)
-        // This is a placeholder that just draws the video
-        ctx.drawImage(video, 0, 0);
-      } else if (state.currentBackground === 'image' && bgImage) {
-        // Draw image background (would need segmentation for real effect)
-        // This is a placeholder that just draws the video
-        ctx.drawImage(video, 0, 0);
-      }
-
-      requestAnimationFrame(processFrame);
-    }
-
-    state.backgroundProcessor = {
-      stop: () => { running = false; }
-    };
-
-    // Wait for video to be ready
-    if (video.readyState >= 2) {
-      processFrame();
-    } else {
-      video.addEventListener('loadeddata', processFrame, { once: true });
-    }
-  }
-
   // Leave meeting
   leaveBtn.addEventListener('click', () => {
     if (typeof Swal !== 'undefined') {
@@ -3811,11 +3358,6 @@
     // Stop all streams
     state.localStream?.getTracks().forEach(t => t.stop());
     state.screenStream?.getTracks().forEach(t => t.stop());
-
-    // Stop background processor
-    if (state.backgroundProcessor) {
-      state.backgroundProcessor.stop?.();
-    }
 
     // Clear all stats intervals
     state.statsIntervals.forEach((intervalId) => clearInterval(intervalId));
