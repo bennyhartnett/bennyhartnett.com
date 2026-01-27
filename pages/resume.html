@@ -101,7 +101,9 @@
   }
   /* Dark mode styles for PDF */
   .pdf-pages.dark-mode {
-    background: #1a1a1a;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     box-shadow: 0 2px 10px rgba(0,0,0,0.5);
   }
   .pdf-pages.dark-mode .pdf-page canvas {
