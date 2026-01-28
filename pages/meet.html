@@ -1843,7 +1843,10 @@
     sendReaction: null,
     sendHandRaise: null,
     sendFile: null,
-    audioContexts: new Map(), // peerId -> { analyser, dataArray }
+    // Optimized: Single shared AudioContext for all peers
+    sharedAudioContext: null,
+    audioAnalysers: new Map(), // peerId -> { analyser, dataArray, source }
+    speakingDetectionInterval: null,
     // New state for enhanced features
     viewMode: 'grid', // 'grid' or 'spotlight'
     spotlightPeer: null, // peerId or 'local'
@@ -1939,6 +1942,24 @@
     mediaRequirement.classList.toggle('hidden', hasMedia);
   }
 
+  // Optimized: Get video constraints based on current/expected participant count
+  function getVideoConstraints() {
+    const totalParticipants = state.peers.size + 1;
+    const base = {
+      facingMode: 'user',
+      deviceId: state.selectedDevices.camera ? { exact: state.selectedDevices.camera } : undefined
+    };
+
+    // Start with appropriate quality based on current participants
+    if (totalParticipants <= 2) {
+      return { ...base, width: { ideal: 1280 }, height: { ideal: 720 }, frameRate: { ideal: 30 } };
+    } else if (totalParticipants <= 4) {
+      return { ...base, width: { ideal: 640 }, height: { ideal: 360 }, frameRate: { ideal: 24 } };
+    } else {
+      return { ...base, width: { ideal: 320 }, height: { ideal: 180 }, frameRate: { ideal: 15 } };
+    }
+  }
+
   // Request media permissions
   async function requestMedia(audio, video) {
     try {
@@ -1949,10 +1970,7 @@
           autoGainControl: state.audioSettings.autoGain,
           deviceId: state.selectedDevices.mic ? { exact: state.selectedDevices.mic } : undefined
         } : false,
-        video: video ? {
-          facingMode: 'user',
-          deviceId: state.selectedDevices.camera ? { exact: state.selectedDevices.camera } : undefined
-        } : false
+        video: video ? getVideoConstraints() : false
       };
       const stream = await navigator.mediaDevices.getUserMedia(constraints);
       return stream;
@@ -2195,7 +2213,7 @@
     state.room.onPeerLeave(peerId => {
       console.log('Peer left:', peerId);
       state.peers.delete(peerId);
-      state.audioContexts.delete(peerId);
+      cleanupSpeakingDetection(peerId);
       stopNetworkStats(peerId);
       // Remove from hand raise queue
       state.handRaiseQueue = state.handRaiseQueue.filter(q => q.peerId !== peerId);
@@ -2373,7 +2391,54 @@
     tile.appendChild(nameTag);
   }
 
-  // Set up speaking detection
+  // Optimized: Get or create shared AudioContext
+  function getSharedAudioContext() {
+    if (!state.sharedAudioContext || state.sharedAudioContext.state === 'closed') {
+      state.sharedAudioContext = new AudioContext();
+    }
+    // Resume if suspended (browsers require user interaction)
+    if (state.sharedAudioContext.state === 'suspended') {
+      state.sharedAudioContext.resume();
+    }
+    return state.sharedAudioContext;
+  }
+
+  // Optimized: Single interval loop for all speaking detection
+  function startSpeakingDetectionLoop() {
+    if (state.speakingDetectionInterval) return; // Already running
+
+    // Check all peers at 10fps (100ms interval) instead of 60fps per peer
+    state.speakingDetectionInterval = setInterval(() => {
+      state.audioAnalysers.forEach((ctx, peerId) => {
+        try {
+          ctx.analyser.getByteFrequencyData(ctx.dataArray);
+          const average = ctx.dataArray.reduce((a, b) => a + b) / ctx.dataArray.length;
+
+          const tileId = peerId === 'local' ? 'tile-local' : `tile-${peerId}`;
+          const tile = document.getElementById(tileId);
+          if (tile) {
+            if (average > 30) {
+              tile.classList.add('speaking');
+            } else {
+              tile.classList.remove('speaking');
+            }
+          }
+        } catch (err) {
+          // Ignore errors for disconnected peers
+        }
+      });
+    }, 100);
+  }
+
+  // Stop speaking detection loop when no more peers
+  function stopSpeakingDetectionLoop() {
+    if (state.speakingDetectionInterval && state.audioAnalysers.size === 0) {
+      clearInterval(state.speakingDetectionInterval);
+      state.speakingDetectionInterval = null;
+    }
+  }
+
+  // Set up speaking detection for a peer (optimized with shared AudioContext)
   function setupSpeakingDetection(peerId, stream) {
     try {
       // Check if stream has audio tracks before setting up detection
@@ -2381,37 +2446,36 @@
         return; // No audio track, skip speaking detection
       }
 
-      const audioContext = new AudioContext();
+      // Clean up existing analyser for this peer if any
+      cleanupSpeakingDetection(peerId);
+
+      const audioContext = getSharedAudioContext();
       const analyser = audioContext.createAnalyser();
       const source = audioContext.createMediaStreamSource(stream);
       source.connect(analyser);
       analyser.fftSize = 256;
       const dataArray = new Uint8Array(analyser.frequencyBinCount);
 
-      state.audioContexts.set(peerId, { analyser, dataArray });
+      state.audioAnalysers.set(peerId, { analyser, dataArray, source });
 
-      function checkSpeaking() {
-        if (!state.audioContexts.has(peerId)) return;
-
-        analyser.getByteFrequencyData(dataArray);
-        const average = dataArray.reduce((a, b) => a + b) / dataArray.length;
-
-        const tileId = peerId === 'local' ? 'tile-local' : `tile-${peerId}`;
-        const tile = document.getElementById(tileId);
-        if (tile) {
-          if (average > 30) {
-            tile.classList.add('speaking');
-          } else {
-            tile.classList.remove('speaking');
-          }
-        }
-
-        requestAnimationFrame(checkSpeaking);
-      }
-
-      checkSpeaking();
+      // Start the shared detection loop if not already running
+      startSpeakingDetectionLoop();
     } catch (err) {
       console.error('Speaking detection error:', err);
+    }
+  }
+
+  // Clean up speaking detection for a peer
+  function cleanupSpeakingDetection(peerId) {
+    const ctx = state.audioAnalysers.get(peerId);
+    if (ctx) {
+      try {
+        ctx.source.disconnect();
+      } catch (e) {
+        // Already disconnected
+      }
+      state.audioAnalysers.delete(peerId);
+      stopSpeakingDetectionLoop();
     }
   }
 
@@ -2445,6 +2509,9 @@
     participantsHeader.textContent = `Participants (${totalParticipants})`;
 
     updateParticipantsList();
+
+    // Optimized: Adjust video quality based on participant count
+    adjustQualityForParticipants();
   }
 
   // Update participants list in sidebar
@@ -2950,6 +3017,29 @@
     }
   }
 
+  // Optimized: Adjust video quality based on participant count
+  // With mesh networking, bandwidth and CPU scale quadratically with participants
+  let lastParticipantQuality = null;
+  function adjustQualityForParticipants() {
+    const totalParticipants = state.peers.size + 1;
+    let targetQuality;
+
+    if (totalParticipants <= 2) {
+      targetQuality = 'high';     // 1-2 people: full quality (720p @ 30fps)
+    } else if (totalParticipants <= 4) {
+      targetQuality = 'medium';   // 3-4 people: medium quality (360p @ 24fps)
+    } else {
+      targetQuality = 'low';      // 5+ people: low quality (180p @ 15fps)
+    }
+
+    // Only adjust if quality level changed to avoid constant constraint updates
+    if (targetQuality !== lastParticipantQuality) {
+      console.log(`Adjusting video quality to ${targetQuality} for ${totalParticipants} participants`);
+      adjustVideoQuality(targetQuality);
+      lastParticipantQuality = targetQuality;
+    }
+  }
+
   // ==================== DEVICE SETTINGS ====================
 
   async function enumerateDevices() {
@@ -3363,6 +3453,25 @@
     // Clear all stats intervals
     state.statsIntervals.forEach((intervalId) => clearInterval(intervalId));
     state.statsIntervals.clear();
+
+    // Clean up speaking detection
+    if (state.speakingDetectionInterval) {
+      clearInterval(state.speakingDetectionInterval);
+      state.speakingDetectionInterval = null;
+    }
+    state.audioAnalysers.forEach((ctx, peerId) => {
+      try { ctx.source.disconnect(); } catch (e) {}
+    });
+    state.audioAnalysers.clear();
+
+    // Close shared AudioContext
+    if (state.sharedAudioContext) {
+      state.sharedAudioContext.close().catch(() => {});
+      state.sharedAudioContext = null;
+    }
+
+    // Reset quality tracking
+    lastParticipantQuality = null;
 
     // Leave room
     state.room?.leave();
