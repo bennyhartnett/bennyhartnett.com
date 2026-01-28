@@ -498,9 +498,10 @@
   </div>
 </div>
 
-<script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
-<script>
-(function() {
+<script type="module">
+  // Import Trystero for serverless WebRTC (mesh network)
+  import { joinRoom } from 'https://esm.sh/trystero@0.20.0/torrent';
+
   // Elements
   const statusBar = document.getElementById('statusBar');
   const statusText = document.getElementById('statusText');
@@ -516,121 +517,58 @@
   const receivedItems = document.getElementById('receivedItems');
   const shareTabs = document.querySelectorAll('.share-tab');
 
-  const ROOM_ID = 'benny-home-clipboard';
-  let peer = null;
-  let conn = null;
-  let isHost = false;
+  // State
+  const ROOM_NAME = 'benny-home-clipboard';
+  const APP_ID = 'benny-clipboard-v1';
+  let room = null;
+  let sendData = null;
+  const peers = new Set();
 
-  // Generate a unique client ID
-  function generateClientId() {
-    return 'client-' + Math.random().toString(36).substr(2, 9);
-  }
+  // Initialize Trystero room
+  function initRoom() {
+    setStatus('waiting', 'Connecting to room...');
 
-  // Initialize PeerJS - try to be host, otherwise connect as client
-  function initPeer() {
-    // First, try to become the host
-    peer = new Peer(ROOM_ID, {
-      debug: 0,
-      config: {
-        iceServers: [
-          { urls: 'stun:stun.l.google.com:19302' },
-          { urls: 'stun:stun1.l.google.com:19302' }
-        ]
-      }
-    });
+    const config = { appId: APP_ID };
+    room = joinRoom(config, ROOM_NAME);
 
-    peer.on('open', (id) => {
-      if (id === ROOM_ID) {
-        isHost = true;
-        setStatus('waiting', 'Waiting for another device...');
-      }
-    });
+    // Create action for sending/receiving clipboard data
+    const [send, receive] = room.makeAction('clipboard');
+    sendData = send;
 
-    peer.on('connection', (connection) => {
-      conn = connection;
-      setupConnection();
-    });
-
-    peer.on('error', (err) => {
-      if (err.type === 'unavailable-id') {
-        // Room already has a host, connect as client
-        peer.destroy();
-        connectAsClient();
-      } else {
-        console.error('PeerJS error:', err);
-        setStatus('error', 'Connection error. Retrying...');
-        setTimeout(initPeer, 2000);
-      }
-    });
-  }
-
-  // Connect as a client to the host
-  function connectAsClient() {
-    const clientId = generateClientId();
-
-    peer = new Peer(clientId, {
-      debug: 0,
-      config: {
-        iceServers: [
-          { urls: 'stun:stun.l.google.com:19302' },
-          { urls: 'stun:stun1.l.google.com:19302' }
-        ]
-      }
-    });
-
-    peer.on('open', () => {
-      setStatus('waiting', 'Connecting...');
-      conn = peer.connect(ROOM_ID, { reliable: true });
-      setupConnection();
-    });
-
-    peer.on('error', (err) => {
-      if (err.type === 'peer-unavailable') {
-        // Host disappeared, try to become host
-        setStatus('waiting', 'Reconnecting...');
-        peer.destroy();
-        setTimeout(initPeer, 1000);
-      } else {
-        console.error('PeerJS error:', err);
-        setStatus('error', 'Connection error. Retrying...');
-        setTimeout(() => {
-          peer.destroy();
-          initPeer();
-        }, 2000);
-      }
-    });
-  }
-
-  // Setup connection handlers
-  function setupConnection() {
-    conn.on('open', () => {
-      setStatus('connected', 'Connected');
-      shareSection.classList.add('active');
-    });
-
-    conn.on('data', (data) => {
+    // Handle receiving data from peers
+    receive((data, peerId) => {
       handleReceivedData(data);
     });
 
-    conn.on('close', () => {
-      setStatus('waiting', 'Disconnected. Reconnecting...');
-      shareSection.classList.remove('active');
-      conn = null;
-      // Try to reconnect
-      setTimeout(() => {
-        peer.destroy();
-        initPeer();
-      }, 1000);
+    // Handle peer joining
+    room.onPeerJoin(peerId => {
+      console.log('Peer joined:', peerId);
+      peers.add(peerId);
+      updateStatus();
     });
 
-    conn.on('error', (err) => {
-      console.error('Connection error:', err);
-      setStatus('error', 'Connection lost. Reconnecting...');
-      setTimeout(() => {
-        peer.destroy();
-        initPeer();
-      }, 2000);
+    // Handle peer leaving
+    room.onPeerLeave(peerId => {
+      console.log('Peer left:', peerId);
+      peers.delete(peerId);
+      updateStatus();
     });
+
+    // Enable sharing immediately (can send even before peers connect)
+    shareSection.classList.add('active');
+    updateStatus();
+  }
+
+  // Update status based on peer count
+  function updateStatus() {
+    const count = peers.size;
+    if (count === 0) {
+      setStatus('waiting', 'Waiting for devices...');
+    } else if (count === 1) {
+      setStatus('connected', 'Connected to 1 device');
+    } else {
+      setStatus('connected', `Connected to ${count} devices`);
+    }
   }
 
   // Set status
@@ -745,20 +683,20 @@
   // Send text
   function sendText() {
     const text = textInput.value.trim();
-    if (!text || !conn) return;
+    if (!text || !sendData) return;
 
-    conn.send({ type: 'text', content: text });
+    sendData({ type: 'text', content: text });
     textInput.value = '';
   }
 
   // Send file
   function sendFile(file) {
-    if (!conn) return;
+    if (!sendData) return;
 
     const reader = new FileReader();
     reader.onload = () => {
       const isImage = file.type.startsWith('image/');
-      conn.send({
+      sendData({
         type: isImage ? 'image' : 'file',
         name: file.name,
         size: file.size,
@@ -825,7 +763,7 @@
 
   // Paste handling
   document.onpaste = (e) => {
-    if (!conn) return;
+    if (!sendData) return;
 
     const items = e.clipboardData.items;
     for (const item of items) {
@@ -837,6 +775,5 @@
   };
 
   // Initialize
-  initPeer();
-})();
+  initRoom();
 </script>
