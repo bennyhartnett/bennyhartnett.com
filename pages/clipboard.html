@@ -55,23 +55,45 @@
 
   /* Room info */
   .room-info {
-    background: rgba(0, 0, 0, 0.3);
-    border-radius: 8px;
-    padding: 1rem;
-    text-align: center;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
     margin-bottom: 1.5rem;
   }
 
   .room-info-label {
     font-size: 0.75rem;
     color: rgba(255, 255, 255, 0.6);
-    margin-bottom: 0.25rem;
+    white-space: nowrap;
   }
 
-  .room-info-name {
-    font-size: 1.25rem;
-    font-weight: 600;
+  .room-input {
+    flex: 1;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 6px;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 500;
     color: #6366f1;
+    font-family: inherit;
+    text-transform: lowercase;
+  }
+
+  .room-input::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+    text-transform: none;
+  }
+
+  .room-input:focus {
+    outline: none;
+    border-color: #6366f1;
+  }
+
+  .btn-new-room {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.75rem;
+    white-space: nowrap;
   }
 
   .btn {
@@ -448,8 +470,9 @@
     </div>
 
     <div class="room-info">
-      <div class="room-info-label">Room</div>
-      <div class="room-info-name">Home</div>
+      <span class="room-info-label">Room:</span>
+      <input type="text" class="room-input" id="roomInput" placeholder="home" value="home" maxlength="20">
+      <button class="btn btn-secondary btn-new-room" id="newRoomBtn">New</button>
     </div>
 
     <div class="status-bar waiting" id="statusBar">
@@ -516,20 +539,54 @@
   const receivedSection = document.getElementById('receivedSection');
   const receivedItems = document.getElementById('receivedItems');
   const shareTabs = document.querySelectorAll('.share-tab');
+  const roomInput = document.getElementById('roomInput');
+  const newRoomBtn = document.getElementById('newRoomBtn');
 
   // State
-  const ROOM_NAME = 'benny-home-clipboard';
   const APP_ID = 'benny-clipboard-v1';
+  let currentRoomName = 'home';
   let room = null;
   let sendData = null;
   const peers = new Set();
 
+  // Get room from URL path (e.g., /ghsk)
+  function getRoomFromUrl() {
+    const path = window.location.pathname.replace(/^\//, '').replace(/\/$/, '');
+    return path && path !== 'clipboard' ? path.toLowerCase() : 'home';
+  }
+
+  // Update URL to reflect current room
+  function updateUrl(roomName) {
+    const newPath = roomName === 'home' ? '/' : '/' + roomName;
+    if (window.location.pathname !== newPath) {
+      window.history.pushState({}, '', newPath);
+    }
+  }
+
+  // Generate random 4-character room code
+  function generateRoomCode() {
+    const chars = 'abcdefghijklmnopqrstuvwxyz';
+    let code = '';
+    for (let i = 0; i < 4; i++) {
+      code += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return code;
+  }
+
   // Initialize Trystero room
-  function initRoom() {
+  function initRoom(roomName) {
+    // Leave existing room if any
+    if (room) {
+      room.leave();
+      peers.clear();
+    }
+
+    currentRoomName = roomName;
     setStatus('waiting', 'Connecting to room...');
 
     const config = { appId: APP_ID };
-    room = joinRoom(config, ROOM_NAME);
+    const fullRoomName = 'benny-' + roomName + '-clipboard';
+    room = joinRoom(config, fullRoomName);
 
     // Create action for sending/receiving clipboard data
     const [send, receive] = room.makeAction('clipboard');
@@ -774,6 +831,48 @@
     }
   };
 
-  // Initialize
-  initRoom();
+  // Switch to a new room
+  function switchRoom(roomName) {
+    roomName = roomName.toLowerCase().replace(/[^a-z0-9]/g, '') || 'home';
+    roomInput.value = roomName;
+    updateUrl(roomName);
+    initRoom(roomName);
+  }
+
+  // Room input change handler
+  let roomChangeTimeout = null;
+  roomInput.addEventListener('input', () => {
+    clearTimeout(roomChangeTimeout);
+    roomChangeTimeout = setTimeout(() => {
+      const newRoom = roomInput.value.trim() || 'home';
+      switchRoom(newRoom);
+    }, 500);
+  });
+
+  roomInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      clearTimeout(roomChangeTimeout);
+      const newRoom = roomInput.value.trim() || 'home';
+      switchRoom(newRoom);
+      roomInput.blur();
+    }
+  });
+
+  // New room button
+  newRoomBtn.addEventListener('click', () => {
+    const newCode = generateRoomCode();
+    switchRoom(newCode);
+  });
+
+  // Handle browser back/forward
+  window.addEventListener('popstate', () => {
+    const roomFromUrl = getRoomFromUrl();
+    roomInput.value = roomFromUrl;
+    initRoom(roomFromUrl);
+  });
+
+  // Initialize with room from URL
+  const initialRoom = getRoomFromUrl();
+  roomInput.value = initialRoom;
+  initRoom(initialRoom);
 </script>
