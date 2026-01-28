@@ -8,9 +8,7 @@ Disallow: /download
 
 # Subdomain architecture - All content pages served via subdomains
 # https://bennyhartnett.com (main domain - homepage)
-# https://generative-ai.bennyhartnett.com (AI content)
 # https://nuclear.bennyhartnett.com (Nuclear calculator & research)
-# https://government-contracting.bennyhartnett.com (GovCon insights)
 # https://projects.bennyhartnett.com (Portfolio)
 # https://contact.bennyhartnett.com (Contact form)
 # https://chat.bennyhartnett.com (AI chat)
