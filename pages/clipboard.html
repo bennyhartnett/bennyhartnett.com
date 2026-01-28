@@ -11,10 +11,15 @@
     min-height: calc(100vh - 56px);
     min-height: calc(100svh - 56px);
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    flex-direction: row;
     padding: 1.5rem;
     gap: 1.5rem;
+  }
+
+  /* Main panel - share section */
+  .clipboard-main {
+    flex: 1;
+    max-width: 500px;
   }
 
   .clipboard-card {
@@ -23,8 +28,81 @@
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 14px;
     padding: 1.5rem;
-    max-width: 500px;
     width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* Sidebar - message history */
+  .clipboard-sidebar {
+    width: 350px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sidebar-card {
+    background: rgba(30, 30, 30, 0.8);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 14px;
+    padding: 1.5rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  .sidebar-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .sidebar-header svg {
+    width: 20px;
+    height: 20px;
+    color: #6366f1;
+  }
+
+  .sidebar-header h2 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .sidebar-header .message-count {
+    margin-left: auto;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.1);
+    padding: 0.25rem 0.5rem;
+    border-radius: 12px;
+  }
+
+  .sidebar-empty {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255, 255, 255, 0.4);
+    text-align: center;
+    padding: 2rem;
+  }
+
+  .sidebar-empty svg {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+  }
+
+  .sidebar-empty p {
+    margin: 0;
+    font-size: 0.875rem;
   }
 
   .clipboard-header {
@@ -265,31 +343,14 @@
     display: none;
   }
 
-  /* Received items */
-  .received-section {
-    margin-top: 1.5rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    display: none;
-  }
-
-  .received-section.has-items {
-    display: block;
-  }
-
-  .received-header {
-    font-size: 0.875rem;
-    font-weight: 500;
-    margin-bottom: 1rem;
-    color: rgba(255, 255, 255, 0.8);
-  }
-
+  /* Received items in sidebar */
   .received-items {
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
-    max-height: 300px;
+    flex: 1;
     overflow-y: auto;
+    min-height: 0;
   }
 
   .received-item {
@@ -422,11 +483,26 @@
     background: rgba(255, 255, 255, 0.3);
   }
 
+  /* Responsive: stack on mobile */
+  @media (max-width: 900px) {
+    .clipboard-container {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .clipboard-main {
+      max-width: none;
+    }
+    .clipboard-sidebar {
+      width: auto;
+      max-height: 400px;
+    }
+  }
+
   @media (max-width: 600px) {
     .clipboard-container {
       padding: 1rem;
     }
-    .clipboard-card {
+    .clipboard-card, .sidebar-card {
       padding: 1rem;
     }
     .room-code {
@@ -436,64 +512,83 @@
 </style>
 
 <div class="clipboard-container">
-  <div class="clipboard-card">
-    <div class="clipboard-header">
-      <h1>
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0 0 13.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 0 1-.75.75H9.75a.75.75 0 0 1-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 0 1-2.25 2.25H6.75A2.25 2.25 0 0 1 4.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 0 1 1.927-.184" />
-        </svg>
-        Clipboard
-      </h1>
-      <p>Instant peer-to-peer sharing via WebRTC</p>
-    </div>
-
-    <div class="room-info">
-      <div class="room-info-label">Room</div>
-      <div class="room-info-name">Home</div>
-    </div>
-
-    <div class="status-bar waiting" id="statusBar">
-      <span class="status-dot"></span>
-      <span id="statusText">Waiting for peer...</span>
-    </div>
-
-    <div class="share-section" id="shareSection">
-      <div class="share-tabs">
-        <button class="share-tab active" data-tab="text">Text</button>
-        <button class="share-tab" data-tab="file">Files</button>
+  <!-- Main panel - share section -->
+  <div class="clipboard-main">
+    <div class="clipboard-card">
+      <div class="clipboard-header">
+        <h1>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0 0 13.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 0 1-.75.75H9.75a.75.75 0 0 1-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 0 1-2.25 2.25H6.75A2.25 2.25 0 0 1 4.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 0 1 1.927-.184" />
+          </svg>
+          Clipboard
+        </h1>
+        <p>Instant peer-to-peer sharing via WebRTC</p>
       </div>
 
-      <div class="tab-content active" id="textTab">
-        <textarea class="text-input" id="textInput" placeholder="Type or paste text to share..."></textarea>
-        <button class="btn btn-primary send-btn" id="sendTextBtn">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" />
-          </svg>
-          Send Text
-        </button>
+      <div class="room-info">
+        <div class="room-info-label">Room</div>
+        <div class="room-info-name">Home</div>
       </div>
 
-      <div class="tab-content" id="fileTab">
-        <div class="drop-zone" id="dropZone">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" />
-          </svg>
-          <p>Drop files here or click to select</p>
-          <p style="font-size: 0.75rem; margin-top: 0.5rem; opacity: 0.6;">Images, documents, any file type</p>
-          <input type="file" id="fileInput" multiple>
+      <div class="status-bar waiting" id="statusBar">
+        <span class="status-dot"></span>
+        <span id="statusText">Waiting for peer...</span>
+      </div>
+
+      <div class="share-section" id="shareSection">
+        <div class="share-tabs">
+          <button class="share-tab active" data-tab="text">Text</button>
+          <button class="share-tab" data-tab="file">Files</button>
         </div>
-        <div class="transfer-progress" id="transferProgress">
-          <div class="progress-bar">
-            <div class="progress-fill" id="progressFill"></div>
+
+        <div class="tab-content active" id="textTab">
+          <textarea class="text-input" id="textInput" placeholder="Type or paste text to share..."></textarea>
+          <button class="btn btn-primary send-btn" id="sendTextBtn">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" />
+            </svg>
+            Send Text
+          </button>
+        </div>
+
+        <div class="tab-content" id="fileTab">
+          <div class="drop-zone" id="dropZone">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" />
+            </svg>
+            <p>Drop files here or click to select</p>
+            <p style="font-size: 0.75rem; margin-top: 0.5rem; opacity: 0.6;">Images, documents, any file type</p>
+            <input type="file" id="fileInput" multiple>
           </div>
-          <div class="progress-text" id="progressText">Sending...</div>
+          <div class="transfer-progress" id="transferProgress">
+            <div class="progress-bar">
+              <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="progress-text" id="progressText">Sending...</div>
+          </div>
         </div>
       </div>
+    </div>
+  </div>
 
-      <div class="received-section" id="receivedSection">
-        <div class="received-header">Received</div>
-        <div class="received-items" id="receivedItems"></div>
+  <!-- Sidebar - message history -->
+  <div class="clipboard-sidebar">
+    <div class="sidebar-card">
+      <div class="sidebar-header">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M8.625 12a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 0 1-2.555-.337A5.972 5.972 0 0 1 5.41 20.97a5.969 5.969 0 0 1-.474-.065 4.48 4.48 0 0 0 .978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25Z" />
+        </svg>
+        <h2>Messages</h2>
+        <span class="message-count" id="messageCount">0</span>
       </div>
+      <div class="sidebar-empty" id="sidebarEmpty">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 8.511c.884.284 1.5 1.128 1.5 2.097v4.286c0 1.136-.847 2.1-1.98 2.193-.34.027-.68.052-1.02.072v3.091l-3-3c-1.354 0-2.694-.055-4.02-.163a2.115 2.115 0 0 1-.825-.242m9.345-8.334a2.126 2.126 0 0 0-.476-.095 48.64 48.64 0 0 0-8.048 0c-1.131.094-1.976 1.057-1.976 2.192v4.286c0 .837.46 1.58 1.155 1.951m9.345-8.334V6.637c0-1.621-1.152-3.026-2.76-3.235A48.455 48.455 0 0 0 11.25 3c-2.115 0-4.198.137-6.24.402-1.608.209-2.76 1.614-2.76 3.235v6.226c0 1.621 1.152 3.026 2.76 3.235.577.075 1.157.14 1.74.194V21l4.155-4.155" />
+        </svg>
+        <p>No messages yet</p>
+        <p style="font-size: 0.75rem; margin-top: 0.5rem;">Messages from all devices will appear here</p>
+      </div>
+      <div class="received-items" id="receivedItems" style="display: none;"></div>
     </div>
   </div>
 </div>
@@ -513,8 +608,9 @@
   const transferProgress = document.getElementById('transferProgress');
   const progressFill = document.getElementById('progressFill');
   const progressText = document.getElementById('progressText');
-  const receivedSection = document.getElementById('receivedSection');
   const receivedItems = document.getElementById('receivedItems');
+  const sidebarEmpty = document.getElementById('sidebarEmpty');
+  const messageCount = document.getElementById('messageCount');
   const shareTabs = document.querySelectorAll('.share-tab');
 
   // State
@@ -522,7 +618,9 @@
   const APP_ID = 'benny-clipboard-v1';
   let room = null;
   let sendData = null;
+  let sendHistory = null;
   const peers = new Set();
+  const messageHistory = []; // Store all messages for late joiners
 
   // Initialize Trystero room
   function initRoom() {
@@ -535,9 +633,36 @@
     const [send, receive] = room.makeAction('clipboard');
     sendData = send;
 
+    // Create action for syncing history to new peers
+    const [sendHist, receiveHist] = room.makeAction('history');
+    sendHistory = sendHist;
+
     // Handle receiving data from peers
     receive((data, peerId) => {
-      handleReceivedData(data);
+      // Add timestamp if not present
+      if (!data.timestamp) {
+        data.timestamp = Date.now();
+      }
+      // Store in history
+      messageHistory.push(data);
+      // Display it
+      displayMessage(data);
+    });
+
+    // Handle receiving history sync from existing peers
+    receiveHist((historyData, peerId) => {
+      console.log('Received history from peer:', peerId, historyData.length, 'messages');
+      // historyData is an array of messages
+      for (const msg of historyData) {
+        // Check if we already have this message (by timestamp)
+        const exists = messageHistory.some(m => m.timestamp === msg.timestamp);
+        if (!exists) {
+          messageHistory.push(msg);
+          displayMessage(msg, true); // append at end for history
+        }
+      }
+      // Sort history display by timestamp (oldest at bottom)
+      sortMessagesDisplay();
     });
 
     // Handle peer joining
@@ -545,6 +670,12 @@
       console.log('Peer joined:', peerId);
       peers.add(peerId);
       updateStatus();
+
+      // Send our message history to the new peer
+      if (messageHistory.length > 0) {
+        console.log('Sending history to new peer:', messageHistory.length, 'messages');
+        sendHistory(messageHistory, peerId);
+      }
     });
 
     // Handle peer leaving
@@ -577,12 +708,38 @@
     statusText.textContent = text;
   }
 
-  // Handle received data
-  function handleReceivedData(data) {
-    receivedSection.classList.add('has-items');
+  // Update sidebar UI
+  function updateSidebarUI() {
+    const count = messageHistory.length;
+    messageCount.textContent = count;
+
+    if (count > 0) {
+      sidebarEmpty.style.display = 'none';
+      receivedItems.style.display = 'flex';
+    } else {
+      sidebarEmpty.style.display = 'flex';
+      receivedItems.style.display = 'none';
+    }
+  }
+
+  // Sort messages display by timestamp (newest first)
+  function sortMessagesDisplay() {
+    const items = Array.from(receivedItems.children);
+    items.sort((a, b) => {
+      const timeA = parseInt(a.dataset.timestamp) || 0;
+      const timeB = parseInt(b.dataset.timestamp) || 0;
+      return timeB - timeA; // newest first
+    });
+    items.forEach(item => receivedItems.appendChild(item));
+  }
+
+  // Display a message in the sidebar
+  function displayMessage(data, appendAtEnd = false) {
+    updateSidebarUI();
 
     const item = document.createElement('div');
     item.className = 'received-item';
+    item.dataset.timestamp = data.timestamp || Date.now();
 
     const header = document.createElement('div');
     header.className = 'received-item-header';
@@ -590,7 +747,7 @@
     const typeEl = document.createElement('span');
     typeEl.className = 'received-item-type';
 
-    const time = new Date().toLocaleTimeString();
+    const time = new Date(data.timestamp || Date.now()).toLocaleTimeString();
 
     if (data.type === 'text') {
       typeEl.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 0 1 .865-.501 48.172 48.172 0 0 0 3.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" /></svg> Text`;
@@ -670,7 +827,11 @@
       item.appendChild(fileDiv);
     }
 
-    receivedItems.insertBefore(item, receivedItems.firstChild);
+    if (appendAtEnd) {
+      receivedItems.appendChild(item);
+    } else {
+      receivedItems.insertBefore(item, receivedItems.firstChild);
+    }
   }
 
   // Format file size
@@ -685,7 +846,11 @@
     const text = textInput.value.trim();
     if (!text || !sendData) return;
 
-    sendData({ type: 'text', content: text });
+    const msg = { type: 'text', content: text, timestamp: Date.now() };
+    sendData(msg);
+    // Also store and display locally
+    messageHistory.push(msg);
+    displayMessage(msg);
     textInput.value = '';
   }
 
@@ -696,12 +861,17 @@
     const reader = new FileReader();
     reader.onload = () => {
       const isImage = file.type.startsWith('image/');
-      sendData({
+      const msg = {
         type: isImage ? 'image' : 'file',
         name: file.name,
         size: file.size,
-        content: reader.result
-      });
+        content: reader.result,
+        timestamp: Date.now()
+      };
+      sendData(msg);
+      // Also store and display locally
+      messageHistory.push(msg);
+      displayMessage(msg);
       transferProgress.classList.remove('active');
     };
 
