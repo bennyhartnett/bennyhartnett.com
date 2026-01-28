@@ -135,21 +135,46 @@
   .room-info {
     background: rgba(0, 0, 0, 0.3);
     border-radius: 8px;
-    padding: 1rem;
-    text-align: center;
-    margin-bottom: 1.5rem;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
   }
 
   .room-info-label {
     font-size: 0.75rem;
     color: rgba(255, 255, 255, 0.6);
-    margin-bottom: 0.25rem;
+    white-space: nowrap;
   }
 
-  .room-info-name {
-    font-size: 1.25rem;
-    font-weight: 600;
+  .room-input {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 6px;
+    padding: 0.5rem 0.75rem;
     color: #6366f1;
+    font-size: 0.875rem;
+    font-weight: 600;
+    font-family: inherit;
+    min-width: 0;
+  }
+
+  .room-input:focus {
+    outline: none;
+    border-color: #6366f1;
+  }
+
+  .room-input::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+    font-weight: 400;
+  }
+
+  .btn-new-room {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.75rem;
+    white-space: nowrap;
   }
 
   .btn {
@@ -527,7 +552,13 @@
 
       <div class="room-info">
         <div class="room-info-label">Room</div>
-        <div class="room-info-name">Home</div>
+        <input type="text" class="room-input" id="roomInput" value="home" placeholder="Enter room code">
+        <button class="btn btn-secondary btn-new-room" id="newRoomBtn">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="14" height="14">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+          </svg>
+          New
+        </button>
       </div>
 
       <div class="status-bar waiting" id="statusBar">
@@ -612,20 +643,70 @@
   const sidebarEmpty = document.getElementById('sidebarEmpty');
   const messageCount = document.getElementById('messageCount');
   const shareTabs = document.querySelectorAll('.share-tab');
+  const roomInput = document.getElementById('roomInput');
+  const newRoomBtn = document.getElementById('newRoomBtn');
 
   // State
-  const ROOM_NAME = 'benny-home-clipboard';
   const APP_ID = 'benny-clipboard-v1';
+  let currentRoomCode = 'home';
   let room = null;
   let sendData = null;
   let sendHistory = null;
   const peers = new Set();
   const messageHistory = []; // Store all messages for late joiners
 
+  // Get room code from URL path (e.g., clipboard.bennyhartnett.com/ghsk)
+  function getRoomCodeFromUrl() {
+    const path = location.pathname.replace(/^\/+|\/+$/g, ''); // Remove leading/trailing slashes
+    return path || 'home';
+  }
+
+  // Generate random 4-character room code
+  function generateRoomCode() {
+    const chars = 'abcdefghijklmnopqrstuvwxyz';
+    let code = '';
+    for (let i = 0; i < 4; i++) {
+      code += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return code;
+  }
+
+  // Update URL without reload
+  function updateUrl(roomCode) {
+    const newPath = roomCode === 'home' ? '/' : '/' + roomCode;
+    history.pushState({ room: roomCode }, '', newPath);
+  }
+
+  // Switch to a different room
+  function switchRoom(newRoomCode) {
+    if (newRoomCode === currentRoomCode) return;
+
+    // Clean up old room
+    if (room) {
+      room.leave();
+      room = null;
+      sendData = null;
+      sendHistory = null;
+      peers.clear();
+      messageHistory.length = 0;
+      receivedItems.innerHTML = '';
+      updateSidebarUI();
+    }
+
+    // Update state
+    currentRoomCode = newRoomCode;
+    roomInput.value = newRoomCode;
+    updateUrl(newRoomCode);
+
+    // Join new room
+    initRoom();
+  }
+
   // Initialize Trystero room
   function initRoom() {
     setStatus('waiting', 'Connecting to room...');
 
+    const ROOM_NAME = `benny-clipboard-${currentRoomCode}`;
     const config = { appId: APP_ID };
     room = joinRoom(config, ROOM_NAME);
 
@@ -944,6 +1025,55 @@
     }
   };
 
-  // Initialize
+  // Room input - switch room on Enter
+  roomInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      const newRoom = roomInput.value.trim().toLowerCase().replace(/[^a-z0-9]/g, '');
+      if (newRoom) {
+        switchRoom(newRoom);
+      } else {
+        roomInput.value = currentRoomCode;
+      }
+      roomInput.blur();
+    }
+  });
+
+  // Room input - restore value on blur if empty
+  roomInput.addEventListener('blur', () => {
+    if (!roomInput.value.trim()) {
+      roomInput.value = currentRoomCode;
+    }
+  });
+
+  // New room button - generate and switch to new room
+  newRoomBtn.addEventListener('click', () => {
+    const newRoom = generateRoomCode();
+    switchRoom(newRoom);
+  });
+
+  // Handle browser back/forward
+  window.addEventListener('popstate', (e) => {
+    const roomCode = e.state?.room || getRoomCodeFromUrl();
+    if (roomCode !== currentRoomCode) {
+      // Clean up old room
+      if (room) {
+        room.leave();
+        room = null;
+        sendData = null;
+        sendHistory = null;
+        peers.clear();
+        messageHistory.length = 0;
+        receivedItems.innerHTML = '';
+        updateSidebarUI();
+      }
+      currentRoomCode = roomCode;
+      roomInput.value = roomCode;
+      initRoom();
+    }
+  });
+
+  // Initialize with room from URL
+  currentRoomCode = getRoomCodeFromUrl();
+  roomInput.value = currentRoomCode;
   initRoom();
 </script>
