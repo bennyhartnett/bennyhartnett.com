@@ -53,39 +53,25 @@
     margin: 0;
   }
 
-  /* Connection UI */
-  .connection-section {
-    margin-bottom: 1.5rem;
-  }
-
-  .room-code-display {
+  /* Room info */
+  .room-info {
     background: rgba(0, 0, 0, 0.3);
     border-radius: 8px;
     padding: 1rem;
     text-align: center;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
   }
 
-  .room-code-label {
+  .room-info-label {
     font-size: 0.75rem;
     color: rgba(255, 255, 255, 0.6);
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.25rem;
   }
 
-  .room-code {
-    font-size: 2rem;
+  .room-info-name {
+    font-size: 1.25rem;
     font-weight: 600;
-    letter-spacing: 0.25rem;
-    font-family: monospace;
     color: #6366f1;
-    user-select: all;
-  }
-
-  .room-code-actions {
-    display: flex;
-    gap: 0.5rem;
-    margin-top: 0.75rem;
-    justify-content: center;
   }
 
   .btn {
@@ -123,36 +109,6 @@
 
   .btn-secondary:hover {
     background: rgba(255, 255, 255, 0.15);
-  }
-
-  .join-form {
-    display: flex;
-    gap: 0.5rem;
-  }
-
-  .join-input {
-    flex: 1;
-    padding: 0.75rem 1rem;
-    border-radius: 8px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    background: rgba(0, 0, 0, 0.3);
-    color: white;
-    font-size: 1rem;
-    font-family: monospace;
-    letter-spacing: 0.1rem;
-    text-transform: uppercase;
-    text-align: center;
-  }
-
-  .join-input::placeholder {
-    color: rgba(255, 255, 255, 0.4);
-    letter-spacing: normal;
-    text-transform: none;
-  }
-
-  .join-input:focus {
-    outline: none;
-    border-color: #6366f1;
   }
 
   /* Status */
@@ -491,30 +447,9 @@
       <p>Instant peer-to-peer sharing via WebRTC</p>
     </div>
 
-    <div class="connection-section">
-      <div class="room-code-display" id="roomCodeDisplay">
-        <div class="room-code-label">Your Room Code</div>
-        <div class="room-code" id="roomCode">----</div>
-        <div class="room-code-actions">
-          <button class="btn btn-secondary" id="copyCodeBtn">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0 0 13.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 0 1-.75.75H9.75a.75.75 0 0 1-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 0 1-2.25 2.25H6.75A2.25 2.25 0 0 1 4.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 0 1 1.927-.184" />
-            </svg>
-            Copy
-          </button>
-          <button class="btn btn-secondary" id="newRoomBtn">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
-            </svg>
-            New
-          </button>
-        </div>
-      </div>
-
-      <div class="join-form">
-        <input type="text" class="join-input" id="joinInput" placeholder="Enter code to connect" maxlength="4" autocomplete="off" spellcheck="false">
-        <button class="btn btn-primary" id="joinBtn">Connect</button>
-      </div>
+    <div class="room-info">
+      <div class="room-info-label">Room</div>
+      <div class="room-info-name">Home</div>
     </div>
 
     <div class="status-bar waiting" id="statusBar">
@@ -567,11 +502,6 @@
 <script>
 (function() {
   // Elements
-  const roomCodeEl = document.getElementById('roomCode');
-  const copyCodeBtn = document.getElementById('copyCodeBtn');
-  const newRoomBtn = document.getElementById('newRoomBtn');
-  const joinInput = document.getElementById('joinInput');
-  const joinBtn = document.getElementById('joinBtn');
   const statusBar = document.getElementById('statusBar');
   const statusText = document.getElementById('statusText');
   const shareSection = document.getElementById('shareSection');
@@ -586,26 +516,20 @@
   const receivedItems = document.getElementById('receivedItems');
   const shareTabs = document.querySelectorAll('.share-tab');
 
+  const ROOM_ID = 'benny-home-clipboard';
   let peer = null;
   let conn = null;
-  let myCode = '';
+  let isHost = false;
 
-  // Generate a 4-character room code
-  function generateCode() {
-    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-    let code = '';
-    for (let i = 0; i < 4; i++) {
-      code += chars.charAt(Math.floor(Math.random() * chars.length));
-    }
-    return code;
+  // Generate a unique client ID
+  function generateClientId() {
+    return 'client-' + Math.random().toString(36).substr(2, 9);
   }
 
-  // Initialize PeerJS
+  // Initialize PeerJS - try to be host, otherwise connect as client
   function initPeer() {
-    myCode = generateCode();
-    roomCodeEl.textContent = myCode;
-
-    peer = new Peer(myCode, {
+    // First, try to become the host
+    peer = new Peer(ROOM_ID, {
       debug: 0,
       config: {
         iceServers: [
@@ -616,8 +540,10 @@
     });
 
     peer.on('open', (id) => {
-      roomCodeEl.textContent = id;
-      myCode = id;
+      if (id === ROOM_ID) {
+        isHost = true;
+        setStatus('waiting', 'Waiting for another device...');
+      }
     });
 
     peer.on('connection', (connection) => {
@@ -627,40 +553,58 @@
 
     peer.on('error', (err) => {
       if (err.type === 'unavailable-id') {
-        // Code already taken, generate new one
+        // Room already has a host, connect as client
         peer.destroy();
-        initPeer();
-      } else if (err.type === 'peer-unavailable') {
-        setStatus('error', 'Peer not found. Check the code.');
+        connectAsClient();
       } else {
         console.error('PeerJS error:', err);
-        setStatus('error', 'Connection error. Try again.');
+        setStatus('error', 'Connection error. Retrying...');
+        setTimeout(initPeer, 2000);
       }
     });
   }
 
-  // Connect to a peer
-  function connectToPeer(code) {
-    if (!code || code.length !== 4) {
-      setStatus('error', 'Enter a valid 4-character code');
-      return;
-    }
+  // Connect as a client to the host
+  function connectAsClient() {
+    const clientId = generateClientId();
 
-    code = code.toUpperCase();
-    if (code === myCode) {
-      setStatus('error', 'Cannot connect to yourself');
-      return;
-    }
+    peer = new Peer(clientId, {
+      debug: 0,
+      config: {
+        iceServers: [
+          { urls: 'stun:stun.l.google.com:19302' },
+          { urls: 'stun:stun1.l.google.com:19302' }
+        ]
+      }
+    });
 
-    setStatus('waiting', 'Connecting...');
-    conn = peer.connect(code, { reliable: true });
-    setupConnection();
+    peer.on('open', () => {
+      setStatus('waiting', 'Connecting...');
+      conn = peer.connect(ROOM_ID, { reliable: true });
+      setupConnection();
+    });
+
+    peer.on('error', (err) => {
+      if (err.type === 'peer-unavailable') {
+        // Host disappeared, try to become host
+        setStatus('waiting', 'Reconnecting...');
+        peer.destroy();
+        setTimeout(initPeer, 1000);
+      } else {
+        console.error('PeerJS error:', err);
+        setStatus('error', 'Connection error. Retrying...');
+        setTimeout(() => {
+          peer.destroy();
+          initPeer();
+        }, 2000);
+      }
+    });
   }
 
   // Setup connection handlers
   function setupConnection() {
     conn.on('open', () => {
-      setStatus('connected', 'Connected to peer');
+      setStatus('connected', 'Connected');
       shareSection.classList.add('active');
     });
 
@@ -669,14 +613,23 @@
     });
 
     conn.on('close', () => {
-      setStatus('waiting', 'Peer disconnected');
+      setStatus('waiting', 'Disconnected. Reconnecting...');
       shareSection.classList.remove('active');
       conn = null;
+      // Try to reconnect
+      setTimeout(() => {
+        peer.destroy();
+        initPeer();
+      }, 1000);
     });
 
     conn.on('error', (err) => {
       console.error('Connection error:', err);
-      setStatus('error', 'Connection lost');
+      setStatus('error', 'Connection lost. Reconnecting...');
+      setTimeout(() => {
+        peer.destroy();
+        initPeer();
+      }, 2000);
     });
   }
 
@@ -829,34 +782,6 @@
   }
 
   // Event listeners
-  copyCodeBtn.onclick = () => {
-    navigator.clipboard.writeText(myCode);
-    copyCodeBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg> Copied!';
-    setTimeout(() => {
-      copyCodeBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0 0 13.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 0 1-.75.75H9.75a.75.75 0 0 1-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 0 1-2.25 2.25H6.75A2.25 2.25 0 0 1 4.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 0 1 1.927-.184" /></svg> Copy';
-    }, 2000);
-  };
-
-  newRoomBtn.onclick = () => {
-    if (conn) conn.close();
-    peer.destroy();
-    shareSection.classList.remove('active');
-    receivedSection.classList.remove('has-items');
-    receivedItems.innerHTML = '';
-    setStatus('waiting', 'Waiting for peer...');
-    initPeer();
-  };
-
-  joinInput.oninput = () => {
-    joinInput.value = joinInput.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
-  };
-
-  joinBtn.onclick = () => connectToPeer(joinInput.value);
-
-  joinInput.onkeydown = (e) => {
-    if (e.key === 'Enter') connectToPeer(joinInput.value);
-  };
-
   sendTextBtn.onclick = sendText;
 
   textInput.onkeydown = (e) => {
