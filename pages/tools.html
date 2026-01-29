@@ -51,19 +51,15 @@
     transform: translateY(-2px);
   }
 
-  /* Iridescent gradient layer */
+  /* Iridescent gradient layer - always visible */
   .tool-card__gradient {
     position: absolute;
     inset: 0;
     pointer-events: none;
     z-index: 1;
-    opacity: 0;
+    opacity: 1;
     mix-blend-mode: darken;
     transform: translateZ(0);
-    transition: opacity 0.3s ease;
-  }
-  .tool-card:hover .tool-card__gradient {
-    opacity: 1;
   }
   .tool-card__gradient::before {
     content: "";
@@ -90,7 +86,7 @@
         rgba(34, 197, 94, 0.95),
         rgba(0, 245, 255, 0.95)
       );
-    background-size: 100% 100%, 100% 100%, 200% 200%;
+    background-size: 100% 100%, 100% 100%, 150% 150%;
     background-position: 0% 0%, 0% 0%, 45% 55%;
     filter: saturate(1.25) contrast(1.1);
     animation: iridescent 10s linear infinite;
@@ -136,13 +132,13 @@
     -webkit-mask-repeat: no-repeat;
     mask-repeat: no-repeat;
     -webkit-mask-image: radial-gradient(
-      150px circle at var(--mx) var(--my),
+      300px circle at var(--mx) var(--my),
       rgb(255, 255, 255) 20%,
       rgba(255, 255, 255, 0.25),
       transparent 70%
     );
     mask-image: radial-gradient(
-      150px circle at var(--mx) var(--my),
+      300px circle at var(--mx) var(--my),
       rgb(255, 255, 255) 20%,
       rgba(255, 255, 255, 0.25),
       transparent 70%
