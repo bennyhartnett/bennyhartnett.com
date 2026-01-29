@@ -38,15 +38,119 @@
     padding: 1.5rem;
     border-radius: 12px;
     background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.18);
     text-decoration: none;
     color: white;
     transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
   }
   .tool-card:hover {
-    background: rgba(255, 255, 255, 0.1);
-    border-color: var(--wave-color, rgba(255, 255, 255, 0.3));
+    border-color: rgba(255, 255, 255, 0.3);
     transform: translateY(-2px);
+  }
+
+  /* Iridescent gradient layer */
+  .tool-card__gradient {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0;
+    mix-blend-mode: darken;
+    transform: translateZ(0);
+    transition: opacity 0.3s ease;
+  }
+  .tool-card:hover .tool-card__gradient {
+    opacity: 1;
+  }
+  .tool-card__gradient::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    background:
+      radial-gradient(
+        400px circle at 20% 15%,
+        rgba(255, 255, 255, 0.18),
+        transparent 60%
+      ),
+      radial-gradient(
+        450px circle at 80% 85%,
+        rgba(255, 255, 255, 0.10),
+        transparent 55%
+      ),
+      conic-gradient(
+        from 180deg at 50% 50%,
+        rgba(0, 245, 255, 0.95),
+        rgba(99, 102, 241, 0.95),
+        rgba(168, 85, 247, 0.95),
+        rgba(236, 72, 153, 0.95),
+        rgba(245, 158, 11, 0.95),
+        rgba(34, 197, 94, 0.95),
+        rgba(0, 245, 255, 0.95)
+      );
+    background-size: 100% 100%, 100% 100%, 200% 200%;
+    background-position: 0% 0%, 0% 0%, 45% 55%;
+    filter: saturate(1.25) contrast(1.1);
+    animation: iridescent 10s linear infinite;
+    will-change: filter, background-position;
+    border-radius: 12px;
+  }
+  @keyframes iridescent {
+    0% {
+      filter: saturate(1.25) contrast(1.1) hue-rotate(0deg);
+      background-position: 0% 0%, 0% 0%, 45% 55%;
+    }
+    50% {
+      filter: saturate(1.25) contrast(1.1) hue-rotate(180deg);
+      background-position: 0% 0%, 0% 0%, 55% 45%;
+    }
+    100% {
+      filter: saturate(1.25) contrast(1.1) hue-rotate(360deg);
+      background-position: 0% 0%, 0% 0%, 45% 55%;
+    }
+  }
+
+  /* Code glitch layer */
+  .tool-card__code {
+    --mx: 50%;
+    --my: 50%;
+    position: absolute;
+    inset: 0;
+    padding: 0;
+    white-space: pre;
+    overflow: hidden;
+    font-variant-ligatures: none;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    font-size: 10px;
+    line-height: 1.18;
+    word-wrap: break-word;
+    user-select: none;
+    opacity: 0;
+    transition: opacity 220ms ease;
+    z-index: 2;
+    color: rgba(56, 189, 248, 0.95);
+    mix-blend-mode: screen;
+    pointer-events: none;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-image: radial-gradient(
+      150px circle at var(--mx) var(--my),
+      rgb(255, 255, 255) 20%,
+      rgba(255, 255, 255, 0.25),
+      transparent 70%
+    );
+    mask-image: radial-gradient(
+      150px circle at var(--mx) var(--my),
+      rgb(255, 255, 255) 20%,
+      rgba(255, 255, 255, 0.25),
+      transparent 70%
+    );
+    will-change: -webkit-mask-image, mask-image;
+  }
+  .tool-card:hover .tool-card__code {
+    opacity: 1;
   }
   .tool-card:focus-visible {
     outline: 2px solid var(--wave-color);
@@ -57,12 +161,16 @@
     align-items: center;
     gap: 0.75rem;
     margin-bottom: 0.5rem;
+    position: relative;
+    z-index: 5;
   }
   .tool-icon {
     width: 24px;
     height: 24px;
     flex-shrink: 0;
     color: rgba(255, 255, 255, 0.9);
+    position: relative;
+    z-index: 5;
   }
   .tool-icon svg {
     width: 100%;
@@ -71,12 +179,16 @@
   .tool-card h2 {
     font-size: 1.25rem;
     margin: 0;
+    position: relative;
+    z-index: 5;
   }
   .tool-card p {
     font-size: 0.9rem;
     color: rgba(255, 255, 255, 0.7);
     margin: 0;
     flex-grow: 1;
+    position: relative;
+    z-index: 5;
   }
   .tool-card .tool-tag {
     display: inline-block;
@@ -86,6 +198,8 @@
     background: rgba(255, 255, 255, 0.1);
     margin-top: 1rem;
     align-self: flex-start;
+    position: relative;
+    z-index: 5;
   }
   .tool-card.coming-soon {
     opacity: 0.5;
@@ -135,6 +249,8 @@
 
   <div class="tools-grid">
     <a href="/meet" class="tool-card">
+      <div class="tool-card__gradient" aria-hidden="true"></div>
+      <div class="tool-card__code" aria-hidden="true"></div>
       <div class="tool-header">
         <span class="tool-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m15.75 10.5 4.72-4.72a.75.75 0 0 1 1.28.53v11.38a.75.75 0 0 1-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25h-9A2.25 2.25 0 0 0 2.25 7.5v9a2.25 2.25 0 0 0 2.25 2.25Z" /></svg></span>
         <h2>Meet</h2>
@@ -144,6 +260,8 @@
     </a>
 
     <a href="/clipboard" class="tool-card">
+      <div class="tool-card__gradient" aria-hidden="true"></div>
+      <div class="tool-card__code" aria-hidden="true"></div>
       <div class="tool-header">
         <span class="tool-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0 0 13.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 0 1-.75.75H9.75a.75.75 0 0 1-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 0 1-2.25 2.25H6.75A2.25 2.25 0 0 1 4.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 0 1 1.927-.184" /></svg></span>
         <h2>Clipboard</h2>
@@ -153,6 +271,8 @@
     </a>
 
     <a href="/nuclear" class="tool-card">
+      <div class="tool-card__gradient" aria-hidden="true"></div>
+      <div class="tool-card__code" aria-hidden="true"></div>
       <div class="tool-header">
         <span class="tool-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" /></svg></span>
         <h2>Nuclear Calculator</h2>
@@ -162,6 +282,8 @@
     </a>
 
     <a href="/chat" class="tool-card">
+      <div class="tool-card__gradient" aria-hidden="true"></div>
+      <div class="tool-card__code" aria-hidden="true"></div>
       <div class="tool-header">
         <span class="tool-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.625 12a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 0 1-2.555-.337A5.972 5.972 0 0 1 5.41 20.97a5.969 5.969 0 0 1-.474-.065 4.48 4.48 0 0 0 .978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25Z" /></svg></span>
         <h2>AI Chat</h2>
@@ -189,3 +311,97 @@
     </div>
   </div>
 </div>
+
+<script>
+(() => {
+  const CHARS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  const randomChar = () => CHARS[(Math.random() * CHARS.length) | 0];
+  const randomString = (length) => {
+    let s = "";
+    for (let i = 0; i < length; i++) s += randomChar();
+    return s;
+  };
+
+  const UPDATE_MS = 45;
+
+  const measureGrid = (card, code) => {
+    const rect = card.getBoundingClientRect();
+    const styles = getComputedStyle(code);
+    const fontSize = parseFloat(styles.fontSize) || 10;
+    const lineHeight = fontSize * 1.18;
+
+    const probe = document.createElement("span");
+    probe.textContent = "M".repeat(100);
+    probe.style.position = "absolute";
+    probe.style.visibility = "hidden";
+    probe.style.whiteSpace = "pre";
+    probe.style.fontFamily = styles.fontFamily;
+    probe.style.fontSize = styles.fontSize;
+    probe.style.fontWeight = styles.fontWeight;
+    probe.style.letterSpacing = styles.letterSpacing;
+    card.appendChild(probe);
+
+    const charWidth = probe.getBoundingClientRect().width / 100;
+    probe.remove();
+
+    const cols = Math.ceil(rect.width / charWidth) + 4;
+    const rows = Math.ceil(rect.height / lineHeight) + 2;
+    return { cols, rows };
+  };
+
+  const makeBlock = (grid) => {
+    let out = "";
+    for (let r = 0; r < grid.rows; r++) {
+      out += randomString(grid.cols);
+      if (r < grid.rows - 1) out += "\n";
+    }
+    return out;
+  };
+
+  const cards = document.querySelectorAll(".tool-card:not(.coming-soon)");
+
+  cards.forEach(card => {
+    const code = card.querySelector(".tool-card__code");
+    if (!code) return;
+
+    let grid = { cols: 50, rows: 15 };
+    let timer = null;
+
+    const setMask = (clientX, clientY) => {
+      const rect = card.getBoundingClientRect();
+      const x = clientX - rect.left;
+      const y = clientY - rect.top;
+      code.style.setProperty("--mx", `${x}px`);
+      code.style.setProperty("--my", `${y}px`);
+    };
+
+    const start = () => {
+      if (timer) return;
+      grid = measureGrid(card, code);
+      code.textContent = makeBlock(grid);
+      timer = window.setInterval(() => {
+        code.textContent = makeBlock(grid);
+      }, UPDATE_MS);
+    };
+
+    const stop = () => {
+      if (!timer) return;
+      window.clearInterval(timer);
+      timer = null;
+    };
+
+    card.addEventListener("pointerenter", (e) => {
+      setMask(e.clientX, e.clientY);
+      start();
+    });
+
+    card.addEventListener("pointermove", (e) => {
+      setMask(e.clientX, e.clientY);
+    });
+
+    card.addEventListener("pointerleave", () => {
+      stop();
+    });
+  });
+})();
+</script>
