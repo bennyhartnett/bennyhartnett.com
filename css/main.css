@@ -15,6 +15,15 @@
   --vh: 1svh;
   /* Minimum touch target size (WCAG 2.5.5) */
   --min-touch-target: 44px;
+  /* Glassmorphism effects */
+  --glass-bg: rgba(255, 255, 255, 0.1);
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --glass-blur: 12px;
+  /* Common transition */
+  --transition-fast: 0.2s ease;
+  --transition-normal: 0.3s ease;
+  /* Nav height */
+  --nav-height: 56px;
 }
 
 /* Support check for small viewport units */
@@ -88,29 +97,6 @@ select {
     background: transparent;
     color: #fff;
   }
-}
-
-/* Dark mode scrollbar */
-::-webkit-scrollbar {
-  width: 12px;
-}
-
-::-webkit-scrollbar-track {
-  background: #111;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #444;
-  border-radius: 6px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #555;
-}
-
-* {
-  scrollbar-width: thin;
-  scrollbar-color: #444 #111;
 }
 
 /* Main Content Area */

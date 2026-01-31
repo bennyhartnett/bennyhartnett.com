@@ -1,0 +1,28 @@
+/**
+ * Scrollbar Stylesheet
+ * Dark mode scrollbar styles for consistent appearance
+ */
+
+/* Webkit browsers (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: #111;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #444;
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Firefox and other standard browsers */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #444 #111;
+}
