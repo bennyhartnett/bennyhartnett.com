@@ -1,6 +1,6 @@
 // Service Worker for SWU Calculator PWA
 // Version must be updated when deploying new code to bust cache
-const CACHE_VERSION = 'v86';
+const CACHE_VERSION = 'v87';
 const CACHE_NAME = `swu-calculator-${CACHE_VERSION}`;
 
 // Files to cache for offline use
@@ -14,7 +14,7 @@ const STATIC_ASSETS = [
   '/nuclear.html',
   '/nuclear/nuclear.js',
   '/nuclear/nuclear-math.js',
-  '/centrus_icon.png',
+  '/assets/logos/centrus_icon.png',
   '/config/manifest.webmanifest',
   '/pages/chat.html',
   '/pages/meet.html',
@@ -23,13 +23,14 @@ const STATIC_ASSETS = [
   '/assets/benny%20clear.png',
   // CSS files
   '/css/main.css',
+  '/css/scrollbar.css',
   '/css/components.css',
   '/css/animations.css',
   // JS modules
   '/js/spa-router.js',
   '/js/meta-manager.js',
   '/js/analytics.js',
-  '/wave-background.js',
+  '/js/wave-background.js',
   // Config files
   '/config/llms.txt',
   '/config/llms-full.txt',
