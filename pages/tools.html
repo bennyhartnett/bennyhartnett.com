@@ -51,21 +51,12 @@
     transform: translateY(-2px);
   }
 
-  /* Iridescent text gradient */
-  .tool-card h2,
-  .tool-card p {
-    color: white !important;
-    background: linear-gradient(90deg, white, white);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    transition: background 0.3s ease;
+  /* Tool card text - white by default, iridescent on hover */
+  .tool-card h2 {
+    color: white;
   }
   .tool-card p {
-    color: rgba(255, 255, 255, 0.7) !important;
-    background: linear-gradient(90deg, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7));
-    -webkit-background-clip: text;
-    background-clip: text;
+    color: rgba(255, 255, 255, 0.7);
   }
   .tool-card:hover h2,
   .tool-card:hover p {
@@ -83,6 +74,7 @@
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
+    color: transparent;
     animation: iridescent-text 4s linear infinite;
   }
   @keyframes iridescent-text {
