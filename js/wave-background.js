@@ -58,6 +58,7 @@ export function initWaveBackground() {
 
   let mouseX = 0;
   let mouseY = 0;
+  let lastCssColor = '';
 
   window.addEventListener('mousemove', (event) => {
     mouseX = (event.clientX / window.innerWidth - 0.5) * 2;
@@ -118,9 +119,12 @@ export function initWaveBackground() {
       const lerpT = (t - 2 * segment) / segment;
       material.color.copy(colorGold).lerp(colorBlue, lerpT);
     }
-    document.documentElement.style.setProperty(
-      '--wave-color', '#' + material.color.getHexString()
-    );
+    // Only update CSS variable when color hex actually changes (avoids per-frame style recalc)
+    const hexColor = '#' + material.color.getHexString();
+    if (hexColor !== lastCssColor) {
+      lastCssColor = hexColor;
+      document.documentElement.style.setProperty('--wave-color', hexColor);
+    }
 
     waves.rotation.z = mouseX * 0.3;
     camera.position.y = 2 + mouseY * 1;

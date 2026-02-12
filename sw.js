@@ -1,6 +1,6 @@
 // Service Worker for SWU Calculator PWA
 // Version must be updated when deploying new code to bust cache
-const CACHE_VERSION = 'v90';
+const CACHE_VERSION = 'v91';
 const CACHE_NAME = `swu-calculator-${CACHE_VERSION}`;
 
 // Files to cache for offline use
@@ -75,8 +75,29 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Skip external requests (CDNs, etc.)
+  // Cache-first for known CDN resources (fonts, libraries) for faster repeat loads
+  const cachedCdnOrigins = [
+    'fonts.googleapis.com',
+    'fonts.gstatic.com',
+    'cdnjs.cloudflare.com',
+    'cdn.jsdelivr.net'
+  ];
   if (url.origin !== self.location.origin) {
+    if (cachedCdnOrigins.some(origin => url.hostname === origin)) {
+      event.respondWith(
+        caches.match(event.request).then((cached) => {
+          if (cached) return cached;
+          return fetch(event.request).then((response) => {
+            if (response.ok) {
+              const clone = response.clone();
+              caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
+            }
+            return response;
+          });
+        })
+      );
+      return;
+    }
     return;
   }
 

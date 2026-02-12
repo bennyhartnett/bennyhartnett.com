@@ -79,10 +79,11 @@
 
   document.documentElement.appendChild(el);
 
-  // Hide the native cursor globally
+  // Hide the native cursor globally using inheritance (avoids universal selector style recalc)
   const cursorStyle = document.createElement('style');
   cursorStyle.textContent = `
-    *, *::before, *::after { cursor: none !important; }
+    html { cursor: none; }
+    a, button, [role="button"], input, select, textarea, label, summary { cursor: none; }
     #smooth-cursor {
       position: fixed;
       top: 0; left: 0;
