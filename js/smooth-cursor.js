@@ -82,8 +82,8 @@
   // Hide the native cursor globally using inheritance (avoids universal selector style recalc)
   const cursorStyle = document.createElement('style');
   cursorStyle.textContent = `
-    html { cursor: none; }
-    a, button, [role="button"], input, select, textarea, label, summary { cursor: none; }
+    html { cursor: none !important; }
+    *, *::before, *::after { cursor: none !important; }
     #smooth-cursor {
       position: fixed;
       top: 0; left: 0;
@@ -92,6 +92,10 @@
       will-change: transform;
       transform-origin: 25px 5px;
       transform: translate(-25px, -5px) scale(0.5);
+      transition: filter 0.2s ease;
+    }
+    #smooth-cursor.cursor-glow {
+      filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.9)) drop-shadow(0 0 20px rgba(150, 180, 255, 0.6));
     }
   `;
   document.head.appendChild(cursorStyle);
@@ -180,6 +184,29 @@
       startAnimation();
     });
   }
+
+  // --- Hover glow for clickable elements ---
+  const clickableSelector = 'a, button, [role="button"], input[type="submit"], input[type="button"], summary, label, select, [onclick], [data-clickable]';
+  let currentHovered = null;
+
+  function updateGlow(e) {
+    const target = e.target.closest(clickableSelector);
+    if (target && target !== currentHovered) {
+      currentHovered = target;
+      el.classList.add('cursor-glow');
+    } else if (!target && currentHovered) {
+      currentHovered = null;
+      el.classList.remove('cursor-glow');
+    }
+  }
+
+  document.addEventListener('mouseover', updateGlow);
+  document.addEventListener('mouseout', (e) => {
+    if (!e.relatedTarget || !e.relatedTarget.closest(clickableSelector)) {
+      currentHovered = null;
+      el.classList.remove('cursor-glow');
+    }
+  });
 
   // Hide cursor until first move
   el.style.opacity = '0';
