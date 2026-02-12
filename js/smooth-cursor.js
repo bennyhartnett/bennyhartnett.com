@@ -208,6 +208,13 @@
     }
   });
 
+  // Pause animation when tab is hidden to save CPU
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      animating = false;
+    }
+  });
+
   // Hide cursor until first move
   el.style.opacity = '0';
 

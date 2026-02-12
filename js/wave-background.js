@@ -17,7 +17,8 @@ export function initWaveBackground() {
 
   const renderer = new THREE.WebGLRenderer({ antialias: false, alpha: true, powerPreference: 'low-power' });
   // Cap pixel ratio at 2 to avoid excessive GPU work on high-DPI screens
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  const isMobile = window.innerWidth < 768;
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1.5 : 2));
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.domElement.id = 'wave-canvas';
   document.body.appendChild(renderer.domElement);
@@ -36,9 +37,11 @@ export function initWaveBackground() {
   const planeWidth = 12;
   const planeHeight = 8;
   // Reduce geometry segments on mobile for better performance
-  const isMobile = window.innerWidth < 768;
-  const segX = isMobile ? 75 : 150;
-  const segY = isMobile ? 50 : 100;
+  const segX = isMobile ? 50 : 150;
+  const segY = isMobile ? 30 : 100;
+  // Throttle frame rate on mobile to save battery (target ~30fps)
+  const frameBudget = isMobile ? 33 : 0;
+  let lastFrameTime = 0;
   const geometry = new THREE.PlaneGeometry(planeWidth, planeHeight, segX, segY);
   const pos = geometry.getAttribute('position');
   const basePositions = new Float32Array(pos.array);
@@ -77,6 +80,10 @@ export function initWaveBackground() {
   });
 
   function animationLoop(time) {
+    // Skip frame if under budget on mobile to save battery
+    if (frameBudget && time - lastFrameTime < frameBudget) return;
+    lastFrameTime = time;
+
     const impactX = mouseX * (planeWidth / 2);
     const impactY = mouseY * (planeHeight / 2);
 

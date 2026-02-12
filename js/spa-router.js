@@ -400,4 +400,16 @@ export function initRouter() {
       if (target !== initial) prefetchPage(target);
     });
   });
+
+  // Prefetch on hover/touchstart for near-instant navigation
+  document.body.addEventListener('pointerover', (e) => {
+    const link = e.target.closest('a');
+    if (!link) return;
+    const href = link.getAttribute('data-href') || link.getAttribute('href');
+    if (!href || !href.startsWith('/') || href === '/') return;
+    const pageName = href.substring(1);
+    if (pageName && pageName !== 'nuclear') {
+      prefetchPage('pages/' + pageName + '.html');
+    }
+  }, { passive: true });
 }
