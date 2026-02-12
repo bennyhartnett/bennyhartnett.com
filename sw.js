@@ -31,6 +31,7 @@ const STATIC_ASSETS = [
   '/js/meta-manager.js',
   '/js/analytics.js',
   '/js/wave-background.js',
+  '/js/smooth-cursor.js',
   // Config files
   '/config/llms.txt',
   '/config/llms-full.txt',
