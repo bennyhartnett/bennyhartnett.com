@@ -19,10 +19,14 @@
   <link rel="preconnect" href="https://www.googletagmanager.com" />
   <link rel="dns-prefetch" href="https://ga.jspm.io" />
 
-  <!-- Preload critical CSS for faster mobile rendering -->
-  <link rel="preload" href="css/main.css" as="style" />
-  <link rel="preload" href="css/components.css" as="style" />
-  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" as="style" crossorigin />
+  <!-- Preload critical CSS for faster rendering -->
+  <link rel="preload" href="css/main.css" as="style" fetchpriority="high" />
+  <link rel="preload" href="css/components.css" as="style" fetchpriority="high" />
+
+  <!-- Font loading via link tags (avoids render-blocking CSS @import chain) -->
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=IBM+Plex+Sans:wght@600&display=swap" as="style" crossorigin fetchpriority="high" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=IBM+Plex+Sans:wght@600&display=swap" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=IBM+Plex+Sans:wght@600&display=swap" /></noscript>
 
   <title>Benny Hartnett</title>
   <meta name="description"
@@ -350,9 +354,9 @@
   }
   </script>
 
-  <!-- Critical CSS (render-blocking) -->
-  <link rel="stylesheet" href="css/main.css" />
-  <link rel="stylesheet" href="css/components.css" />
+  <!-- Critical CSS (render-blocking, high priority) -->
+  <link rel="stylesheet" href="css/main.css" fetchpriority="high" />
+  <link rel="stylesheet" href="css/components.css" fetchpriority="high" />
 
   <!-- Non-critical CSS (loaded async via media trick) -->
   <link rel="stylesheet" href="css/scrollbar.css" media="print" onload="this.media='all'" />
@@ -373,7 +377,7 @@
   <!-- Smooth Cursor -->
   <script src="js/smooth-cursor.js" defer></script>
 
-  <!-- Wave Background Initialization -->
+  <!-- Wave Background Initialization (deferred to after first paint) -->
   <script type="module">
     import { initWaveBackground } from "./js/wave-background.js";
     window.initWaveBackground = initWaveBackground;
@@ -383,7 +387,8 @@
     if (isNuclearSubdomain) {
       document.body.classList.add('nuclear-gradient-bg');
     } else {
-      initWaveBackground();
+      // Defer Three.js initialization to after first paint for faster FCP/LCP
+      requestAnimationFrame(() => setTimeout(initWaveBackground, 0));
     }
   </script>
 

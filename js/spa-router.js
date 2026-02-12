@@ -154,7 +154,7 @@ function renderFallbackContent(url) {
   } else if (url === 'pages/privacy.html') {
     container.innerHTML = `
       <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+        /* Fonts loaded by parent index.html */
         body { font-family: 'Inter', sans-serif; color: white; padding: 1rem; }
         a { color: white; text-decoration: none; transition: color 0.3s ease; }
         a:hover { color: var(--wave-color); }
@@ -166,7 +166,7 @@ function renderFallbackContent(url) {
   } else {
     container.innerHTML = `
       <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+        /* Fonts loaded by parent index.html */
         body { font-family: 'Inter', sans-serif; color: white; margin: 0; }
         .error-container {
           min-height: calc(100vh - 56px - 2rem);
