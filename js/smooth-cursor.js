@@ -89,7 +89,8 @@
       z-index: 999999;
       pointer-events: none;
       will-change: transform;
-      transform: translate(-50%, -50%) scale(0.5);
+      transform-origin: 25px 5px;
+      transform: translate(-25px, -5px) scale(0.5);
     }
   `;
   document.head.appendChild(cursorStyle);
@@ -111,7 +112,7 @@
     const s = springScale.get();
 
     el.style.transform =
-      `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%) rotate(${rot}deg) scale(${s * 0.5})`;
+      `translate3d(${x}px, ${y}px, 0) translate(-25px, -5px) rotate(${rot}deg) scale(${s * 0.5})`;
 
     if (doneX && doneY) {
       animating = false;
@@ -193,7 +194,7 @@
       springX.setPosition(e.clientX);
       springY.setPosition(e.clientY);
       el.style.transform =
-        `translate3d(${e.clientX}px, ${e.clientY}px, 0) translate(-50%, -50%) rotate(${springRot.get()}deg) scale(${springScale.get() * 0.5})`;
+        `translate3d(${e.clientX}px, ${e.clientY}px, 0) translate(-25px, -5px) rotate(${springRot.get()}deg) scale(${springScale.get() * 0.5})`;
     }
     el.style.opacity = '1';
   });
