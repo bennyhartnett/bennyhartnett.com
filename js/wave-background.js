@@ -15,22 +15,31 @@ export function initWaveBackground() {
   camera.position.set(4, 2, 8);
   camera.lookAt(scene.position);
 
-  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-  renderer.setPixelRatio(window.devicePixelRatio);
+  const renderer = new THREE.WebGLRenderer({ antialias: false, alpha: true, powerPreference: 'low-power' });
+  // Cap pixel ratio at 2 to avoid excessive GPU work on high-DPI screens
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.domElement.id = 'wave-canvas';
   document.body.appendChild(renderer.domElement);
-  renderer.setAnimationLoop(animationLoop);
 
+  // Debounce resize handler to avoid excessive recalculation
+  let resizeTimer;
   window.addEventListener("resize", () => {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    }, 150);
   });
 
   const planeWidth = 12;
   const planeHeight = 8;
-  const geometry = new THREE.PlaneGeometry(planeWidth, planeHeight, 150, 100);
+  // Reduce geometry segments on mobile for better performance
+  const isMobile = window.innerWidth < 768;
+  const segX = isMobile ? 75 : 150;
+  const segY = isMobile ? 50 : 100;
+  const geometry = new THREE.PlaneGeometry(planeWidth, planeHeight, segX, segY);
   const pos = geometry.getAttribute('position');
   const basePositions = new Float32Array(pos.array);
   const simplex = new SimplexNoise();
@@ -53,6 +62,17 @@ export function initWaveBackground() {
   window.addEventListener('mousemove', (event) => {
     mouseX = (event.clientX / window.innerWidth - 0.5) * 2;
     mouseY = (event.clientY / window.innerHeight - 0.5) * 2;
+  });
+
+  // Pause animation when tab is hidden to save CPU/GPU
+  let isVisible = true;
+  document.addEventListener('visibilitychange', () => {
+    isVisible = !document.hidden;
+    if (isVisible) {
+      renderer.setAnimationLoop(animationLoop);
+    } else {
+      renderer.setAnimationLoop(null);
+    }
   });
 
   function animationLoop(time) {
@@ -108,4 +128,6 @@ export function initWaveBackground() {
 
     renderer.render(scene, camera);
   }
+
+  renderer.setAnimationLoop(animationLoop);
 }

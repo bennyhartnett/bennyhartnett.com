@@ -111,6 +111,27 @@ export function getBaseOgImage() {
   return BASE_OG_IMAGE;
 }
 
+// Cache DOM references to avoid repeated querySelector calls on every page change
+let cachedElements = null;
+
+function getMetaElements() {
+  if (cachedElements) return cachedElements;
+  cachedElements = {
+    desc: document.querySelector('meta[name="description"]'),
+    canonical: document.querySelector('link[rel="canonical"]'),
+    ogTitle: document.querySelector('meta[property="og:title"]'),
+    ogDesc: document.querySelector('meta[property="og:description"]'),
+    ogUrl: document.querySelector('meta[property="og:url"]'),
+    ogImage: document.getElementById('og-image'),
+    ogImageAlt: document.getElementById('og-image-alt'),
+    twitterTitle: document.querySelector('meta[name="twitter:title"]'),
+    twitterDesc: document.querySelector('meta[name="twitter:description"]'),
+    twitterImage: document.getElementById('twitter-image'),
+    twitterImageAlt: document.getElementById('twitter-image-alt'),
+  };
+  return cachedElements;
+}
+
 /**
  * Update all meta tags for a page
  * @param {Object} meta - Meta configuration object
@@ -118,45 +139,21 @@ export function getBaseOgImage() {
  * @param {string} baseOgImage - Base OG image URL for fallback
  */
 export function updateMetaTags(meta, fullUrl, baseOgImage = BASE_OG_IMAGE) {
-  // Update document title
+  const el = getMetaElements();
+
   document.title = meta.title;
 
-  // Update description
-  const descTag = document.querySelector('meta[name="description"]');
-  if (descTag) descTag.setAttribute('content', meta.desc);
-
-  // Update canonical URL
-  const canonical = document.querySelector('link[rel="canonical"]');
-  if (canonical) canonical.setAttribute('href', fullUrl);
-
-  // Update Open Graph tags
-  const ogTitle = document.querySelector('meta[property="og:title"]');
-  if (ogTitle) ogTitle.setAttribute('content', meta.title);
-
-  const ogDesc = document.querySelector('meta[property="og:description"]');
-  if (ogDesc) ogDesc.setAttribute('content', meta.desc);
-
-  const ogUrl = document.querySelector('meta[property="og:url"]');
-  if (ogUrl) ogUrl.setAttribute('content', fullUrl);
-
-  const ogImage = document.getElementById('og-image');
-  if (ogImage) ogImage.setAttribute('content', meta.ogImage || baseOgImage);
-
-  const ogImageAlt = document.getElementById('og-image-alt');
-  if (ogImageAlt) ogImageAlt.setAttribute('content', meta.ogImageAlt || 'Benny Hartnett');
-
-  // Update Twitter Card tags
-  const twitterTitle = document.querySelector('meta[name="twitter:title"]');
-  if (twitterTitle) twitterTitle.setAttribute('content', meta.title);
-
-  const twitterDesc = document.querySelector('meta[name="twitter:description"]');
-  if (twitterDesc) twitterDesc.setAttribute('content', meta.desc);
-
-  const twitterImage = document.getElementById('twitter-image');
-  if (twitterImage) twitterImage.setAttribute('content', meta.ogImage || baseOgImage);
-
-  const twitterImageAlt = document.getElementById('twitter-image-alt');
-  if (twitterImageAlt) twitterImageAlt.setAttribute('content', meta.ogImageAlt || 'Benny Hartnett');
+  if (el.desc) el.desc.setAttribute('content', meta.desc);
+  if (el.canonical) el.canonical.setAttribute('href', fullUrl);
+  if (el.ogTitle) el.ogTitle.setAttribute('content', meta.title);
+  if (el.ogDesc) el.ogDesc.setAttribute('content', meta.desc);
+  if (el.ogUrl) el.ogUrl.setAttribute('content', fullUrl);
+  if (el.ogImage) el.ogImage.setAttribute('content', meta.ogImage || baseOgImage);
+  if (el.ogImageAlt) el.ogImageAlt.setAttribute('content', meta.ogImageAlt || 'Benny Hartnett');
+  if (el.twitterTitle) el.twitterTitle.setAttribute('content', meta.title);
+  if (el.twitterDesc) el.twitterDesc.setAttribute('content', meta.desc);
+  if (el.twitterImage) el.twitterImage.setAttribute('content', meta.ogImage || baseOgImage);
+  if (el.twitterImageAlt) el.twitterImageAlt.setAttribute('content', meta.ogImageAlt || 'Benny Hartnett');
 }
 
 /**

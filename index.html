@@ -350,15 +350,25 @@
   }
   </script>
 
-  <!-- External CSS -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@5/dark.min.css" />
+  <!-- Critical CSS (render-blocking) -->
   <link rel="stylesheet" href="css/main.css" />
-  <link rel="stylesheet" href="css/scrollbar.css" />
   <link rel="stylesheet" href="css/components.css" />
-  <link rel="stylesheet" href="css/animations.css" />
 
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+  <!-- Non-critical CSS (loaded async via media trick) -->
+  <link rel="stylesheet" href="css/scrollbar.css" media="print" onload="this.media='all'" />
+  <link rel="stylesheet" href="css/animations.css" media="print" onload="this.media='all'" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" media="print" onload="this.media='all'" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@5/dark.min.css" media="print" onload="this.media='all'" />
+  <!-- Fallback for no-JS -->
+  <noscript>
+    <link rel="stylesheet" href="css/scrollbar.css" />
+    <link rel="stylesheet" href="css/animations.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@5/dark.min.css" />
+  </noscript>
+
+  <!-- Defer SweetAlert2 JS (not needed until user interaction) -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js" defer></script>
 
   <!-- Smooth Cursor -->
   <script src="js/smooth-cursor.js" defer></script>
@@ -435,9 +445,14 @@
       document.documentElement.style.setProperty('--vh-fallback', vh + 'px');
     }
     setMobileVh();
-    window.addEventListener('resize', setMobileVh);
+    let vhTimer;
+    window.addEventListener('resize', function() {
+      clearTimeout(vhTimer);
+      vhTimer = setTimeout(setMobileVh, 100);
+    });
     window.addEventListener('orientationchange', function() {
-      setTimeout(setMobileVh, 100);
+      clearTimeout(vhTimer);
+      vhTimer = setTimeout(setMobileVh, 150);
     });
   </script>
 </body>

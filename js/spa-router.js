@@ -9,6 +9,22 @@ import { trackPageView } from './analytics.js';
 // Container element for content
 let container = null;
 
+// Prefetch cache for SPA page fragments
+const prefetchCache = new Map();
+
+/**
+ * Prefetch a page fragment into memory for instant navigation
+ * @param {string} url - The URL of the page to prefetch
+ */
+function prefetchPage(url) {
+  if (prefetchCache.has(url)) return;
+  fetch(url, { priority: 'low' }).then(r => {
+    if (r.ok) return r.text();
+  }).then(html => {
+    if (html) prefetchCache.set(url, html);
+  }).catch(() => {});
+}
+
 /**
  * Move chat fab outside of content container for proper fixed positioning
  * (transform on .content breaks position:fixed)
@@ -61,11 +77,13 @@ export function loadContent(url, push = true, skipExitAnimation = false) {
 
   // Wait for exit animation (or proceed immediately if skipped), then fetch and load new content
   setTimeout(() => {
-    fetch(url)
-      .then(r => {
-        if (!r.ok) throw new Error('Page not found');
-        return r.text();
-      })
+    // Use prefetch cache if available, otherwise fetch from network
+    const cached = prefetchCache.get(url);
+    const htmlPromise = cached
+      ? Promise.resolve(cached)
+      : fetch(url).then(r => { if (!r.ok) throw new Error('Page not found'); return r.text(); });
+
+    htmlPromise
       .then(html => {
         container.innerHTML = html;
         moveChatFabOutsideContent();
@@ -373,4 +391,13 @@ export function initRouter() {
   const cleanUrl = isSubdomain() ? '/' : (initial === 'pages/home.html' ? '/' : '/' + initial.replace('pages/', '').replace('.html', ''));
   history.replaceState({ url: initial }, '', cleanUrl);
   loadContent(initial, false, true);
+
+  // Prefetch likely navigation targets during idle time
+  const prefetchTargets = ['pages/home.html', 'pages/projects.html', 'pages/contact.html'];
+  const idle = window.requestIdleCallback || ((cb) => setTimeout(cb, 200));
+  idle(() => {
+    prefetchTargets.forEach(target => {
+      if (target !== initial) prefetchPage(target);
+    });
+  });
 }
