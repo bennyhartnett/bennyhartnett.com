@@ -1,6 +1,6 @@
 // Service Worker for SWU Calculator PWA
 // Version must be updated when deploying new code to bust cache
-const CACHE_VERSION = 'v88';
+const CACHE_VERSION = 'v89';
 const CACHE_NAME = `swu-calculator-${CACHE_VERSION}`;
 
 // Files to cache for offline use
@@ -31,6 +31,7 @@ const STATIC_ASSETS = [
   '/js/meta-manager.js',
   '/js/analytics.js',
   '/js/wave-background.js',
+  '/js/smooth-cursor.js',
   // Config files
   '/config/llms.txt',
   '/config/llms-full.txt',
