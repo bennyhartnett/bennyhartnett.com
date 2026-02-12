@@ -4,8 +4,9 @@
  * and color cycling animation.
  */
 
-import * as THREE from "three";
-import { SimplexNoise } from "three/addons/math/SimplexNoise.js";
+// Use full CDN URLs to avoid importmap in <head> (reduces head parse time)
+const THREE = await import("https://unpkg.com/three@0.165.0/build/three.module.js");
+const { SimplexNoise } = await import("https://unpkg.com/three@0.165.0/examples/jsm/math/SimplexNoise.js");
 
 export function initWaveBackground() {
   const scene = new THREE.Scene();
@@ -37,8 +38,11 @@ export function initWaveBackground() {
   const planeHeight = 8;
   // Reduce geometry segments on mobile for better performance
   const isMobile = window.innerWidth < 768;
-  const segX = isMobile ? 75 : 150;
-  const segY = isMobile ? 50 : 100;
+  const segX = isMobile ? 50 : 150;
+  const segY = isMobile ? 35 : 100;
+  // Throttle to ~30fps on mobile to reduce CPU/GPU usage
+  const frameBudget = isMobile ? 33 : 0;
+  let lastFrameTime = 0;
   const geometry = new THREE.PlaneGeometry(planeWidth, planeHeight, segX, segY);
   const pos = geometry.getAttribute('position');
   const basePositions = new Float32Array(pos.array);
@@ -77,6 +81,10 @@ export function initWaveBackground() {
   });
 
   function animationLoop(time) {
+    // Skip frame if within throttle budget (mobile: ~30fps)
+    if (frameBudget && time - lastFrameTime < frameBudget) return;
+    lastFrameTime = time;
+
     const impactX = mouseX * (planeWidth / 2);
     const impactY = mouseY * (planeHeight / 2);
 

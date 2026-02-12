@@ -10,21 +10,14 @@
   <meta http-equiv="X-Content-Type-Options" content="nosniff" />
   <meta name="referrer" content="strict-origin-when-cross-origin" />
 
-  <!-- Performance Hints -->
+  <!-- Performance Hints (only critical-path origins; deferred resources use dns-prefetch) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="preconnect" href="https://unpkg.com" />
-  <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
-  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
-  <link rel="preconnect" href="https://www.googletagmanager.com" />
-  <link rel="dns-prefetch" href="https://ga.jspm.io" />
+  <link rel="dns-prefetch" href="https://unpkg.com" />
+  <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" />
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
 
-  <!-- Preload critical CSS for faster rendering -->
-  <link rel="preload" href="css/main.css" as="style" fetchpriority="high" />
-  <link rel="preload" href="css/components.css" as="style" fetchpriority="high" />
-
-  <!-- Font loading via link tags (avoids render-blocking CSS @import chain) -->
-  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=IBM+Plex+Sans:wght@600&display=swap" as="style" crossorigin fetchpriority="high" />
+  <!-- Font loading (async via media trick; no preload to avoid double-fetch) -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=IBM+Plex+Sans:wght@600&display=swap" media="print" onload="this.media='all'" />
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=IBM+Plex+Sans:wght@600&display=swap" /></noscript>
 
@@ -94,269 +87,13 @@
   <meta name="twitter:image" content="https://bennyhartnett.com/assets/og-image.png" id="twitter-image" />
   <meta name="twitter:image:alt" content="Benny Hartnett - Software Developer & AI Engineer" id="twitter-image-alt" />
 
-  <!-- JSON-LD Structured Data - Person Schema with @graph -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "Person",
-        "@id": "https://bennyhartnett.com/#person",
-        "name": "Benny Hartnett",
-        "alternateName": [
-          "bennyhartnett"
-        ],
-        "url": "https://bennyhartnett.com/",
-        "image": {
-          "@type": "ImageObject",
-          "url": "https://avatars.githubusercontent.com/u/80306702?v=4",
-          "caption": "Benny Hartnett"
-        },
-        "description": "Full-stack developer and generative AI systems engineer. Builds innovative software products and internal systems, publishes writing on AI and national security, and ships browser-based technical tools.",
-        "jobTitle": [
-          "Generative AI Systems Engineer",
-          "Software Developer",
-          "Full-Stack Developer"
-        ],
-        "worksFor": {
-          "@id": "https://www.lionfederal.com/#organization"
-        },
-        "affiliation": [
-          {
-            "@id": "https://github.com/lftaf#organization"
-          }
-        ],
-        "homeLocation": {
-          "@type": "Place",
-          "name": "DC"
-        },
-        "sameAs": [
-          "https://github.com/bennyhartnett",
-          "https://github.com/lftaf",
-          "https://medium.com/@bennyhartnett",
-          "https://www.linkedin.com/in/dev-dc"
-        ],
-        "identifier": [
-          {
-            "@type": "PropertyValue",
-            "propertyID": "GitHub",
-            "value": "bennyhartnett",
-            "url": "https://github.com/bennyhartnett"
-          },
-          {
-            "@type": "PropertyValue",
-            "propertyID": "GitHub Org",
-            "value": "lftaf",
-            "url": "https://github.com/lftaf"
-          },
-          {
-            "@type": "PropertyValue",
-            "propertyID": "Medium",
-            "value": "@bennyhartnett",
-            "url": "https://medium.com/@bennyhartnett"
-          },
-          {
-            "@type": "PropertyValue",
-            "propertyID": "LinkedIn",
-            "value": "dev-dc",
-            "url": "https://www.linkedin.com/in/dev-dc"
-          }
-        ],
-        "memberOf": [
-          {
-            "@type": "Organization",
-            "name": "GitHub Developer Program",
-            "url": "https://docs.github.com/en/integrations/concepts/github-developer-program"
-          }
-        ],
-        "knowsAbout": [
-          "Generative AI",
-          "Large language models",
-          "Machine learning",
-          "Software engineering",
-          "Full-stack web development",
-          "Data science",
-          "Cloud infrastructure",
-          "GIS",
-          "Government contracting",
-          "Nuclear technology",
-          "Uranium enrichment",
-          "Separative Work Units (SWU)"
-        ],
-        "subjectOf": [
-          {
-            "@id": "https://medium.com/%40bennyhartnett/the-looming-regulatory-challenge-ai-large-language-models-and-national-security-8a692de6989d"
-          },
-          {
-            "@id": "https://medium.com/%40bennyhartnett/the-game-changer-making-calls-from-google-chrome-on-windows-11-via-iphone-and-android-1c89d6538979"
-          }
-        ],
-        "workExample": [
-          {
-            "@id": "https://bennyhartnett.com/nuclear#app"
-          },
-          {
-            "@id": "https://github.com/bennyhartnett/centrus-enrichment-calculator#repo"
-          }
-        ]
-      },
-      {
-        "@type": "WebSite",
-        "@id": "https://bennyhartnett.com/#website",
-        "url": "https://bennyhartnett.com/",
-        "name": "Benny Hartnett",
-        "description": "Portfolio and project hub covering generative AI, GIS, government contracting, and nuclear work.",
-        "publisher": {
-          "@id": "https://bennyhartnett.com/#person"
-        },
-        "inLanguage": "en-US"
-      },
-      {
-        "@type": "WebPage",
-        "@id": "https://bennyhartnett.com/#webpage",
-        "url": "https://bennyhartnett.com/",
-        "name": "Benny Hartnett",
-        "isPartOf": {
-          "@id": "https://bennyhartnett.com/#website"
-        },
-        "about": {
-          "@id": "https://bennyhartnett.com/#person"
-        },
-        "primaryImageOfPage": {
-          "@type": "ImageObject",
-          "url": "https://avatars.githubusercontent.com/u/80306702?v=4"
-        }
-      },
-      {
-        "@type": "Organization",
-        "@id": "https://www.lionfederal.com/#organization",
-        "name": "Lion Federal",
-        "url": "https://www.lionfederal.com/",
-        "description": "Information technology consulting firm delivering custom software development, data science, cloud support services, and facilities design engineering; focuses on GenAI, ML, and Data Science.",
-        "address": {
-          "@type": "PostalAddress",
-          "streetAddress": "1521 Westbranch Drive Suite 625",
-          "addressLocality": "McLean",
-          "addressRegion": "VA",
-          "postalCode": "22102",
-          "addressCountry": "US"
-        },
-        "contactPoint": [
-          {
-            "@type": "ContactPoint",
-            "contactType": "general inquiries",
-            "telephone": "+1-703-214-8808",
-            "email": "info@lionfederal.com"
-          }
-        ]
-      },
-      {
-        "@type": "Organization",
-        "@id": "https://github.com/lftaf#organization",
-        "name": "Lion Federal Engineering",
-        "url": "https://github.com/lftaf",
-        "sameAs": [
-          "https://lionfederal.com"
-        ]
-      },
-      {
-        "@type": "Organization",
-        "@id": "https://www.centrusenergy.com/#organization",
-        "name": "Centrus Energy Corp.",
-        "url": "https://www.centrusenergy.com/"
-      },
-      {
-        "@type": "SoftwareApplication",
-        "@id": "https://bennyhartnett.com/nuclear#app",
-        "name": "Uranium Enrichment Calculators",
-        "applicationCategory": "CalculatorApplication",
-        "operatingSystem": "Web",
-        "url": "https://bennyhartnett.com/nuclear",
-        "description": "Lightweight browser-based tools for uranium enrichment scenarios: feed requirements, SWU demand, and optimum tails assay.",
-        "creator": {
-          "@id": "https://bennyhartnett.com/#person"
-        },
-        "provider": {
-          "@id": "https://www.centrusenergy.com/#organization"
-        },
-        "isAccessibleForFree": true
-      },
-      {
-        "@type": "SoftwareSourceCode",
-        "@id": "https://github.com/bennyhartnett/centrus-enrichment-calculator#repo",
-        "name": "centrus-enrichment-calculator",
-        "codeRepository": "https://github.com/bennyhartnett/centrus-enrichment-calculator",
-        "programmingLanguage": [
-          "HTML",
-          "JavaScript",
-          "CSS"
-        ],
-        "author": {
-          "@id": "https://bennyhartnett.com/#person"
-        },
-        "description": "Client-side suite of uranium enrichment calculators (SWU, feed, EUP & optimum tails) for Centrus; runs fully in-browser and includes a published live demo."
-      },
-      {
-        "@type": "BlogPosting",
-        "@id": "https://medium.com/%40bennyhartnett/the-looming-regulatory-challenge-ai-large-language-models-and-national-security-8a692de6989d",
-        "headline": "The Looming Regulatory Challenge: AI, Large Language Models, and National Security",
-        "url": "https://medium.com/%40bennyhartnett/the-looming-regulatory-challenge-ai-large-language-models-and-national-security-8a692de6989d",
-        "datePublished": "2023-03-24",
-        "author": {
-          "@id": "https://bennyhartnett.com/#person"
-        },
-        "publisher": {
-          "@type": "Organization",
-          "name": "Medium",
-          "url": "https://medium.com/"
-        },
-        "about": [
-          "AI",
-          "Large language models",
-          "National security",
-          "Export controls"
-        ]
-      },
-      {
-        "@type": "BlogPosting",
-        "@id": "https://medium.com/%40bennyhartnett/the-game-changer-making-calls-from-google-chrome-on-windows-11-via-iphone-and-android-1c89d6538979",
-        "headline": "Make Calls from Google Chrome on Windows 11 via iPhone\u00ae",
-        "url": "https://medium.com/%40bennyhartnett/the-game-changer-making-calls-from-google-chrome-on-windows-11-via-iphone-and-android-1c89d6538979",
-        "datePublished": "2023-05-23",
-        "author": {
-          "@id": "https://bennyhartnett.com/#person"
-        },
-        "publisher": {
-          "@type": "Organization",
-          "name": "Medium",
-          "url": "https://medium.com/"
-        },
-        "about": [
-          "Windows 11",
-          "Google Chrome",
-          "Phone Link",
-          "iPhone",
-          "Android"
-        ]
-      }
-    ]
-  }
-  </script>
+  <!-- JSON-LD injected lazily after first paint (see body script) -->
 
-  <script async src="https://ga.jspm.io/npm:es-module-shims@1.5.1/dist/es-module-shims.js"
-    crossorigin="anonymous"></script>
-  <script type="importmap">
-  {
-    "imports": {
-      "three": "https://unpkg.com/three@0.165.0/build/three.module.js",
-      "three/addons/": "https://unpkg.com/three@0.165.0/examples/jsm/"
-    }
-  }
-  </script>
-
-  <!-- Critical CSS (render-blocking, high priority) -->
-  <link rel="stylesheet" href="css/main.css" fetchpriority="high" />
-  <link rel="stylesheet" href="css/components.css" fetchpriority="high" />
+  <!-- Critical CSS (inlined to eliminate render-blocking network requests) -->
+  <style>
+    :root{--wave-color:blue;color-scheme:dark;--vh-fallback:1vh;--vh:1svh;--min-touch-target:44px;--glass-bg:rgba(255,255,255,0.1);--glass-border:rgba(255,255,255,0.2);--glass-blur:12px;--transition-fast:0.2s ease;--transition-normal:0.3s ease;--nav-height:56px}@supports(height:100svh){:root{--vh:1svh}}html{-webkit-text-size-adjust:100%;background:#000}html,body{width:100%;min-height:100%;margin:0;overflow-x:hidden;overflow-y:auto;touch-action:manipulation;background:transparent;color:#fff}body{overscroll-behavior:none}@supports(-webkit-touch-callout:none){html{margin:0;background:#000;color:#fff}body{margin:0;background:transparent;color:#fff;padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom);overscroll-behavior:none}}*{-webkit-tap-highlight-color:rgba(255,255,255,0.05)}input,textarea,select{background-color:#111;color:#fff;-webkit-appearance:none}@media(prefers-color-scheme:dark){html{background:#000;color:#fff}body{background:transparent;color:#fff}}.content{margin-top:56px;padding:0 1rem;font-family:'Inter',sans-serif;color:white;opacity:1;transform:translateY(0);transition:opacity .3s ease,transform .3s ease}.content a{color:white;transition:color .3s ease}.content a:hover{color:var(--wave-color)}#wave-canvas{display:block;width:100%;height:100vh;height:100svh;position:fixed;top:0;left:0;z-index:-1;pointer-events:none;contain:strict}footer{font-family:'Inter',sans-serif;text-align:center;font-size:.7em;color:rgba(255,255,255,0.3);position:fixed;contain:layout style;bottom:0;width:100%;padding:4px 0}footer a{color:white;text-decoration:none;transition:color .3s ease}footer a:hover{color:var(--wave-color)}.skip-link{position:absolute;top:-40px;left:0;background:#000;color:#fff;padding:8px 16px;z-index:1000;text-decoration:none;font-family:'Inter',sans-serif;font-size:.9rem;border-radius:0 0 4px 0;transition:top .3s ease}.skip-link:focus{top:0;outline:2px solid var(--wave-color);outline-offset:2px}.content a:focus{outline:2px solid var(--wave-color);outline-offset:2px}footer a:focus{outline:2px solid var(--wave-color);outline-offset:2px}.nuclear-gradient-bg{background:linear-gradient(-45deg,#0ea5e9,#14b8a6,#06b6d4,#10b981,#0284c7,#0d9488)!important;background-size:400% 400%!important;animation:nuclear-gradient 15s ease infinite}@keyframes nuclear-gradient{0%{background-position:0% 50%}25%{background-position:50% 100%}50%{background-position:100% 50%}75%{background-position:50% 0%}100%{background-position:0% 50%}}
+    nav{position:fixed;top:0;left:0;width:100%;display:flex;align-items:center;flex-wrap:wrap;padding:8px 12px;background:rgba(0,0,0,0);z-index:100;contain:layout style}nav .nav-header{display:flex;align-items:center;width:100%}nav .title{font-family:'IBM Plex Sans',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:-.5px;color:white;font-size:1.1em;flex:0 0 auto;margin-right:12px;cursor:pointer;transition:color .3s ease}nav .title:hover{color:var(--wave-color)}nav .title:focus{outline:2px solid var(--wave-color);outline-offset:2px}nav .search-bar{display:block;padding:4px 8px;font-size:.95em;border-radius:4px;border:1px solid #ccc;margin-left:auto}nav .menu{display:flex;flex-wrap:wrap;gap:12px;flex:1 1 auto;justify-content:flex-end}nav .menu a{font-family:'Inter',sans-serif;font-weight:600;color:white;text-decoration:none;font-size:.95em;white-space:nowrap;padding:4px 8px;transition:color .3s ease}nav .menu a i{font-size:1.1em}nav .menu a:hover{color:var(--wave-color)}nav .menu a:focus{outline:2px solid var(--wave-color);outline-offset:2px;border-radius:4px}.search-icon{position:absolute;right:1rem;top:.5rem;color:white;text-decoration:none;font-size:1.2em}@media(max-width:700px){nav{flex-direction:column;align-items:flex-start}nav .title{margin-bottom:0}nav .search-bar{display:block;margin-left:12px}nav .menu{display:none;flex-direction:column;width:100%;margin-top:8px}nav .menu.open{display:flex}}@media(max-width:500px){nav .menu a{font-size:.8em;padding:2px 4px}}@media(pointer:coarse){nav .menu a,nav .title,footer a{min-height:var(--min-touch-target,44px);min-width:var(--min-touch-target,44px);display:inline-flex;align-items:center;justify-content:center}button,[role="button"],input[type="submit"],input[type="button"]{min-height:var(--min-touch-target,44px);min-width:var(--min-touch-target,44px)}nav .menu{gap:8px}}
+  </style>
 
   <!-- Non-critical CSS (loaded async via media trick) -->
   <link rel="stylesheet" href="css/scrollbar.css" media="print" onload="this.media='all'" />
@@ -377,18 +114,19 @@
   <!-- Smooth Cursor -->
   <script src="js/smooth-cursor.js" defer></script>
 
-  <!-- Wave Background Initialization (deferred to after first paint) -->
+  <!-- Wave Background (fully deferred: dynamic import avoids blocking module resolution) -->
   <script type="module">
-    import { initWaveBackground } from "./js/wave-background.js";
-    window.initWaveBackground = initWaveBackground;
-    // Skip wave background on nuclear subdomain (it has its own gradient background)
     const hostname = location.hostname;
-    const isNuclearSubdomain = hostname === 'nuclear.bennyhartnett.com';
-    if (isNuclearSubdomain) {
+    if (hostname === 'nuclear.bennyhartnett.com') {
       document.body.classList.add('nuclear-gradient-bg');
     } else {
       // Defer Three.js initialization to after first paint for faster FCP/LCP
-      requestAnimationFrame(() => setTimeout(initWaveBackground, 0));
+      requestAnimationFrame(() => setTimeout(() => {
+        import('./js/wave-background.js').then(m => {
+          window.initWaveBackground = m.initWaveBackground;
+          m.initWaveBackground();
+        });
+      }, 0));
     }
   </script>
 
@@ -458,6 +196,14 @@
     window.addEventListener('orientationchange', function() {
       clearTimeout(vhTimer);
       vhTimer = setTimeout(setMobileVh, 150);
+    });
+
+    // Inject JSON-LD structured data after first paint (avoids blocking HTML parsing)
+    requestAnimationFrame(function() {
+      var s = document.createElement('script');
+      s.type = 'application/ld+json';
+      s.textContent = JSON.stringify({"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://bennyhartnett.com/#person","name":"Benny Hartnett","alternateName":["bennyhartnett"],"url":"https://bennyhartnett.com/","image":{"@type":"ImageObject","url":"https://avatars.githubusercontent.com/u/80306702?v=4","caption":"Benny Hartnett"},"description":"Full-stack developer and generative AI systems engineer. Builds innovative software products and internal systems, publishes writing on AI and national security, and ships browser-based technical tools.","jobTitle":["Generative AI Systems Engineer","Software Developer","Full-Stack Developer"],"worksFor":{"@id":"https://www.lionfederal.com/#organization"},"affiliation":[{"@id":"https://github.com/lftaf#organization"}],"homeLocation":{"@type":"Place","name":"DC"},"sameAs":["https://github.com/bennyhartnett","https://github.com/lftaf","https://medium.com/@bennyhartnett","https://www.linkedin.com/in/dev-dc"],"identifier":[{"@type":"PropertyValue","propertyID":"GitHub","value":"bennyhartnett","url":"https://github.com/bennyhartnett"},{"@type":"PropertyValue","propertyID":"GitHub Org","value":"lftaf","url":"https://github.com/lftaf"},{"@type":"PropertyValue","propertyID":"Medium","value":"@bennyhartnett","url":"https://medium.com/@bennyhartnett"},{"@type":"PropertyValue","propertyID":"LinkedIn","value":"dev-dc","url":"https://www.linkedin.com/in/dev-dc"}],"memberOf":[{"@type":"Organization","name":"GitHub Developer Program","url":"https://docs.github.com/en/integrations/concepts/github-developer-program"}],"knowsAbout":["Generative AI","Large language models","Machine learning","Software engineering","Full-stack web development","Data science","Cloud infrastructure","GIS","Government contracting","Nuclear technology","Uranium enrichment","Separative Work Units (SWU)"],"subjectOf":[{"@id":"https://medium.com/%40bennyhartnett/the-looming-regulatory-challenge-ai-large-language-models-and-national-security-8a692de6989d"},{"@id":"https://medium.com/%40bennyhartnett/the-game-changer-making-calls-from-google-chrome-on-windows-11-via-iphone-and-android-1c89d6538979"}],"workExample":[{"@id":"https://bennyhartnett.com/nuclear#app"},{"@id":"https://github.com/bennyhartnett/centrus-enrichment-calculator#repo"}]},{"@type":"WebSite","@id":"https://bennyhartnett.com/#website","url":"https://bennyhartnett.com/","name":"Benny Hartnett","description":"Portfolio and project hub covering generative AI, GIS, government contracting, and nuclear work.","publisher":{"@id":"https://bennyhartnett.com/#person"},"inLanguage":"en-US"},{"@type":"WebPage","@id":"https://bennyhartnett.com/#webpage","url":"https://bennyhartnett.com/","name":"Benny Hartnett","isPartOf":{"@id":"https://bennyhartnett.com/#website"},"about":{"@id":"https://bennyhartnett.com/#person"},"primaryImageOfPage":{"@type":"ImageObject","url":"https://avatars.githubusercontent.com/u/80306702?v=4"}},{"@type":"Organization","@id":"https://www.lionfederal.com/#organization","name":"Lion Federal","url":"https://www.lionfederal.com/","description":"Information technology consulting firm delivering custom software development, data science, cloud support services, and facilities design engineering; focuses on GenAI, ML, and Data Science.","address":{"@type":"PostalAddress","streetAddress":"1521 Westbranch Drive Suite 625","addressLocality":"McLean","addressRegion":"VA","postalCode":"22102","addressCountry":"US"},"contactPoint":[{"@type":"ContactPoint","contactType":"general inquiries","telephone":"+1-703-214-8808","email":"info@lionfederal.com"}]},{"@type":"Organization","@id":"https://github.com/lftaf#organization","name":"Lion Federal Engineering","url":"https://github.com/lftaf","sameAs":["https://lionfederal.com"]},{"@type":"Organization","@id":"https://www.centrusenergy.com/#organization","name":"Centrus Energy Corp.","url":"https://www.centrusenergy.com/"},{"@type":"SoftwareApplication","@id":"https://bennyhartnett.com/nuclear#app","name":"Uranium Enrichment Calculators","applicationCategory":"CalculatorApplication","operatingSystem":"Web","url":"https://bennyhartnett.com/nuclear","description":"Lightweight browser-based tools for uranium enrichment scenarios: feed requirements, SWU demand, and optimum tails assay.","creator":{"@id":"https://bennyhartnett.com/#person"},"provider":{"@id":"https://www.centrusenergy.com/#organization"},"isAccessibleForFree":true},{"@type":"SoftwareSourceCode","@id":"https://github.com/bennyhartnett/centrus-enrichment-calculator#repo","name":"centrus-enrichment-calculator","codeRepository":"https://github.com/bennyhartnett/centrus-enrichment-calculator","programmingLanguage":["HTML","JavaScript","CSS"],"author":{"@id":"https://bennyhartnett.com/#person"},"description":"Client-side suite of uranium enrichment calculators (SWU, feed, EUP & optimum tails) for Centrus; runs fully in-browser and includes a published live demo."},{"@type":"BlogPosting","@id":"https://medium.com/%40bennyhartnett/the-looming-regulatory-challenge-ai-large-language-models-and-national-security-8a692de6989d","headline":"The Looming Regulatory Challenge: AI, Large Language Models, and National Security","url":"https://medium.com/%40bennyhartnett/the-looming-regulatory-challenge-ai-large-language-models-and-national-security-8a692de6989d","datePublished":"2023-03-24","author":{"@id":"https://bennyhartnett.com/#person"},"publisher":{"@type":"Organization","name":"Medium","url":"https://medium.com/"},"about":["AI","Large language models","National security","Export controls"]},{"@type":"BlogPosting","@id":"https://medium.com/%40bennyhartnett/the-game-changer-making-calls-from-google-chrome-on-windows-11-via-iphone-and-android-1c89d6538979","headline":"Make Calls from Google Chrome on Windows 11 via iPhone\u00ae","url":"https://medium.com/%40bennyhartnett/the-game-changer-making-calls-from-google-chrome-on-windows-11-via-iphone-and-android-1c89d6538979","datePublished":"2023-05-23","author":{"@id":"https://bennyhartnett.com/#person"},"publisher":{"@type":"Organization","name":"Medium","url":"https://medium.com/"},"about":["Windows 11","Google Chrome","Phone Link","iPhone","Android"]}]});
+      document.head.appendChild(s);
     });
   </script>
 </body>

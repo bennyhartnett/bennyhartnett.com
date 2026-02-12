@@ -1,6 +1,6 @@
 // Service Worker for SWU Calculator PWA
 // Version must be updated when deploying new code to bust cache
-const CACHE_VERSION = 'v91';
+const CACHE_VERSION = 'v92';
 const CACHE_NAME = `swu-calculator-${CACHE_VERSION}`;
 
 // Files to cache for offline use
@@ -50,16 +50,20 @@ self.addEventListener('install', (event) => {
   );
 });
 
-// Activate event - clean up old caches
+// Activate event - clean up old caches and enable navigation preload
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys().then((cacheNames) => {
-      return Promise.all(
-        cacheNames
-          .filter((name) => name.startsWith('swu-calculator-') && name !== CACHE_NAME)
-          .map((name) => caches.delete(name))
-      );
-    }).then(() => {
+    Promise.all([
+      caches.keys().then((cacheNames) => {
+        return Promise.all(
+          cacheNames
+            .filter((name) => name.startsWith('swu-calculator-') && name !== CACHE_NAME)
+            .map((name) => caches.delete(name))
+        );
+      }),
+      // Enable navigation preload for faster first-load on navigations
+      self.registration.navigationPreload && self.registration.navigationPreload.enable()
+    ]).then(() => {
       // Take control of all pages immediately
       return self.clients.claim();
     })
@@ -101,25 +105,23 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Network-first for HTML, JS, and CSS files (ensures fresh code)
+  // Stale-while-revalidate for HTML, JS, and CSS (instant from cache, updated in background)
   if (url.pathname.endsWith('.html') ||
       url.pathname.endsWith('.js') ||
       url.pathname.endsWith('.css') ||
       url.pathname === '/nuclear') {
     event.respondWith(
-      fetch(event.request)
-        .then((response) => {
-          // Clone and cache the fresh response
-          const responseToCache = response.clone();
-          caches.open(CACHE_NAME).then((cache) => {
-            cache.put(event.request, responseToCache);
-          });
-          return response;
-        })
-        .catch(() => {
-          // Fallback to cache if network fails
-          return caches.match(event.request);
-        })
+      caches.open(CACHE_NAME).then((cache) => {
+        return cache.match(event.request).then((cached) => {
+          const fetched = fetch(event.request).then((response) => {
+            if (response.ok) {
+              cache.put(event.request, response.clone());
+            }
+            return response;
+          }).catch(() => cached);
+          return cached || fetched;
+        });
+      })
     );
     return;
   }
