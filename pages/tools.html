@@ -51,39 +51,11 @@
     transform: translateY(-2px);
   }
 
-  /* Tool card text - white by default, iridescent on hover */
   .tool-card h2 {
     color: white;
   }
   .tool-card p {
     color: rgba(255, 255, 255, 0.7);
-  }
-  .tool-card:hover h2,
-  .tool-card:hover p {
-    background: conic-gradient(
-      from 180deg at 50% 50%,
-      rgba(0, 245, 255, 1),
-      rgba(99, 102, 241, 1),
-      rgba(168, 85, 247, 1),
-      rgba(236, 72, 153, 1),
-      rgba(245, 158, 11, 1),
-      rgba(34, 197, 94, 1),
-      rgba(0, 245, 255, 1)
-    );
-    background-size: 200% 200%;
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    color: transparent;
-    animation: iridescent-text 4s linear infinite;
-  }
-  @keyframes iridescent-text {
-    0% {
-      filter: hue-rotate(0deg);
-    }
-    100% {
-      filter: hue-rotate(360deg);
-    }
   }
 
   /* Code glitch layer */
