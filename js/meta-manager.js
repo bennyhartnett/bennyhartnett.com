@@ -10,7 +10,7 @@ const BASE_OG_IMAGE = 'https://bennyhartnett.com/assets/og-image.png';
  */
 const META_MAP = {
   'pages/home.html': {
-    title: 'Benny Hartnett - Home',
+    title: 'Benny Hartnett',
     desc: 'Overview of Benny Hartnett\'s projects including generative AI, nuclear work and contracting.',
     ogImage: BASE_OG_IMAGE,
     ogImageAlt: 'Benny Hartnett - Software Developer specializing in AI, IoT, and Nuclear Technology'
