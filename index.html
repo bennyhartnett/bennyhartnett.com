@@ -33,7 +33,7 @@
     content="Software Developer & AI Engineer based in Washington D.C. Metropolitan Area" />
   <meta name="keywords" content="Benny Hartnett, generative AI, government contracting, nuclear, IoT" />
   <meta name="author" content="Benny Hartnett" />
-  <link rel="canonical" href="" id="canonical-link" />
+  <link rel="canonical" href="https://bennyhartnett.com/" id="canonical-link" />
   <link rel="sitemap" type="application/xml" href="sitemap.xml" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon.svg" />
@@ -399,6 +399,108 @@
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
     gtag('config', 'G-GGGPH0X4LN', { send_page_view: false });
+  </script>
+  <!-- Auto-populate canonical & OG/twitter URL + images for subdomains -->
+  <script>
+  (function () {
+    try {
+      // Compute canonical URL (no fragment)
+      var canonicalUrl = location.href.split('#')[0];
+
+      // Ensure canonical has origin + pathname (works for pages and subdomains)
+      if (!canonicalUrl) canonicalUrl = location.origin + location.pathname;
+
+      // Find elements
+      var canonicalEl = document.getElementById('canonical-link');
+      var ogUrlEl = document.getElementById('og-url');
+      var ogImageEl = document.getElementById('og-image');
+      var twitterImageEl = document.getElementById('twitter-image');
+
+      if (canonicalEl) canonicalEl.setAttribute('href', canonicalUrl);
+      if (ogUrlEl) ogUrlEl.setAttribute('content', canonicalUrl);
+
+      // Default OG/Twitter image to /assets/og-image.png if not already absolute
+      var defaultOg = location.origin + '/assets/og-image.png';
+      if (ogImageEl && (!ogImageEl.getAttribute('content') || ogImageEl.getAttribute('content').trim() === '')) {
+        ogImageEl.setAttribute('content', defaultOg);
+      } else if (ogImageEl) {
+        // convert relative to absolute if necessary
+        var v = ogImageEl.getAttribute('content');
+        if (v && v.indexOf('://') === -1) ogImageEl.setAttribute('content', location.origin + (v.charAt(0)==='/' ? '' : '/') + v);
+      }
+
+      if (twitterImageEl && (!twitterImageEl.getAttribute('content') || twitterImageEl.getAttribute('content').trim() === '')) {
+        twitterImageEl.setAttribute('content', defaultOg);
+      } else if (twitterImageEl) {
+        var t = twitterImageEl.getAttribute('content');
+        if (t && t.indexOf('://') === -1) twitterImageEl.setAttribute('content', location.origin + (t.charAt(0)==='/' ? '' : '/') + t);
+      }
+    } catch (e) {
+      console.warn('Canonical/OG population failed', e);
+    }
+  })();
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "url": "https://bennyhartnett.com/",
+    "name": "Benny Hartnett",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://bennyhartnett.com/search?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://bennyhartnett.com/"
+      }
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Who is Benny Hartnett?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Benny Hartnett is a software developer and generative AI systems engineer based in Washington, D.C., working on projects in AI, government contracting, IoT, and nuclear technology."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What services does Benny offer?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Services include generative AI & LLM integration, RAG systems, IoT and edge computing solutions, and government technology consulting."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How can I contact Benny?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "You can reach Benny through the contact form at https://contact.bennyhartnett.com or by email at me@bennyhartnett.com."
+        }
+      }
+    ]
+  }
   </script>
 </head>
 <body>
