@@ -1,0 +1,188 @@
+<style>
+  body {
+    font-family: 'Inter', sans-serif;
+    color: white;
+    margin: 0;
+  }
+  .search-container {
+    min-height: calc(100vh - 56px - 2rem);
+    min-height: calc(100svh - 56px - 2rem);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 1rem;
+    max-width: 640px;
+    margin: 0 auto;
+  }
+  h1 {
+    font-size: 1.75rem;
+    font-weight: 600;
+    margin: 0 0 1.5rem 0;
+  }
+  .search-form {
+    display: flex;
+    width: 100%;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+  }
+  .search-input {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    font-family: inherit;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    color: white;
+    outline: none;
+    transition: border-color 0.3s ease;
+  }
+  .search-input::placeholder { color: rgba(255, 255, 255, 0.4); }
+  .search-input:focus { border-color: var(--wave-color, #6366f1); }
+  .search-btn {
+    padding: 0.75rem 1.25rem;
+    font-size: 1rem;
+    font-family: inherit;
+    font-weight: 500;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  .search-btn:hover { background: rgba(255, 255, 255, 0.2); }
+  .search-btn:focus-visible {
+    outline: 2px solid var(--wave-color, #6366f1);
+    outline-offset: 2px;
+  }
+  .results { width: 100%; }
+  .results-heading {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.5);
+    margin: 0 0 1rem 0;
+  }
+  .result-item {
+    display: block;
+    padding: 1rem;
+    margin-bottom: 0.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    text-decoration: none;
+    color: white;
+    transition: border-color 0.3s ease, background 0.3s ease;
+  }
+  .result-item:hover {
+    border-color: var(--wave-color, #6366f1);
+    background: rgba(255, 255, 255, 0.05);
+  }
+  .result-item:focus-visible {
+    outline: 2px solid var(--wave-color, #6366f1);
+    outline-offset: 2px;
+  }
+  .result-title {
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin: 0 0 0.25rem 0;
+  }
+  .result-desc {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.6);
+    margin: 0;
+  }
+  .no-results {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 1rem;
+  }
+  @media (max-width: 600px) {
+    h1 { font-size: 1.4rem; }
+    .search-form { flex-direction: column; }
+  }
+</style>
+
+<div class="search-container">
+  <h1>Search</h1>
+  <form class="search-form" id="search-form" role="search">
+    <label for="search-input" class="sr-only">Search this site</label>
+    <input type="search" id="search-input" class="search-input" placeholder="Search this site…" autocomplete="off" />
+    <button type="submit" class="search-btn">Search</button>
+  </form>
+  <div class="results" id="results"></div>
+</div>
+
+<script>
+(function () {
+  var pages = [
+    { title: 'Home', desc: 'Overview of Benny Hartnett\u2019s projects including generative AI, nuclear work and contracting.', url: 'https://bennyhartnett.com/', keywords: 'benny hartnett software developer ai engineer washington dc' },
+    { title: 'Projects', desc: 'Portfolio of projects spanning generative AI, government contracting, and nuclear research.', url: 'https://projects.bennyhartnett.com/', keywords: 'portfolio projects ai iot government nuclear' },
+    { title: 'Tools', desc: 'Apps and utilities including video conferencing, clipboard sharing, and calculators.', url: 'https://tools.bennyhartnett.com/', keywords: 'tools apps utilities calculator clipboard meet' },
+    { title: 'Contact', desc: 'Get in touch with Benny Hartnett.', url: 'https://contact.bennyhartnett.com/', keywords: 'contact email form' },
+    { title: 'Chat', desc: 'AI-powered chat to learn more about Benny Hartnett.', url: 'https://chat.bennyhartnett.com/', keywords: 'chat ai assistant ask' },
+    { title: 'Resume', desc: 'Professional resume and background in software development, AI, and nuclear technology.', url: 'https://resume.bennyhartnett.com/', keywords: 'resume cv experience work history' },
+    { title: 'Uranium Enrichment Calculators', desc: 'Lightweight browser-based tools for uranium enrichment scenarios: feed requirements, SWU demand, and optimum tails assay.', url: 'https://nuclear.bennyhartnett.com/', keywords: 'nuclear uranium enrichment swu calculator centrus' },
+    { title: 'Meet', desc: 'Video conferencing with screen sharing and real-time collaboration. No sign-up required.', url: 'https://meet.bennyhartnett.com/', keywords: 'meet video call conferencing screen share' },
+    { title: 'Clipboard', desc: 'Instant peer-to-peer sharing of text, images, and files using WebRTC. No server storage.', url: 'https://clipboard.bennyhartnett.com/', keywords: 'clipboard share text files webrtc peer' },
+    { title: 'Privacy Policy', desc: 'Privacy practices for this site.', url: 'https://privacy.bennyhartnett.com/', keywords: 'privacy policy data' },
+    { title: 'Terms', desc: 'Terms and privacy practices for bennyhartnett.com.', url: 'https://terms.bennyhartnett.com/', keywords: 'terms conditions legal' }
+  ];
+
+  var input = document.getElementById('search-input');
+  var resultsEl = document.getElementById('results');
+  var form = document.getElementById('search-form');
+
+  // Read initial query from URL
+  var params = new URLSearchParams(location.search);
+  var initial = params.get('q') || '';
+  if (initial) {
+    input.value = initial;
+    runSearch(initial);
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var q = input.value.trim();
+    if (q) {
+      // Update URL without full navigation
+      var newUrl = location.pathname + '?q=' + encodeURIComponent(q);
+      history.replaceState(null, '', newUrl);
+      runSearch(q);
+    }
+  });
+
+  function runSearch(query) {
+    var terms = query.toLowerCase().split(/\s+/).filter(Boolean);
+    if (!terms.length) { resultsEl.innerHTML = ''; return; }
+
+    var scored = pages.map(function (page) {
+      var haystack = (page.title + ' ' + page.desc + ' ' + page.keywords).toLowerCase();
+      var score = 0;
+      terms.forEach(function (term) {
+        if (haystack.indexOf(term) !== -1) score++;
+      });
+      return { page: page, score: score };
+    }).filter(function (r) { return r.score > 0; });
+
+    scored.sort(function (a, b) { return b.score - a.score; });
+
+    if (!scored.length) {
+      resultsEl.innerHTML = '<p class="no-results">No results found for \u201c' + escapeHtml(query) + '\u201d</p>';
+      return;
+    }
+
+    var html = '<p class="results-heading">' + scored.length + ' result' + (scored.length !== 1 ? 's' : '') + ' for \u201c' + escapeHtml(query) + '\u201d</p>';
+    scored.forEach(function (r) {
+      html += '<a class="result-item" href="' + r.page.url + '">' +
+        '<p class="result-title">' + escapeHtml(r.page.title) + '</p>' +
+        '<p class="result-desc">' + escapeHtml(r.page.desc) + '</p>' +
+        '</a>';
+    });
+    resultsEl.innerHTML = html;
+  }
+
+  function escapeHtml(str) {
+    var el = document.createElement('span');
+    el.textContent = str;
+    return el.innerHTML;
+  }
+})();
+</script>

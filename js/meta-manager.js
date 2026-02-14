@@ -92,6 +92,12 @@ const META_MAP = {
     desc: 'Terms and privacy practices for bennyhartnett.com.',
     ogImage: BASE_OG_IMAGE,
     ogImageAlt: 'Terms and Privacy - Benny Hartnett'
+  },
+  'pages/search.html': {
+    title: 'Search - Benny Hartnett',
+    desc: 'Search across Benny Hartnett\'s projects, tools, and content.',
+    ogImage: BASE_OG_IMAGE,
+    ogImageAlt: 'Search - Benny Hartnett'
   }
 };
 
