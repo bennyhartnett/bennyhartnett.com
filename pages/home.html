@@ -72,6 +72,27 @@
     border-radius: 4px;
   }
 
+  /* Per-letter weight hover effect */
+  .link-list a.hw-ready {
+    display: flex;
+    gap: 0.02em;
+  }
+  .hw-cell {
+    position: relative;
+    display: inline-block;
+  }
+  .hw-spacer {
+    visibility: hidden;
+    font-weight: 900;
+  }
+  .hw-anim {
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-weight: 150;
+    will-change: font-weight;
+  }
+
   /* Floating Chat Button - Glassmorphic Pill */
   .chat-fab {
     position: fixed;
@@ -163,6 +184,86 @@
   <li><a data-href="/contact">Contact</a></li>
 </ul>
   </div>
+
+<script>
+(function() {
+  if (!window.matchMedia('(hover: hover)').matches) return;
+
+  var MIN_W = 150, MAX_W = 900, TAU_IN = 0.18, TAU_OUT = 0.35;
+  var links = document.querySelectorAll('.link-list a');
+  var linkData = [];
+  var rafId = null;
+  var t0 = performance.now();
+
+  links.forEach(function(link) {
+    var text = link.textContent;
+    link.textContent = '';
+    link.classList.add('hw-ready');
+
+    var animEls = [];
+    for (var i = 0; i < text.length; i++) {
+      var ch = text[i];
+      var cell = document.createElement('span');
+      cell.className = 'hw-cell';
+      var spacer = document.createElement('span');
+      spacer.className = 'hw-spacer';
+      spacer.textContent = ch;
+      var anim = document.createElement('span');
+      anim.className = 'hw-anim';
+      anim.textContent = ch;
+      cell.appendChild(spacer);
+      cell.appendChild(anim);
+      link.appendChild(cell);
+      animEls.push(anim);
+    }
+
+    var data = { animEls: animEls, hovered: false, amt: 0 };
+    linkData.push(data);
+
+    link.addEventListener('mouseenter', function() { data.hovered = true; startLoop(); });
+    link.addEventListener('mouseleave', function() { data.hovered = false; startLoop(); });
+  });
+
+  function chase(current, target, dt, tau) {
+    var a = 1 - Math.exp(-dt / Math.max(0.0001, tau));
+    return current + (target - current) * a;
+  }
+
+  function startLoop() {
+    if (!rafId) {
+      t0 = performance.now();
+      rafId = requestAnimationFrame(tick);
+    }
+  }
+
+  function tick(now) {
+    var dt = Math.min(0.05, (now - t0) / 1000);
+    t0 = now;
+    var anyActive = false;
+
+    linkData.forEach(function(data) {
+      var targetAmt = data.hovered ? 1 : 0;
+      if (Math.abs(data.amt - targetAmt) < 0.001) {
+        data.amt = targetAmt;
+        var w = MIN_W + (MAX_W - MIN_W) * data.amt;
+        data.animEls.forEach(function(el) { el.style.fontWeight = w; });
+        return;
+      }
+      anyActive = true;
+      var tau = data.hovered ? TAU_IN : TAU_OUT;
+      data.amt = chase(data.amt, targetAmt, dt, tau);
+      var w = MIN_W + (MAX_W - MIN_W) * data.amt;
+      data.animEls.forEach(function(el) { el.style.fontWeight = w; });
+    });
+
+    if (anyActive) {
+      rafId = requestAnimationFrame(tick);
+    } else {
+      rafId = null;
+    }
+  }
+})();
+</script>
 
 <!-- Floating Chat Button -->
 <a href="/chat" class="chat-fab" aria-label="Chat with Benny AI">
