@@ -33,7 +33,7 @@
   }
 
   // Spring configs (matching Magic UI defaults)
-  const posConfig = { damping: 45, stiffness: 400, mass: 1, restDelta: 0.001 };
+  const posConfig = { damping: 55, stiffness: 600, mass: 1, restDelta: 0.001 };
   const rotConfig = { damping: 60, stiffness: 300, mass: 1, restDelta: 0.001 };
   const scaleConfig = { damping: 35, stiffness: 500, mass: 1, restDelta: 0.001 };
 
