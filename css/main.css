@@ -44,7 +44,6 @@ body {
   margin: 0;
   overflow-x: hidden;
   overflow-y: auto;
-  touch-action: manipulation;
   background: transparent;
   color: #fff;
 }
