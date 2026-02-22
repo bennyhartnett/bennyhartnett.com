@@ -82,10 +82,10 @@ const META_MAP = {
     ogImageAlt: 'Tools - Apps and Utilities by Benny Hartnett'
   },
   'pages/resume.html': {
-    title: 'Resume - Benny Hartnett',
-    desc: 'Professional resume and background in software development, AI, and nuclear technology.',
+    title: 'Résumé - Benny Hartnett',
+    desc: 'Professional résumé and background in software development, AI, and nuclear technology.',
     ogImage: BASE_OG_IMAGE,
-    ogImageAlt: 'Resume - Benny Hartnett Professional Background'
+    ogImageAlt: 'Résumé - Benny Hartnett Professional Background'
   },
   'pages/terms.html': {
     title: 'Terms - Benny Hartnett',
