@@ -384,7 +384,7 @@
     window.initWaveBackground = initWaveBackground;
     // Skip wave background on nuclear subdomain (it has its own gradient background)
     const hostname = location.hostname;
-    const isNuclearSubdomain = hostname === 'nuclear.bennyhartnett.com';
+    const isNuclearSubdomain = hostname.startsWith('nuclear.');
     if (isNuclearSubdomain) {
       document.body.classList.add('nuclear-gradient-bg');
     } else {

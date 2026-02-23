@@ -3,9 +3,11 @@
  *
  * - foo.bennyhartnett.com → serves /foo/ content
  * - bennyhartnett.com/foo → redirects to foo.bennyhartnett.com
+ *
+ * Also supports federalinnovations.com with the same routing logic.
  */
 
-const ROOT_DOMAIN = 'bennyhartnett.com';
+const SUPPORTED_DOMAINS = ['bennyhartnett.com', 'federalinnovations.com'];
 
 // Header to mark internal origin fetches (prevents redirect loops)
 const INTERNAL_HEADER = 'X-CF-Worker-Internal';
@@ -24,6 +26,20 @@ const EXCLUDED_PATHS = [
   '.well-known',
 ];
 
+/**
+ * Determine the root domain from a hostname
+ * @param {string} hostname - The request hostname
+ * @returns {string|null} The matching root domain, or null if not supported
+ */
+function getRootDomain(hostname) {
+  for (const domain of SUPPORTED_DOMAINS) {
+    if (hostname === domain || hostname === `www.${domain}` || hostname.endsWith(`.${domain}`)) {
+      return domain;
+    }
+  }
+  return null;
+}
+
 export default {
   async fetch(request, env, ctx) {
     // Pass through internal origin fetches to prevent redirect loops
@@ -33,15 +49,20 @@ export default {
 
     const url = new URL(request.url);
     const hostname = url.hostname;
+    const rootDomain = getRootDomain(hostname);
+
+    if (!rootDomain) {
+      return fetch(request);
+    }
 
     // Check if this is a subdomain request
-    if (hostname.endsWith(`.${ROOT_DOMAIN}`) && hostname !== `www.${ROOT_DOMAIN}`) {
-      return handleSubdomain(request, url, hostname);
+    if (hostname.endsWith(`.${rootDomain}`) && hostname !== `www.${rootDomain}`) {
+      return handleSubdomain(request, url, hostname, rootDomain);
     }
 
     // Check if this is a path that should redirect to subdomain
-    if (hostname === ROOT_DOMAIN || hostname === `www.${ROOT_DOMAIN}`) {
-      return handleMainDomain(request, url);
+    if (hostname === rootDomain || hostname === `www.${rootDomain}`) {
+      return handleMainDomain(request, url, rootDomain);
     }
 
     // Fallback: pass through
@@ -50,12 +71,12 @@ export default {
 };
 
 /**
- * Handle subdomain requests: foo.bennyhartnett.com → serve index.html
+ * Handle subdomain requests: foo.example.com → serve index.html
  * The SPA will detect the subdomain and load the correct page content
  * Exception: nuclear.bennyhartnett.com → serve nuclear.html directly (standalone page)
  */
-async function handleSubdomain(request, url, hostname) {
-  const subdomain = hostname.replace(`.${ROOT_DOMAIN}`, '');
+async function handleSubdomain(request, url, hostname, rootDomain) {
+  const subdomain = hostname.replace(`.${rootDomain}`, '');
 
   // For static assets on subdomain, try to fetch from main domain
   // NOTE: .html is included to allow SPA to fetch page fragments (e.g., pages/contact.html)
@@ -64,7 +85,7 @@ async function handleSubdomain(request, url, hostname) {
   if (isStaticAsset) {
     // Fetch static asset from main domain
     const assetUrl = new URL(url);
-    assetUrl.hostname = ROOT_DOMAIN;
+    assetUrl.hostname = rootDomain;
 
     const headers = new Headers(request.headers);
     headers.set(INTERNAL_HEADER, '1');
@@ -77,13 +98,13 @@ async function handleSubdomain(request, url, hostname) {
 
   // Redirect thank-you subdomain to sent subdomain (at root)
   if (subdomain === 'thank-you') {
-    return Response.redirect(`https://sent.${ROOT_DOMAIN}/`, 301);
+    return Response.redirect(`https://sent.${rootDomain}/`, 301);
   }
 
   // Nuclear subdomain (and centrus alias): serve nuclear.html directly (it's a standalone page, not an SPA fragment)
   if (subdomain === 'nuclear' || subdomain === 'centrus') {
     const nuclearUrl = new URL(url);
-    nuclearUrl.hostname = ROOT_DOMAIN;
+    nuclearUrl.hostname = rootDomain;
     nuclearUrl.pathname = '/nuclear.html';
     nuclearUrl.search = '';
 
@@ -99,7 +120,7 @@ async function handleSubdomain(request, url, hostname) {
   // For all other requests (HTML pages), serve index.html from main domain
   // The SPA will detect the subdomain via window.location.hostname and load correct content
   const indexUrl = new URL(url);
-  indexUrl.hostname = ROOT_DOMAIN;
+  indexUrl.hostname = rootDomain;
   indexUrl.pathname = '/';
   indexUrl.search = '';
 
@@ -115,9 +136,9 @@ async function handleSubdomain(request, url, hostname) {
 }
 
 /**
- * Handle main domain paths: bennyhartnett.com/foo → redirect to foo.bennyhartnett.com
+ * Handle main domain paths: example.com/foo → redirect to foo.example.com
  */
-async function handleMainDomain(request, url) {
+async function handleMainDomain(request, url, rootDomain) {
   const pathParts = url.pathname.split('/').filter(Boolean);
 
   // No path or root - pass through
@@ -143,7 +164,7 @@ async function handleMainDomain(request, url) {
 
   // Redirect to subdomain
   const newUrl = new URL(url);
-  newUrl.hostname = `${firstSegment}.${ROOT_DOMAIN}`;
+  newUrl.hostname = `${firstSegment}.${rootDomain}`;
 
   // Remove the first path segment since it's now the subdomain
   pathParts.shift();

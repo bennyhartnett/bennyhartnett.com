@@ -9,6 +9,23 @@ import { trackPageView } from './analytics.js';
 // Container element for content
 let container = null;
 
+// Supported root domains for subdomain routing
+const SUPPORTED_DOMAINS = ['bennyhartnett.com', 'federalinnovations.com'];
+
+/**
+ * Determine the root domain from the current hostname
+ * @returns {string} The matching root domain, defaults to bennyhartnett.com
+ */
+function getRootDomain() {
+  const hostname = location.hostname;
+  for (const domain of SUPPORTED_DOMAINS) {
+    if (hostname === domain || hostname === `www.${domain}` || hostname.endsWith(`.${domain}`)) {
+      return domain;
+    }
+  }
+  return SUPPORTED_DOMAINS[0];
+}
+
 // Prefetch cache for SPA page fragments
 const prefetchCache = new Map();
 
@@ -247,14 +264,14 @@ function handleLinkClick(e) {
   // Skip SPA handling for nuclear page - do full page navigation
   if (href === 'nuclear.html' || href === '/nuclear.html' || href === '/nuclear') {
     e.preventDefault();
-    window.location.href = 'https://nuclear.bennyhartnett.com';
+    window.location.href = `https://nuclear.${getRootDomain()}`;
     return;
   }
 
   // Handle home link - redirect to main domain
   if (href === '/' || href === '/home' || href === 'home.html' || href === '/home.html') {
     e.preventDefault();
-    window.location.href = 'https://bennyhartnett.com';
+    window.location.href = `https://${getRootDomain()}`;
     return;
   }
 
@@ -273,7 +290,7 @@ function handleLinkClick(e) {
       pageName = href.replace(/^pages\//, '').replace(/\.html$/, '');
     }
     // Redirect to subdomain
-    const targetUrl = 'https://' + pageName + '.bennyhartnett.com';
+    const targetUrl = `https://${pageName}.${getRootDomain()}`;
     window.location.href = targetUrl;
   }
 }
@@ -296,10 +313,10 @@ function handlePopState(e) {
 function getInitialPage() {
   let initial = 'pages/home.html';
   const hostname = location.hostname;
-  const rootDomain = 'bennyhartnett.com';
-  const isSubdomain = hostname.endsWith('.' + rootDomain) && hostname !== 'www.' + rootDomain;
+  const rootDomain = getRootDomain();
+  const isSub = hostname.endsWith('.' + rootDomain) && hostname !== 'www.' + rootDomain;
 
-  if (isSubdomain) {
+  if (isSub) {
     const subdomain = hostname.replace('.' + rootDomain, '');
     initial = subdomain === 'nuclear' ? 'nuclear.html' : 'pages/' + subdomain + '.html';
   } else {
@@ -330,7 +347,7 @@ function getInitialPage() {
  */
 function isSubdomain() {
   const hostname = location.hostname;
-  const rootDomain = 'bennyhartnett.com';
+  const rootDomain = getRootDomain();
   return hostname.endsWith('.' + rootDomain) && hostname !== 'www.' + rootDomain;
 }
 
@@ -352,12 +369,12 @@ export function initRouter() {
   if (title) {
     title.addEventListener('click', (e) => {
       e.preventDefault();
-      window.location.href = 'https://bennyhartnett.com';
+      window.location.href = `https://${getRootDomain()}`;
     });
     title.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
-        window.location.href = 'https://bennyhartnett.com';
+        window.location.href = `https://${getRootDomain()}`;
       }
     });
   }
