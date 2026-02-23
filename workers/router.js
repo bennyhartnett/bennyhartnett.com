@@ -9,6 +9,10 @@
 
 const SUPPORTED_DOMAINS = ['bennyhartnett.com', 'federalinnovations.com'];
 
+// The domain where all static content is hosted (GitHub Pages origin)
+// All origin fetches go here, regardless of which supported domain the request came in on
+const ORIGIN_DOMAIN = 'bennyhartnett.com';
+
 // Header to mark internal origin fetches (prevents redirect loops)
 const INTERNAL_HEADER = 'X-CF-Worker-Internal';
 
@@ -71,6 +75,18 @@ export default {
 };
 
 /**
+ * Fetch content from the origin domain (bennyhartnett.com / GitHub Pages)
+ * Used so that requests on any supported domain get the actual site content
+ */
+function fetchFromOrigin(request, url) {
+  const originUrl = new URL(url || request.url);
+  originUrl.hostname = ORIGIN_DOMAIN;
+  const headers = new Headers(request.headers);
+  headers.set(INTERNAL_HEADER, '1');
+  return fetch(originUrl.toString(), { method: request.method, headers });
+}
+
+/**
  * Handle subdomain requests: foo.example.com → serve index.html
  * The SPA will detect the subdomain and load the correct page content
  * Exception: nuclear.bennyhartnett.com → serve nuclear.html directly (standalone page)
@@ -78,14 +94,13 @@ export default {
 async function handleSubdomain(request, url, hostname, rootDomain) {
   const subdomain = hostname.replace(`.${rootDomain}`, '');
 
-  // For static assets on subdomain, try to fetch from main domain
+  // For static assets on subdomain, try to fetch from origin domain
   // NOTE: .html is included to allow SPA to fetch page fragments (e.g., pages/contact.html)
   const isStaticAsset = url.pathname.match(/\.(js|css|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot|json|pdf|webp|html)$/i);
 
   if (isStaticAsset) {
-    // Fetch static asset from main domain
     const assetUrl = new URL(url);
-    assetUrl.hostname = rootDomain;
+    assetUrl.hostname = ORIGIN_DOMAIN;
 
     const headers = new Headers(request.headers);
     headers.set(INTERNAL_HEADER, '1');
@@ -104,7 +119,7 @@ async function handleSubdomain(request, url, hostname, rootDomain) {
   // Nuclear subdomain (and centrus alias): serve nuclear.html directly (it's a standalone page, not an SPA fragment)
   if (subdomain === 'nuclear' || subdomain === 'centrus') {
     const nuclearUrl = new URL(url);
-    nuclearUrl.hostname = rootDomain;
+    nuclearUrl.hostname = ORIGIN_DOMAIN;
     nuclearUrl.pathname = '/nuclear.html';
     nuclearUrl.search = '';
 
@@ -117,10 +132,10 @@ async function handleSubdomain(request, url, hostname, rootDomain) {
     });
   }
 
-  // For all other requests (HTML pages), serve index.html from main domain
+  // For all other requests (HTML pages), serve index.html from origin domain
   // The SPA will detect the subdomain via window.location.hostname and load correct content
   const indexUrl = new URL(url);
-  indexUrl.hostname = rootDomain;
+  indexUrl.hostname = ORIGIN_DOMAIN;
   indexUrl.pathname = '/';
   indexUrl.search = '';
 
@@ -141,16 +156,16 @@ async function handleSubdomain(request, url, hostname, rootDomain) {
 async function handleMainDomain(request, url, rootDomain) {
   const pathParts = url.pathname.split('/').filter(Boolean);
 
-  // No path or root - pass through
+  // No path or root - serve from origin
   if (pathParts.length === 0) {
-    return fetch(request);
+    return fetchFromOrigin(request);
   }
 
   let firstSegment = pathParts[0];
 
   // Check if this path should be excluded from subdomain redirect
   if (isExcludedPath(firstSegment)) {
-    return fetch(request);
+    return fetchFromOrigin(request);
   }
 
   // Handle .html extension: strip it and redirect to subdomain
@@ -158,11 +173,11 @@ async function handleMainDomain(request, url, rootDomain) {
   if (firstSegment.endsWith('.html')) {
     firstSegment = firstSegment.slice(0, -5); // Remove '.html'
   } else if (firstSegment.includes('.')) {
-    // Other file extensions (non-.html) should pass through
-    return fetch(request);
+    // Other file extensions (non-.html) should pass through from origin
+    return fetchFromOrigin(request);
   }
 
-  // Redirect to subdomain
+  // Redirect to subdomain (uses rootDomain so users stay on their domain)
   const newUrl = new URL(url);
   newUrl.hostname = `${firstSegment}.${rootDomain}`;
 
