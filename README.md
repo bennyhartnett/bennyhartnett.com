@@ -1,71 +1,65 @@
 # bennyhartnett.com
 
-BennyHartnett.com is a minimalist static website built with plain HTML and a little JavaScript. The landing page uses [three.js](https://threejs.org/) to draw an animated wave background. Because every library loads from public CDNs, you can open the files directly in a browser with no build step required.
+Personal portfolio site with subdomain-based routing, a PWA shell, and an isolated uranium enrichment calculator.
 
-## Features
+## Architecture
 
-- **Animated wave background** &ndash; `index.html` draws a 3D wave using three.js and `SimplexNoise`. The waves react to mouse movement and smoothly cycle through colors.
-- **Responsive navigation** &ndash; On small screens, a hamburger button toggles the navigation links for easier mobile browsing.
-- **Modular pages** &ndash; Additional pages (`home.html`, `nuclear.html`, and `privacy.html`) are simple templates that can be edited or replaced.
-- **No build step** &ndash; All dependencies load from CDNs, so you can open the files directly or serve them with a simple HTTP server.
+- **Frontend**: Vanilla HTML/CSS/JS (ES6 modules, no bundler). Libraries load from CDNs.
+- **Routing**: Hybrid system — Cloudflare Workers handle edge routing, client-side SPA loads page fragments from `pages/`.
+- **Hosting**: GitHub Pages + Cloudflare Workers.
+- **PWA**: Service worker (`sw.js`) with versioned cache for offline support.
 
-## File Overview
-
-- `index.html` &ndash; Entry point that loads `home.html` via `fetch` and initializes the wave canvas.
-- `home.html` &ndash; Landing page with quick links such as email, GitHub, and LinkedIn.
-- `nuclear.html` &ndash; Placeholder summarizing nuclear projects.
-- `privacy.html` &ndash; Static privacy policy.
-- `sitemap.xml` &ndash; Search engine sitemap listing all pages.
-- `robots.txt` &ndash; Crawling directives that reference the sitemap.
-- `.vscode/launch.json` &ndash; VS Code configuration for launching `index.html`.
-- `README.md` &ndash; Project documentation.
+Each section of the site lives on its own subdomain (e.g., `contact.bennyhartnett.com`, `nuclear.bennyhartnett.com`). Path-based URLs (`bennyhartnett.com/contact`) redirect to the subdomain equivalent.
 
 ## Quick Start
 
-Clone or download the repository and start a simple HTTP server from the project root:
-
 ```bash
-python3 -m http.server
+npm ci                          # Install dev dependencies (vitest)
+python3 -m http.server          # Serve locally at http://localhost:8000
+npm test                        # Run unit tests
 ```
 
-Open `http://localhost:8000` in your browser. Because all scripts load from CDNs, no installation is required.
+No build step required.
 
-## Customization
+## Key Files
 
-- **Navigation links** &ndash; Edit the `<nav>` element in `index.html` to change the menu structure or link targets.
-- **Wave parameters** &ndash; Adjust `planeWidth`, `planeHeight`, color values, and the animation loop inside `index.html` to modify the effect.
-- **Fonts and styles** &ndash; Each page includes inline CSS that imports Google Fonts. Update these `<style>` blocks to match your branding.
-- **Adding content** &ndash; Replace the placeholder text in the individual HTML files or add new pages and update the navigation accordingly.
+| Path | Purpose |
+|------|---------|
+| `index.html` | SPA entry point — detects subdomain, loads page fragments |
+| `workers/router.js` | Cloudflare Worker for edge routing and subdomain redirects |
+| `sw.js` | Service worker with versioned cache (`CACHE_VERSION`) |
+| `pages/*.html` | Content fragments loaded by the SPA (18 pages) |
+| `nuclear/` | Standalone uranium enrichment calculator (separate app) |
+| `js/` | SPA modules: routing, meta tags, analytics, 3D background, cursor |
+| `css/` | Stylesheets: main, components, animations, scrollbar |
+| `config/` | PWA manifest, `llms.txt`, `humans.txt` |
+
+## Testing
+
+```bash
+npm test              # Run tests once (vitest)
+npm run test:watch    # Watch mode
+npm run test:coverage # With coverage
+```
+
+Tests live in `nuclear/nuclear-math.test.js` and cover the enrichment math functions. CI runs on every push/PR to `main` via `.github/workflows/test.yml`.
 
 ## Deployment
 
-The site is entirely static, so you can host it anywhere that serves HTML files. Copy the repository contents to your preferred platform&mdash;GitHub Pages, an S3 bucket, Netlify, and so on&mdash;and it will work without additional configuration.
+- **GitHub Pages**: Auto-deploys on push to `main` via `.github/workflows/gh-pages.yml`.
+- **Cloudflare Worker**: Auto-deploys when `workers/` or `wrangler.toml` change via `.github/workflows/deploy-worker.yml`.
 
-### GitHub Pages
+## AI Agent Support
 
-1. Ensure the `gh-pages.yml` workflow is enabled in the repository's **Actions** tab.
-2. In the repository **Settings** &rarr; **Pages**, choose **GitHub Actions** as the source.
-3. Push changes to the `main` branch and the workflow will automatically deploy the site.
+This repo is configured for AI coding agents:
 
-The repository includes a `.nojekyll` file so Pages serves the files as-is.
-
-## Dependencies
-
-The pages load the following libraries from public CDNs:
-
-- `three` and `SimplexNoise` for 3D rendering and noise calculations.
-- `es-module-shims` to support modern module syntax across browsers.
-
-## Contact
-
-- GitHub: [bennyhartnett](https://github.com/bennyhartnett)
-- LinkedIn: [dev-dc](https://www.linkedin.com/in/dev-dc)
- 
+- `CLAUDE.md` — Development instructions, architecture docs, and guardrails for Claude Code
+- `AGENTS.md` — Cross-tool agent instructions (Cursor, Copilot, Windsurf, etc.)
+- `.claude/settings.json` — Session-start hooks for Claude Code (auto-installs deps)
+- `.editorconfig` — Code style enforcement for all editors and agents
+- `config/llms.txt` / `config/llms-full.txt` — Structured content for LLM consumption
+- `.well-known/ai-plugin.json` — AI plugin metadata
 
 ## License
 
-This repository currently does not include a license file. If you plan to distribute or reuse the code, consider adding an appropriate license.
-
----
-
-Feel free to modify any file to suit your needs. The project is intentionally minimal so you can extend it in any direction.
+This repository does not include a license file. Contact me@bennyhartnett.com for reuse inquiries.

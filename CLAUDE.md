@@ -1,5 +1,54 @@
 # Development Instructions
 
+## Quick Start
+
+```bash
+npm ci          # Install dependencies (vitest for testing)
+npm test        # Run unit tests (nuclear-math tests via vitest)
+npm run test:watch  # Run tests in watch mode
+```
+
+No build step is required — all frontend dependencies load from CDNs. To preview the site locally:
+
+```bash
+python3 -m http.server  # Serve at http://localhost:8000
+```
+
+## Code Style
+
+- **Indentation**: 2 spaces (no tabs)
+- **Semicolons**: Always
+- **Quotes**: Single quotes in JS, double quotes in HTML attributes
+- **Line endings**: LF (Unix)
+- **Trailing newline**: Yes, all files end with a newline
+- **Variables**: Prefer `const` over `let`; avoid `var`
+- **Modules**: ES6 modules with `export function` / `export const`
+
+See `.editorconfig` for editor-enforced settings.
+
+## Testing
+
+Tests use [Vitest](https://vitest.dev/) and live in `nuclear/nuclear-math.test.js`. They cover the uranium enrichment math functions (value function, SWU calculations, optimum tails assay, feed/product/waste calculations).
+
+```bash
+npm test              # Run all tests once
+npm run test:watch    # Run in watch mode
+npm run test:coverage # Run with coverage report
+```
+
+The test suite also runs in CI via `.github/workflows/test.yml` on every push and PR to `main`.
+
+## Pre-Commit Checklist
+
+Before committing changes, verify:
+
+1. `npm test` passes
+2. If you modified any HTML, JS, CSS, or assets: **increment `CACHE_VERSION`** in `sw.js` (e.g., `'v100'` → `'v101'`)
+3. If you added a new page: update `sw.js` `STATIC_ASSETS` array and follow the "Adding a New Page" section below
+4. If you modified `config/llms.txt` or `config/llms-full.txt`: update the "Last Updated" date at the bottom
+
+---
+
 ## Subdomain Routing Architecture
 
 This site uses a **hybrid routing system** with Cloudflare Workers + client-side SPA logic. **Read this before making routing changes.**
