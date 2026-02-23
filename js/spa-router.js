@@ -164,47 +164,9 @@ function renderFallbackContent(url) {
       <p>We may collect personal or non-personal data for any purpose.</p>
       <p>Contact <a href="#" class="copy-email" data-email="">email</a> for questions.</p><script>document.querySelector('.copy-email').dataset.email=window.getProtectedEmail();document.querySelector('.copy-email').textContent=window.getProtectedEmail();<\/script>`;
   } else {
-    container.innerHTML = `
-      <style>
-        /* Fonts loaded by parent index.html */
-        body { font-family: 'Inter', sans-serif; color: white; margin: 0; }
-        .error-container {
-          min-height: calc(100vh - 56px - 2rem);
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-          padding: 1rem;
-          text-align: center;
-        }
-        .error-code {
-          font-size: 6rem;
-          font-weight: 600;
-          margin: 0;
-          opacity: 0.3;
-        }
-        .error-message {
-          font-size: 1.5rem;
-          margin: 0.5rem 0 1.5rem 0;
-        }
-        .error-link {
-          color: white;
-          text-decoration: none;
-          padding: 0.75rem 1.5rem;
-          border: 1px solid rgba(255, 255, 255, 0.3);
-          border-radius: 6px;
-          transition: all 0.3s ease;
-        }
-        .error-link:hover {
-          background: var(--wave-color);
-          border-color: var(--wave-color);
-        }
-      </style>
-      <div class="error-container">
-        <p class="error-code">404</p>
-        <p class="error-message">Page not found</p>
-        <a href="/" class="error-link">Go Home</a>
-      </div>`;
+    // Redirect to the standalone WebGL 404 page
+    window.location.replace('/404.html');
+    return;
   }
 }
 
