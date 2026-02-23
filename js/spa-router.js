@@ -164,8 +164,26 @@ function renderFallbackContent(url) {
       <p>We may collect personal or non-personal data for any purpose.</p>
       <p>Contact <a href="#" class="copy-email" data-email="">email</a> for questions.</p><script>document.querySelector('.copy-email').dataset.email=window.getProtectedEmail();document.querySelector('.copy-email').textContent=window.getProtectedEmail();<\/script>`;
   } else {
-    // Redirect to the standalone WebGL 404 page
-    window.location.replace('/404.html');
+    // Load the 404 page fragment (animated WebGL text within the SPA shell)
+    fetch('pages/404.html')
+      .then(r => r.ok ? r.text() : Promise.reject())
+      .then(html => {
+        container.innerHTML = html;
+        // Execute inline scripts from the loaded fragment
+        container.querySelectorAll('script').forEach(oldScript => {
+          const newScript = document.createElement('script');
+          if (oldScript.type) newScript.type = oldScript.type;
+          if (oldScript.src) {
+            newScript.src = oldScript.src;
+          } else {
+            newScript.textContent = oldScript.textContent;
+          }
+          oldScript.replaceWith(newScript);
+        });
+      })
+      .catch(() => {
+        container.innerHTML = '<div style="text-align:center;padding:4rem 1rem;"><h1>404</h1><p>Page not found.</p><a data-href="/" style="color:rgba(255,255,255,0.5);text-decoration:none;text-transform:uppercase;letter-spacing:0.1em;font-size:0.9rem;">Go Home</a></div>';
+      });
     return;
   }
 }

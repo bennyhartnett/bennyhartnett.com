@@ -1,0 +1,266 @@
+<!-- WebGL Kinetic Typography 404 (SPA Fragment) -->
+<style>
+  .error-404-container {
+    position: relative;
+    width: 100%;
+    min-height: calc(100vh - 56px - 2rem);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .error-404-canvas {
+    display: block;
+    width: 960px;
+    height: 540px;
+    max-width: 100%;
+  }
+
+  .error-404-home {
+    margin-top: 2rem;
+    color: rgba(255, 255, 255, 0.5);
+    text-decoration: none;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: color 0.3s ease;
+    cursor: pointer;
+  }
+
+  .error-404-home:hover {
+    color: #fff;
+  }
+</style>
+
+<div class="error-404-container">
+  <canvas class="error-404-canvas" id="Canvas404"></canvas>
+  <a data-href="/" class="error-404-home">Go Home</a>
+</div>
+
+<script>
+(function() {
+  var canvasEl = document.getElementById('Canvas404');
+  if (!canvasEl) return;
+
+  function loadScript(opts) {
+    return new Promise(function(resolve, reject) {
+      if (opts.id && document.getElementById(opts.id)) { resolve(); return; }
+      var s = document.createElement('script');
+      if (opts.id) s.id = opts.id;
+      s.src = opts.src;
+      s.async = true;
+      s.onload = function() { resolve(); };
+      s.onerror = function() { reject(new Error('Failed to load: ' + opts.src)); };
+      document.head.appendChild(s);
+    });
+  }
+
+  function loadWithFallback(label, primary, fallback, id) {
+    return loadScript({ src: primary, id: id }).catch(function() {
+      return loadScript({ src: fallback, id: id ? id + '-fb' : undefined });
+    });
+  }
+
+  // --- Shaders ---
+  var vertexShader = [
+    'uniform mat4 modelViewMatrix;',
+    'uniform mat4 projectionMatrix;',
+    'uniform float time;',
+    'uniform float index;',
+    'uniform float divisions;',
+    'uniform float tOffsetX;',
+    'uniform vec4 tween;',
+    'attribute vec3 position;',
+    'attribute vec2 uv;',
+    'varying vec2 vUv;',
+    'mat2 scale2D(vec2 scale) { return mat2(scale.x, 0.0, 0.0, scale.y); }',
+    'void main() {',
+    '  vUv = uv;',
+    '  vec3 pos = position;',
+    '  float scaleX = tween.x;',
+    '  pos.x += tOffsetX;',
+    '  pos.xy *= scale2D(vec2(scaleX, 1.0));',
+    '  pos.x -= tOffsetX;',
+    '  gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);',
+    '}'
+  ].join('\n');
+
+  var fragmentShader = [
+    'precision highp float;',
+    'uniform sampler2D texture;',
+    'uniform float time;',
+    'uniform float index;',
+    'uniform float divisions;',
+    'uniform vec4 tween;',
+    'varying vec2 vUv;',
+    'void main() {',
+    '  vec2 uv = vUv;',
+    '  float startV = index * (1.0 / divisions);',
+    '  vec2 tuv = vec2(uv.x, startV + uv.y * (1.0 / divisions));',
+    '  vec4 color = texture2D(texture, tuv);',
+    '  gl_FragColor = color;',
+    '}'
+  ].join('\n');
+
+  // --- Settings ---
+  var width = 960, height = 540;
+  var aspectRatio = width / height;
+  var dpr = Math.min(window.devicePixelRatio || 1, 2);
+  var sceneWidth = 2;
+  var sceneHeight = sceneWidth / aspectRatio;
+  var scene, camera, renderer;
+  var titleWidth = 2.0, titleHeight = 0.5, numDivisions = 40;
+  var titleMeshes = [], numMeshes = 0;
+  var texts = ['404', 'ERROR', 'NOT', 'FOUND'];
+  var tweens = [];
+  var animFrameId = null;
+
+  function createCanvas() {
+    scene = new THREE.Scene();
+    camera = new THREE.OrthographicCamera(
+      -sceneWidth / 2, sceneWidth / 2,
+      sceneHeight / 2, -sceneHeight / 2,
+      0.01, 1000
+    );
+    camera.position.set(0, 0, 1);
+
+    renderer = new THREE.WebGLRenderer({
+      antialias: true,
+      alpha: true,
+      canvas: canvasEl
+    });
+    renderer.setClearColor(0x000000, 0);
+    renderer.setSize(width, height);
+    renderer.setPixelRatio(dpr);
+
+    texts.forEach(function(text, i) {
+      var texture = createFontTexture({ width: 1024, height: 256, fontSize: 230, text: text });
+      tweens.push([]);
+      createTitle({ texture: texture, tweens: tweens[i] });
+    });
+
+    numMeshes = titleMeshes.length;
+    animateTitle();
+  }
+
+  function createFontTexture(options) {
+    var c = document.createElement('canvas');
+    var w = options.width * dpr, h = options.height * dpr;
+    c.width = w; c.height = h;
+    var ctx = c.getContext('2d');
+    ctx.font = '600 ' + (options.fontSize * dpr) + "px 'Muli'";
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillStyle = '#fff';
+    ctx.fillText(options.text, w / 2, h / 2 + 25);
+    var texture = new THREE.CanvasTexture(c);
+    texture.minFilter = THREE.LinearFilter;
+    texture.magFilter = THREE.LinearFilter;
+    texture.format = THREE.RGBAFormat;
+    texture.needsUpdate = false;
+    return texture;
+  }
+
+  function createTitle(params) {
+    for (var i = 0; i < numDivisions; i++) {
+      var dividedHeight = titleHeight / numDivisions;
+      var geometry = new THREE.PlaneGeometry(titleWidth, dividedHeight);
+      var material = new THREE.RawShaderMaterial({
+        uniforms: {
+          texture: { value: params.texture },
+          time: { value: 0 },
+          index: { value: i },
+          divisions: { value: numDivisions },
+          tOffsetX: { value: -1.0 },
+          tween: { value: new THREE.Vector4(0, 0, 1, 1) }
+        },
+        vertexShader: vertexShader,
+        fragmentShader: fragmentShader,
+        transparent: true
+      });
+      var y = -titleHeight * 0.5 + i * dividedHeight + dividedHeight * 0.5;
+      var mesh = new THREE.Mesh(geometry, material);
+      mesh.position.y = y;
+      scene.add(mesh);
+      titleMeshes.push(mesh);
+      params.tweens.push(material.uniforms.tween.value);
+    }
+  }
+
+  function animateTitle() {
+    var tl = gsap.timeline({
+      repeat: -1,
+      defaults: { ease: 'power3.inOut', duration: 0.8, stagger: 0.01 }
+    });
+
+    var setTransformOffset = function(titleIndex, value) {
+      var startIndex = titleIndex * numDivisions;
+      var endIndex = startIndex + numDivisions;
+      for (var j = startIndex; j < endIndex; j++) {
+        titleMeshes[j].material.uniforms.tOffsetX.value = value;
+      }
+    };
+
+    tweens.forEach(function(tw, i) {
+      var inLabel  = i === 0 ? 'start' : 'next' + i;
+      var outLabel = i < tweens.length - 1 ? 'next' + (i + 1) : undefined;
+      tl.to(tw, { x: 1.0, onStart: function() { setTransformOffset(i, -1.0); } }, inLabel);
+      if (outLabel) {
+        tl.to(tw, { x: 0.0, onStart: function() { setTransformOffset(i, 1.0); } }, outLabel);
+      } else {
+        tl.to(tw, { x: 0.0, onStart: function() { setTransformOffset(i, 1.0); } });
+      }
+    });
+  }
+
+  function updateCanvas() {
+    animFrameId = requestAnimationFrame(updateCanvas);
+    var time = performance.now() * 0.001;
+    for (var i = 0; i < numMeshes; i++) {
+      titleMeshes[i].material.uniforms.time.value = time;
+    }
+    renderer.render(scene, camera);
+  }
+
+  // Cleanup when navigating away
+  var observer = new MutationObserver(function() {
+    if (!document.getElementById('Canvas404')) {
+      if (animFrameId) cancelAnimationFrame(animFrameId);
+      if (renderer) renderer.dispose();
+      observer.disconnect();
+    }
+  });
+  observer.observe(canvasEl.parentNode.parentNode, { childList: true, subtree: true });
+
+  // --- Boot ---
+  loadWithFallback('Three.js',
+    'https://cdnjs.cloudflare.com/ajax/libs/three.js/r152/three.min.js',
+    'https://unpkg.com/three@0.152.2/build/three.min.js',
+    'three-umd'
+  ).then(function() {
+    return loadWithFallback('GSAP',
+      'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js',
+      'https://unpkg.com/gsap@3.12.5/dist/gsap.min.js',
+      'gsap-umd'
+    );
+  }).then(function() {
+    return loadWithFallback('WebFont',
+      'https://cdnjs.cloudflare.com/ajax/libs/webfont/1.6.28/webfontloader.js',
+      'https://unpkg.com/webfontloader@1.6.28/webfontloader.js',
+      'webfont-umd'
+    );
+  }).then(function() {
+    WebFont.load({
+      google: { families: ['Muli:600'] },
+      classes: false,
+      active: function() { createCanvas(); updateCanvas(); },
+      inactive: function() { createCanvas(); updateCanvas(); }
+    });
+  }).catch(function(err) {
+    console.error('404 animation failed to load:', err);
+  });
+})();
+</script>
