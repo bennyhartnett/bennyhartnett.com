@@ -182,6 +182,8 @@
     -ms-user-select: text;
     /* Ensure spans can receive pointer events for selection */
     pointer-events: auto;
+    /* Allow vertical scrolling through text layer on touch devices */
+    touch-action: pan-y;
   }
   .pdf-page .textLayer > span:not(:empty)::selection,
   .pdf-page .textLayer > span:not(:empty) *::selection {
