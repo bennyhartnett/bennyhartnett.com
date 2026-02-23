@@ -5,7 +5,7 @@
   <!-- Main domain - Homepage -->
   <url>
     <loc>https://bennyhartnett.com/</loc>
-    <lastmod>2026-01-21</lastmod>
+    <lastmod>2026-02-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <image:image>
@@ -17,7 +17,7 @@
   <url>
     <loc>https://nuclear.bennyhartnett.com/</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://nuclear.bennyhartnett.com/"/>
-    <lastmod>2026-01-21</lastmod>
+    <lastmod>2026-02-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <image:image>
@@ -28,7 +28,7 @@
   <url>
     <loc>https://projects.bennyhartnett.com/</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://projects.bennyhartnett.com/"/>
-    <lastmod>2026-01-21</lastmod>
+    <lastmod>2026-02-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -39,66 +39,66 @@
   <url>
     <loc>https://contact.bennyhartnett.com/</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://contact.bennyhartnett.com/"/>
-    <lastmod>2026-01-21</lastmod>
+    <lastmod>2026-02-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://chat.bennyhartnett.com/</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://chat.bennyhartnett.com/"/>
-    <lastmod>2026-01-21</lastmod>
+    <lastmod>2026-02-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://privacy.bennyhartnett.com/</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://privacy.bennyhartnett.com/"/>
-    <lastmod>2026-01-21</lastmod>
+    <lastmod>2026-02-23</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <!-- External profile redirect subdomains -->
   <url>
     <loc>https://github.bennyhartnett.com/</loc>
-    <lastmod>2026-01-21</lastmod>
+    <lastmod>2026-02-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://linkedin.bennyhartnett.com/</loc>
-    <lastmod>2026-01-21</lastmod>
+    <lastmod>2026-02-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <!-- LLM-specific content files (served from main domain) -->
   <url>
     <loc>https://bennyhartnett.com/config/llms.txt</loc>
-    <lastmod>2026-01-21</lastmod>
+    <lastmod>2026-02-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://bennyhartnett.com/config/llms-full.txt</loc>
-    <lastmod>2026-01-21</lastmod>
+    <lastmod>2026-02-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <!-- Discovery files for crawlers and AI systems -->
   <url>
     <loc>https://bennyhartnett.com/config/humans.txt</loc>
-    <lastmod>2026-01-21</lastmod>
+    <lastmod>2026-02-23</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://bennyhartnett.com/.well-known/ai-plugin.json</loc>
-    <lastmod>2026-01-21</lastmod>
+    <lastmod>2026-02-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://bennyhartnett.com/.well-known/security.txt</loc>
-    <lastmod>2026-01-21</lastmod>
+    <lastmod>2026-02-23</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
