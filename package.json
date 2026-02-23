@@ -1,6 +1,6 @@
 {
   "name": "bennyhartnett-com",
-  "version": "1.0.0",
+  "version": "1.0.6",
   "description": "Personal website with uranium enrichment calculators",
   "type": "module",
   "scripts": {
