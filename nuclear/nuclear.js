@@ -550,21 +550,13 @@
         const xp = parseAssay('xp1', 'xp1-unit');
         const xw = parseAssay('xw1', 'xw1-unit');
         const xf = parseAssay('xf1', 'xf1-unit');
-        console.log('Mode 1 inputs:', { xp, xw, xf });
         const res = computeFeedSwuForOneKg(xp, xw, xf);
-        console.log('Mode 1 results:', res);
         displayMass('feed1', res.F, 'feed1-unit');
         displayMass('waste1', res.W, 'waste1-unit');
         displaySwu('swu1', res.swu, 'swu1-unit');
-        console.log('Mode 1 values set:', {
-          feed1: byId('feed1').value,
-          waste1: byId('waste1').value,
-          swu1: byId('swu1').value
-        });
         triggerShimmer(mode1Outputs);
       } catch (err) {
         // Clear outputs on invalid input (for real-time calc)
-        console.log('Mode 1 error:', err.message);
         byId('feed1').value = '';
         byId('waste1').value = '';
         byId('swu1').value = '';
@@ -816,23 +808,14 @@
         const cs = parsePositiveNumber('cs5');
         const xp = parseAssay('xp5', 'xp5-unit');
         const xf = parseAssay('xf5', 'xf5-unit');
-        console.log('Mode 5 inputs:', { cf, cs, xp, xf });
         const res = findOptimumTails(xp, xf, cf, cs);
-        console.log('Mode 5 results:', res);
         displayAssay('xw5', res.xw, 'xw5-unit');
         displayMass('feedPerP5', res.F_per_P, 'feedPerP5-unit');
         displaySwu('swuPerP5', res.swu_per_P, 'swuPerP5-unit');
         byId('costPerP5').value = formatNumber(res.cost_per_P, COST_PRECISION);
-        console.log('Mode 5 values set:', {
-          xw5: byId('xw5').value,
-          feedPerP5: byId('feedPerP5').value,
-          swuPerP5: byId('swuPerP5').value,
-          costPerP5: byId('costPerP5').value
-        });
         triggerShimmer(mode5Outputs);
       } catch (err) {
         // Clear outputs on invalid input (for real-time calc)
-        console.log('Mode 5 error:', err.message);
         byId('xw5').value = '';
         byId('feedPerP5').value = '';
         byId('swuPerP5').value = '';
