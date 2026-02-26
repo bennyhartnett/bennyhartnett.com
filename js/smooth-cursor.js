@@ -134,14 +134,22 @@
     }
   }
 
-  // --- Mouse handler (RAF-throttled) ---
-  let rafId = 0;
+  // --- Mouse handler (RAF-throttled, always captures latest position) ---
+  let pendingFrame = false;
+  let latestX = 0;
+  let latestY = 0;
+
   function onMouseMove(e) {
-    if (rafId) return;
-    rafId = requestAnimationFrame(() => {
-      rafId = 0;
-      const cx = e.clientX;
-      const cy = e.clientY;
+    // Always capture the latest position so we never use stale coordinates
+    latestX = e.clientX;
+    latestY = e.clientY;
+
+    if (pendingFrame) return;
+    pendingFrame = true;
+    requestAnimationFrame(() => {
+      pendingFrame = false;
+      const cx = latestX;
+      const cy = latestY;
       const now = Date.now();
       const dt = now - lastTime;
 
