@@ -12,6 +12,12 @@ const SUPPORTED_DOMAINS = ['bennyhartnett.com', 'federalinnovations.com'];
 // Header to mark internal origin fetches (prevents redirect loops)
 const INTERNAL_HEADER = 'X-CF-Worker-Internal';
 
+// IDN (punycode) subdomain aliases → canonical ASCII subdomain
+// e.g., résumé.bennyhartnett.com (xn--rsum-bpad) → resume.bennyhartnett.com
+const IDN_ALIASES = {
+  'xn--rsum-bpad': 'resume',
+};
+
 // Paths that should NOT be treated as subdomains (static assets, etc.)
 const EXCLUDED_PATHS = [
   'index.html',
@@ -99,6 +105,11 @@ async function handleSubdomain(request, url, hostname, rootDomain) {
   // Redirect thank-you subdomain to sent subdomain (at root)
   if (subdomain === 'thank-you') {
     return Response.redirect(`https://sent.${rootDomain}/`, 301);
+  }
+
+  // Redirect IDN (punycode) subdomains to their canonical ASCII equivalents
+  if (IDN_ALIASES[subdomain]) {
+    return Response.redirect(`https://${IDN_ALIASES[subdomain]}.${rootDomain}/`, 301);
   }
 
   // Nuclear subdomain (and centrus alias): serve nuclear.html directly (it's a standalone page, not an SPA fragment)
