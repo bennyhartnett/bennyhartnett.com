@@ -12,6 +12,11 @@ let container = null;
 // Supported root domains for subdomain routing
 const SUPPORTED_DOMAINS = ['bennyhartnett.com', 'federalinnovations.com'];
 
+// IDN (punycode) subdomain aliases → canonical ASCII subdomain
+const IDN_ALIASES = {
+  'xn--rsum-bpad': 'resume',
+};
+
 /**
  * Determine the root domain from the current hostname
  * @returns {string} The matching root domain, defaults to bennyhartnett.com
@@ -317,7 +322,8 @@ function getInitialPage() {
   const isSub = hostname.endsWith('.' + rootDomain) && hostname !== 'www.' + rootDomain;
 
   if (isSub) {
-    const subdomain = hostname.replace('.' + rootDomain, '');
+    const rawSubdomain = hostname.replace('.' + rootDomain, '');
+    const subdomain = IDN_ALIASES[rawSubdomain] || rawSubdomain;
     initial = subdomain === 'nuclear' ? 'nuclear.html' : 'pages/' + subdomain + '.html';
   } else {
     // Check for SPA redirect from 404.html
