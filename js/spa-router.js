@@ -12,9 +12,14 @@ let container = null;
 // Supported root domains for subdomain routing
 const SUPPORTED_DOMAINS = ['bennyhartnett.com', 'federalinnovations.com'];
 
-// IDN (punycode) subdomain aliases → canonical ASCII subdomain
+// IDN (punycode) subdomain → page name (for resolving which page to load)
 const IDN_ALIASES = {
   'xn--rsum-bpad': 'resume',
+};
+
+// ASCII subdomain → canonical IDN (punycode) subdomain (for link generation)
+const ASCII_TO_IDN = {
+  'resume': 'xn--rsum-bpad',
 };
 
 /**
@@ -167,7 +172,7 @@ function renderFallbackContent(url) {
       <ul class="link-list">\
         <li><a data-href="https://www.linkedin.com/in/dev-dc" data-external="true">LinkedIn</a></li>\
         <li><a data-href="https://github.com/bennyhartnett" data-external="true">GitHub</a></li>\
-        <li><a href="https://resume.bennyhartnett.com">Résumé</a></li>\
+        <li><a href="https://xn--rsum-bpad.bennyhartnett.com">Résumé</a></li>\
         <li><a data-href="/nuclear">Nuclear</a></li>\
         <li><a data-href="/contact">Contact</a></li>\
       </ul>\
@@ -294,8 +299,9 @@ function handleLinkClick(e) {
     } else {
       pageName = href.replace(/^pages\//, '').replace(/\.html$/, '');
     }
-    // Redirect to subdomain
-    const targetUrl = `https://${pageName}.${getRootDomain()}`;
+    // Redirect to subdomain (use IDN version if available)
+    const subdomain = ASCII_TO_IDN[pageName] || pageName;
+    const targetUrl = `https://${subdomain}.${getRootDomain()}`;
     window.location.href = targetUrl;
   }
 }
