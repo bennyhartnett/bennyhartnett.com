@@ -12,10 +12,10 @@ const SUPPORTED_DOMAINS = ['bennyhartnett.com', 'federalinnovations.com'];
 // Header to mark internal origin fetches (prevents redirect loops)
 const INTERNAL_HEADER = 'X-CF-Worker-Internal';
 
-// IDN (punycode) subdomain aliases → canonical ASCII subdomain
-// e.g., résumé.bennyhartnett.com (xn--rsum-bpad) → resume.bennyhartnett.com
-const IDN_ALIASES = {
-  'xn--rsum-bpad': 'resume',
+// ASCII subdomain → canonical IDN (punycode) subdomain
+// e.g., resume.bennyhartnett.com → résumé.bennyhartnett.com (xn--rsum-bpad)
+const ASCII_TO_IDN = {
+  'resume': 'xn--rsum-bpad',
 };
 
 // Paths that should NOT be treated as subdomains (static assets, etc.)
@@ -107,9 +107,9 @@ async function handleSubdomain(request, url, hostname, rootDomain) {
     return Response.redirect(`https://sent.${rootDomain}/`, 301);
   }
 
-  // Redirect IDN (punycode) subdomains to their canonical ASCII equivalents
-  if (IDN_ALIASES[subdomain]) {
-    return Response.redirect(`https://${IDN_ALIASES[subdomain]}.${rootDomain}/`, 301);
+  // Redirect ASCII aliases to their canonical IDN (punycode) subdomains
+  if (ASCII_TO_IDN[subdomain]) {
+    return Response.redirect(`https://${ASCII_TO_IDN[subdomain]}.${rootDomain}/`, 301);
   }
 
   // Nuclear subdomain (and centrus alias): serve nuclear.html directly (it's a standalone page, not an SPA fragment)
@@ -173,9 +173,10 @@ async function handleMainDomain(request, url, rootDomain) {
     return fetch(request);
   }
 
-  // Redirect to subdomain
+  // Redirect to subdomain (use IDN version if available)
+  const targetSubdomain = ASCII_TO_IDN[firstSegment] || firstSegment;
   const newUrl = new URL(url);
-  newUrl.hostname = `${firstSegment}.${rootDomain}`;
+  newUrl.hostname = `${targetSubdomain}.${rootDomain}`;
 
   // Remove the first path segment since it's now the subdomain
   pathParts.shift();
