@@ -1,6 +1,6 @@
 // Service Worker for SWU Calculator PWA
 // Version must be updated when deploying new code to bust cache
-const CACHE_VERSION = 'v110';
+const CACHE_VERSION = 'v111';
 const CACHE_NAME = `swu-calculator-${CACHE_VERSION}`;
 
 // Files to cache for offline use
@@ -39,6 +39,8 @@ const STATIC_ASSETS = [
   '/js/spa-router.js',
   '/js/meta-manager.js',
   '/js/analytics.js',
+  '/js/performance-profile.js',
+  '/js/site-bootstrap.js',
   '/js/wave-background.js',
   '/js/smooth-cursor.js',
   // Config files
@@ -89,7 +91,9 @@ self.addEventListener('fetch', (event) => {
     'fonts.googleapis.com',
     'fonts.gstatic.com',
     'cdnjs.cloudflare.com',
-    'cdn.jsdelivr.net'
+    'cdn.jsdelivr.net',
+    'ga.jspm.io',
+    'unpkg.com'
   ];
   if (url.origin !== self.location.origin) {
     if (cachedCdnOrigins.some(origin => url.hostname === origin)) {

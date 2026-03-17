@@ -6,6 +6,12 @@
 (function () {
   // Skip on touch-only devices
   if (!window.matchMedia('(pointer: fine)').matches) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+  const isNetworkConstrained = connection?.saveData || connection?.effectiveType === 'slow-2g' || connection?.effectiveType === '2g' || connection?.effectiveType === '3g';
+  const isDeviceConstrained = (navigator.deviceMemory && navigator.deviceMemory <= 2) || (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 2);
+  if (isNetworkConstrained || isDeviceConstrained) return;
 
   const FIXED_STEP = 1 / 120;
   const MAX_SIMULATION_DT = 1 / 20;

@@ -5,6 +5,7 @@
 
 import { updateMetaTags, getMetaMap, getBaseOgImage } from './meta-manager.js';
 import { trackPageView } from './analytics.js';
+import { getPerformanceProfile, scheduleDeferredTask } from './performance-profile.js';
 
 // Container element for content
 let container = null;
@@ -369,6 +370,7 @@ function isSubdomain() {
 export function initRouter() {
   container = document.querySelector('#main-content');
   const baseUrl = window.location.origin + window.location.pathname.replace(/[^\/]*$/, '');
+  const profile = getPerformanceProfile();
 
   // Update canonical and og:url
   const canonicalTag = document.getElementById('canonical-link');
@@ -402,11 +404,18 @@ export function initRouter() {
   loadContent(initial, false, true);
 
   // Prefetch likely navigation targets during idle time
-  const prefetchTargets = ['pages/home.html', 'pages/projects.html', 'pages/contact.html'];
-  const idle = window.requestIdleCallback || ((cb) => setTimeout(cb, 200));
-  idle(() => {
-    prefetchTargets.forEach(target => {
-      if (target !== initial) prefetchPage(target);
+  if (profile.prefetchPages) {
+    const prefetchTargets = ['pages/home.html', 'pages/projects.html', 'pages/contact.html']
+      .filter(target => target !== initial)
+      .slice(0, profile.maxPrefetchPages);
+
+    scheduleDeferredTask(() => {
+      prefetchTargets.forEach((target) => {
+        prefetchPage(target);
+      });
+    }, {
+      timeout: profile.heavyWorkDelayMs + 400,
+      delay: profile.heavyWorkDelayMs
     });
-  });
+  }
 }
