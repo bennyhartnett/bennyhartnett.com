@@ -7,6 +7,28 @@
   // Skip on touch-only devices
   if (!window.matchMedia('(pointer: fine)').matches) return;
 
+  const FIXED_STEP = 1 / 120;
+  const MAX_SIMULATION_DT = 1 / 20;
+  const MAX_SPRING_ABS_VALUE = 1000000;
+  const BASE_SCALE = 0.5;
+  const CURSOR_OFFSET_X = 25;
+  const CURSOR_OFFSET_Y = 5;
+  const genericCursorValues = new Set(['', 'auto', 'default', 'pointer', 'none']);
+
+  function isSafeSpringValue(value) {
+    return Number.isFinite(value) && Math.abs(value) < MAX_SPRING_ABS_VALUE;
+  }
+
+  function normalizeAngle(angle) {
+    let normalized = (angle + 180) % 360;
+    if (normalized < 0) normalized += 360;
+    return normalized - 180;
+  }
+
+  function buildTransform(x, y, rotation, scale) {
+    return `translate3d(${x}px, ${y}px, 0) translate(-${CURSOR_OFFSET_X}px, -${CURSOR_OFFSET_Y}px) rotate(${normalizeAngle(rotation)}deg) scale(${scale * BASE_SCALE})`;
+  }
+
   // --- Spring simulation ---
   function createSpring(config) {
     const { damping, stiffness, mass, restDelta } = config;
@@ -14,20 +36,51 @@
     let target = 0;
     let velocity = 0;
 
+    function snapToTarget() {
+      position = target;
+      velocity = 0;
+    }
+
     return {
-      set(t) { target = t; },
+      set(t) {
+        target = isSafeSpringValue(t) ? t : 0;
+      },
       get() { return position; },
-      setPosition(p) { position = p; target = p; velocity = 0; },
+      setPosition(p) {
+        position = isSafeSpringValue(p) ? p : 0;
+        target = position;
+        velocity = 0;
+      },
       step(dt) {
-        // Clamp dt to avoid instability on tab-switch
-        const t = Math.min(dt, 0.064);
-        const displacement = position - target;
-        const springForce = -stiffness * displacement;
-        const dampingForce = -damping * velocity;
-        const acceleration = (springForce + dampingForce) / mass;
-        velocity += acceleration * t;
-        position += velocity * t;
-        return Math.abs(position - target) < restDelta && Math.abs(velocity) < restDelta;
+        let remaining = Math.min(Math.max(dt, 0), MAX_SIMULATION_DT);
+
+        while (remaining > 0) {
+          const t = Math.min(remaining, FIXED_STEP);
+          const displacement = position - target;
+          const springForce = -stiffness * displacement;
+          const dampingForce = -damping * velocity;
+          const acceleration = (springForce + dampingForce) / mass;
+          velocity += acceleration * t;
+          position += velocity * t;
+
+          if (!isSafeSpringValue(position) || !isSafeSpringValue(velocity) || !isSafeSpringValue(target)) {
+            snapToTarget();
+            break;
+          }
+
+          remaining -= t;
+        }
+
+        if (!isSafeSpringValue(position) || !isSafeSpringValue(velocity)) {
+          snapToTarget();
+        }
+
+        if (Math.abs(position - target) < restDelta && Math.abs(velocity) < restDelta) {
+          snapToTarget();
+          return true;
+        }
+
+        return false;
       }
     };
   }
@@ -53,6 +106,13 @@
   let moveTimeout = null;
   let animating = false;
   let initialized = false;
+  let usingNativeCursor = true;
+  let currentCursorTarget = null;
+
+  function getElementTarget(target) {
+    if (!target) return null;
+    return target.nodeType === Node.ELEMENT_NODE ? target : target.parentElement;
+  }
 
   // --- Build cursor DOM ---
   const el = document.createElement('div');
@@ -79,26 +139,77 @@
 
   document.documentElement.appendChild(el);
 
-  // Hide the native cursor globally using inheritance (avoids universal selector style recalc)
+  // Hide the native cursor only while the custom cursor is active.
   const cursorStyle = document.createElement('style');
   cursorStyle.textContent = `
-    html { cursor: none !important; }
-    *, *::before, *::after { cursor: none !important; }
+    html.smooth-cursor-active,
+    html.smooth-cursor-active *,
+    html.smooth-cursor-active *::before,
+    html.smooth-cursor-active *::after {
+      cursor: none !important;
+    }
     #smooth-cursor {
       position: fixed;
       top: 0; left: 0;
       z-index: 999999;
       pointer-events: none;
       will-change: transform;
-      transform-origin: 25px 5px;
-      transform: translate(-25px, -5px) scale(0.5);
-      transition: filter 0.2s ease;
+      transform-origin: ${CURSOR_OFFSET_X}px ${CURSOR_OFFSET_Y}px;
+      transform: translate(-${CURSOR_OFFSET_X}px, -${CURSOR_OFFSET_Y}px) scale(${BASE_SCALE});
+      transition: filter 0.2s ease, opacity 0.12s ease;
     }
     #smooth-cursor.cursor-glow {
       filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.9)) drop-shadow(0 0 20px rgba(150, 180, 255, 0.6));
     }
   `;
   document.head.appendChild(cursorStyle);
+
+  function setCursorMode(useNative) {
+    if (usingNativeCursor === useNative) return;
+    usingNativeCursor = useNative;
+    document.documentElement.classList.toggle('smooth-cursor-active', !useNative);
+
+    if (useNative) {
+      el.style.opacity = '0';
+    } else if (initialized) {
+      el.style.opacity = '1';
+    }
+  }
+
+  function getTargetCursor(target) {
+    if (!target) return 'default';
+
+    const root = document.documentElement;
+    const shouldRestoreHiddenCursor = !usingNativeCursor;
+    if (shouldRestoreHiddenCursor) {
+      root.classList.remove('smooth-cursor-active');
+    }
+
+    const cursor = window.getComputedStyle(target).cursor || 'default';
+
+    if (shouldRestoreHiddenCursor) {
+      root.classList.add('smooth-cursor-active');
+    }
+
+    return cursor;
+  }
+
+  function shouldUseNativeCursor(target) {
+    if (!target) return false;
+    const cursor = getTargetCursor(target);
+    if (cursor.indexOf('url(') !== -1) return true;
+    return !genericCursorValues.has(cursor);
+  }
+
+  function updateCursorMode(target) {
+    const elementTarget = getElementTarget(target);
+    if (!elementTarget) return;
+
+    if (elementTarget !== currentCursorTarget || usingNativeCursor) {
+      currentCursorTarget = elementTarget;
+      setCursorMode(shouldUseNativeCursor(elementTarget));
+    }
+  }
 
   // --- Animation loop ---
   function tick() {
@@ -111,13 +222,7 @@
     springRot.step(dt);
     springScale.step(dt);
 
-    const x = springX.get();
-    const y = springY.get();
-    const rot = springRot.get();
-    const s = springScale.get();
-
-    el.style.transform =
-      `translate3d(${x}px, ${y}px, 0) translate(-25px, -5px) rotate(${rot}deg) scale(${s * 0.5})`;
+    el.style.transform = buildTransform(springX.get(), springY.get(), springRot.get(), springScale.get());
 
     if (doneX && doneY) {
       animating = false;
@@ -150,6 +255,7 @@
       pendingFrame = false;
       const cx = latestX;
       const cy = latestY;
+      const target = document.elementFromPoint(cx, cy) || e.target;
       const now = Date.now();
       const dt = now - lastTime;
 
@@ -158,8 +264,9 @@
         springX.setPosition(cx);
         springY.setPosition(cy);
         initialized = true;
-        el.style.opacity = '1';
       }
+
+      updateCursorMode(target);
 
       if (dt > 0) {
         velX = (cx - lastMouseX) / dt;
@@ -168,6 +275,13 @@
       lastTime = now;
       lastMouseX = cx;
       lastMouseY = cy;
+
+      if (usingNativeCursor) {
+        springX.setPosition(cx);
+        springY.setPosition(cy);
+        el.style.transform = buildTransform(cx, cy, springRot.get(), springScale.get());
+        return;
+      }
 
       springX.set(cx);
       springY.set(cy);
@@ -178,9 +292,9 @@
         let diff = angle - previousAngle;
         if (diff > 180) diff -= 360;
         if (diff < -180) diff += 360;
-        accumulatedRotation += diff;
+        accumulatedRotation = normalizeAngle(accumulatedRotation + diff);
         springRot.set(accumulatedRotation);
-        previousAngle = angle;
+        previousAngle = normalizeAngle(angle);
 
         springScale.set(0.95);
         clearTimeout(moveTimeout);
@@ -197,23 +311,30 @@
   const clickableSelector = 'a, button, [role="button"], input[type="submit"], input[type="button"], summary, label, select, [onclick], [data-clickable]';
   let currentHovered = null;
 
-  function updateGlow(e) {
-    const target = e.target.closest(clickableSelector);
-    if (target && target !== currentHovered) {
-      currentHovered = target;
-      el.classList.add('cursor-glow');
-    } else if (!target && currentHovered) {
-      currentHovered = null;
-      el.classList.remove('cursor-glow');
-    }
+  function updateGlow(target) {
+    const hoveredTarget = target ? target.closest(clickableSelector) : null;
+    if (hoveredTarget === currentHovered) return;
+
+    currentHovered = hoveredTarget;
+    el.classList.toggle('cursor-glow', Boolean(hoveredTarget));
   }
 
-  document.addEventListener('mouseover', updateGlow);
+  document.addEventListener('mouseover', (e) => {
+    const target = getElementTarget(e.target);
+    updateCursorMode(target);
+    updateGlow(target);
+  });
   document.addEventListener('mouseout', (e) => {
-    if (!e.relatedTarget || !e.relatedTarget.closest(clickableSelector)) {
+    const relatedTarget = getElementTarget(e.relatedTarget);
+    if (!relatedTarget) {
+      currentCursorTarget = null;
       currentHovered = null;
       el.classList.remove('cursor-glow');
+      return;
     }
+
+    updateCursorMode(relatedTarget);
+    updateGlow(relatedTarget);
   });
 
   // Hide cursor until first move
@@ -223,15 +344,25 @@
 
   // Hide when mouse leaves viewport
   document.addEventListener('mouseleave', () => {
+    currentCursorTarget = null;
+    currentHovered = null;
+    el.classList.remove('cursor-glow');
+    setCursorMode(true);
     el.style.opacity = '0';
   });
   document.addEventListener('mouseenter', (e) => {
+    const target = document.elementFromPoint(e.clientX, e.clientY) || e.target;
+    updateCursorMode(target);
+    updateGlow(getElementTarget(target));
+
     if (initialized) {
       springX.setPosition(e.clientX);
       springY.setPosition(e.clientY);
-      el.style.transform =
-        `translate3d(${e.clientX}px, ${e.clientY}px, 0) translate(-25px, -5px) rotate(${springRot.get()}deg) scale(${springScale.get() * 0.5})`;
+      el.style.transform = buildTransform(e.clientX, e.clientY, springRot.get(), springScale.get());
     }
-    el.style.opacity = '1';
+
+    if (!usingNativeCursor && initialized) {
+      el.style.opacity = '1';
+    }
   });
 })();
