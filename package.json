@@ -4,6 +4,8 @@
   "description": "Personal website with uranium enrichment calculators",
   "type": "module",
   "scripts": {
+    "start": "node scripts/dev-server.mjs",
+    "dev": "node scripts/dev-server.mjs",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage"
