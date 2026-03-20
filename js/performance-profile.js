@@ -153,10 +153,6 @@ export function applyPerformanceProfile(profile = getPerformanceProfile()) {
   root.classList.toggle('perf-constrained', profile.tier === 'low' || profile.tier === 'off');
   root.classList.toggle('perf-reduced-motion', profile.reducedMotion);
   root.classList.toggle('perf-save-data', profile.saveData);
-
-  if (document.body && !document.body.classList.contains('nuclear-gradient-bg')) {
-    document.body.classList.add('adaptive-gradient-bg');
-  }
 }
 
 export function scheduleDeferredTask(callback, options = {}) {

@@ -46,24 +46,12 @@ function loadAnalytics(profile) {
   });
 }
 
-function scheduleWaveBackground(profile) {
+function applyBackgroundMode() {
   if (isNuclearSubdomain()) {
     document.body.classList.remove('adaptive-gradient-bg');
+    document.body.classList.remove('wave-ready');
     document.body.classList.add('nuclear-gradient-bg');
-    return;
   }
-
-  if (!profile.allowWave) {
-    return;
-  }
-
-  scheduleDeferredTask(async () => {
-    const { initWaveBackground } = await import('./wave-background.js');
-    initWaveBackground(profile);
-  }, {
-    timeout: profile.heavyWorkDelayMs,
-    delay: Math.round(profile.heavyWorkDelayMs / 3)
-  });
 }
 
 function scheduleSmoothCursor(profile) {
@@ -82,9 +70,9 @@ function bootstrap() {
   window.__BH_PERF_PROFILE = profile;
 
   applyPerformanceProfile(profile);
+  applyBackgroundMode();
   primeAnalyticsQueue();
   initRouter();
-  scheduleWaveBackground(profile);
   scheduleSmoothCursor(profile);
   loadAnalytics(profile);
 }

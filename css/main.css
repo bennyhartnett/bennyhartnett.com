@@ -106,6 +106,8 @@ select {
 
 /* Main Content Area */
 .content {
+  position: relative;
+  z-index: 10;
   margin-top: 56px;
   padding: 0 1rem;
   font-family: 'Inter', sans-serif;
@@ -125,7 +127,7 @@ select {
 }
 
 /* Wave Canvas Background */
-#wave-canvas {
+#canvas[data-site-background] {
   display: block;
   width: 100%;
   height: 100vh;
@@ -133,15 +135,10 @@ select {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: -1;
-  opacity: 0;
+  z-index: 0;
+  opacity: 1;
   pointer-events: none;
   contain: strict; /* Isolate canvas from layout/paint of rest of page */
-  transition: opacity 0.4s ease;
-}
-
-body.wave-ready #wave-canvas {
-  opacity: 1;
 }
 
 /* Footer Styles */
@@ -151,6 +148,7 @@ footer {
   font-size: 0.7em;
   color: rgba(255, 255, 255, 0.3);
   position: fixed;
+  z-index: 20;
   contain: layout style; /* Prevent footer changes from triggering page reflow */
   bottom: 0;
   width: 100%;
@@ -220,7 +218,7 @@ html.perf-constrained .content {
 }
 
 html.perf-reduced-motion .content,
-html.perf-reduced-motion #wave-canvas,
+html.perf-reduced-motion #canvas[data-site-background],
 html.perf-reduced-motion .nuclear-gradient-bg {
   transition: none;
   animation: none;

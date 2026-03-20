@@ -479,6 +479,8 @@
   </script>
 </head>
 <body>
+  <canvas id="canvas" data-site-background="federal" aria-hidden="true"></canvas>
+
   <!-- Skip link for keyboard accessibility -->
   <a href="#main-content" class="skip-link">Skip to main content</a>
 
@@ -528,6 +530,48 @@
       clearTimeout(vhTimer);
       vhTimer = setTimeout(setMobileVh, 150);
     });
+  </script>
+  <script>
+    window.__bhBackgroundState = {
+      ready: false,
+      markReady: function() {
+        this.ready = true;
+        document.body.classList.add('wave-ready');
+        document.body.classList.remove('adaptive-gradient-bg');
+      },
+      enableFallback: function(reason) {
+        if (this.ready) return;
+        document.body.classList.remove('wave-ready');
+        document.body.classList.add('adaptive-gradient-bg');
+        console.warn('Federal background fallback:', reason);
+      }
+    };
+
+    window.addEventListener('error', function(event) {
+      var source = event.filename || event.target?.src || '';
+      if (/\/js\/federal-bg(?:-interact)?\.js(?:$|\?)/.test(source)) {
+        window.__bhBackgroundState.enableFallback('script-error');
+      }
+    }, true);
+  </script>
+  <script src="/js/federal-bg.js"></script>
+  <script src="/js/federal-bg-interact.js"></script>
+  <script>
+    (function waitForFederalBackground(deadline) {
+      if (window.ii?.particleSystem) {
+        window.__bhBackgroundState.markReady();
+        return;
+      }
+
+      if (performance.now() >= deadline) {
+        window.__bhBackgroundState.enableFallback('init-timeout');
+        return;
+      }
+
+      requestAnimationFrame(function() {
+        waitForFederalBackground(deadline);
+      });
+    })(performance.now() + 2500);
   </script>
   <script type="module" src="js/site-bootstrap.js"></script>
 </body>
