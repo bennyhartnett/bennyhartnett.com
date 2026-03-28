@@ -175,6 +175,8 @@
     -ms-text-size-adjust: none;
     /* Accessibility: preserve intended colors in forced color modes */
     forced-color-adjust: none;
+    /* Allow trackpad/touch scrolling to pass through the text layer */
+    touch-action: auto;
   }
   .pdf-page .textLayer > span {
     color: transparent;
@@ -188,8 +190,8 @@
     -ms-user-select: text;
     /* Ensure spans can receive pointer events for selection */
     pointer-events: auto;
-    /* Allow vertical scrolling through text layer on touch devices */
-    touch-action: pan-y;
+    /* Allow all default touch/trackpad gestures (scroll, pinch, etc.) */
+    touch-action: auto;
   }
   .pdf-page .textLayer > span:not(:empty)::selection,
   .pdf-page .textLayer > span:not(:empty) *::selection {
