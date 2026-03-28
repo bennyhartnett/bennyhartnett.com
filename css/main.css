@@ -123,7 +123,7 @@ select {
 }
 
 .content a:hover {
-  color: var(--wave-color);
+  color: white;
 }
 
 /* Wave Canvas Background */
