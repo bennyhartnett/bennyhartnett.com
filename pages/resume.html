@@ -342,6 +342,7 @@
   <div class="pdf-loading" id="pdf-loading">Loading resume...</div>
   <div class="pdf-pages" id="pdf-pages"></div>
 </div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf_viewer.min.css">
 <script>
 (function() {
   var script = document.createElement('script');
@@ -392,6 +393,8 @@
           // Create text layer div
           var textLayerDiv = document.createElement('div');
           textLayerDiv.className = 'textLayer';
+          // PDF.js 3.x requires --scale-factor for proper text span positioning
+          textLayerDiv.style.setProperty('--scale-factor', baseScale);
           pageDiv.appendChild(textLayerDiv);
 
           container.appendChild(pageDiv);
