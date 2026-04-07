@@ -5,6 +5,7 @@ import {
   loadExternalScript,
   scheduleDeferredTask
 } from './performance-profile.js';
+import { initHomeFx } from './home-fx.js';
 
 const ANALYTICS_ID = 'G-GGGPH0X4LN';
 
@@ -73,6 +74,7 @@ function bootstrap() {
   applyBackgroundMode();
   primeAnalyticsQueue();
   initRouter();
+  initHomeFx();
   scheduleSmoothCursor(profile);
   loadAnalytics(profile);
 }

@@ -50,6 +50,26 @@ body {
 body {
   overflow-y: auto;
   overscroll-behavior-y: contain;
+  position: relative;
+}
+
+.fx-defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+#site-shell {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
+  transition: filter 0.22s ease;
+}
+
+#fx-chat-slot {
+  position: relative;
+  z-index: 30;
 }
 
 body.adaptive-gradient-bg {
@@ -216,6 +236,7 @@ html.perf-constrained .content {
 }
 
 html.perf-reduced-motion .content,
+html.perf-reduced-motion #site-shell,
 html.perf-reduced-motion #canvas[data-site-background],
 html.perf-reduced-motion .nuclear-gradient-bg {
   transition: none;

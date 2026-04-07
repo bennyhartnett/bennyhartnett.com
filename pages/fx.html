@@ -1,0 +1,580 @@
+<style>
+  /* Accessibility helper */
+  .sr-only {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0 0 0 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    color: white;
+    margin: 0;
+  }
+
+  .fx-scene {
+    min-height: calc(100vh - 56px - 2rem);
+    min-height: calc(100svh - 56px - 2rem);
+    display: grid;
+    place-items: center;
+    padding: 1rem;
+  }
+
+  .fx-copy-block {
+    display: grid;
+    gap: 0.8rem;
+    text-align: center;
+    max-width: 720px;
+    margin: 0 auto 2rem;
+  }
+
+  .fx-kicker {
+    margin: 0;
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.66);
+  }
+
+  .fx-title {
+    margin: 0;
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: clamp(2.4rem, 6vw, 4.8rem);
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    text-transform: uppercase;
+  }
+
+  .fx-description {
+    margin: 0 auto;
+    max-width: 540px;
+    color: rgba(255, 255, 255, 0.74);
+    font-size: 0.98rem;
+    line-height: 1.65;
+  }
+
+  .fx-chip-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+  }
+
+  .fx-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 42px;
+    padding: 0 1rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.05);
+    color: rgba(255, 255, 255, 0.82);
+    font-size: 0.8rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .fx-link-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    justify-content: center;
+  }
+
+  .fx-link-list li {
+    margin: 0;
+  }
+
+  .fx-link-list a {
+    display: block;
+    color: white;
+    text-decoration: none;
+    font-size: 1.5rem;
+    font-family: inherit;
+    padding: 0.75rem;
+    transition: color 0.3s ease;
+    cursor: pointer;
+  }
+
+  .fx-link-list a:hover {
+    color: white;
+  }
+
+  .fx-link-list a:focus-visible {
+    outline: 2px solid var(--wave-color);
+    outline-offset: 4px;
+    border-radius: 4px;
+  }
+
+  .fx-link-list a.hw-ready {
+    display: flex;
+    gap: 0.02em;
+  }
+
+  .hw-cell {
+    position: relative;
+    display: inline-block;
+  }
+
+  .hw-spacer {
+    visibility: hidden;
+    font-weight: 900;
+  }
+
+  .hw-anim {
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-weight: 150;
+    will-change: font-weight;
+  }
+
+  .chat-fab {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    height: 48px;
+    padding: 0 1.25rem;
+    border-radius: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    z-index: 99;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    animation: colorCycle 8s ease-in-out infinite;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+  }
+
+  .chat-fab svg {
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+    transition: transform 0.3s ease;
+  }
+
+  .chat-fab-text {
+    font-size: 0.9rem;
+    font-weight: 600;
+    white-space: nowrap;
+    letter-spacing: 0.02em;
+  }
+
+  .chat-fab:hover {
+    transform: scale(1.05);
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow:
+      0 12px 40px rgba(0, 0, 0, 0.4),
+      inset 0 1px 0 rgba(255, 255, 255, 0.15),
+      0 0 20px color-mix(in srgb, var(--wave-color, #6366f1) 30%, transparent);
+  }
+
+  .chat-fab:hover svg {
+    transform: scale(1.1);
+  }
+
+  .chat-fab:active {
+    transform: scale(0.95);
+  }
+
+  .chat-fab:focus-visible {
+    outline: 2px solid var(--wave-color);
+    outline-offset: 4px;
+  }
+
+  @media (max-width: 700px) {
+    .fx-scene {
+      padding-top: 1.5rem;
+    }
+
+    .fx-link-list {
+      flex-direction: column;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .fx-link-list li {
+      width: 100%;
+      text-align: center;
+    }
+
+    .fx-link-list a {
+      font-size: 1.2rem;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .chat-fab {
+      bottom: 1.5rem;
+      right: 1.5rem;
+      height: 44px;
+      padding: 0 1rem;
+    }
+
+    .chat-fab svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .chat-fab-text {
+      font-size: 0.85rem;
+    }
+  }
+</style>
+
+<h1 class="sr-only">Benny Hartnett - FX Playground</h1>
+<div class="fx-scene">
+  <div>
+    <div class="fx-copy-block">
+      <p class="fx-kicker">Dedicated FX Playground</p>
+      <h2 class="fx-title">Live Shell Filters</h2>
+      <p class="fx-description">
+        Tune full-page remaps and approximate color swaps against a dedicated scene instead of the main homepage.
+        Use the floating <strong>FX</strong> toggle in the corner to open the controls.
+      </p>
+      <div class="fx-chip-row" aria-hidden="true">
+        <span class="fx-chip">Profiles</span>
+        <span class="fx-chip">Targeted Swap</span>
+        <span class="fx-chip">Live Preview</span>
+      </div>
+    </div>
+
+    <ul class="fx-link-list">
+      <li><a data-href="/">Home</a></li>
+      <li><a data-href="https://github.com/bennyhartnett" data-external="true">GitHub</a></li>
+      <li><a data-href="https://www.linkedin.com/in/dev-dc" data-external="true">LinkedIn</a></li>
+      <li><a href="https://xn--rsum-bpad.bennyhartnett.com">Résumé</a></li>
+      <li><a data-href="/contact">Contact</a></li>
+    </ul>
+  </div>
+</div>
+
+<template id="fx-panel-template">
+  <section class="fx-panel-card" aria-labelledby="home-fx-title">
+    <div class="fx-panel-header">
+      <div>
+        <h2 class="fx-heading" id="home-fx-title">FX filter playground</h2>
+        <p class="fx-copy">Play with profile remaps on this dedicated shell, then layer in an approximate source-to-target color swap.</p>
+      </div>
+      <div class="fx-toggle-row">
+        <button type="button" class="fx-toggle-chip" data-fx-action="toggle-enabled" aria-pressed="true">Effects on</button>
+        <button type="button" class="fx-toggle-chip" data-fx-action="toggle-swap" aria-pressed="true">Swap on</button>
+      </div>
+    </div>
+
+    <section class="fx-section">
+      <h3 class="fx-section-title">Profiles</h3>
+      <p class="fx-section-copy">Apply a full-shell remap to the background, nav, content, footer, and chat action together.</p>
+      <div class="fx-profile-grid">
+        <button type="button" class="fx-profile-button" data-fx-profile="original" aria-pressed="false">
+          <span class="fx-profile-accent" style="background: linear-gradient(90deg, #d4d4d8, #737373);"></span>
+          <span class="fx-profile-content">
+            <span class="fx-profile-label">Original</span>
+            <span class="fx-profile-description">No color remapping.</span>
+          </span>
+        </button>
+        <button type="button" class="fx-profile-button" data-fx-profile="negative" aria-pressed="false">
+          <span class="fx-profile-accent" style="background: linear-gradient(90deg, #e2e8f0, #64748b);"></span>
+          <span class="fx-profile-content">
+            <span class="fx-profile-label">Negative</span>
+            <span class="fx-profile-description">Opposite colors like a photo negative.</span>
+          </span>
+        </button>
+        <button type="button" class="fx-profile-button" data-fx-profile="spectrum" aria-pressed="false">
+          <span class="fx-profile-accent" style="background: linear-gradient(90deg, #ec4899, #22d3ee, #a3e635);"></span>
+          <span class="fx-profile-content">
+            <span class="fx-profile-label">Spectrum</span>
+            <span class="fx-profile-description">Rotate the whole shell around the color wheel.</span>
+          </span>
+        </button>
+        <button type="button" class="fx-profile-button" data-fx-profile="ocean" aria-pressed="false">
+          <span class="fx-profile-accent" style="background: linear-gradient(90deg, #67e8f9, #2563eb);"></span>
+          <span class="fx-profile-content">
+            <span class="fx-profile-label">Ocean</span>
+            <span class="fx-profile-description">Cool aqua and deep blue emphasis.</span>
+          </span>
+        </button>
+        <button type="button" class="fx-profile-button" data-fx-profile="sunset" aria-pressed="false">
+          <span class="fx-profile-accent" style="background: linear-gradient(90deg, #fdba74, #fb7185, #c026d3);"></span>
+          <span class="fx-profile-content">
+            <span class="fx-profile-label">Sunset</span>
+            <span class="fx-profile-description">Warmer reds, pinks, and gold highlights.</span>
+          </span>
+        </button>
+        <button type="button" class="fx-profile-button" data-fx-profile="neon" aria-pressed="false">
+          <span class="fx-profile-accent" style="background: linear-gradient(90deg, #f472b6, #8b5cf6, #22d3ee);"></span>
+          <span class="fx-profile-content">
+            <span class="fx-profile-label">Neon</span>
+            <span class="fx-profile-description">Punchy saturation with a cyberpunk edge.</span>
+          </span>
+        </button>
+        <button type="button" class="fx-profile-button" data-fx-profile="forest" aria-pressed="false">
+          <span class="fx-profile-accent" style="background: linear-gradient(90deg, #bef264, #047857);"></span>
+          <span class="fx-profile-content">
+            <span class="fx-profile-label">Forest</span>
+            <span class="fx-profile-description">Greens, moss, and earth-toned shadows.</span>
+          </span>
+        </button>
+        <button type="button" class="fx-profile-button" data-fx-profile="violet" aria-pressed="false">
+          <span class="fx-profile-accent" style="background: linear-gradient(90deg, #a5b4fc, #6d28d9);"></span>
+          <span class="fx-profile-content">
+            <span class="fx-profile-label">Violet</span>
+            <span class="fx-profile-description">Shift the shell into blue-violet territory.</span>
+          </span>
+        </button>
+        <button type="button" class="fx-profile-button" data-fx-profile="thermal" aria-pressed="false">
+          <span class="fx-profile-accent" style="background: linear-gradient(90deg, #fde047, #f97316, #b91c1c);"></span>
+          <span class="fx-profile-content">
+            <span class="fx-profile-label">Thermal</span>
+            <span class="fx-profile-description">A warmer heat-map style remap.</span>
+          </span>
+        </button>
+      </div>
+    </section>
+
+    <section class="fx-section">
+      <h3 class="fx-section-title">Profile mix</h3>
+      <p class="fx-section-copy">Blend the shell-wide effect and adjust spectrum travel for the rotating hue mode.</p>
+      <div class="fx-range-stack">
+        <label class="fx-range-row">
+          <span class="fx-range-head">
+            <span class="fx-range-label">Effect strength</span>
+            <span class="fx-range-output" data-fx-output="intensity">85%</span>
+          </span>
+          <input class="fx-range-input" type="range" min="0" max="100" step="1" value="85" data-fx-control="intensity" aria-label="Effect strength">
+        </label>
+        <label class="fx-range-row">
+          <span class="fx-range-head">
+            <span class="fx-range-label">Spectrum travel</span>
+            <span class="fx-range-output" data-fx-output="hueShift">300deg</span>
+          </span>
+          <input class="fx-range-input" type="range" min="0" max="360" step="1" value="300" data-fx-control="hueShift" aria-label="Spectrum travel">
+        </label>
+      </div>
+    </section>
+
+    <section class="fx-section">
+      <h3 class="fx-section-title">Targeted swap</h3>
+      <p class="fx-section-copy">Use presets or custom colors to push one visible color family toward another across the live shell.</p>
+      <div class="fx-preset-grid">
+        <button type="button" class="fx-preset-button" data-fx-preset="black-white" aria-pressed="false">
+          <span class="fx-preset-content">
+            <span class="fx-swatch-row">
+              <span class="fx-swatch" style="background: #111111;"></span>
+              <span class="fx-arrow">-></span>
+              <span class="fx-swatch" style="background: #ffffff;"></span>
+            </span>
+            <span class="fx-preset-label">Black -> White</span>
+            <span class="fx-preset-description">Lift dark tones into bright highlights.</span>
+          </span>
+        </button>
+        <button type="button" class="fx-preset-button" data-fx-preset="red-blue" aria-pressed="false">
+          <span class="fx-preset-content">
+            <span class="fx-swatch-row">
+              <span class="fx-swatch" style="background: #ff3b30;"></span>
+              <span class="fx-arrow">-></span>
+              <span class="fx-swatch" style="background: #2f6bff;"></span>
+            </span>
+            <span class="fx-preset-label">Red -> Blue</span>
+            <span class="fx-preset-description">Turn warm reds into cool blues.</span>
+          </span>
+        </button>
+        <button type="button" class="fx-preset-button" data-fx-preset="blue-orange" aria-pressed="false">
+          <span class="fx-preset-content">
+            <span class="fx-swatch-row">
+              <span class="fx-swatch" style="background: #2f6bff;"></span>
+              <span class="fx-arrow">-></span>
+              <span class="fx-swatch" style="background: #ff8a2a;"></span>
+            </span>
+            <span class="fx-preset-label">Blue -> Orange</span>
+            <span class="fx-preset-description">Push sky-like blues into warm orange.</span>
+          </span>
+        </button>
+        <button type="button" class="fx-preset-button" data-fx-preset="green-magenta" aria-pressed="false">
+          <span class="fx-preset-content">
+            <span class="fx-swatch-row">
+              <span class="fx-swatch" style="background: #22c55e;"></span>
+              <span class="fx-arrow">-></span>
+              <span class="fx-swatch" style="background: #d946ef;"></span>
+            </span>
+            <span class="fx-preset-label">Green -> Magenta</span>
+            <span class="fx-preset-description">Swap greens toward pink-magenta.</span>
+          </span>
+        </button>
+        <button type="button" class="fx-preset-button" data-fx-preset="yellow-violet" aria-pressed="false">
+          <span class="fx-preset-content">
+            <span class="fx-swatch-row">
+              <span class="fx-swatch" style="background: #facc15;"></span>
+              <span class="fx-arrow">-></span>
+              <span class="fx-swatch" style="background: #7c3aed;"></span>
+            </span>
+            <span class="fx-preset-label">Yellow -> Violet</span>
+            <span class="fx-preset-description">Shift sunny yellows into deep violet.</span>
+          </span>
+        </button>
+      </div>
+
+      <div class="fx-color-grid" style="margin-top: 0.8rem;">
+        <label class="fx-color-field">
+          <span class="fx-color-label">Source color</span>
+          <span class="fx-color-row">
+            <input class="fx-color-input" type="color" value="#ff3b30" data-fx-control="sourceColor" aria-label="Source color">
+            <span class="fx-swatch" data-fx-swatch="source"></span>
+            <span class="fx-color-value" data-fx-color-value="source">#FF3B30</span>
+          </span>
+        </label>
+        <label class="fx-color-field">
+          <span class="fx-color-label">Target color</span>
+          <span class="fx-color-row">
+            <input class="fx-color-input" type="color" value="#2f6bff" data-fx-control="targetColor" aria-label="Target color">
+            <span class="fx-swatch" data-fx-swatch="target"></span>
+            <span class="fx-color-value" data-fx-color-value="target">#2F6BFF</span>
+          </span>
+        </label>
+      </div>
+    </section>
+
+    <section class="fx-section">
+      <h3 class="fx-section-title">Swap tuning</h3>
+      <p class="fx-section-copy">Adjust how strongly the swap pushes, how wide the color family match feels, and how soft the edges stay.</p>
+      <div class="fx-range-stack">
+        <label class="fx-range-row">
+          <span class="fx-range-head">
+            <span class="fx-range-label">Swap strength</span>
+            <span class="fx-range-output" data-fx-output="swapStrength">72%</span>
+          </span>
+          <input class="fx-range-input" type="range" min="0" max="100" step="1" value="72" data-fx-control="swapStrength" aria-label="Swap strength">
+        </label>
+        <label class="fx-range-row">
+          <span class="fx-range-head">
+            <span class="fx-range-label">Color tolerance</span>
+            <span class="fx-range-output" data-fx-output="swapThreshold">18%</span>
+          </span>
+          <input class="fx-range-input" type="range" min="1" max="100" step="1" value="18" data-fx-control="swapThreshold" aria-label="Color tolerance">
+        </label>
+        <label class="fx-range-row">
+          <span class="fx-range-head">
+            <span class="fx-range-label">Edge softness</span>
+            <span class="fx-range-output" data-fx-output="swapSoftness">22%</span>
+          </span>
+          <input class="fx-range-input" type="range" min="0" max="100" step="1" value="22" data-fx-control="swapSoftness" aria-label="Edge softness">
+        </label>
+      </div>
+    </section>
+
+    <section class="fx-section">
+      <div class="fx-summary">
+        <h3 class="fx-summary-title">Current look</h3>
+        <p class="fx-summary-text" data-fx-summary>Showing the original FX page shell</p>
+        <p class="fx-summary-text" data-fx-detail>No color remapping.</p>
+      </div>
+      <p class="fx-note" data-fx-note hidden></p>
+    </section>
+  </section>
+</template>
+
+<script>
+(function() {
+  if (!window.matchMedia('(hover: hover)').matches) return;
+
+  var MIN_W = 150, MAX_W = 900, TAU_IN = 0.18, TAU_OUT = 0.35;
+  var links = document.querySelectorAll('.fx-link-list a');
+  var linkData = [];
+  var rafId = null;
+  var t0 = performance.now();
+
+  links.forEach(function(link) {
+    var text = link.textContent;
+    link.textContent = '';
+    link.classList.add('hw-ready');
+
+    var animEls = [];
+    for (var i = 0; i < text.length; i++) {
+      var ch = text[i];
+      var cell = document.createElement('span');
+      cell.className = 'hw-cell';
+      var spacer = document.createElement('span');
+      spacer.className = 'hw-spacer';
+      spacer.textContent = ch;
+      var anim = document.createElement('span');
+      anim.className = 'hw-anim';
+      anim.textContent = ch;
+      cell.appendChild(spacer);
+      cell.appendChild(anim);
+      link.appendChild(cell);
+      animEls.push(anim);
+    }
+
+    var data = { animEls: animEls, hovered: false, amt: 0 };
+    linkData.push(data);
+
+    link.addEventListener('mouseenter', function() { data.hovered = true; startLoop(); });
+    link.addEventListener('mouseleave', function() { data.hovered = false; startLoop(); });
+  });
+
+  function chase(current, target, dt, tau) {
+    var a = 1 - Math.exp(-dt / Math.max(0.0001, tau));
+    return current + (target - current) * a;
+  }
+
+  function startLoop() {
+    if (!rafId) {
+      t0 = performance.now();
+      rafId = requestAnimationFrame(tick);
+    }
+  }
+
+  function tick(now) {
+    var dt = Math.min(0.05, (now - t0) / 1000);
+    t0 = now;
+    var anyActive = false;
+
+    linkData.forEach(function(data) {
+      var targetAmt = data.hovered ? 1 : 0;
+      if (Math.abs(data.amt - targetAmt) < 0.001) {
+        data.amt = targetAmt;
+        var w = MIN_W + (MAX_W - MIN_W) * data.amt;
+        data.animEls.forEach(function(el) { el.style.fontWeight = w; });
+        return;
+      }
+      anyActive = true;
+      var tau = data.hovered ? TAU_IN : TAU_OUT;
+      data.amt = chase(data.amt, targetAmt, dt, tau);
+      var w = MIN_W + (MAX_W - MIN_W) * data.amt;
+      data.animEls.forEach(function(el) { el.style.fontWeight = w; });
+    });
+
+    if (anyActive) {
+      rafId = requestAnimationFrame(tick);
+    } else {
+      rafId = null;
+    }
+  }
+})();
+</script>
+
+<a href="/chat" class="chat-fab" aria-label="Chat with Benny AI">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+  </svg>
+  <span class="chat-fab-text">Ask AI Benny</span>
+</a>
