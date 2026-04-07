@@ -332,7 +332,7 @@ function renderPanel() {
     return;
   }
 
-  const swapPreviewSupported = isSwapPreviewSupported();
+  const swapPreviewSupported = isTargetedSwapPreviewEnabled();
   const activeProfile = getProfileById(currentState.profileId);
   const activePreset = getSwapPresetById(currentState.swapPresetId);
 
@@ -434,7 +434,7 @@ function renderPanel() {
     const showNote = currentState.swapEnabled && currentState.swapStrength > 0 && !swapPreviewSupported;
     noteNode.hidden = !showNote;
     noteNode.textContent = showNote
-      ? 'Targeted color swap preview is paused on this device profile to keep the homepage responsive.'
+      ? 'Targeted color swap preview is paused on this device profile to keep the site responsive.'
       : '';
   }
 }
@@ -466,7 +466,7 @@ function applyShellFilter() {
   }
 
   const profileFilter = buildColorFilter(currentState.profileId, currentState.intensity, currentState.hueShift);
-  const applySwap = currentState.swapEnabled && currentState.swapStrength > 0 && isSwapPreviewSupported();
+  const applySwap = currentState.swapEnabled && currentState.swapStrength > 0 && isTargetedSwapPreviewEnabled();
 
   updateTargetedSwapFilter(applySwap);
 
@@ -512,6 +512,14 @@ function updateTargetedSwapFilter(isActive) {
     'slope',
     isActive ? formatNumber(clamp(currentState.swapStrength, 0, 100) / 100, 3) : '0'
   );
+}
+
+function isTargetedSwapPreviewEnabled() {
+  if (activePage === 'fx') {
+    return true;
+  }
+
+  return isSwapPreviewSupported();
 }
 
 function isSwapPreviewSupported() {
