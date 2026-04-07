@@ -97,6 +97,407 @@ nav .menu a:focus {
   font-size: 1.2em;
 }
 
+/* Homepage FX controls */
+#fx-controls {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 180;
+}
+
+#home-fx-toggle {
+  position: fixed;
+  top: 0.85rem;
+  right: 0.85rem;
+  min-width: 52px;
+  min-height: 44px;
+  padding: 0.7rem 0.95rem;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+  background: rgba(10, 18, 32, 0.55);
+  color: white;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow:
+    0 10px 28px rgba(0, 0, 0, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  transition:
+    transform var(--transition-fast),
+    background var(--transition-fast),
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+#home-fx-toggle:hover {
+  transform: translateY(-1px);
+  background: rgba(20, 32, 56, 0.78);
+  border-color: rgba(255, 255, 255, 0.28);
+}
+
+#home-fx-toggle[data-active="true"] {
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(78, 160, 255, 0.26)),
+    rgba(12, 18, 31, 0.78);
+  border-color: rgba(160, 212, 255, 0.35);
+}
+
+#home-fx-toggle[data-open="true"] {
+  box-shadow:
+    0 14px 30px rgba(0, 0, 0, 0.32),
+    0 0 28px rgba(74, 158, 255, 0.16);
+}
+
+#home-fx-toggle:focus-visible {
+  outline: 2px solid var(--wave-color);
+  outline-offset: 3px;
+}
+
+.fx-toggle-label {
+  display: block;
+  line-height: 1;
+}
+
+#home-fx-panel {
+  position: fixed;
+  top: 4.4rem;
+  right: 0.85rem;
+  width: min(380px, calc(100vw - 1.7rem));
+  max-height: min(76vh, 760px);
+  overflow-y: auto;
+  padding-right: 0.15rem;
+}
+
+.fx-panel-card {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 28px;
+  background:
+    linear-gradient(180deg, rgba(15, 19, 30, 0.94), rgba(6, 9, 17, 0.9));
+  color: white;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  box-shadow:
+    0 24px 54px rgba(0, 0, 0, 0.42),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  padding: 1.1rem;
+}
+
+.fx-panel-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.fx-heading {
+  margin: 0;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.fx-copy {
+  margin: 0.3rem 0 0;
+  color: rgba(255, 255, 255, 0.68);
+  font-size: 0.85rem;
+  line-height: 1.45;
+}
+
+.fx-toggle-row {
+  display: inline-flex;
+  gap: 0.55rem;
+}
+
+.fx-toggle-chip {
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  color: white;
+  font-family: inherit;
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  padding: 0.55rem 0.8rem;
+  cursor: pointer;
+  transition: background var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast);
+}
+
+.fx-toggle-chip[aria-pressed="true"] {
+  background: white;
+  color: black;
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.fx-toggle-chip:focus-visible {
+  outline: 2px solid var(--wave-color);
+  outline-offset: 2px;
+}
+
+.fx-section {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.04);
+  padding: 0.95rem;
+}
+
+.fx-section + .fx-section {
+  margin-top: 0.85rem;
+}
+
+.fx-section-title {
+  margin: 0;
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: white;
+}
+
+.fx-section-copy {
+  margin: 0.28rem 0 0.8rem;
+  color: rgba(255, 255, 255, 0.58);
+  font-size: 0.75rem;
+  line-height: 1.45;
+}
+
+.fx-profile-grid,
+.fx-preset-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.55rem;
+}
+
+.fx-profile-button,
+.fx-preset-button {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.05);
+  color: white;
+  padding: 0;
+  text-align: left;
+  cursor: pointer;
+  overflow: hidden;
+  transition:
+    background var(--transition-fast),
+    border-color var(--transition-fast),
+    transform var(--transition-fast),
+    color var(--transition-fast);
+}
+
+.fx-profile-button:hover,
+.fx-preset-button:hover {
+  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.fx-profile-button[data-selected="true"],
+.fx-preset-button[data-selected="true"] {
+  background: white;
+  color: black;
+  border-color: rgba(255, 255, 255, 0.45);
+}
+
+.fx-profile-button:focus-visible,
+.fx-preset-button:focus-visible,
+.fx-color-input:focus-visible,
+.fx-range-input:focus-visible {
+  outline: 2px solid var(--wave-color);
+  outline-offset: 2px;
+}
+
+.fx-profile-accent {
+  display: block;
+  height: 4px;
+}
+
+.fx-profile-content,
+.fx-preset-content {
+  padding: 0.78rem;
+}
+
+.fx-profile-label,
+.fx-preset-label {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.fx-profile-description,
+.fx-preset-description {
+  display: block;
+  margin-top: 0.32rem;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.71rem;
+  line-height: 1.45;
+}
+
+.fx-profile-button[data-selected="true"] .fx-profile-description,
+.fx-preset-button[data-selected="true"] .fx-preset-description {
+  color: rgba(0, 0, 0, 0.68);
+}
+
+.fx-range-stack {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.fx-range-row {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.fx-range-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.fx-range-label {
+  font-size: 0.82rem;
+  font-weight: 500;
+}
+
+.fx-range-output {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.75rem;
+}
+
+.fx-range-input {
+  width: 100%;
+  accent-color: white;
+}
+
+.fx-swatch-row {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-bottom: 0.45rem;
+}
+
+.fx-swatch {
+  width: 16px;
+  height: 16px;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 0, 0, 0.18);
+  flex: 0 0 auto;
+}
+
+.fx-arrow {
+  color: rgba(255, 255, 255, 0.46);
+  font-size: 0.78rem;
+}
+
+.fx-color-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.7rem;
+}
+
+.fx-color-field {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.04);
+  padding: 0.75rem;
+}
+
+.fx-color-label {
+  display: block;
+  margin-bottom: 0.55rem;
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.fx-color-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.fx-color-input {
+  width: 52px;
+  height: 38px;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  background: transparent;
+  cursor: pointer;
+}
+
+.fx-color-value {
+  font-family: ui-monospace, SFMono-Regular, 'SF Mono', Consolas, 'Liberation Mono', monospace;
+  font-size: 0.74rem;
+  letter-spacing: 0.04em;
+}
+
+.fx-summary {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.fx-summary-title {
+  margin: 0;
+  font-size: 0.84rem;
+  font-weight: 600;
+}
+
+.fx-summary-text {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.76);
+  font-size: 0.78rem;
+  line-height: 1.55;
+}
+
+.fx-note {
+  margin: 0.6rem 0 0;
+  padding: 0.7rem 0.8rem;
+  border-radius: 16px;
+  background: rgba(74, 158, 255, 0.12);
+  color: rgba(207, 232, 255, 0.94);
+  font-size: 0.73rem;
+  line-height: 1.5;
+}
+
+@media (max-width: 700px) {
+  #home-fx-toggle {
+    top: 0.7rem;
+    right: 0.7rem;
+  }
+
+  #home-fx-panel {
+    top: 4.2rem;
+    right: 0.7rem;
+    width: min(360px, calc(100vw - 1.4rem));
+  }
+}
+
+@media (max-width: 540px) {
+  #home-fx-panel {
+    right: 0.7rem;
+    left: 0.7rem;
+    width: auto;
+    max-height: calc(100svh - 5rem);
+  }
+
+  .fx-profile-grid,
+  .fx-preset-grid,
+  .fx-color-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .fx-panel-card {
+    padding: 0.95rem;
+    border-radius: 24px;
+  }
+}
+
 /* Responsive Navigation - Tablet and smaller */
 @media (max-width: 700px) {
   nav {

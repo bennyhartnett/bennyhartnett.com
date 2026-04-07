@@ -23,6 +23,31 @@ const ASCII_TO_IDN = {
   'resume': 'xn--rsum-bpad',
 };
 
+function getPageNameFromUrl(url) {
+  if (url === 'nuclear.html') {
+    return 'nuclear';
+  }
+
+  return url.replace(/^pages\//, '').replace(/\.html$/, '');
+}
+
+function setPageState(url) {
+  const pageName = getPageNameFromUrl(url);
+  document.body.dataset.page = pageName;
+  document.documentElement.dataset.page = pageName;
+  return pageName;
+}
+
+function dispatchContentLoaded(url) {
+  const page = getPageNameFromUrl(url);
+  document.dispatchEvent(new CustomEvent('spa:content-loaded', {
+    detail: {
+      url,
+      page
+    }
+  }));
+}
+
 /**
  * Determine the root domain from the current hostname
  * @returns {string} The matching root domain, defaults to bennyhartnett.com
@@ -54,20 +79,27 @@ function prefetchPage(url) {
 }
 
 /**
- * Move chat fab outside of content container for proper fixed positioning
- * (transform on .content breaks position:fixed)
+ * Move the chat FAB to the correct fixed layer for the current route.
  */
-function moveChatFabOutsideContent() {
-  // Remove any existing chat fab from body (not in content)
-  const existingFab = document.body.querySelector(':scope > .chat-fab');
-  if (existingFab) {
-    existingFab.remove();
+function relocateChatFab(url) {
+  document.querySelectorAll('body > .chat-fab').forEach((fab) => {
+    fab.remove();
+  });
+
+  const fxChatSlot = document.getElementById('fx-chat-slot');
+  if (fxChatSlot) {
+    fxChatSlot.querySelectorAll('.chat-fab').forEach((fab) => {
+      fab.remove();
+    });
   }
 
-  // Find chat fab in content and move it to body
   const chatFab = container.querySelector('.chat-fab');
   if (chatFab) {
-    document.body.appendChild(chatFab);
+    if (getPageNameFromUrl(url) === 'fx' && fxChatSlot) {
+      fxChatSlot.appendChild(chatFab);
+    } else {
+      document.body.appendChild(chatFab);
+    }
   }
 }
 
@@ -114,7 +146,7 @@ export function loadContent(url, push = true, skipExitAnimation = false) {
     htmlPromise
       .then(html => {
         container.innerHTML = html;
-        moveChatFabOutsideContent();
+        relocateChatFab(url);
         animateContentEntry();
         // Execute any inline scripts from the loaded fragment
         container.querySelectorAll('script').forEach(oldScript => {
@@ -127,6 +159,8 @@ export function loadContent(url, push = true, skipExitAnimation = false) {
           }
           oldScript.replaceWith(newScript);
         });
+
+        setPageState(url);
 
         const meta = metaMap[url] || metaMap['pages/home.html'];
         const fullUrl = (url === 'pages/home.html') ? baseUrl : baseUrl + url.replace('pages/', '').replace('.html', '');
@@ -141,11 +175,15 @@ export function loadContent(url, push = true, skipExitAnimation = false) {
           const cleanUrl = url === 'pages/home.html' ? '/' : '/' + url.replace('pages/', '').replace('.html', '');
           history.pushState({ url }, '', cleanUrl);
         }
+
+        dispatchContentLoaded(url);
       })
       .catch(() => {
         renderFallbackContent(url);
-        moveChatFabOutsideContent();
+        relocateChatFab(url);
         animateContentEntry();
+        setPageState(url);
+        dispatchContentLoaded(url);
       });
   }, skipExitAnimation ? 0 : 300);
 }

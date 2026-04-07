@@ -81,6 +81,12 @@ const META_MAP = {
     ogImage: BASE_OG_IMAGE,
     ogImageAlt: 'Tools - Apps and Utilities by Benny Hartnett'
   },
+  'pages/fx.html': {
+    title: 'FX Playground - Benny Hartnett',
+    desc: 'Dedicated live filter playground for full-page remaps and targeted color swap experiments.',
+    ogImage: BASE_OG_IMAGE,
+    ogImageAlt: 'FX Playground - Live full-page filter controls'
+  },
   'pages/resume.html': {
     title: 'Résumé - Benny Hartnett',
     desc: 'Professional résumé and background in software development, AI, and nuclear technology.',
