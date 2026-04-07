@@ -138,7 +138,9 @@ select {
   z-index: 0;
   opacity: 1;
   pointer-events: none;
-  contain: strict; /* Isolate canvas from layout/paint of rest of page */
+  contain: layout size style; /* Isolate canvas from layout/paint of rest of page */
+  transform: scale(1.1);
+  transform-origin: center center;
 }
 
 /* Footer Styles */
