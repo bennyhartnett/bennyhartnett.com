@@ -129,18 +129,14 @@ select {
 /* Wave Canvas Background */
 #canvas[data-site-background] {
   display: block;
-  width: 100%;
-  height: 100vh;
-  height: 100svh; /* Mobile-friendly viewport height */
   position: fixed;
-  top: 0;
-  left: 0;
   z-index: 0;
   opacity: 1;
   pointer-events: none;
-  contain: layout size style; /* Isolate canvas from layout/paint of rest of page */
-  transform: scale(1.1);
-  transform-origin: center center;
+  top: -10vh;
+  left: -10vw;
+  width: 120vw !important;
+  height: 120vh !important;
 }
 
 /* Footer Styles */
