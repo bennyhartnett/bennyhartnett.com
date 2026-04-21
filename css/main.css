@@ -32,24 +32,26 @@
 }
 
 /* Base Reset and Typography */
+/* <html> is the sole scroll container. If <body> also has overflow set,
+   browsers can route wheel deltas to <body> and consume them, leaving the
+   page effectively unscrollable under a two-finger trackpad gesture. */
 html {
   -webkit-text-size-adjust: 100%;
   background: #000;
-}
-
-html,
-body {
   width: 100%;
   min-height: 100%;
   margin: 0;
   overflow-x: hidden;
-  background: transparent;
+  overscroll-behavior-y: contain;
   color: #fff;
 }
 
 body {
-  overflow-y: auto;
-  overscroll-behavior-y: contain;
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+  background: transparent;
+  color: #fff;
   position: relative;
 }
 
