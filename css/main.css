@@ -64,6 +64,8 @@ body {
 
 #site-shell {
   position: relative;
+  display: flex;
+  flex-direction: column;
   min-height: 100vh;
   min-height: 100svh;
   transition: filter 0.22s ease;
@@ -130,8 +132,11 @@ select {
 .content {
   position: relative;
   z-index: 10;
-  margin-top: 56px;
-  padding: 0 1rem;
+  flex: 1 1 auto;
+  min-height: calc(100vh - var(--nav-height));
+  min-height: calc(100svh - var(--nav-height));
+  box-sizing: border-box;
+  padding: var(--nav-height) 1rem 0;
   font-family: 'Inter', sans-serif;
   color: white;
   opacity: 1;
