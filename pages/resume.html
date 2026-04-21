@@ -358,6 +358,17 @@
     var container = document.getElementById('pdf-pages');
     var loading = document.getElementById('pdf-loading');
 
+    // Forward trackpad/mouse wheel events to window scroll. The PDF.js text
+    // layer uses pointer-events: auto so text is selectable, which also
+    // captures wheel events over the résumé. Explicitly translating wheel
+    // deltas into window scroll keeps two-finger trackpad gestures working
+    // without breaking text selection or ctrl+wheel zoom.
+    container.addEventListener('wheel', function(e) {
+      if (e.ctrlKey) return;
+      window.scrollBy({ left: e.deltaX, top: e.deltaY });
+      e.preventDefault();
+    }, { passive: false });
+
     pdfjsLib.getDocument(url).promise.then(function(pdf) {
       loading.style.display = 'none';
 
