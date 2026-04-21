@@ -112,6 +112,9 @@
   }
   .pdf-pages.dark-mode .pdf-page canvas {
     filter: invert(1) hue-rotate(180deg);
+    /* After inversion the "background" is black and text is white, so
+       screen blending hides the black and keeps the text bright. */
+    mix-blend-mode: screen;
   }
   .pdf-pages.dark-mode .pdf-page .textLayer ::selection {
     background: rgba(100, 150, 255, 0.5);
@@ -149,6 +152,10 @@
     background: transparent;
     position: relative;
     z-index: 1;
+    /* Multiply makes white PDF background show the wave through, while
+       dark text stays dark — giving a transparent background without
+       fading the text. */
+    mix-blend-mode: multiply;
   }
   /* Text layer for selectable/searchable text */
   .pdf-page .textLayer {
@@ -399,13 +406,10 @@
 
           container.appendChild(pageDiv);
 
-          // Render canvas with transparent background so only PDF content
-          // (text, images) is painted — the white page fill is skipped so
-          // the wave background shows through.
+          // Render canvas
           var renderTask = page.render({
             canvasContext: context,
-            viewport: viewport,
-            background: 'rgba(0,0,0,0)'
+            viewport: viewport
           });
 
           // Render text layer for selectable/searchable text
