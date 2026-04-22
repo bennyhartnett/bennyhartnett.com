@@ -457,3 +457,11 @@ export function initRouter() {
     });
   }
 }
+
+// Test hooks for unit tests in non-browser environments.
+export const __test__ = {
+  getRootDomain,
+  getInitialPage,
+  handleLinkClick,
+  isSubdomain
+};
