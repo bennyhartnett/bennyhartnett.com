@@ -104,6 +104,12 @@ const META_MAP = {
     desc: 'Search across Benny Hartnett\'s projects, tools, and content.',
     ogImage: BASE_OG_IMAGE,
     ogImageAlt: 'Search - Benny Hartnett'
+  },
+  'pages/blank.html': {
+    title: 'Blank - Benny Hartnett',
+    desc: 'A minimal blank page with only the site background.',
+    ogImage: BASE_OG_IMAGE,
+    ogImageAlt: 'Blank Page - Benny Hartnett'
   }
 };
 
