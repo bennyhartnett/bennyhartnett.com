@@ -152,10 +152,7 @@
     background: transparent;
     position: relative;
     z-index: 1;
-    /* White page fill blends out against the backdrop while dark text
-       stays fully opaque — avoids relying on PDF.js's `background`
-       render option, which can leave text semi-transparent. */
-    mix-blend-mode: multiply;
+    mix-blend-mode: normal;
   }
   /* Text layer for selectable/searchable text */
   .pdf-page .textLayer {
@@ -408,7 +405,8 @@
 
           var renderTask = page.render({
             canvasContext: context,
-            viewport: viewport
+            viewport: viewport,
+            background: 'rgba(0, 0, 0, 0)'
           });
 
           // Render text layer for selectable/searchable text
