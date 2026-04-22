@@ -18,10 +18,15 @@ Disallow: /download
 
 # AI/LLM Crawlers - Welcome!
 # For AI assistants and LLM crawlers, see our dedicated files:
-# https://bennyhartnett.com/config/llms.txt (summary)
-# https://bennyhartnett.com/config/llms-full.txt (detailed)
+# https://bennyhartnett.com/llms.txt (summary entrypoint)
+# https://bennyhartnett.com/llms-full.txt (detailed entrypoint)
+# https://bennyhartnett.com/config/llms.txt (summary source)
+# https://bennyhartnett.com/config/llms-full.txt (detailed source)
 
 User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
 Allow: /
 
 User-agent: ChatGPT-User

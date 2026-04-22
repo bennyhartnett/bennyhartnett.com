@@ -1,0 +1,6 @@
+# llms-full.txt (canonical path)
+
+Canonical detailed profile file:
+https://bennyhartnett.com/config/llms-full.txt
+
+If your crawler or agent expects `/llms-full.txt` at root, use this file as the stable entrypoint and then fetch the canonical file above.
