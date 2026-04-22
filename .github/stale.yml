@@ -1,0 +1,14 @@
+# Configuration for actions/stale (including org-level/reusable workflows).
+# Keep stale labeling behavior, but never auto-close pull requests.
+daysUntilStale: 14
+daysUntilClose: -1
+
+# Apply this to PRs only.
+only: pulls
+
+# Keep labels explicit for maintainers.
+staleLabel: stale
+
+markComment: >-
+  This pull request has been marked stale due to 14 days of inactivity.
+  It will remain open and can be reactivated with new activity.
