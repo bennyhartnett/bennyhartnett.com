@@ -8,7 +8,9 @@
     "dev": "node scripts/dev-server.mjs",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "check:sw-guardrails": "node scripts/ci/check-sw-guardrails.mjs",
+    "check:pr-smoke": "node scripts/ci/pr-smoke-checks.mjs"
   },
   "devDependencies": {
     "vitest": "^4.0.0"
