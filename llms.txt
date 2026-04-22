@@ -1,0 +1,10 @@
+# llms.txt (canonical path)
+
+This file mirrors the portfolio's LLM discovery summary and points to the detailed source.
+
+- Summary: https://bennyhartnett.com/config/llms.txt
+- Full details: https://bennyhartnett.com/config/llms-full.txt
+- Contact: https://contact.bennyhartnett.com/
+
+For complete metadata and structured content, use:
+https://bennyhartnett.com/config/llms-full.txt
