@@ -1,6 +1,20 @@
 # bennyhartnett.com
 
+[![Live Site](https://img.shields.io/badge/Live%20Site-bennyhartnett.com-2ea44f?style=for-the-badge)](https://bennyhartnett.com)
+[![Tests](https://github.com/bennyhartnett/bennyhartnett.com/actions/workflows/test.yml/badge.svg)](https://github.com/bennyhartnett/bennyhartnett.com/actions/workflows/test.yml)
+[![Deploy to GitHub Pages](https://github.com/bennyhartnett/bennyhartnett.com/actions/workflows/gh-pages.yml/badge.svg)](https://github.com/bennyhartnett/bennyhartnett.com/actions/workflows/gh-pages.yml)
+[![License: Private](https://img.shields.io/badge/License-Private-red.svg)](#license)
+
 Personal portfolio site with subdomain-based routing, a PWA shell, and an isolated uranium enrichment calculator.
+
+## Live Website
+
+- **Production:** [https://bennyhartnett.com](https://bennyhartnett.com)
+- **Example subdomains:** [https://contact.bennyhartnett.com](https://contact.bennyhartnett.com), [https://nuclear.bennyhartnett.com](https://nuclear.bennyhartnett.com)
+
+## Preview
+
+![Portfolio homepage preview](assets/og-image.png)
 
 ## Architecture
 
