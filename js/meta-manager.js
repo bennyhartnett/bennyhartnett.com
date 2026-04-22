@@ -39,11 +39,11 @@ const META_MAP = {
     ogImage: BASE_OG_IMAGE,
     ogImageAlt: 'Contact Benny Hartnett'
   },
-  'pages/thank-you.html': {
-    title: 'Thank You - Benny Hartnett',
-    desc: 'Thank you for your message.',
+  'pages/sent.html': {
+    title: 'Message Sent - Benny Hartnett',
+    desc: 'Your message has been sent successfully.',
     ogImage: BASE_OG_IMAGE,
-    ogImageAlt: 'Thank You - Benny Hartnett'
+    ogImageAlt: 'Message Sent - Benny Hartnett'
   },
   'pages/projects.html': {
     title: 'Projects - Benny Hartnett',

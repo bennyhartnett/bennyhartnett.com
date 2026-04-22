@@ -164,9 +164,6 @@ subdomain request (e.g., contact.bennyhartnett.com/some/path)
   │           (e.g., contact.bennyhartnett.com/js/app.js
   │            → fetches bennyhartnett.com/js/app.js)
   │
-  ├─ Is subdomain = "thank-you"?
-  │  └─ YES → 301 redirect to sent.bennyhartnett.com
-  │
   ├─ Is subdomain = "nuclear" or "centrus"?
   │  └─ YES → Fetch nuclear.html from origin (standalone page, not SPA)
   │
@@ -568,7 +565,7 @@ The service worker caches aggressively. If you update files but don't increment 
 Since `contact.bennyhartnett.com` and `bennyhartnett.com` are different origins, `fetch()` calls from the SPA to load page fragments are technically cross-origin. The worker handles this by proxying the requests, making them appear same-origin to the browser (the response comes from `contact.bennyhartnett.com`).
 
 ### Subdomain Aliases
-The worker supports aliases: `centrus.bennyhartnett.com` → serves `nuclear.html` (same as `nuclear.bennyhartnett.com`). And `thank-you.bennyhartnett.com` → 301 redirects to `sent.bennyhartnett.com`.
+The worker supports aliases: `centrus.bennyhartnett.com` → serves `nuclear.html` (same as `nuclear.bennyhartnett.com`).
 
 ### Static Asset Regex Includes .html
 The static asset detection intentionally includes `.html` files. This is critical: the SPA fetches `pages/contact.html` via AJAX from within `contact.bennyhartnett.com`. Without `.html` in the static asset list, this fetch would return `index.html` again instead of the fragment, causing an infinite loading issue.

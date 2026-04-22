@@ -107,11 +107,6 @@ async function handleSubdomain(request, url, hostname, rootDomain) {
     });
   }
 
-  // Redirect thank-you subdomain to sent subdomain (at root)
-  if (subdomain === 'thank-you') {
-    return Response.redirect(`https://sent.${rootDomain}/`, 301);
-  }
-
   // Redirect ASCII aliases to their canonical IDN (punycode) subdomains
   if (ASCII_TO_IDN[subdomain]) {
     return Response.redirect(`https://${ASCII_TO_IDN[subdomain]}.${rootDomain}/`, 301);
