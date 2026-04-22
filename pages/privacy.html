@@ -62,10 +62,49 @@
     scrollbar-width: thin;
     scrollbar-color: #444 #111;
   }
+
+  .language-control {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .language-control label {
+    font-size: 0.95rem;
+    opacity: 0.9;
+  }
+
+  .language-control select {
+    background: rgba(20, 26, 43, 0.9);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    padding: 0.45rem 0.6rem;
+    font: inherit;
+  }
+
+  [data-language-content] {
+    display: none;
+  }
+
+  [data-language-content].is-active {
+    display: block;
+  }
 </style>
 
 <main class="privacy-shell">
   <article class="glass-card">
+  <div class="language-control">
+    <label for="policy-language">Language</label>
+    <select id="policy-language" aria-label="Select policy language">
+      <option value="en">English</option>
+      <option value="es">Español</option>
+    </select>
+  </div>
+
+  <section data-language-content="en" class="is-active">
 <h1>Privacy Policy and Terms of Use</h1>
 <p><strong>BennyHartnett.com and its subdomains</strong></p>
 <p>Last Updated: April 22, 2026</p>
@@ -425,7 +464,67 @@
   This document is intended for publication on the Site as the governing Privacy Policy and Terms of
   Use.
 </p>
+  </section>
 
-<a href="/">Back to Home</a>
+  <section data-language-content="es">
+    <h1>Política de Privacidad y Términos de Uso</h1>
+    <p><strong>BennyHartnett.com y sus subdominios</strong></p>
+    <p>Última actualización: 22 de abril de 2026</p>
+    <p>
+      Esta versión en español está disponible para accesibilidad y referencia rápida. En caso de
+      conflicto de interpretación, prevalece la versión en inglés de esta política.
+    </p>
+    <p>
+      Este sitio puede recopilar información que usted proporcione voluntariamente (por ejemplo,
+      formularios o mensajes), además de información técnica y de uso (como dirección IP, tipo de
+      dispositivo, datos de navegación, cookies y registros operativos) para operar, proteger y
+      mejorar el servicio.
+    </p>
+    <p>
+      También podemos utilizar proveedores externos de infraestructura, análisis, automatización y
+      herramientas de IA para ofrecer funcionalidades del sitio. Esos proveedores pueden procesar
+      datos conforme a sus propias políticas y términos.
+    </p>
+    <p>
+      Al usar el sitio, usted acepta estos términos, incluido el uso de medidas de seguridad
+      razonables sin garantía absoluta, posibles transferencias internacionales de datos,
+      limitaciones de responsabilidad y uso del contenido solo con fines informativos.
+    </p>
+    <p>
+      Usted puede solicitar acceso, corrección o eliminación de datos cuando la ley aplicable lo
+      permita, escribiendo a <a href="mailto:me@bennyhartnett.com">me@bennyhartnett.com</a>.
+    </p>
+    <p>
+      Para ver todos los términos completos y detallados, seleccione <strong>English</strong> en
+      el selector de idioma.
+    </p>
+  </section>
+
+  <a href="/">Back to Home</a>
   </article>
 </main>
+
+<script>
+  const languageSelector = document.getElementById('policy-language');
+  const languageSections = document.querySelectorAll('[data-language-content]');
+  const storedLanguage = localStorage.getItem('privacy-language');
+  const queryLanguage = new URLSearchParams(window.location.search).get('lang');
+  const initialLanguage = queryLanguage || storedLanguage || 'en';
+
+  function setLanguage(language) {
+    const nextLanguage = language === 'es' ? 'es' : 'en';
+    languageSelector.value = nextLanguage;
+    localStorage.setItem('privacy-language', nextLanguage);
+
+    languageSections.forEach((section) => {
+      const isMatch = section.getAttribute('data-language-content') === nextLanguage;
+      section.classList.toggle('is-active', isMatch);
+    });
+  }
+
+  languageSelector.addEventListener('change', (event) => {
+    setLanguage(event.target.value);
+  });
+
+  setLanguage(initialLanguage);
+</script>
