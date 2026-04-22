@@ -12,6 +12,11 @@ const SUPPORTED_DOMAINS = ['bennyhartnett.com', 'federalinnovations.com'];
 // Header to mark internal origin fetches (prevents redirect loops)
 const INTERNAL_HEADER = 'X-CF-Worker-Internal';
 
+const CARD_SUBDOMAIN = 'card';
+const CARD_VCF_PATH = '/card.vcf';
+const CARD_VCF_FILENAME = 'Hartnett_Benny.vcf';
+const CARD_VCF_CONTENT_TYPE = 'text/vcard; charset=utf-8';
+
 // ASCII subdomain → canonical IDN (punycode) subdomain
 // e.g., resume.bennyhartnett.com → résumé.bennyhartnett.com (xn--rsum-bpad)
 const ASCII_TO_IDN = {
@@ -86,7 +91,7 @@ async function handleSubdomain(request, url, hostname, rootDomain) {
 
   // For static assets on subdomain, try to fetch from main domain
   // NOTE: .html is included to allow SPA to fetch page fragments (e.g., pages/contact.html)
-  const isStaticAsset = url.pathname.match(/\.(js|css|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot|json|pdf|webp|html)$/i);
+  const isStaticAsset = url.pathname.match(/\.(js|css|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot|json|pdf|webp|html|vcf)$/i);
 
   if (isStaticAsset) {
     // Fetch static asset from main domain
@@ -110,6 +115,32 @@ async function handleSubdomain(request, url, hostname, rootDomain) {
   // Redirect ASCII aliases to their canonical IDN (punycode) subdomains
   if (ASCII_TO_IDN[subdomain]) {
     return Response.redirect(`https://${ASCII_TO_IDN[subdomain]}.${rootDomain}/`, 301);
+  }
+
+  // Card subdomain: serve the vCard itself at the root URL.
+  if (subdomain === CARD_SUBDOMAIN && (url.pathname === '/' || url.pathname === '')) {
+    const cardUrl = new URL(url);
+    cardUrl.hostname = rootDomain;
+    cardUrl.pathname = CARD_VCF_PATH;
+    cardUrl.search = '';
+
+    const headers = new Headers(request.headers);
+    headers.set(INTERNAL_HEADER, '1');
+
+    const response = await fetch(cardUrl.toString(), {
+      method: request.method,
+      headers: headers,
+    });
+
+    const responseHeaders = new Headers(response.headers);
+    responseHeaders.set('content-type', CARD_VCF_CONTENT_TYPE);
+    responseHeaders.set('content-disposition', `inline; filename="${CARD_VCF_FILENAME}"`);
+
+    return new Response(response.body, {
+      status: response.status,
+      statusText: response.statusText,
+      headers: responseHeaders,
+    });
   }
 
   // Nuclear subdomain (and centrus alias): serve nuclear.html directly (it's a standalone page, not an SPA fragment)

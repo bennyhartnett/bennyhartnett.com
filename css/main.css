@@ -55,6 +55,14 @@ body {
   position: relative;
 }
 
+#site-background {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
 .fx-defs {
   position: absolute;
   width: 0;
@@ -156,12 +164,10 @@ select {
 /* Wave Canvas Background */
 #canvas[data-site-background] {
   display: block;
-  position: fixed;
-  z-index: 0;
+  position: absolute;
+  inset: -10vh -10vw;
   opacity: 1;
   pointer-events: none;
-  top: -10vh;
-  left: -10vw;
   width: 120vw !important;
   height: 120vh !important;
 }

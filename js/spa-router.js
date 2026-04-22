@@ -196,7 +196,7 @@ function renderFallbackContent(url) {
   if (url === 'pages/home.html') {
     container.innerHTML = `\
       <style>\
-        .home-container { min-height: calc(100vh - 56px - 2rem); display: flex; justify-content: center; align-items: center; padding: 1rem; }\
+        .home-container { min-height: calc(100vh - var(--nav-height)); min-height: calc(100svh - var(--nav-height)); box-sizing: border-box; display: flex; justify-content: center; align-items: center; padding: 1rem; }\
         .link-list { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: center; }\
         .link-list li { margin: 0; }\
         .link-list a { display: block; color: white; text-decoration: none; font-size: 1.5rem; font-family: 'Inter', sans-serif; padding: 0.75rem; transition: color 0.3s ease; cursor: pointer; }\
