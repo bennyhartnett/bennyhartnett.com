@@ -8,6 +8,33 @@ afterEach(() => {
 });
 
 describe('workers/router', () => {
+  it('passes through requests marked as internal worker fetches', async () => {
+    const fetchSpy = vi.spyOn(globalThis, 'fetch').mockResolvedValue(makeResponse('internal'));
+
+    const request = new Request('https://bennyhartnett.com/contact', {
+      headers: {
+        'X-CF-Worker-Internal': '1'
+      }
+    });
+    const response = await worker.fetch(request, {}, {});
+
+    expect(response.status).toBe(200);
+    expect(await response.text()).toBe('internal');
+    expect(fetchSpy).toHaveBeenCalledTimes(1);
+    expect(String(fetchSpy.mock.calls[0][0])).toBe(String(request));
+  });
+
+  it('passes unsupported domains through without redirect', async () => {
+    const fetchSpy = vi.spyOn(globalThis, 'fetch').mockResolvedValue(makeResponse('external'));
+
+    const request = new Request('https://example.com/contact');
+    const response = await worker.fetch(request, {}, {});
+
+    expect(response.status).toBe(200);
+    expect(await response.text()).toBe('external');
+    expect(fetchSpy).toHaveBeenCalledTimes(1);
+  });
+
   it('redirects /foo path requests to foo subdomain', async () => {
     const fetchSpy = vi.spyOn(globalThis, 'fetch').mockResolvedValue(makeResponse());
 
@@ -28,6 +55,54 @@ describe('workers/router', () => {
     expect(response.status).toBe(200);
     expect(await response.text()).toBe('asset');
     expect(fetchSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it('passes non-html file paths through on main domain', async () => {
+    const fetchSpy = vi.spyOn(globalThis, 'fetch').mockResolvedValue(makeResponse('file passthrough'));
+
+    const request = new Request('https://bennyhartnett.com/favicon.svg');
+    const response = await worker.fetch(request, {}, {});
+
+    expect(response.status).toBe(200);
+    expect(await response.text()).toBe('file passthrough');
+    expect(fetchSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it('strips .html extension on path redirects', async () => {
+    const fetchSpy = vi.spyOn(globalThis, 'fetch').mockResolvedValue(makeResponse());
+
+    const request = new Request('https://bennyhartnett.com/projects.html?tab=all');
+    const response = await worker.fetch(request, {}, {});
+
+    expect(response.status).toBe(301);
+    expect(response.headers.get('location')).toBe('https://projects.bennyhartnett.com/?tab=all');
+    expect(fetchSpy).not.toHaveBeenCalled();
+  });
+
+  it('supports federalinnovations.com root domain redirects', async () => {
+    const fetchSpy = vi.spyOn(globalThis, 'fetch').mockResolvedValue(makeResponse());
+
+    const request = new Request('https://federalinnovations.com/contact');
+    const response = await worker.fetch(request, {}, {});
+
+    expect(response.status).toBe(301);
+    expect(response.headers.get('location')).toBe('https://contact.federalinnovations.com/');
+    expect(fetchSpy).not.toHaveBeenCalled();
+  });
+
+  it('passes static assets on subdomains through main domain with internal header', async () => {
+    const fetchSpy = vi.spyOn(globalThis, 'fetch').mockResolvedValue(makeResponse('asset ok'));
+
+    const response = await worker.fetch(new Request('https://contact.bennyhartnett.com/css/main.css'), {}, {});
+
+    expect(response.status).toBe(200);
+    expect(await response.text()).toBe('asset ok');
+    expect(fetchSpy).toHaveBeenCalledTimes(1);
+
+    const [url, init] = fetchSpy.mock.calls[0];
+    expect(String(url)).toBe('https://bennyhartnett.com/css/main.css');
+    expect(init.method).toBe('GET');
+    expect(init.headers.get('X-CF-Worker-Internal')).toBe('1');
   });
 
   it('serves nuclear and centrus subdomains from /nuclear.html', async () => {

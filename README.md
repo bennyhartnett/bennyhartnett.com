@@ -54,9 +54,29 @@ No build step required.
 npm test              # Run tests once (vitest)
 npm run test:watch    # Watch mode
 npm run test:coverage # With coverage
+npm run check:sw-guardrails # Service worker cache guardrails (CI helper)
+npm run check:pr-smoke      # Broken-link and static asset smoke checks
 ```
 
-Tests live in `nuclear/nuclear-math.test.js` and cover the enrichment math functions. CI runs on every push/PR to `main` via `.github/workflows/test.yml`.
+### Test Suites
+
+- `nuclear/nuclear-math.test.js` — Uranium enrichment math, mode consistency, and edge cases.
+- `workers/router.test.js` — Cloudflare worker routing and redirect behavior.
+- `sw.test.js` — Service worker lifecycle + fetch strategy behavior.
+- `js/spa-router.test.js` — SPA route selection and link-handling redirects.
+- `scripts/ci/check-sw-guardrails.test.js` — Cache-version/page-asset guardrail logic.
+- `scripts/ci/pr-smoke-checks.test.js` — Broken link/static asset smoke-check logic.
+
+### Current Local Status (2026-04-22)
+
+| Command | Status | Notes |
+|---|---|---|
+| `npm test` | ✅ Pass | All suites passing locally. |
+| `npm run check:sw-guardrails` | ✅ Pass* | Passes when no `BASE_SHA`/`HEAD_SHA` are provided (expected local behavior). |
+| `npm run check:pr-smoke` | ✅ Pass | Internal asset/page checks pass. |
+| `npm run test:coverage` | ❌ Fail | Missing dev dependency `@vitest/coverage-v8`. |
+
+CI runs on every push/PR to `main` via `.github/workflows/test.yml`.
 
 ## Deployment
 
