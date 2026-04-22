@@ -1,7 +1,10 @@
 # bennyhartnett.com
 
 [![Live Site](https://img.shields.io/badge/Live%20Site-bennyhartnett.com-2ea44f?style=for-the-badge)](https://bennyhartnett.com)
-[![Tests](https://github.com/bennyhartnett/bennyhartnett.com/actions/workflows/test.yml/badge.svg)](https://github.com/bennyhartnett/bennyhartnett.com/actions/workflows/test.yml)
+[![Unit Tests](https://github.com/bennyhartnett/bennyhartnett.com/actions/workflows/test.yml/badge.svg)](https://github.com/bennyhartnett/bennyhartnett.com/actions/workflows/test.yml)
+[![Quality Checks](https://github.com/bennyhartnett/bennyhartnett.com/actions/workflows/quality-checks.yml/badge.svg)](https://github.com/bennyhartnett/bennyhartnett.com/actions/workflows/quality-checks.yml)
+[![Service Worker Guardrails](https://img.shields.io/github/actions/workflow/status/bennyhartnett/bennyhartnett.com/quality-checks.yml?branch=main&label=Service%20Worker%20Guardrails)](https://github.com/bennyhartnett/bennyhartnett.com/actions/workflows/quality-checks.yml)
+[![PR Smoke Checks](https://img.shields.io/github/actions/workflow/status/bennyhartnett/bennyhartnett.com/quality-checks.yml?branch=main&label=PR%20Smoke%20Checks)](https://github.com/bennyhartnett/bennyhartnett.com/actions/workflows/quality-checks.yml)
 [![Deploy to GitHub Pages](https://github.com/bennyhartnett/bennyhartnett.com/actions/workflows/gh-pages.yml/badge.svg)](https://github.com/bennyhartnett/bennyhartnett.com/actions/workflows/gh-pages.yml)
 [![License: Private](https://img.shields.io/badge/License-Private-red.svg)](#license)
 
@@ -76,7 +79,7 @@ npm run check:pr-smoke      # Broken-link and static asset smoke checks
 | `npm run check:pr-smoke` | ✅ Pass | Internal asset/page checks pass. |
 | `npm run test:coverage` | ❌ Fail | Missing dev dependency `@vitest/coverage-v8`. |
 
-CI runs on every push/PR to `main` via `.github/workflows/test.yml`.
+CI runs on every push/PR to `main` via `.github/workflows/test.yml` and `.github/workflows/quality-checks.yml`.
 
 ## Deployment
 
