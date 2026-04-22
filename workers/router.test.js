@@ -118,14 +118,17 @@ describe('workers/router', () => {
     expect(calledUrls).toContain('https://bennyhartnett.com/nuclear.html');
   });
 
-  it('redirects thank-you subdomain to sent subdomain', async () => {
-    const fetchSpy = vi.spyOn(globalThis, 'fetch').mockResolvedValue(makeResponse());
+  it('treats sent subdomain like a normal SPA subdomain', async () => {
+    const fetchSpy = vi.spyOn(globalThis, 'fetch').mockResolvedValue(makeResponse('index ok'));
 
-    const response = await worker.fetch(new Request('https://thank-you.bennyhartnett.com/'), {}, {});
+    const response = await worker.fetch(new Request('https://sent.bennyhartnett.com/'), {}, {});
 
-    expect(response.status).toBe(301);
-    expect(response.headers.get('location')).toBe('https://sent.bennyhartnett.com/');
-    expect(fetchSpy).not.toHaveBeenCalled();
+    expect(response.status).toBe(200);
+    expect(await response.text()).toBe('index ok');
+    expect(fetchSpy).toHaveBeenCalledTimes(1);
+    const [url, init] = fetchSpy.mock.calls[0];
+    expect(String(url)).toBe('https://bennyhartnett.com/');
+    expect(init.headers.get('X-CF-Worker-Internal')).toBe('1');
   });
 
   it('redirects ascii resume subdomain to canonical punycode idn', async () => {
