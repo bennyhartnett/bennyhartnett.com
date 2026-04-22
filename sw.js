@@ -20,6 +20,7 @@ const STATIC_ASSETS = [
   '/pages/chat.html',
   '/pages/meet.html',
   '/pages/tools.html',
+  '/pages/panoramic.html',
   '/pages/fx.html',
   '/pages/clipboard.html',
   '/pages/search.html',
