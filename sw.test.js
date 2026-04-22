@@ -49,7 +49,7 @@ describe('sw.js service worker', () => {
 
     globalThis.caches = {
       open: vi.fn(() => Promise.resolve(activeCache)),
-      keys: vi.fn(() => Promise.resolve(['swu-calculator-v137', 'swu-calculator-v139'])),
+      keys: vi.fn(() => Promise.resolve(['swu-calculator-v137', 'swu-calculator-v140'])),
       delete: vi.fn(() => Promise.resolve(true)),
       match: vi.fn((request) => Promise.resolve(cacheStore.get(String(request.url ?? request)) ?? undefined)),
       __cacheStore: cacheStore,
@@ -84,7 +84,7 @@ describe('sw.js service worker', () => {
     await Promise.all(event.waits);
 
     expect(caches.delete).toHaveBeenCalledWith('swu-calculator-v137');
-    expect(caches.delete).not.toHaveBeenCalledWith('swu-calculator-v139');
+    expect(caches.delete).not.toHaveBeenCalledWith('swu-calculator-v140');
     expect(self.clients.claim).toHaveBeenCalledTimes(1);
   });
 

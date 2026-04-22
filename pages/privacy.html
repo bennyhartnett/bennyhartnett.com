@@ -6,6 +6,30 @@
     padding: 1rem;
   }
 
+  .privacy-shell {
+    max-width: 980px;
+    margin: 0 auto;
+  }
+
+  .glass-card {
+    border-radius: 20px;
+    padding: clamp(1.25rem, 2vw, 2rem);
+    background: rgba(12, 18, 31, 0.56);
+    border: 1px solid rgba(255, 255, 255, 0.24);
+    box-shadow: 0 10px 36px rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(14px) saturate(130%);
+    -webkit-backdrop-filter: blur(14px) saturate(130%);
+  }
+
+  .glass-card h1 {
+    margin-top: 0;
+  }
+
+  .glass-card a:last-child {
+    display: inline-block;
+    margin-top: 0.5rem;
+  }
+
   a {
     color: white;
     text-decoration: none;
@@ -40,6 +64,8 @@
   }
 </style>
 
+<main class="privacy-shell">
+  <article class="glass-card">
 <h1>Privacy Policy and Terms of Use</h1>
 <p><strong>BennyHartnett.com and its subdomains</strong></p>
 <p>Last Updated: April 22, 2026</p>
@@ -401,3 +427,5 @@
 </p>
 
 <a href="/">Back to Home</a>
+  </article>
+</main>
