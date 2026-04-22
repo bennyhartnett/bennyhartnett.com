@@ -406,7 +406,9 @@
           var renderTask = page.render({
             canvasContext: context,
             viewport: viewport,
-            background: 'rgba(255, 255, 255, 0.35)'
+            // Preserve PDF alpha instead of compositing a white matte.
+            // This keeps page backgrounds transparent over the site canvas.
+            background: 'rgba(0, 0, 0, 0)'
           });
 
           // Render text layer for selectable/searchable text
