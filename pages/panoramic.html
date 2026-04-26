@@ -68,6 +68,18 @@
     transform: translateY(-1px);
   }
 
+  .panoramic-upload-wrap {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .panoramic-upload {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+  }
+
   .panoramic-toggle {
     display: inline-flex;
     align-items: center;
@@ -115,7 +127,7 @@
 <div class="panoramic-page">
   <header class="panoramic-header">
     <h1>Panoramic Viewer</h1>
-    <p>Look around a 360° panoramic photo like Street View. Paste any equirectangular image URL to load your own scene.</p>
+    <p>Look around a 360° panoramic photo like Street View. Paste an equirectangular image URL or upload a panoramic photo from your device.</p>
   </header>
 
   <div class="panoramic-controls">
@@ -127,7 +139,11 @@
       placeholder="https://example.com/panorama.jpg"
       aria-label="Panoramic image URL"
     />
-    <button id="panoramic-load" class="panoramic-btn" type="button">Load photo</button>
+    <label class="panoramic-upload-wrap panoramic-btn" for="panoramic-upload">
+      <input id="panoramic-upload" class="panoramic-upload" type="file" accept="image/*" aria-label="Upload panoramic image" />
+      Upload photo
+    </label>
+    <button id="panoramic-load" class="panoramic-btn" type="button">Load URL</button>
     <button id="panoramic-reset" class="panoramic-btn" type="button">Reset view</button>
     <label class="panoramic-toggle" for="panoramic-loop">
       <input id="panoramic-loop" type="checkbox" checked />
@@ -151,11 +167,13 @@
     const viewerNode = scope.querySelector('#panoramic-viewer');
     const urlInput = scope.querySelector('#panoramic-url');
     const loadButton = scope.querySelector('#panoramic-load');
+    const uploadInput = scope.querySelector('#panoramic-upload');
     const resetButton = scope.querySelector('#panoramic-reset');
     const loopToggle = scope.querySelector('#panoramic-loop');
     const statusNode = scope.querySelector('#panoramic-status');
 
     let viewer;
+    let objectUrl;
 
     function setStatus(message, isError = false) {
       statusNode.textContent = message;
@@ -171,9 +189,17 @@
       }
     }
 
-    function createViewer(url) {
+    function revokeObjectUrl() {
+      if (!objectUrl) {
+        return;
+      }
+      URL.revokeObjectURL(objectUrl);
+      objectUrl = null;
+    }
+
+    function createViewer(url, sourceLabel = 'URL') {
       if (!url) {
-        setStatus('Enter a panoramic image URL first.', true);
+        setStatus('Enter a panoramic image URL or upload a photo first.', true);
         return;
       }
 
@@ -189,25 +215,37 @@
       });
 
       viewer.on('load', () => {
-        setStatus('Panorama loaded. Drag to look around.');
+        setStatus(`Panorama loaded from ${sourceLabel}. Drag to look around.`);
         applyLoopSetting();
       });
 
       viewer.on('error', (error) => {
-        const message = error && error.message ? error.message : 'Unable to load that image URL.';
+        const message = error && error.message ? error.message : `Unable to load panoramic image from ${sourceLabel}.`;
         setStatus(message, true);
       });
     }
 
     loadButton.addEventListener('click', () => {
-      createViewer(urlInput.value.trim());
+      revokeObjectUrl();
+      createViewer(urlInput.value.trim(), 'URL');
     });
 
     urlInput.addEventListener('keydown', (event) => {
       if (event.key === 'Enter') {
         event.preventDefault();
-        createViewer(urlInput.value.trim());
+        revokeObjectUrl();
+        createViewer(urlInput.value.trim(), 'URL');
       }
+    });
+
+    uploadInput.addEventListener('change', () => {
+      const file = uploadInput.files && uploadInput.files[0];
+      if (!file) {
+        return;
+      }
+      revokeObjectUrl();
+      objectUrl = URL.createObjectURL(file);
+      createViewer(objectUrl, `upload (${file.name})`);
     });
 
     resetButton.addEventListener('click', () => {
@@ -224,6 +262,7 @@
       setStatus(loopToggle.checked ? '360 loop enabled.' : '360 loop disabled.');
     });
 
-    createViewer(urlInput.value.trim());
+    createViewer(urlInput.value.trim(), 'URL');
+    window.addEventListener('beforeunload', revokeObjectUrl);
   })();
 </script>
