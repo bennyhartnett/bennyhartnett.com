@@ -3,9 +3,6 @@ name: Deploy Cloudflare Worker
 on:
   push:
     branches: ["main"]
-    paths:
-      - "workers/**"
-      - "wrangler.toml"
   workflow_dispatch:
 
 jobs:
