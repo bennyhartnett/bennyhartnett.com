@@ -75,12 +75,6 @@ const META_MAP = {
     ogImage: BASE_OG_IMAGE,
     ogImageAlt: 'Clipboard - Peer-to-Peer File Sharing'
   },
-  'pages/panoramic.html': {
-    title: 'Panoramic Viewer - Benny Hartnett',
-    desc: 'Client-side 360° panoramic photo viewer with optional looped auto-rotation controls.',
-    ogImage: BASE_OG_IMAGE,
-    ogImageAlt: 'Panoramic Viewer - Street View style photo exploration'
-  },
   'pages/tools.html': {
     title: 'Tools - Benny Hartnett',
     desc: 'Apps and utilities including video conferencing, clipboard sharing, and calculators.',
