@@ -113,6 +113,29 @@ describe('sw.js service worker', () => {
     expect(caches.__activeCache.put).toHaveBeenCalled();
   });
 
+  it('returns cached response for approved CDN origins when present', async () => {
+    const request = new Request('https://cdn.jsdelivr.net/npm/three@0.1.0/build/three.min.js');
+    const cached = new Response('cached cdn', { status: 200 });
+    caches.__cacheStore.set(request.url, cached);
+    const event = makeFetchEvent(request);
+    handlers.fetch(event);
+
+    const response = await event.responsePromise;
+    expect(await response.text()).toBe('cached cdn');
+    expect(fetch).not.toHaveBeenCalled();
+  });
+
+  it('does not cache non-ok CDN responses', async () => {
+    const request = new Request('https://cdnjs.cloudflare.com/ajax/libs/three.js/r1/three.min.js');
+    fetch.mockResolvedValueOnce(new Response('bad', { status: 500 }));
+    const event = makeFetchEvent(request);
+    handlers.fetch(event);
+
+    const response = await event.responsePromise;
+    expect(response.status).toBe(500);
+    expect(caches.__activeCache.put).not.toHaveBeenCalled();
+  });
+
   it('bypasses non-whitelisted external origins', () => {
     const request = new Request('https://example.com/script.js');
     const event = makeFetchEvent(request);
@@ -148,9 +171,25 @@ describe('sw.js service worker', () => {
     expect(caches.__activeCache.put).toHaveBeenCalled();
   });
 
+  it('uses network-first strategy for /nuclear route', async () => {
+    const request = new Request('https://bennyhartnett.com/nuclear');
+    const event = makeFetchEvent(request);
+    handlers.fetch(event);
+
+    const response = await event.responsePromise;
+    expect(await response.text()).toBe('network');
+    expect(fetch).toHaveBeenCalledWith(request);
+  });
+
   it('handles skipWaiting message', () => {
     handlers.message({ data: 'skipWaiting' });
 
     expect(self.skipWaiting).toHaveBeenCalledTimes(1);
+  });
+
+  it('ignores non-skipWaiting messages', () => {
+    handlers.message({ data: 'noop' });
+
+    expect(self.skipWaiting).not.toHaveBeenCalled();
   });
 });

@@ -57,6 +57,17 @@ describe('workers/router', () => {
     expect(fetchSpy).toHaveBeenCalledTimes(1);
   });
 
+  it('passes through root main-domain requests', async () => {
+    const fetchSpy = vi.spyOn(globalThis, 'fetch').mockResolvedValue(makeResponse('root'));
+
+    const request = new Request('https://bennyhartnett.com/');
+    const response = await worker.fetch(request, {}, {});
+
+    expect(response.status).toBe(200);
+    expect(await response.text()).toBe('root');
+    expect(fetchSpy).toHaveBeenCalledTimes(1);
+  });
+
   it('passes non-html file paths through on main domain', async () => {
     const fetchSpy = vi.spyOn(globalThis, 'fetch').mockResolvedValue(makeResponse('file passthrough'));
 
@@ -103,6 +114,17 @@ describe('workers/router', () => {
     expect(String(url)).toBe('https://bennyhartnett.com/css/main.css');
     expect(init.method).toBe('GET');
     expect(init.headers.get('X-CF-Worker-Internal')).toBe('1');
+  });
+
+  it('passes .html static assets on subdomains through main domain', async () => {
+    const fetchSpy = vi.spyOn(globalThis, 'fetch').mockResolvedValue(makeResponse('html asset'));
+
+    const response = await worker.fetch(new Request('https://contact.bennyhartnett.com/pages/contact.html'), {}, {});
+
+    expect(response.status).toBe(200);
+    expect(await response.text()).toBe('html asset');
+    expect(fetchSpy).toHaveBeenCalledTimes(1);
+    expect(String(fetchSpy.mock.calls[0][0])).toBe('https://bennyhartnett.com/pages/contact.html');
   });
 
   it('serves nuclear and centrus subdomains from /nuclear.html', async () => {
@@ -155,5 +177,27 @@ describe('workers/router', () => {
     expect(response.headers.get('content-type')).toContain('text/vcard');
     expect(response.headers.get('content-disposition')).toContain('Hartnett_Benny.vcf');
     expect(await response.text()).toBe('VCARD');
+  });
+
+  it('serves generic subdomain requests from root index', async () => {
+    const fetchSpy = vi.spyOn(globalThis, 'fetch').mockResolvedValue(makeResponse('index shell'));
+
+    const response = await worker.fetch(new Request('https://projects.bennyhartnett.com/'), {}, {});
+
+    expect(response.status).toBe(200);
+    expect(await response.text()).toBe('index shell');
+    expect(fetchSpy).toHaveBeenCalledTimes(1);
+    expect(String(fetchSpy.mock.calls[0][0])).toBe('https://bennyhartnett.com/');
+  });
+
+  it('falls back to generic subdomain behavior for non-root card paths', async () => {
+    const fetchSpy = vi.spyOn(globalThis, 'fetch').mockResolvedValue(makeResponse('index shell'));
+
+    const response = await worker.fetch(new Request('https://card.bennyhartnett.com/profile'), {}, {});
+
+    expect(response.status).toBe(200);
+    expect(await response.text()).toBe('index shell');
+    expect(fetchSpy).toHaveBeenCalledTimes(1);
+    expect(String(fetchSpy.mock.calls[0][0])).toBe('https://bennyhartnett.com/');
   });
 });

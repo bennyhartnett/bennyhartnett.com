@@ -376,6 +376,10 @@ describe('computeFeedEupFromSwu (Mode 4)', () => {
     expect(() => computeFeedEupFromSwu(LEU_5, TAILS_03, NATURAL_U, 0)).toThrow();
     expect(() => computeFeedEupFromSwu(LEU_5, TAILS_03, NATURAL_U, -10)).toThrow();
   });
+
+  it('should throw when SWU quantity is unrealistically large for search bounds', () => {
+    expect(() => computeFeedEupFromSwu(0.008, 0.0071, NATURAL_U, 1e12)).toThrow(/too large/);
+  });
 });
 
 // ============================================================================
@@ -449,6 +453,11 @@ describe('findOptimumTails (Mode 5)', () => {
       expect(result.xw).toBeLessThan(NATURAL_U);
       expect(result.cost_per_P).toBeGreaterThan(0);
     });
+  });
+
+  it('should throw when product assay is not greater than feed assay', () => {
+    expect(() => findOptimumTails(NATURAL_U, NATURAL_U, 100, 150)).toThrow(/Assay ordering is incorrect/);
+    expect(() => findOptimumTails(0.005, NATURAL_U, 100, 150)).toThrow(/Assay ordering is incorrect/);
   });
 });
 
