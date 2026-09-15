@@ -13,6 +13,159 @@
   a:hover {
     color: var(--wave-color);
   }
+
+  .projects-intro {
+    max-width: 900px;
+    margin-bottom: 2.5rem;
+  }
+
+  .projects-intro h1 {
+    margin-bottom: 0.5rem;
+  }
+
+  .projects-intro p {
+    max-width: 720px;
+    color: rgba(255, 255, 255, 0.72);
+    line-height: 1.65;
+  }
+
+  .case-studies {
+    max-width: 1100px;
+    margin: 0 0 3rem;
+  }
+
+  .case-studies-header {
+    margin-bottom: 1.25rem;
+  }
+
+  .case-studies-eyebrow {
+    margin: 0 0 0.35rem;
+    color: rgba(255, 255, 255, 0.58);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .case-studies-header h2 {
+    margin: 0 0 0.5rem;
+  }
+
+  .case-studies-header > p:last-child {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.68);
+    line-height: 1.6;
+    max-width: 760px;
+  }
+
+  .case-study-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.25rem;
+  }
+
+  .case-study-card {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    padding: 1.5rem;
+    border-radius: 14px;
+    background: rgba(0, 0, 0, 0.18);
+    -webkit-backdrop-filter: blur(14px) saturate(1.15);
+    backdrop-filter: blur(14px) saturate(1.15);
+    box-shadow:
+      inset 0 0 2px 1px rgba(255, 255, 255, 0.22),
+      inset 0 0 18px rgba(255, 255, 255, 0.06),
+      0 12px 32px rgba(0, 0, 0, 0.18);
+  }
+
+  .case-study-card::before {
+    content: '';
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 3px;
+    background: var(--wave-color);
+    opacity: 0.8;
+  }
+
+  .case-study-kicker {
+    display: inline-block;
+    margin-bottom: 0.7rem;
+    color: rgba(255, 255, 255, 0.58);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .case-study-card h3 {
+    margin: 0;
+    font-size: 1.35rem;
+    line-height: 1.25;
+  }
+
+  .case-study-client {
+    margin: 0.4rem 0 1rem;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.9rem;
+  }
+
+  .case-study-summary {
+    margin: 0 0 1.2rem;
+    color: rgba(255, 255, 255, 0.82);
+    line-height: 1.65;
+  }
+
+  .case-study-details {
+    display: grid;
+    gap: 0.9rem;
+  }
+
+  .case-study-details h4 {
+    margin: 0 0 0.25rem;
+    font-size: 0.82rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .case-study-details p {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.68);
+    font-size: 0.9rem;
+    line-height: 1.55;
+  }
+
+  .case-study-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    margin: 1.2rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .case-study-tags li {
+    padding: 0.3rem 0.55rem;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.06);
+    color: rgba(255, 255, 255, 0.76);
+    font-size: 0.75rem;
+  }
+
+  .case-study-link {
+    display: inline-block;
+    margin-top: 1.2rem;
+    font-size: 0.88rem;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .case-study-link:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
   /* Dark mode scrollbar */
   ::-webkit-scrollbar {
     width: 12px;
@@ -65,9 +218,107 @@
     outline: 2px solid var(--wave-color);
     outline-offset: 2px;
   }
+
+  @media (max-width: 800px) {
+    .case-study-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 700px) {
+    body {
+      padding: 0.75rem;
+    }
+
+    .case-study-card {
+      padding: 1.25rem;
+    }
+
+    table {
+      display: block;
+      width: 100%;
+      overflow-x: auto;
+      margin-left: 0;
+      margin-right: 0;
+    }
+  }
 </style>
-<h1>Projects</h1>
-<p>This page lists various projects and ideas explored on this site.</p>
+
+<header class="projects-intro">
+  <h1>Projects</h1>
+  <p>Selected case studies show how I approach real engineering problems; the project archive below covers additional professional, personal, academic, and concept work.</p>
+</header>
+
+<section class="case-studies" aria-labelledby="case-studies-title">
+  <div class="case-studies-header">
+    <p class="case-studies-eyebrow">Selected work</p>
+    <h2 id="case-studies-title">Case Studies</h2>
+    <p>Two examples of systems I designed and built across embedded hardware, cloud services, and specialized web software.</p>
+  </div>
+
+  <div class="case-study-grid">
+    <article class="case-study-card" id="wildfire-detection-case-study">
+      <span class="case-study-kicker">IoT · Edge Computing · Deployed</span>
+      <h3>Wildfire detection from remote fire towers</h3>
+      <p class="case-study-client">Perimeter · 2021</p>
+      <p class="case-study-summary">Designed and developed an IoT system for real-time wildfire detection in remote, high-risk areas where connectivity, weather exposure, and reliable field operation all matter.</p>
+
+      <div class="case-study-details">
+        <div>
+          <h4>Challenge</h4>
+          <p>Turn a remote fire tower into an automated thermal observation point that can scan its surroundings, capture useful imagery, and attach location context without depending on local wired infrastructure.</p>
+        </div>
+        <div>
+          <h4>Approach</h4>
+          <p>Combined Raspberry Pi edge computing, a FLIR thermal camera, servo-driven scanning, GSM connectivity, AWS S3 image storage, and Google Maps geolocation inside a durable waterproof enclosure.</p>
+        </div>
+        <div>
+          <h4>Outcome</h4>
+          <p>The resulting system was deployed on fire towers in remote high-risk areas across the United States, integrating sensing, motion, connectivity, cloud storage, and mapping into one field-ready platform.</p>
+        </div>
+      </div>
+
+      <ul class="case-study-tags" aria-label="Wildfire detection technologies">
+        <li>Raspberry Pi</li>
+        <li>FLIR</li>
+        <li>GSM</li>
+        <li>AWS S3</li>
+        <li>Google Maps</li>
+      </ul>
+    </article>
+
+    <article class="case-study-card" id="uranium-enrichment-case-study">
+      <span class="case-study-kicker">Nuclear · Web Engineering · Client Tool</span>
+      <h3>Uranium enrichment calculations in the browser</h3>
+      <p class="case-study-client">Centrus Energy · 2025</p>
+      <p class="case-study-summary">Built a specialized browser-based calculator that turns uranium assay inputs into the quantities needed for enrichment planning and analysis.</p>
+
+      <div class="case-study-details">
+        <div>
+          <h4>Challenge</h4>
+          <p>Provide a focused workflow for enrichment calculations without requiring a heavyweight desktop application or a general-purpose spreadsheet.</p>
+        </div>
+        <div>
+          <h4>Approach</h4>
+          <p>Implemented the calculation workflow in HTML and JavaScript so users can compute feed quantity, separative work requirements, and optimum tails assay directly in the browser.</p>
+        </div>
+        <div>
+          <h4>Outcome</h4>
+          <p>Delivered a purpose-built tool for Centrus Energy and made the calculator available as an interactive web experience on the nuclear section of this site.</p>
+        </div>
+      </div>
+
+      <ul class="case-study-tags" aria-label="Uranium enrichment calculator technologies">
+        <li>JavaScript</li>
+        <li>HTML</li>
+        <li>SWU</li>
+        <li>Numerical Modeling</li>
+      </ul>
+
+      <a class="case-study-link" href="https://nuclear.bennyhartnett.com/">Open the calculator →</a>
+    </article>
+  </div>
+</section>
 
 <h2>Concepts</h2>
 <table id="concepts-table">
